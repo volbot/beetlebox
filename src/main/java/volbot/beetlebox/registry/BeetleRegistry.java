@@ -111,5 +111,15 @@ public class BeetleRegistry {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
         	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
         });
+		
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
+			content.addAfter(Items.SCUTE, JRB_SHELL);
+		});
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
+        	content.addAfter(JRB_SHELL, HERC_SHELL);
+        });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
+        	content.addAfter(HERC_SHELL, TITAN_SHELL);
+        });
 	}
 }
