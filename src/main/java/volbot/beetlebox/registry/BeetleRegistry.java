@@ -7,19 +7,15 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.item.ElytraItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BiomeTags;
@@ -28,6 +24,7 @@ import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.item.equipment.HercElytraItem;
+import volbot.beetlebox.item.equipment.TitanElytraItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class BeetleRegistry {
@@ -52,7 +49,8 @@ public class BeetleRegistry {
 	public static final Item HERC_SHELL = new Item(new FabricItemSettings());
 	public static final Item TITAN_SHELL = new Item(new FabricItemSettings());
 
-	public static final Item HERC_ELYTRA = new HercElytraItem(new FabricItemSettings());
+	public static final Item HERC_ELYTRA = new HercElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
+	public static final Item TITAN_ELYTRA = new TitanElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
     
 	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0xc4c4c4, 0xadadad, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xc4c4c4, 0xadadad, new FabricItemSettings());
@@ -71,11 +69,11 @@ public class BeetleRegistry {
 		
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
-		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 20);
+		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 
 		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, HERC, 16, 1, 2);
-		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 20);
+		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		
 		//ITEMS
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
@@ -88,26 +86,6 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytron"), TITAN_SHELL);
-		
-		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-		    if(source.isBuiltin()) {
-		    	if (JRB.getLootTableId().equals(id)) {
-		    		LootPool.Builder poolBuilder = LootPool.builder()
-		    				.with(ItemEntry.builder(JRB_SHELL));
-		            tableBuilder.pool(poolBuilder);
-		    	}
-		    	else if (HERC.getLootTableId().equals(id)) {
-		    		LootPool.Builder poolBuilder = LootPool.builder()
-		    				.with(ItemEntry.builder(HERC_SHELL));
-		            tableBuilder.pool(poolBuilder);
-		    	}
-		    	else if (TITAN.getLootTableId().equals(id)) {
-		    		LootPool.Builder poolBuilder = LootPool.builder()
-		    				.with(ItemEntry.builder(TITAN_SHELL));
-		            tableBuilder.pool(poolBuilder);
-		    	}
-		    }
-		});
 		
 		//ITEM GROUPS
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {

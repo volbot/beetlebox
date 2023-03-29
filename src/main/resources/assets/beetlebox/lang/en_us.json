@@ -6,6 +6,11 @@
     "item.beetlebox.herc_elytron": "Hercules Elytron",
     "item.beetlebox.titan_elytron": "Kuwagata Elytron",
     
+    
+    "item.beetlebox.herc_elytra": "Hercules Elytra",
+    "item.beetlebox.titan_elytra": "Kuwagata Elytra",
+    
+    
     "entity.beetlebox.jrb": "Kabutomushi",
     "entity.beetlebox.hercules": "Hercules",
     "entity.beetlebox.titan": "Kuwagata"

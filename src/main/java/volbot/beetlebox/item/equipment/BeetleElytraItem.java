@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 
-public class BeetleElytraItem extends ArmorItem implements FabricElytraItem {
+public abstract class BeetleElytraItem extends ArmorItem implements FabricElytraItem {
 
 	public BeetleElytraItem(Settings settings) {
 		super(new ChitinMaterial(), Type.CHESTPLATE, settings);
@@ -14,7 +14,10 @@ public class BeetleElytraItem extends ArmorItem implements FabricElytraItem {
 	@Override
 	public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
 		doVanillaElytraTick(entity, chestStack);
+		beetleBuff(entity);
 		return true;
 	}
+	
+	public abstract boolean beetleBuff(LivingEntity entity);
 
 }
