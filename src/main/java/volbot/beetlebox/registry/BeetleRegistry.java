@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.item.ElytraItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
@@ -23,8 +24,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
+import volbot.beetlebox.item.equipment.HercElytraItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class BeetleRegistry {
@@ -48,6 +51,8 @@ public class BeetleRegistry {
 	public static final Item JRB_SHELL = new Item(new FabricItemSettings());
 	public static final Item HERC_SHELL = new Item(new FabricItemSettings());
 	public static final Item TITAN_SHELL = new Item(new FabricItemSettings());
+
+	public static final Item HERC_ELYTRA = new HercElytraItem(new FabricItemSettings());
     
 	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0xc4c4c4, 0xadadad, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xc4c4c4, 0xadadad, new FabricItemSettings());
@@ -62,7 +67,7 @@ public class BeetleRegistry {
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","hercules"), HERC);
 		FabricDefaultAttributeRegistry.register(HERC, HercEntity.createBeetleAttributes());
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","kuwagata"), TITAN);
-		FabricDefaultAttributeRegistry.register(TITAN, HercEntity.createBeetleAttributes());
+		FabricDefaultAttributeRegistry.register(TITAN, TitanEntity.createBeetleAttributes());
 		
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
@@ -76,6 +81,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_spawn_egg"), HERC_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_spawn_egg"), TITAN_SPAWN_EGG);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytra"), HERC_ELYTRA);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);
