@@ -24,6 +24,7 @@ import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.item.equipment.HercElytraItem;
+import volbot.beetlebox.item.equipment.JRBElytraItem;
 import volbot.beetlebox.item.equipment.TitanElytraItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
@@ -51,10 +52,11 @@ public class BeetleRegistry {
 
 	public static final Item HERC_ELYTRA = new HercElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item TITAN_ELYTRA = new TitanElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
+	public static final Item JRB_ELYTRA = new JRBElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
     
-	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0xc4c4c4, 0xadadad, new FabricItemSettings());
-    public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xc4c4c4, 0xadadad, new FabricItemSettings());
-    public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0xc4c4c4, 0xadadad, new FabricItemSettings());
+	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x170e0e, 0x0f0a0a, new FabricItemSettings());
+    public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xa99859, 0x150f10, new FabricItemSettings());
+    public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0x0e0f10, 0x363840, new FabricItemSettings());
 
 	
 	public static void register() {
@@ -82,6 +84,7 @@ public class BeetleRegistry {
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytra"), HERC_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytra"), TITAN_ELYTRA);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytra"), JRB_ELYTRA);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);
