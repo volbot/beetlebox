@@ -110,5 +110,14 @@ public class BeetleRegistry {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
         	content.addAfter(HERC_SHELL, TITAN_SHELL);
         });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+        	content.addAfter(Items.ELYTRA, JRB_ELYTRA);
+        });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+        	content.addAfter(HERC_ELYTRA, HERC_ELYTRA);
+        });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+        	content.addAfter(TITAN_ELYTRA, TITAN_ELYTRA);
+        });
 	}
 }
