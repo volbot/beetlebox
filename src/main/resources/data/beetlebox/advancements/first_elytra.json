@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item": "beetlebox:herc_elytra"
+    },
+    "title": "I know where you live",
+    "description": "I just looked it up",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    []
+  ]
+}
