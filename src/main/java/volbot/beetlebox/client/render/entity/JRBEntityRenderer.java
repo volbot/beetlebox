@@ -10,7 +10,7 @@ public class JRBEntityRenderer extends MobEntityRenderer<JRBEntity, JRBEntityMod
 	
 	public JRBEntityRenderer(EntityRendererFactory.Context context) {
         super(context, new JRBEntityModel(context.getPart(BeetleBoxClient.MODEL_JRB_LAYER)), 0.27f);
-	} 
+	}
 	
     @Override
     public Identifier getTexture(JRBEntity entity) {

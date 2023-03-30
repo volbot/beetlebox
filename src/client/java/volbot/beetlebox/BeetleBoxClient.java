@@ -5,8 +5,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import volbot.beetlebox.client.render.armor.ArmorElytraEntityModel;
+import volbot.beetlebox.client.render.armor.BeetleElytraRenderer;
 import volbot.beetlebox.client.render.entity.HercEntityModel;
 import volbot.beetlebox.client.render.entity.HercEntityRenderer;
 import volbot.beetlebox.client.render.entity.JRBEntityModel;
@@ -22,9 +26,15 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "herc"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titan"), "main");
 
+	public static final EntityModelLayer MODEL_ELYTRACHESTPLATE_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elytrachestplate"), "main");
+	
 	
 	@Override
 	public void onInitializeClient() {
+
+		ArmorRenderer.register(new BeetleElytraRenderer(), BeetleRegistry.HERC_ELYTRA);
+		
+		EntityModelLayerRegistry.registerModelLayer(MODEL_ELYTRACHESTPLATE_LAYER, ArmorElytraEntityModel::getTexturedModelData);
 		
         EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);
