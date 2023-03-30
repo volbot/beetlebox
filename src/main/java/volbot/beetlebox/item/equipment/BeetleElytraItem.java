@@ -14,10 +14,9 @@ public abstract class BeetleElytraItem extends ArmorItem implements FabricElytra
 	@Override
 	public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
 		doVanillaElytraTick(entity, chestStack);
-		beetleBuff(entity);
+		beetleBuff(entity, chestStack);
 		return true;
 	}
 	
-	public abstract boolean beetleBuff(LivingEntity entity);
-
+	public abstract boolean beetleBuff(LivingEntity entity, ItemStack chestStack);
 }
