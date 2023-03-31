@@ -3,18 +3,27 @@
     "icon": {
       "item": "beetlebox:herc_elytra"
     },
-    "title": "I know where you live",
-    "description": "I just looked it up",
+    "title": "PLACEHOLDER TEXT",
+    "description": "ITWILLBEFOUNDOUT",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true
+    
   },
   "criteria": {
     "requirement": {
-      "trigger": "minecraft:inventory_changed"
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "beetlebox:herc_elytra",
+              "beetlebox:titan_elytra",
+              "beetlebox:jrb_elytra"
+            ]
+          }
+        ]
+      }
     }
-  },
-  "requirements": [
-    []
-  ]
+  }
 }
