@@ -1,4 +1,4 @@
-package volbot.beetlebox.item.equipment;
+package volbot.beetlebox.item.equipment.materials;
 
 import net.minecraft.item.ArmorItem.Type;
 import net.minecraft.item.ArmorMaterial;
@@ -6,7 +6,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
-public class ChitinMaterial implements ArmorMaterial {
+public abstract class ChitinMaterial implements ArmorMaterial {
 	
 	private static final int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
 	private static final int[] PROTECTION_VALUES = new int[] {2, 5, 6, 2}; 
@@ -49,6 +49,25 @@ public class ChitinMaterial implements ArmorMaterial {
 	@Override
 	public float getKnockbackResistance() {
 		return 0F;
+	}
+	
+	public static class HercChitinMaterial extends ChitinMaterial {
+		@Override
+		public String getName() {
+			return "herc";
+		}
+	}
+	public static class TitanChitinMaterial extends ChitinMaterial {
+		@Override
+		public String getName() {
+			return "titan";
+		}
+	}
+	public static class JRBChitinMaterial extends ChitinMaterial {
+		@Override
+		public String getName() {
+			return "jrb";
+		}
 	}
 
 }

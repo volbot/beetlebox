@@ -18,10 +18,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
+import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraFeatureRenderer<T, M> {
 
-	private static final Identifier SKIN = new Identifier("textures/entity/elytro.png");
     private final ElytraEntityModel<T> elytra;
 
     public BeetleElytraFeatureRenderer(FeatureRendererContext<T, M> context, EntityModelLoader loader) {
@@ -36,7 +36,10 @@ public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends Entit
         if (!(itemStack.getItem() instanceof BeetleElytraItem)) {
         	return;
         }
-        Identifier identifier = livingEntity instanceof AbstractClientPlayerEntity ? ((abstractClientPlayerEntity = (AbstractClientPlayerEntity)((Object)livingEntity)).canRenderElytraTexture() && abstractClientPlayerEntity.getElytraTexture() != null ? abstractClientPlayerEntity.getElytraTexture() : (abstractClientPlayerEntity.canRenderCapeTexture() && abstractClientPlayerEntity.getCapeTexture() != null && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE) ? abstractClientPlayerEntity.getCapeTexture() : SKIN)) : SKIN;
+        Identifier skin = new Identifier("beetlebox","textures/entity/elytra/"
+        		+((ChitinMaterial)(((BeetleElytraItem)itemStack.getItem()).getMaterial())).getName()
+        		+"_elytra.png");
+        Identifier identifier = livingEntity instanceof AbstractClientPlayerEntity ? ((abstractClientPlayerEntity = (AbstractClientPlayerEntity)((Object)livingEntity)).canRenderElytraTexture() && abstractClientPlayerEntity.getElytraTexture() != null ? abstractClientPlayerEntity.getElytraTexture() : (abstractClientPlayerEntity.canRenderCapeTexture() && abstractClientPlayerEntity.getCapeTexture() != null && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE) ? abstractClientPlayerEntity.getCapeTexture() : skin)) : skin;
         matrixStack.push();
         matrixStack.translate(0.0f, 0.0f, 0.125f);
         this.getContextModel().copyStateTo(this.elytra);

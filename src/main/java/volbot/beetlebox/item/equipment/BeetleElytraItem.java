@@ -4,11 +4,12 @@ import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public abstract class BeetleElytraItem extends ArmorItem implements FabricElytraItem {
 
-	public BeetleElytraItem(Settings settings) {
-		super(new ChitinMaterial(), Type.CHESTPLATE, settings);
+	public BeetleElytraItem(ChitinMaterial mat, Settings settings) {
+		super(mat, Type.CHESTPLATE, settings);
 	}
 	
 	@Override
