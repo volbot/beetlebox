@@ -2,9 +2,10 @@
   "display": {
     "icon": {
       "item": "beetlebox:herc_elytra"
+      
     },
-    "title": "PLACEHOLDER TEXT",
-    "description": "ITWILLBEFOUNDOUT",
+    "title": "Becoming The Beetle",
+    "description": "You crafted a beetle elytra!",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true
