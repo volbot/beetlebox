@@ -1,4 +1,4 @@
-package volbot.beetlebox.client.render.entity;
+package volbot.beetlebox.render.entity;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;

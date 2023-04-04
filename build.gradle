@@ -22,13 +22,26 @@ repositories {
 loom {
     splitEnvironmentSourceSets()
 
+    runs {
+        datagen {
+	    client()
+
+	    name "Data Generation"
+	    vmArg "-Dfabric-api.datagen"
+	    vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+	    vmArg "-Dfabric-api.datagen.modid=beetlebox"
+
+	    runDir "build/datagen"
+	    
+		}
+	}
+
     mods {
         modid {
             sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
     }
-
 }
 
 dependencies {
@@ -47,11 +60,18 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+    Map<String, String> properties = new HashMap<>()
+    properties.put("version", project.version)
+    properties.put("loader_version", project.loader_version)
+    properties.put("fabric_version", project.fabric_version)
+    properties.put("minecraft_version", project.minecraft_version)
+    properties.put("java_version", sourceCompatibility)
 
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
+    properties.forEach((k, v) -> inputs.property(k, v))
+
+    filesMatching("fabric.mod.json") {
+        expand properties
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {

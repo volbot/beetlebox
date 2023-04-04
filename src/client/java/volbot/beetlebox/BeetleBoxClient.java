@@ -9,14 +9,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRe
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
-import volbot.beetlebox.client.render.entity.HercEntityModel;
-import volbot.beetlebox.client.render.entity.HercEntityRenderer;
-import volbot.beetlebox.client.render.entity.JRBEntityModel;
-import volbot.beetlebox.client.render.entity.JRBEntityRenderer;
-import volbot.beetlebox.client.render.entity.TitanEntityModel;
-import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
+import volbot.beetlebox.render.entity.HercEntityModel;
+import volbot.beetlebox.render.entity.HercEntityRenderer;
+import volbot.beetlebox.render.entity.JRBEntityModel;
+import volbot.beetlebox.render.entity.JRBEntityRenderer;
+import volbot.beetlebox.render.entity.TitanEntityModel;
+import volbot.beetlebox.render.entity.TitanEntityRenderer;
 
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {

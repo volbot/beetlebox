@@ -1,4 +1,4 @@
-package volbot.beetlebox.client.render.armor;
+package volbot.beetlebox.render.armor;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.OverlayTexture;

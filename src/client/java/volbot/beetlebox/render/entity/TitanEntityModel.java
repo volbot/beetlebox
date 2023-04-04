@@ -1,4 +1,4 @@
-package volbot.beetlebox.client.render.entity;
+package volbot.beetlebox.render.entity;
 
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
