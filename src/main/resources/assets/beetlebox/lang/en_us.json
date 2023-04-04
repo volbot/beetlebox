@@ -1,17 +1,17 @@
 {
     "item.beetlebox.jrb_spawn_egg": "Kabutomushi Spawn Egg",
     "item.beetlebox.herc_spawn_egg": "Hercules Spawn Egg",
-    "item.beetlebox.titan_spawn_egg": "Kuwagata Spawn Egg",
+    "item.beetlebox.titan_spawn_egg": "Titanus Spawn Egg",
     "item.beetlebox.jrb_elytron": "Kabutomushi Elytron",
     "item.beetlebox.herc_elytron": "Hercules Elytron",
-    "item.beetlebox.titan_elytron": "Kuwagata Elytron",
+    "item.beetlebox.titan_elytron": "Titanus Elytron",
     "item.beetlebox.herc_elytra": "Hercules Elytra",
-    "item.beetlebox.titan_elytra": "Kuwagata Elytra",
+    "item.beetlebox.titan_elytra": "Titanus Elytra",
     "item.beetlebox.jrb_elytra": "Kabutomushi Elytra",
     
     
     "entity.beetlebox.jrb": "Kabutomushi",
     "entity.beetlebox.hercules": "Hercules",
-    "entity.beetlebox.titan": "Kuwagata"
+    "entity.beetlebox.titan": "Titanus"
    
 }
