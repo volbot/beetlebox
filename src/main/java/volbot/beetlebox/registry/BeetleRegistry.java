@@ -23,6 +23,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
+import volbot.beetlebox.entity.beetle.AtlasEntity;
+import volbot.beetlebox.item.equipment.AtlasElytraItem;
 import volbot.beetlebox.item.equipment.HercElytraItem;
 import volbot.beetlebox.item.equipment.JRBElytraItem;
 import volbot.beetlebox.item.equipment.TitanElytraItem;
@@ -45,18 +47,26 @@ public class BeetleRegistry {
             	.spawnGroup(SpawnGroup.CREATURE)
             	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
             	.build();
+	public static final EntityType<AtlasEntity> ATLAS = FabricEntityTypeBuilder.createMob()
+        	.entityFactory(AtlasEntity::new)
+        	.spawnGroup(SpawnGroup.CREATURE)
+        	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+        	.build();
 
 	public static final Item JRB_SHELL = new Item(new FabricItemSettings());
 	public static final Item HERC_SHELL = new Item(new FabricItemSettings());
 	public static final Item TITAN_SHELL = new Item(new FabricItemSettings());
+	public static final Item ATLAS_SHELL = new Item(new FabricItemSettings());
 
 	public static final Item HERC_ELYTRA = new HercElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item TITAN_ELYTRA = new TitanElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item JRB_ELYTRA = new JRBElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
+	public static final Item ATLAS_ELYTRA = new AtlasElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
     
 	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x170e0e, 0x0f0a0a, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xa99859, 0x150f10, new FabricItemSettings());
     public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0x0e0f10, 0x363840, new FabricItemSettings());
+    public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x0e0f10, 0x363840, new FabricItemSettings());
 
 	
 	public static void register() {
@@ -66,8 +76,10 @@ public class BeetleRegistry {
 		FabricDefaultAttributeRegistry.register(JRB, JRBEntity.createBeetleAttributes());
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","hercules"), HERC);
 		FabricDefaultAttributeRegistry.register(HERC, HercEntity.createBeetleAttributes());
-		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","kuwagata"), TITAN);
+		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","titanus"), TITAN);
 		FabricDefaultAttributeRegistry.register(TITAN, TitanEntity.createBeetleAttributes());
+		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","atlas"), ATLAS);
+		FabricDefaultAttributeRegistry.register(ATLAS, AtlasEntity.createBeetleAttributes());
 		
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
@@ -75,20 +87,24 @@ public class BeetleRegistry {
 
 		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, HERC, 16, 1, 2);
+		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		
 		//ITEMS
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_spawn_egg"), HERC_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_spawn_egg"), TITAN_SPAWN_EGG);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_spawn_egg"), ATLAS_SPAWN_EGG);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytra"), HERC_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytra"), TITAN_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytra"), JRB_ELYTRA);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_elytra"), ATLAS_ELYTRA);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytron"), TITAN_SHELL);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_elytron"), ATLAS_SHELL);
 		
 		//ITEM GROUPS
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
@@ -100,6 +116,9 @@ public class BeetleRegistry {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
         	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
         });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
+        	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
+        });
 		
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
 			content.addAfter(Items.SCUTE, JRB_SHELL);
@@ -110,14 +129,20 @@ public class BeetleRegistry {
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
         	content.addAfter(HERC_SHELL, TITAN_SHELL);
         });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
+        	content.addAfter(TITAN_SHELL, ATLAS_SHELL);
+        });
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
         	content.addAfter(Items.ELYTRA, JRB_ELYTRA);
         });
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(HERC_ELYTRA, HERC_ELYTRA);
+        	content.addAfter(JRB_ELYTRA, HERC_ELYTRA);
         });
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(TITAN_ELYTRA, TITAN_ELYTRA);
+        	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
+        });
+		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
+        	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
         });
 	}
 }

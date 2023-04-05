@@ -69,5 +69,11 @@ public abstract class ChitinMaterial implements ArmorMaterial {
 			return "jrb";
 		}
 	}
+	public static class AtlasChitinMaterial extends ChitinMaterial {
+		@Override
+		public String getName() {
+			return "atlas";
+		}
+	}
 
 }

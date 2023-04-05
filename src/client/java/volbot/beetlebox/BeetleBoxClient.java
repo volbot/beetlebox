@@ -11,6 +11,8 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
+import volbot.beetlebox.render.entity.AtlasEntityModel;
+import volbot.beetlebox.render.entity.AtlasEntityRenderer;
 import volbot.beetlebox.render.entity.HercEntityModel;
 import volbot.beetlebox.render.entity.HercEntityRenderer;
 import volbot.beetlebox.render.entity.JRBEntityModel;
@@ -24,6 +26,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"), "main");
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "herc"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titan"), "main");
+	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -40,5 +43,7 @@ public class BeetleBoxClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_HERC_LAYER, HercEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(BeetleRegistry.TITAN, TitanEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_TITAN_LAYER, TitanEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(BeetleRegistry.ATLAS, AtlasEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
 	}
 }
