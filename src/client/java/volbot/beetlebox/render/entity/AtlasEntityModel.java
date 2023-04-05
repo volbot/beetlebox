@@ -29,31 +29,31 @@ public class AtlasEntityModel extends BeetleEntityModel<AtlasEntity> {
 
 		wings.addChild("left_wing", ModelPartBuilder.create().uv(10, 0).cuboid(-2.1F, 0.25F, -1.0F, 3.0F, 0.0F, 8.0F), ModelTransform.of(1.9743F, -5.6084F, -2.5F, 0.0F, 0.0F, 0.2618F));
 
-		wings.addChild("right_elytron", ModelPartBuilder.create().uv(0, 12).mirrored().cuboid(-1.4F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F).mirrored(false), ModelTransform.of(-1.5F, -5.6F, -3.4F, 0.0F, 0.0F, -0.2618F));
+		wings.addChild("right_elytron", ModelPartBuilder.create().uv(0, 11).mirrored().cuboid(-1.4F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F).mirrored(false), ModelTransform.of(-1.5F, -5.6F, -3.4F, 0.0F, 0.0F, -0.2618F));
 
-		wings.addChild("left_elytron", ModelPartBuilder.create().uv(0, 12).cuboid(-1.6F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F), ModelTransform.of(1.5F, -5.6F, -3.4F, 0.0F, 0.0F, 0.2618F));
+		wings.addChild("left_elytron", ModelPartBuilder.create().uv(0, 11).cuboid(-1.6F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F), ModelTransform.of(1.5F, -5.6F, -3.4F, 0.0F, 0.0F, 0.2618F));
 
-		ModelPartData head = body.addChild("head", ModelPartBuilder.create().uv(15, 12).cuboid(-2.0F, -1.4706F, -2.5F, 4.0F, 3.0F, 2.0F), ModelTransform.pivot(0.0F, -2.5294F, -4.75F));
+		ModelPartData head = body.addChild("head", ModelPartBuilder.create().uv(14, 11).cuboid(-2.0F, -1.4706F, -2.5F, 4.0F, 3.0F, 2.0F), ModelTransform.pivot(0.0F, -2.5294F, -4.75F));
 
 		ModelPartData horn = head.addChild("horn", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 1.7059F, -3.7634F));
 
 		ModelPartData bot = horn.addChild("bot", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		bot.addChild("cube_r3", ModelPartBuilder.create().uv(0, 12).cuboid(-0.5F, -0.75F, -1.75F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.0F, -0.7419F, 1.662F, -0.3491F, 0.0F, 0.0F));
+		bot.addChild("cube_r3", ModelPartBuilder.create().uv(20, 17).cuboid(-0.5F, -0.75F, -1.75F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.0F, -0.7419F, 1.662F, -0.3491F, 0.0F, 0.0F));
 
-		bot.addChild("cube_r4", ModelPartBuilder.create().uv(20, 18).cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.3491F, 0.0F, 0.0F));
+		bot.addChild("cube_r4", ModelPartBuilder.create().uv(18, 16).cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, 0.0F, 0.0F, 0.3491F, 0.0F, 0.0F));
 
 		bot.addChild("cube_r5", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -0.75F, -1.5F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 0.0596F, -1.9756F, -0.7854F, 0.0F, 0.0F));
 
 		ModelPartData left = horn.addChild("left", ModelPartBuilder.create(), ModelTransform.of(2.1621F, -2.796F, -0.7084F, 0.1745F, 0.0F, -2.0071F));
 
-		left.addChild("cube_r6", ModelPartBuilder.create().uv(20, 18).cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, -0.0374F, 0.7084F, 0.4363F, 0.0F, 0.0F));
+		left.addChild("cube_r6", ModelPartBuilder.create().uv(18,16).cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, -0.0374F, 0.7084F, 0.4363F, 0.0F, 0.0F));
 
 		left.addChild("cube_r7", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -1.0F, 0.0F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, -0.4943F, -2.7616F, -0.6545F, 0.0F, 0.0F));
 
 		ModelPartData right = horn.addChild("right", ModelPartBuilder.create(), ModelTransform.of(-2.1621F, -2.796F, -0.7084F, 0.1745F, 0.0F, 2.0071F));
 
-		right.addChild("cube_r8", ModelPartBuilder.create().uv(20, 18).mirrored().cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F).mirrored(false), ModelTransform.of(0.0F, -0.0374F, 0.7084F, 0.4363F, 0.0F, 0.0F));
+		right.addChild("cube_r8", ModelPartBuilder.create().uv(18,16).mirrored().cuboid(-0.5F, -0.25F, -1.5F, 1.0F, 1.0F, 4.0F).mirrored(false), ModelTransform.of(0.0F, -0.0374F, 0.7084F, 0.4363F, 0.0F, 0.0F));
 
 		right.addChild("cube_r9", ModelPartBuilder.create().uv(0, 0).mirrored().cuboid(-0.5F, -1.0F, 0.0F, 1.0F, 1.0F, 3.0F).mirrored(false), ModelTransform.of(0.0F, -0.4943F, -2.7616F, -0.6545F, 0.0F, 0.0F));
 

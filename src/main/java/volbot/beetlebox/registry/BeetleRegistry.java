@@ -63,10 +63,10 @@ public class BeetleRegistry {
 	public static final Item JRB_ELYTRA = new JRBElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item ATLAS_ELYTRA = new AtlasElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
     
-	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x170e0e, 0x0f0a0a, new FabricItemSettings());
+	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x110b0b, 0x180f0f, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xa99859, 0x150f10, new FabricItemSettings());
     public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0x0e0f10, 0x363840, new FabricItemSettings());
-    public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x0e0f10, 0x363840, new FabricItemSettings());
+    public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
 
 	
 	public static void register() {
