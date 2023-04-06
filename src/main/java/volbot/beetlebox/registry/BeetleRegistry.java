@@ -27,6 +27,7 @@ import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.item.equipment.AtlasElytraItem;
 import volbot.beetlebox.item.equipment.HercElytraItem;
 import volbot.beetlebox.item.equipment.JRBElytraItem;
+import volbot.beetlebox.item.equipment.JRBHelmetItem;
 import volbot.beetlebox.item.equipment.TitanElytraItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
@@ -62,6 +63,8 @@ public class BeetleRegistry {
 	public static final Item TITAN_ELYTRA = new TitanElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item JRB_ELYTRA = new JRBElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
 	public static final Item ATLAS_ELYTRA = new AtlasElytraItem(new FabricItemSettings().rarity(Rarity.UNCOMMON));
+	
+	public static final Item JRB_HELMET = new JRBHelmetItem(new FabricItemSettings());
     
 	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x110b0b, 0x180f0f, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xa99859, 0x150f10, new FabricItemSettings());
@@ -100,6 +103,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytra"), TITAN_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytra"), JRB_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_elytra"), ATLAS_ELYTRA);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_helmet"), JRB_HELMET);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);

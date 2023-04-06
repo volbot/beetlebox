@@ -3,6 +3,7 @@ package volbot.beetlebox;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
@@ -11,6 +12,7 @@ import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
+import volbot.beetlebox.render.armor.JRBHelmetRenderer;
 import volbot.beetlebox.render.entity.AtlasEntityModel;
 import volbot.beetlebox.render.entity.AtlasEntityRenderer;
 import volbot.beetlebox.render.entity.HercEntityModel;
@@ -27,6 +29,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "herc"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titan"), "main");
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
+	public static final EntityModelLayer MODEL_JRB_HELMET_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb_helmet"), "main");
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -36,6 +39,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 			  		registrationHelper.register(new BeetleElytraFeatureRenderer(entityRenderer, context.getModelLoader()));
 			  	}
 		});
+		
+		ArmorRenderer.register(new JRBHelmetRenderer(), BeetleRegistry.JRB_HELMET);
 		
         EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);

@@ -5,7 +5,6 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.BeetleBoxClient;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
-import volbot.beetlebox.entity.beetle.HercEntity;
 
 public class AtlasEntityRenderer extends MobEntityRenderer<AtlasEntity, AtlasEntityModel> {
 	
