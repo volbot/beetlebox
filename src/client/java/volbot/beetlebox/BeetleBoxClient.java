@@ -7,12 +7,15 @@ import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.render.armor.BeetleArmorRenderer;
 import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
-import volbot.beetlebox.render.armor.JRBHelmetRenderer;
+import volbot.beetlebox.render.armor.JRBHelmetModel;
+import volbot.beetlebox.render.armor.HercHelmetModel;
 import volbot.beetlebox.render.entity.AtlasEntityModel;
 import volbot.beetlebox.render.entity.AtlasEntityRenderer;
 import volbot.beetlebox.render.entity.HercEntityModel;
@@ -40,7 +43,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 			  	}
 		});
 		
-		ArmorRenderer.register(new JRBHelmetRenderer(), BeetleRegistry.JRB_HELMET);
+		ArmorRenderer.register(new BeetleArmorRenderer(new JRBHelmetModel()), BeetleRegistry.JRB_HELMET);
+		ArmorRenderer.register(new BeetleArmorRenderer(new HercHelmetModel()), BeetleRegistry.HERC_HELMET);
 		
         EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);
