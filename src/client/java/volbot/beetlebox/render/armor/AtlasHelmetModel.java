@@ -38,15 +38,15 @@ public class AtlasHelmetModel<T extends LivingEntity> extends BeetleArmorEntityM
 
 	ModelPartData right = horn.addChild("right", ModelPartBuilder.create(), ModelTransform.of(-5.1988F, -37.9721F, -21.4396F, 0.1855F, 0.3435F, 2.0702F));
 
-	ModelPartData cube_r4 = right.addChild("cube_r4", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(-1.0F, -1.0F, -2.5F, 2.0F, 2.0F, 10.0F).mirrored(false), ModelTransform.of(0.0F, 0.5908F, 0.6731F, 0.2618F, 0.0F, 0.0F));
+	ModelPartData cube_r4 = right.addChild("cube_r4", ModelPartBuilder.create().uv(0, 16).mirrored().cuboid(0.1553F, -1.1631F, -0.8756F, 2.0F, 2.0F, 10.0F).mirrored(false), ModelTransform.of(0.0F, 0.5908F, 0.6731F, 0.4363F, 0.0F, 0.0F));
 
-	ModelPartData cube_r5 = right.addChild("cube_r5", ModelPartBuilder.create().uv(24, 0).mirrored().cuboid(-28.6892F, 10.246F, 2.8543F, 2.0F, 2.0F, 5.0F).mirrored(false), ModelTransform.of(27.6892F, -12.293F, -0.2592F, -0.6545F, 0.0F, 0.0F));
+	ModelPartData cube_r5 = right.addChild("cube_r5", ModelPartBuilder.create().uv(24, 0).mirrored().cuboid(-27.534F, 8.858F, 3.7138F, 2.0F, 2.0F, 5.0F).mirrored(false), ModelTransform.of(27.6892F, -12.1995F, -0.0699F, -0.6545F, 0.0F, 0.0F));
 
 	ModelPartData left = horn.addChild("left", ModelPartBuilder.create(), ModelTransform.of(4.1988F, -37.9721F, -21.4396F, 0.1855F, -0.3435F, -2.0702F));
 
-	ModelPartData cube_r6 = left.addChild("cube_r6", ModelPartBuilder.create().uv(0, 16).cuboid(-1.0F, -1.0F, -2.5F, 2.0F, 2.0F, 10.0F), ModelTransform.of(0.0F, 0.5908F, 0.6731F, 0.2618F, 0.0F, 0.0F));
+	ModelPartData cube_r6 = left.addChild("cube_r6", ModelPartBuilder.create().uv(0, 16).cuboid(-2.1553F, -1.1631F, -0.8756F, 2.0F, 2.0F, 10.0F), ModelTransform.of(0.0F, 0.5908F, 0.6731F, 0.4363F, 0.0F, 0.0F));
 
-	ModelPartData cube_r7 = left.addChild("cube_r7", ModelPartBuilder.create().uv(24, 0).cuboid(26.6892F, 10.246F, 2.8543F, 2.0F, 2.0F, 5.0F), ModelTransform.of(-27.6892F, -12.293F, -0.2592F, -0.6545F, 0.0F, 0.0F));
+	ModelPartData cube_r7 = left.addChild("cube_r7", ModelPartBuilder.create().uv(24, 0).cuboid(25.534F, 8.858F, 3.7138F, 2.0F, 2.0F, 5.0F), ModelTransform.of(-27.6892F, -12.1995F, -0.0699F, -0.6545F, 0.0F, 0.0F));
 	
     return TexturedModelData.of(modelData, 64, 64);
 	}
