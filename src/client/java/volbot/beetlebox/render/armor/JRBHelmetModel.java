@@ -11,10 +11,10 @@ import net.minecraft.client.render.entity.model.ArmorEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.entity.LivingEntity;
 
-public class JRBHelmetModel<T extends LivingEntity> extends ArmorEntityModel<T>{
+public class JRBHelmetModel<T extends LivingEntity> extends BeetleArmorEntityModel<T> {
 	
 	public JRBHelmetModel() {
-		super(getTexturedModelData().createModel());
+		super(getTexturedModelData().createModel(), "jrb");
 	}
 
 	public static TexturedModelData getTexturedModelData() {

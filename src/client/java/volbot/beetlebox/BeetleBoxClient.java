@@ -1,6 +1,7 @@
 package volbot.beetlebox;
 
 import net.fabricmc.api.ClientModInitializer;
+import java.util.HashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
@@ -8,6 +9,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
@@ -32,7 +34,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "herc"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titan"), "main");
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
-	public static final EntityModelLayer MODEL_JRB_HELMET_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb_helmet"), "main");
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override

@@ -11,10 +11,12 @@ import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.ElytraEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLoader;
+import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
@@ -31,7 +33,6 @@ public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends Entit
 
     @Override
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
-        AbstractClientPlayerEntity abstractClientPlayerEntity;
         ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
         if (!(itemStack.getItem() instanceof BeetleElytraItem)) {
         	return;
@@ -39,12 +40,12 @@ public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends Entit
         Identifier skin = new Identifier("beetlebox","textures/entity/elytra/"
         		+((ChitinMaterial)(((BeetleElytraItem)itemStack.getItem()).getMaterial())).getName()
         		+"_elytra.png");
-        Identifier identifier = livingEntity instanceof AbstractClientPlayerEntity ? ((abstractClientPlayerEntity = (AbstractClientPlayerEntity)((Object)livingEntity)).canRenderElytraTexture() && abstractClientPlayerEntity.getElytraTexture() != null ? abstractClientPlayerEntity.getElytraTexture() : (abstractClientPlayerEntity.canRenderCapeTexture() && abstractClientPlayerEntity.getCapeTexture() != null && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE) ? abstractClientPlayerEntity.getCapeTexture() : skin)) : skin;
         matrixStack.push();
         matrixStack.translate(0.0f, 0.0f, 0.125f);
-        this.getContextModel().copyStateTo(this.elytra);
+        M context = this.getContextModel();
+        context.copyStateTo(this.elytra);
         this.elytra.setAngles(livingEntity, f, g, j, k, l);
-        VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier), false, itemStack.hasGlint());
+        VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(skin), false, itemStack.hasGlint());
         this.elytra.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
         matrixStack.pop();
     }

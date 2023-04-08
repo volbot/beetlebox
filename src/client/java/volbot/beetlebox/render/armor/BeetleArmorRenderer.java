@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
-public class BeetleArmorRenderer <T extends ArmorEntityModel<LivingEntity>>
+public class BeetleArmorRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
 implements ArmorRenderer {
 	
 	private T armorModel;
@@ -28,10 +28,9 @@ implements ArmorRenderer {
 		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
 		armorModel.head.visible = true;
-		ChitinMaterial mat = (ChitinMaterial)((ArmorItem)stack.getItem()).getMaterial();
 		//armorModel.hat.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
-				new Identifier("minecraft","textures/models/armor/"+mat.getName()+"_helmet.png"));
+				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
 			
 	}
 }

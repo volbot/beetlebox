@@ -1,0 +1,21 @@
+package volbot.beetlebox.render.armor;
+
+import net.minecraft.entity.LivingEntity;
+import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.entity.model.ArmorEntityModel;
+
+public abstract class BeetleArmorEntityModel<T extends LivingEntity> extends ArmorEntityModel<T>{
+
+	private String name;
+	
+	public BeetleArmorEntityModel(ModelPart part, String name) {
+		super(part);
+		this.name=name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+}
