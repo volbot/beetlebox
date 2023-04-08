@@ -14,7 +14,7 @@ public class TitanEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.TITAN.create(this.getWorld());
+        return BeetleRegistry.TITAN.create(this.getEntityWorld());
 	}
 
 }

@@ -14,7 +14,7 @@ public class HercEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.HERC.create(this.getEntityWorld());
+        return BeetleRegistry.HERC.create(this.getWorld());
 	}
 
 }

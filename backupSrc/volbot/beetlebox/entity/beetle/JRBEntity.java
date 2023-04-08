@@ -6,15 +6,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import volbot.beetlebox.registry.BeetleRegistry;
 
-public class HercEntity extends BeetleEntity {
+public class JRBEntity extends BeetleEntity {
 
-	public HercEntity(EntityType<? extends BeetleEntity> entityType, World world) {
+	public JRBEntity(EntityType<? extends BeetleEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.HERC.create(this.getEntityWorld());
+        return BeetleRegistry.JRB.create(this.getWorld());
 	}
 
 }

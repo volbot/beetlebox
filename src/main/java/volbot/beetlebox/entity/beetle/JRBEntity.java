@@ -14,7 +14,7 @@ public class JRBEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.JRB.create(this.getWorld());
+        return BeetleRegistry.JRB.create(this.getEntityWorld());
 	}
 
 }

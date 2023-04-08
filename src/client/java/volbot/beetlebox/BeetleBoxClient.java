@@ -19,6 +19,7 @@ import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
 import volbot.beetlebox.render.armor.JRBHelmetModel;
 import volbot.beetlebox.render.armor.HercHelmetModel;
 import volbot.beetlebox.render.armor.TitanHelmetModel;
+import volbot.beetlebox.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.render.entity.AtlasEntityModel;
 import volbot.beetlebox.render.entity.AtlasEntityRenderer;
 import volbot.beetlebox.render.entity.HercEntityModel;
@@ -48,6 +49,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 		ArmorRenderer.register(new BeetleArmorRenderer(new JRBHelmetModel()), BeetleRegistry.JRB_HELMET);
 		ArmorRenderer.register(new BeetleArmorRenderer(new HercHelmetModel()), BeetleRegistry.HERC_HELMET);
 		ArmorRenderer.register(new BeetleArmorRenderer(new TitanHelmetModel()), BeetleRegistry.TITAN_HELMET);
+		ArmorRenderer.register(new BeetleArmorRenderer(new AtlasHelmetModel()), BeetleRegistry.ATLAS_HELMET);
 		
         EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);
