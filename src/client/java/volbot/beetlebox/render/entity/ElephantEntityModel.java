@@ -7,9 +7,10 @@ import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
+import volbot.beetlebox.entity.beetle.ElephantEntity;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
-public class ElephantEntityModel extends BeetleEntityModel<JRBEntity> {
+public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 
 	public ElephantEntityModel(ModelPart root) {
 		super(root);
@@ -25,13 +26,13 @@ public class ElephantEntityModel extends BeetleEntityModel<JRBEntity> {
 
 		ModelPartData wings = body.addChild("wings", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 2.0F, -1.0F));
 
-		wings.addChild("cube_r1", ModelPartBuilder.create().uv(10, 0).cuboid(-0.9F, 0.25F, -1.0F, 3.0F, 0.0F, 8.0F), ModelTransform.of(-1.9743F, -5.6084F, -2.5F, 0.0F, 0.0F, -0.2618F));
+		wings.addChild("right_wing", ModelPartBuilder.create().uv(10, 0).cuboid(-0.9F, 0.25F, -1.0F, 3.0F, 0.0F, 8.0F), ModelTransform.of(-1.9743F, -5.6084F, -2.5F, 0.0F, 0.0F, -0.2618F));
 
-		wings.addChild("cube_r2", ModelPartBuilder.create().uv(10, 0).cuboid(-2.1F, 0.25F, -1.0F, 3.0F, 0.0F, 8.0F), ModelTransform.of(1.9743F, -5.6084F, -2.5F, 0.0F, 0.0F, 0.2618F));
+		wings.addChild("left_wing", ModelPartBuilder.create().uv(10, 0).cuboid(-2.1F, 0.25F, -1.0F, 3.0F, 0.0F, 8.0F), ModelTransform.of(1.9743F, -5.6084F, -2.5F, 0.0F, 0.0F, 0.2618F));
 
-		wings.addChild("elytra_right_r1", ModelPartBuilder.create().uv(0, 11).mirrored().cuboid(-1.4F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F).mirrored(false), ModelTransform.of(-1.5F, -5.6F, -3.4F, 0.0F, 0.0F, -0.2618F));
+		wings.addChild("right_elytron", ModelPartBuilder.create().uv(0, 11).mirrored().cuboid(-1.4F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F).mirrored(false), ModelTransform.of(-1.5F, -5.6F, -3.4F, 0.0F, 0.0F, -0.2618F));
 
-		wings.addChild("elytra_left_r1", ModelPartBuilder.create().uv(0, 11).cuboid(-1.6F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F), ModelTransform.of(1.5F, -5.6F, -3.4F, 0.0F, 0.0F, 0.2618F));
+		wings.addChild("left_elytron", ModelPartBuilder.create().uv(0, 11).cuboid(-1.6F, -0.25F, -0.5F, 3.0F, 1.0F, 8.0F), ModelTransform.of(1.5F, -5.6F, -3.4F, 0.0F, 0.0F, 0.2618F));
 
 		ModelPartData head = body.addChild("head", ModelPartBuilder.create().uv(14, 11).cuboid(-2.0F, -1.4706F, -2.5F, 4.0F, 3.0F, 2.0F), ModelTransform.pivot(0.0F, -2.5294F, -4.75F));
 

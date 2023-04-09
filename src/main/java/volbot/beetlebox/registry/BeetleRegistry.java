@@ -68,7 +68,7 @@ public class BeetleRegistry {
 	public static final Item JRB_ELYTRA = new BeetleElytraItem(new ChitinMaterial.JRBChitinMaterial(), new FabricItemSettings());
 	public static final Item HERC_ELYTRA = new BeetleElytraItem(new ChitinMaterial.HercChitinMaterial(), new FabricItemSettings());
 	public static final Item TITAN_ELYTRA = new BeetleElytraItem(new ChitinMaterial.TitanChitinMaterial(), new FabricItemSettings());
-	public static final Item ATLAS_ELYTRA = new BeetleElytraItem(new ChitinMaterial.AtlasChitinMaterial(), new FabricItemSettings().rarity(Rarity.UNCOMMON));
+	public static final Item ATLAS_ELYTRA = new BeetleElytraItem(new ChitinMaterial.AtlasChitinMaterial(), new FabricItemSettings());
 	public static final Item ELEPHANT_ELYTRA = new BeetleElytraItem(new ChitinMaterial.ElephantChitinMaterial(), new FabricItemSettings());
 	
 	public static final Item JRB_HELMET = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.HELMET, new FabricItemSettings());
