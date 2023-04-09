@@ -34,20 +34,20 @@ import volbot.beetlebox.entity.beetle.JRBEntity;
 public class BeetleRegistry {
 	//ENTITY TYPES
 	public static final EntityType<JRBEntity> JRB = FabricEntityTypeBuilder.createMob()
-            	.entityFactory(JRBEntity::new)
-            	.spawnGroup(SpawnGroup.CREATURE)
-            	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
-            	.build();
+            .entityFactory(JRBEntity::new)
+            .spawnGroup(SpawnGroup.CREATURE)
+            .dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+            .build();
 	public static final EntityType<HercEntity> HERC = FabricEntityTypeBuilder.createMob()
-            	.entityFactory(HercEntity::new)
-            	.spawnGroup(SpawnGroup.CREATURE)
-            	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
-            	.build();
+            .entityFactory(HercEntity::new)
+            .spawnGroup(SpawnGroup.CREATURE)
+            .dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+            .build();
 	public static final EntityType<TitanEntity> TITAN = FabricEntityTypeBuilder.createMob()
-            	.entityFactory(TitanEntity::new)
-            	.spawnGroup(SpawnGroup.CREATURE)
-            	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
-            	.build();
+            .entityFactory(TitanEntity::new)
+            .spawnGroup(SpawnGroup.CREATURE)
+            .dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+            .build();
 	public static final EntityType<AtlasEntity> ATLAS = FabricEntityTypeBuilder.createMob()
         	.entityFactory(AtlasEntity::new)
         	.spawnGroup(SpawnGroup.CREATURE)
