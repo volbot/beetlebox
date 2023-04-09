@@ -2,15 +2,12 @@ package volbot.beetlebox.render.armor;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.model.ArmorEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleArmorRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
 implements ArmorRenderer {

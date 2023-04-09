@@ -1,17 +1,14 @@
 package volbot.beetlebox;
 
 import net.fabricmc.api.ClientModInitializer;
-import java.util.HashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.EntityModel;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
-import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.render.armor.BeetleArmorRenderer;
@@ -41,7 +38,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
-			  	if (entityRenderer.getModel() instanceof PlayerEntityModel) {
+			  	if (entityRenderer.getModel() instanceof BipedEntityModel) {
 			  		registrationHelper.register(new BeetleElytraFeatureRenderer(entityRenderer, context.getModelLoader()));
 			  	}
 		});

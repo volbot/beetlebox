@@ -1,7 +1,6 @@
 package volbot.beetlebox.render.armor;
 
 import net.minecraft.entity.LivingEntity;
-import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.ArmorEntityModel;
 

@@ -29,7 +29,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
-import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public abstract class BeetleEntity extends AnimalEntity {
 	

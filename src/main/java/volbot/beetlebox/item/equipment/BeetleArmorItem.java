@@ -1,7 +1,6 @@
 package volbot.beetlebox.item.equipment;
 
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item.Settings;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleArmorItem extends ArmorItem {
