@@ -16,9 +16,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -145,65 +143,24 @@ public class BeetleRegistry {
 	      	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
 	      	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
 	      	content.addAfter(ATLAS_SPAWN_EGG, ELEPHANT_SPAWN_EGG);
+	      	
 	      	content.addAfter(ELEPHANT_SPAWN_EGG, JRB_SHELL);
 	      	content.addAfter(JRB_SHELL, HERC_SHELL);
 	      	content.addAfter(HERC_SHELL, TITAN_SHELL);
 	      	content.addAfter(TITAN_SHELL, ATLAS_SHELL);
 	      	content.addAfter(ATLAS_SHELL, ELEPHANT_SHELL);
-	      	content.addAfter(ELEPHANT_SHELL, JRB_ELYTRA);
+	      	
+	      	content.addAfter(ELEPHANT_SHELL, JRB_HELMET);
+	      	content.addAfter(JRB_HELMET, HERC_HELMET);
+	      	content.addAfter(HERC_HELMET, TITAN_HELMET);
+	      	content.addAfter(TITAN_HELMET, ATLAS_HELMET);
+	      	content.addAfter(ATLAS_HELMET, ELEPHANT_HELMET);
+	      	
+	      	content.addAfter(ELEPHANT_HELMET, JRB_ELYTRA);
 	      	content.addAfter(JRB_ELYTRA, HERC_ELYTRA);
 	      	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
 	      	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
 	      	content.addAfter(ATLAS_ELYTRA, ELEPHANT_ELYTRA);
-	    
 		});
-
-		//ITEM GROUPS
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
-			content.addAfter(Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, JRB_SPAWN_EGG);
-		});
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
-        	content.addAfter(JRB_SPAWN_EGG, HERC_SPAWN_EGG);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
-        	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
-        	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
-        	content.addAfter(ATLAS_SPAWN_EGG, ELEPHANT_SPAWN_EGG);
-        });
-		
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-			content.addAfter(Items.SCUTE, JRB_SHELL);
-		});
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-        	content.addAfter(JRB_SHELL, HERC_SHELL);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-        	content.addAfter(HERC_SHELL, TITAN_SHELL);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-        	content.addAfter(TITAN_SHELL, ATLAS_SHELL);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-        	content.addAfter(ATLAS_SHELL, ELEPHANT_SHELL);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(Items.ELYTRA, JRB_ELYTRA);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(JRB_ELYTRA, HERC_ELYTRA);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
-        });
-		ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-        	content.addAfter(ATLAS_ELYTRA, ELEPHANT_ELYTRA);
-        });
 	}
 }
