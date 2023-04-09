@@ -16,10 +16,11 @@
     "item.beetlebox.jrb_helmet": "Kabutomushi Helmet",
     "item.beetlebox.atlas_helmet": "Atlas Helmet",
     
+    "itemGroup.beetlebox.beetlebox": "Beetlebox",
     
     "entity.beetlebox.jrb": "Kabutomushi",
     "entity.beetlebox.hercules": "Hercules",
     "entity.beetlebox.atlas": "Atlas",
-    "entity.beetlebox.titan": "Titanus"
+    "entity.beetlebox.titan": "Titanus",
    
 }
