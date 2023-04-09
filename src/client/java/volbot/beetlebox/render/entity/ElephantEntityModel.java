@@ -85,6 +85,10 @@ public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 
 		horn.addChild("cube_r6", ModelPartBuilder.create().uv(18, 16).cuboid(-0.5F, -1.25F, -0.5F, 1.0F, 1.0F, 4.0F), ModelTransform.of(0.0F, 3.4646F, -6.4112F, -0.2182F, 0.0F, 0.0F));
         
+		horn.addChild("cube_r7", ModelPartBuilder.create().uv(0, 15).mirrored().cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F).mirrored(false), ModelTransform.of(-0.5303F, 0.8316F, 0.2535F, -0.6847F, 0.6591F, -0.4636F));
+
+		horn.addChild("cube_r8", ModelPartBuilder.create().uv(0, 15).cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.5303F, 0.8316F, 0.2535F, -0.6847F, -0.6591F, 0.4636F));
+		
         return TexturedModelData.of(modelData, 32, 32);
     }
 
