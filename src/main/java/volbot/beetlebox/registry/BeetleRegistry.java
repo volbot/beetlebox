@@ -7,14 +7,18 @@ import net.minecraft.item.ArmorItem.Type;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.impl.itemgroup.FabricItemGroupBuilderImpl;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.registry.Registries;
@@ -83,6 +87,9 @@ public class BeetleRegistry {
     public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ELEPHANT, 0x080904, 0x22270d, new FabricItemSettings());
 
+	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
+			.icon(() -> new ItemStack(JRB_ELYTRA))
+			.build();
 	
 	public static void register() {
 		
@@ -133,6 +140,26 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_elytron"), ATLAS_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "elephant_elytron"), ELEPHANT_SHELL);
 		
+
+		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
+			content.add(JRB_SPAWN_EGG);
+	      	content.addAfter(JRB_SPAWN_EGG, HERC_SPAWN_EGG);
+	      	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
+	      	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
+	      	content.addAfter(ATLAS_SPAWN_EGG, ELEPHANT_SPAWN_EGG);
+	      	content.addAfter(ELEPHANT_SPAWN_EGG, JRB_SHELL);
+	      	content.addAfter(JRB_SHELL, HERC_SHELL);
+	      	content.addAfter(HERC_SHELL, TITAN_SHELL);
+	      	content.addAfter(TITAN_SHELL, ATLAS_SHELL);
+	      	content.addAfter(ATLAS_SHELL, ELEPHANT_SHELL);
+	      	content.addAfter(ELEPHANT_SHELL, JRB_ELYTRA);
+	      	content.addAfter(JRB_ELYTRA, HERC_ELYTRA);
+	      	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
+	      	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
+	      	content.addAfter(ATLAS_ELYTRA, ELEPHANT_ELYTRA);
+	    
+		});
+
 		//ITEM GROUPS
 		ItemGroupEvents.modifyEntriesEvent(ItemGroups.SPAWN_EGGS).register(content -> {
 			content.addAfter(Items.ZOMBIFIED_PIGLIN_SPAWN_EGG, JRB_SPAWN_EGG);
