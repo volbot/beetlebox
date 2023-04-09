@@ -5,7 +5,6 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.BeetleBoxClient;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
-import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class ElephantEntityRenderer extends MobEntityRenderer<ElephantEntity, ElephantEntityModel> {
 	

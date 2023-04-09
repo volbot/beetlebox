@@ -8,7 +8,6 @@ import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
-import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 
