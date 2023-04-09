@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "HEH",
+    "HHH"
+  ],
+  "key": {
+    "H": {
+      "item": "beetlebox:atlas_elytron"
+    },
+    "E": {
+      "item": "minecraft:elytra"
+    }
+  },
+  "result": {
+    "item": "beetlebox:atlas_elytra",
+    "count": 1
+  }
+}
