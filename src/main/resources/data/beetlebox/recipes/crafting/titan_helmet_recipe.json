@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "H H",
+    "   "
+  ],
+  "key": {
+    "H": {
+      "item": "beetlebox:titan_elytron"
+    }
+  },
+  "result": {
+    "item": "beetlebox:titan_helmet",
+    "count": 1
+  }
+}

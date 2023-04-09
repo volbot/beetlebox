@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "H H",
+    "   "
+  ],
+  "key": {
+    "H": {
+      "item": "beetlebox:jrb_elytron"
+    }
+  },
+  "result": {
+    "item": "beetlebox:jrb_helmet",
+    "count": 1
+  }
+}
