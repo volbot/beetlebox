@@ -25,7 +25,6 @@ implements ArmorRenderer {
 		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
 		armorModel.head.visible = true;
-		//armorModel.hat.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
 			
