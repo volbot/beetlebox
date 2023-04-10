@@ -18,10 +18,12 @@ public class AtlasHelmetModel<T extends LivingEntity> extends BeetleArmorEntityM
 	public static TexturedModelData getTexturedModelData() {
 	ModelData modelData = PlayerEntityModel.getModelData(new Dilation(1F), 0);
 	ModelPartData root = modelData.getRoot();
+
+	Dilation d2 = new Dilation(1.0F);
 	Dilation d = new Dilation(0.25F);
 
 	ModelPartData head = root.addChild("head", ModelPartBuilder.create().uv(0, 0)
-			.cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, d),
+			.cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, d2),
 			ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
 	ModelPartData horn = head.addChild("horn", ModelPartBuilder.create(), ModelTransform.of(0.5F, 32.0F, 0.0F, -0.48F, 0.0F, 0.0F));
