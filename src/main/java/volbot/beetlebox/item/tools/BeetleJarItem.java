@@ -40,7 +40,7 @@ public class BeetleJarItem extends Item {
 		public boolean beetlesOnly;
 	
 	    public BeetleJarItem(Settings settings, boolean beetlesOnly) {
-	        super(settings);
+	        super(settings.maxCount(1));
 	        this.beetlesOnly = beetlesOnly;
 	    }
 	    

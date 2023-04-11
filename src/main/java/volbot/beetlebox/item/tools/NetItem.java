@@ -15,7 +15,7 @@ import volbot.beetlebox.registry.BeetleRegistry;
 public class NetItem extends Item {
 
 	public NetItem(Settings settings) {
-		super(settings);
+		super(settings.maxCount(1));
 	}
 	
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
