@@ -4,21 +4,28 @@
     "item.beetlebox.titan_spawn_egg": "Titanus Spawn Egg",
     "item.beetlebox.atlas_spawn_egg": "Atlas Spawn Egg",
     "item.beetlebox.elephant_spawn_egg": "Elephant Spawn Egg",
+    
     "item.beetlebox.jrb_elytron": "Kabutomushi Elytron",
     "item.beetlebox.herc_elytron": "Hercules Elytron",
     "item.beetlebox.titan_elytron": "Titanus Elytron",
     "item.beetlebox.atlas_elytron": "Atlas Elytron",
     "item.beetlebox.elephant_elytron": "Elephant Elytron",
+    
     "item.beetlebox.herc_elytra": "Hercules Elytra",
     "item.beetlebox.titan_elytra": "Titanus Elytra",
     "item.beetlebox.jrb_elytra": "Kabutomushi Elytra",
     "item.beetlebox.atlas_elytra": "Atlas Elytra",
     "item.beetlebox.elephant_elytra": "Elephant Elytra",
+    
     "item.beetlebox.herc_helmet": "Hercules Helmet",
     "item.beetlebox.titan_helmet": "Titanus Helmet",
     "item.beetlebox.jrb_helmet": "Kabutomushi Helmet",
     "item.beetlebox.atlas_helmet": "Atlas Helmet",
     "item.beetlebox.elephant_helmet": "Elephant Helmet",
+    
+    "item.beetlebox.leg_beetle_jar": "Legendary Beetle Jar",
+    "item.beetlebox.beetle_jar": "Beetle Jar",
+    "item.beetlebox.net": "Beetle Net",
     
     "itemGroup.beetlebox.beetlebox": "Beetlebox",
     

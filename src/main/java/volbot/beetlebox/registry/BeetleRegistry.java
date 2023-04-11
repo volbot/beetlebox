@@ -29,6 +29,8 @@ import volbot.beetlebox.entity.beetle.ElephantEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
+import volbot.beetlebox.item.tools.BeetleJarItem;
+import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class BeetleRegistry {
@@ -83,6 +85,10 @@ public class BeetleRegistry {
     public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ELEPHANT, 0x5e3924, 0x180f06, new FabricItemSettings());
 
+    public static final Item LEG_BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), false);
+    public static final Item BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), true);
+    public static final Item NET = new NetItem(new FabricItemSettings());
+    
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
 			.icon(() -> new ItemStack(JRB_ELYTRA))
 			.build();
@@ -112,6 +118,10 @@ public class BeetleRegistry {
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
 		
 		//ITEMS
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_spawn_egg"), HERC_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_spawn_egg"), TITAN_SPAWN_EGG);
@@ -138,13 +148,10 @@ public class BeetleRegistry {
 		
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
-			content.add(JRB_SPAWN_EGG);
-	      	content.addAfter(JRB_SPAWN_EGG, HERC_SPAWN_EGG);
-	      	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
-	      	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
-	      	content.addAfter(ATLAS_SPAWN_EGG, ELEPHANT_SPAWN_EGG);
-	      	
-	      	content.addAfter(ELEPHANT_SPAWN_EGG, JRB_SHELL);
+			content.add(BEETLE_JAR);
+			content.add(NET);
+			
+	      	content.add(JRB_SHELL);
 	      	content.addAfter(JRB_SHELL, HERC_SHELL);
 	      	content.addAfter(HERC_SHELL, TITAN_SHELL);
 	      	content.addAfter(TITAN_SHELL, ATLAS_SHELL);
@@ -161,6 +168,12 @@ public class BeetleRegistry {
 	      	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
 	      	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
 	      	content.addAfter(ATLAS_ELYTRA, ELEPHANT_ELYTRA);
+
+			content.addAfter(ELEPHANT_ELYTRA, JRB_SPAWN_EGG);
+	      	content.addAfter(JRB_SPAWN_EGG, HERC_SPAWN_EGG);
+	      	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
+	      	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
+	      	content.addAfter(ATLAS_SPAWN_EGG, ELEPHANT_SPAWN_EGG);
 		});
 	}
 }
