@@ -98,7 +98,8 @@ public class BeetleRegistry {
     public static final Item BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), true);
     public static final Item NET = new NetItem(new FabricItemSettings());
     
-    public static final Block TANK = new BeetleTankBlock(FabricBlockSettings.of(Material.GLASS).strength(4.0f));
+    public static final Block TANK = new BeetleTankBlock(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,
 	        new Identifier("beetlebox", "tank_block_entity"),
