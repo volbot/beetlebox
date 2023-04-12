@@ -4,17 +4,23 @@ import java.util.function.Predicate;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.minecraft.item.ArmorItem.Type;
+import net.minecraft.item.BlockItem;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
+import net.minecraft.block.Block;
+import net.minecraft.block.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
@@ -24,6 +30,8 @@ import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
+import volbot.beetlebox.entity.tile.TankBlockEntity;
+import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
@@ -34,6 +42,7 @@ import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
 public class BeetleRegistry {
+	
 	//ENTITY TYPES
 	public static final EntityType<JRBEntity> JRB = FabricEntityTypeBuilder.createMob()
             .entityFactory(JRBEntity::new)
@@ -89,6 +98,13 @@ public class BeetleRegistry {
     public static final Item BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), true);
     public static final Item NET = new NetItem(new FabricItemSettings());
     
+    public static final Block TANK = new BeetleTankBlock(FabricBlockSettings.of(Material.GLASS).strength(4.0f));
+	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
+	        Registries.BLOCK_ENTITY_TYPE,
+	        new Identifier("beetlebox", "tank_block_entity"),
+	        FabricBlockEntityTypeBuilder.create(TankBlockEntity::new, TANK).build()
+	    );
+	
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
 			.icon(() -> new ItemStack(JRB_ELYTRA))
 			.build();
@@ -146,6 +162,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_elytron"), ATLAS_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "elephant_elytron"), ELEPHANT_SHELL);
 		
+        Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), new BlockItem(TANK, new FabricItemSettings()));
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
