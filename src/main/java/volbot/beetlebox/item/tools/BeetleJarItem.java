@@ -75,6 +75,9 @@ public class BeetleJarItem extends Item {
 	        	return ActionResult.FAIL;
 	        }
 	        EntityType<?> entityType2 = EntityType.get(nbt.getString("EntityType")).orElse(null);
+	        if(entityType2 == null) {
+	        	return ActionResult.FAIL;
+	        }
 	        Entity temp = entityType2.create(world);
 	        temp.readNbt(nbt.getCompound("EntityTag"));
             temp.teleport(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ());

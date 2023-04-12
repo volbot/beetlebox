@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
 
 public class NetItem extends Item {
 
