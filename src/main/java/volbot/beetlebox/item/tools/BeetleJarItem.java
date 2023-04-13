@@ -5,7 +5,6 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
@@ -14,7 +13,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -71,28 +69,20 @@ public class BeetleJarItem extends Item {
 	        if(nbt == null) {
 	        	nbt = new NbtCompound();
 	        }
-        	System.out.println("soup");
-        	if(blockState.getBlock() instanceof Block) {
-            	System.out.println("block");
-            	if(blockState.getBlock() instanceof BlockWithEntity) {
-                	System.out.println("blockwentity");
-            	}
-        	}
 	        if(blockState.getBlock() instanceof BeetleTankBlock) {
 	        	TankBlockEntity e = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
-	        	System.out.println("garp");
-		        if(!nbt.contains("EntityType") && e.contained_id != null) {
+		        if(!nbt.contains("EntityType") && !e.contained_id.isEmpty()) {
 		        	System.out.println("beep");
 		        	nbt.putString("EntityType",e.contained_id);
-		    		nbt.put("EntityTag",e.entityData);
-		    		e.contained_id = null;
-		    		e.entityData = null;
+		    		nbt.put("EntityTag",e.entity_data);
+		    		e.setContained("");
+		    		e.setEntityData(null);
 		    		itemStack.setNbt(nbt);
 		        	return ActionResult.SUCCESS;
-		       	} else if (nbt.contains("EntityType") && e.contained_id == null) {
+		       	} else if (nbt.contains("EntityType") && e.contained_id.isEmpty()) {
 		        	System.out.println("boop");
-		       		e.contained_id = nbt.getString("EntityType");
-		       		e.entityData = nbt.getCompound("EntityTag");
+		       		e.setContained(nbt.getString("EntityType"));
+		       		e.setEntityData(nbt.getCompound("EntityTag"));
 		            itemStack.removeSubNbt("EntityTag");
 		            itemStack.removeSubNbt("EntityType");
 		        	return ActionResult.SUCCESS;
@@ -122,7 +112,7 @@ public class BeetleJarItem extends Item {
 	    @Override
 	    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 	        ItemStack itemStack = user.getStackInHand(hand);
-	        BlockHitResult hitResult = SpawnEggItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
+	        BlockHitResult hitResult = BeetleJarItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
 	        if (((HitResult)hitResult).getType() != HitResult.Type.BLOCK) {
 	            return TypedActionResult.pass(itemStack);
 	        }

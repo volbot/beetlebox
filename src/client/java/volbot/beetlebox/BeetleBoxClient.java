@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
@@ -18,6 +19,7 @@ import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
 import volbot.beetlebox.render.armor.JRBHelmetModel;
 import volbot.beetlebox.render.armor.HercHelmetModel;
 import volbot.beetlebox.render.armor.TitanHelmetModel;
+import volbot.beetlebox.render.block.entity.TankBlockEntityRenderer;
 import volbot.beetlebox.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.render.armor.ElephantHelmetModel;
 import volbot.beetlebox.render.entity.AtlasEntityModel;
@@ -40,7 +42,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elephant"), "main");
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked"})
 	@Override
 	public void onInitializeClient() {
 		
@@ -68,5 +70,7 @@ public class BeetleBoxClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(BeetleRegistry.ELEPHANT, ElephantEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
+        
+        BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 	}
 }

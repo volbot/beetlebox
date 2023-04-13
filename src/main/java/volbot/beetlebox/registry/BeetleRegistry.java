@@ -40,6 +40,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
+import net.minecraft.block.SpawnerBlock;
 
 public class BeetleRegistry {
 	
@@ -169,6 +170,7 @@ public class BeetleRegistry {
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
 			content.add(NET);
+			content.add(TANK);
 			
 	      	content.add(JRB_SHELL);
 	      	content.addAfter(JRB_SHELL, HERC_SHELL);

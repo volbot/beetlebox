@@ -1,6 +1,9 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/orientable",
     "textures": {
-        "all": "minecraft:block/glass"
+        "top": "beetlebox:block/tank_top",
+        "front": "beetlebox:block/tank_side",
+        "side": "beetlebox:block/tank_side",
+        "bottom": "beetlebox:block/tank_bottom"
     }
 }
