@@ -27,7 +27,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
-import volbot.beetlebox.entity.tile.TankBlockEntity;
+import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleJarItem extends Item {
@@ -83,7 +83,7 @@ public class BeetleJarItem extends Item {
 		        	System.out.println("boop");
 		       		e.setContained(nbt.getString("EntityType"));
 		       		e.setEntityData(nbt.getCompound("EntityTag"));
-		            itemStack.removeSubNbt("EntityTag");
+		       		itemStack.removeSubNbt("EntityTag");
 		            itemStack.removeSubNbt("EntityType");
 		        	return ActionResult.SUCCESS;
 	        	} else {

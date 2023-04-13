@@ -1,19 +1,13 @@
 package volbot.beetlebox.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import volbot.beetlebox.entity.tile.TankBlockEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.entity.block.TankBlockEntity;
 
-public class BeetleTankBlock extends Block implements BlockEntityProvider {
+public class BeetleTankBlock extends BlockWithEntity {
 
 	public BeetleTankBlock(Settings settings) {
 		super(settings);
@@ -23,5 +17,11 @@ public class BeetleTankBlock extends Block implements BlockEntityProvider {
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new TankBlockEntity(pos, state);
 	}
+	
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        // With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
+        return BlockRenderType.MODEL;
+    }
 
 }

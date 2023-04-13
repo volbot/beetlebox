@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
-import volbot.beetlebox.entity.tile.TankBlockEntity;
+import volbot.beetlebox.entity.block.TankBlockEntity;
 
 public class TankBlockEntityRenderer
 implements BlockEntityRenderer<TankBlockEntity>{

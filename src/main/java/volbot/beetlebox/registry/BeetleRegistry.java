@@ -30,7 +30,7 @@ import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
-import volbot.beetlebox.entity.tile.TankBlockEntity;
+import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
