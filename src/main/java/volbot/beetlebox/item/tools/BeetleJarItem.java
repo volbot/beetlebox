@@ -74,14 +74,25 @@ public class BeetleJarItem extends Item {
 		        if(!nbt.contains("EntityType") && !e.contained_id.isEmpty()) {
 		        	System.out.println("beep");
 		        	nbt.putString("EntityType",e.contained_id);
+		    		String custom_name = e.custom_name;
+		    		if(!custom_name.isEmpty()) {
+		    			nbt.putString("EntityName", custom_name);
+		    		}
 		    		nbt.put("EntityTag",e.entity_data);
 		    		e.setContained("");
+		    		e.setCustomName("");
 		    		e.setEntityData(null);
 		    		itemStack.setNbt(nbt);
 		        	return ActionResult.SUCCESS;
 		       	} else if (nbt.contains("EntityType") && e.contained_id.isEmpty()) {
 		        	System.out.println("boop");
 		       		e.setContained(nbt.getString("EntityType"));
+			        if(nbt.contains("EntityName")) {
+				        e.setCustomName(nbt.getString("EntityName"));
+			            itemStack.removeSubNbt("EntityName");
+			        } else {
+			        	e.setCustomName("");
+			        }
 		       		e.setEntityData(nbt.getCompound("EntityTag"));
 		       		itemStack.removeSubNbt("EntityTag");
 		            itemStack.removeSubNbt("EntityType");
@@ -99,7 +110,13 @@ public class BeetleJarItem extends Item {
 		        }
 		        Entity temp = entityType2.create(world);
 		        temp.readNbt(nbt.getCompound("EntityTag"));
-	            temp.teleport(blockPos2.getX(), blockPos2.getY(), blockPos2.getZ());
+		        if(nbt.contains("EntityName")) {
+			        temp.setCustomName(Text.of(nbt.getString("EntityName")));
+		            itemStack.removeSubNbt("EntityName");
+		        } else {
+		        	temp.setCustomName(null);
+		        }
+	            temp.teleport(blockPos2.getX()+0.5, blockPos2.getY(), blockPos2.getZ()+0.5);
 		        if (world.spawnEntity(temp) != false) {
 		            itemStack.removeSubNbt("EntityTag");
 		            itemStack.removeSubNbt("EntityType");

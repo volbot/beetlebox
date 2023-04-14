@@ -5,7 +5,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldAccess;
 import volbot.beetlebox.entity.block.TankBlockEntity;
+import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleTankBlock extends BlockWithEntity {
 

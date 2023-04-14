@@ -9,6 +9,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import volbot.beetlebox.entity.block.TankBlockEntity;
@@ -40,6 +41,10 @@ implements BlockEntityRenderer<TankBlockEntity>{
 	        EntityType<?> entityType2 = EntityType.get(tile_entity.contained_id).orElse(null);
 	        if(entityType2 != null) {
 		        Entity temp = entityType2.create(tile_entity.getWorld());
+		        //temp.readNbt(tile_entity.entity_data);
+		        if(!tile_entity.custom_name.isEmpty()) {
+		        	temp.setCustomName(Text.of(tile_entity.custom_name));
+		        }
 	            this.entityRenderDispatcher.render(temp, 0.0, 0.0, 0.0, 0.0f, f, matrices, vertex_consumer, i);
 	        }
 		}

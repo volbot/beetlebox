@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
@@ -41,6 +42,10 @@ public class NetItem extends Item {
     		NbtCompound comp1 = new NbtCompound();
     		comp1 = entity.writeNbt(comp1);
     		nbt.put("EntityTag",comp1);
+    		Text custom_name = entity.getCustomName();
+    		if(custom_name!=null && !custom_name.getString().isEmpty()) {
+    			nbt.putString("EntityName", custom_name.getString());
+    		}
     		nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
     		saved.setNbt(nbt);
     		entity.remove(RemovalReason.CHANGED_DIMENSION);
