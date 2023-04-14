@@ -41,6 +41,7 @@ public class NetItem extends Item {
     		NbtCompound nbt = saved.getNbt();
     		NbtCompound comp1 = new NbtCompound();
     		comp1 = entity.writeNbt(comp1);
+    		entity.writeCustomDataToNbt(comp1);
     		nbt.put("EntityTag",comp1);
     		Text custom_name = entity.getCustomName();
     		if(custom_name!=null && !custom_name.getString().isEmpty()) {

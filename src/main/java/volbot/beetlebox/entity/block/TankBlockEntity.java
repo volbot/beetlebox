@@ -1,17 +1,12 @@
 package volbot.beetlebox.entity.block;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.registry.BeetleRegistry;
 
@@ -57,9 +52,7 @@ public class TankBlockEntity extends BlockEntity {
 	@Override
 	public void writeNbt(NbtCompound nbt) {
 		nbt.putString("EntityType", contained_id);
-		if(!this.custom_name.isEmpty()) {
-			nbt.putString("EntityName", custom_name);
-		}
+		nbt.putString("EntityName", custom_name);
 		nbt.put("EntityTag", entity_data);
 
 		super.writeNbt(nbt);

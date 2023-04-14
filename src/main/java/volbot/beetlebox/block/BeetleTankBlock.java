@@ -22,7 +22,6 @@ public class BeetleTankBlock extends BlockWithEntity {
 	
     @Override
     public BlockRenderType getRenderType(BlockState state) {
-        // With inheriting from BlockWithEntity this defaults to INVISIBLE, so we need to change that!
         return BlockRenderType.MODEL;
     }
 

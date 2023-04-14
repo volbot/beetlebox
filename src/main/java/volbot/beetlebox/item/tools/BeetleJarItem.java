@@ -9,6 +9,7 @@ import net.minecraft.block.FluidBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -108,8 +109,9 @@ public class BeetleJarItem extends Item {
 		        if(entityType2 == null) {
 		        	return ActionResult.FAIL;
 		        }
-		        Entity temp = entityType2.create(world);
+		        LivingEntity temp = (LivingEntity) entityType2.create(world);
 		        temp.readNbt(nbt.getCompound("EntityTag"));
+		        temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
 		        if(nbt.contains("EntityName")) {
 			        temp.setCustomName(Text.of(nbt.getString("EntityName")));
 		            itemStack.removeSubNbt("EntityName");
