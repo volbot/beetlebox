@@ -1,5 +1,6 @@
 package volbot.beetlebox.render.block.entity;
 
+import net.minecraft.client.render.block.entity.MobSpawnerBlockEntityRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.block.SpawnerBlock;
@@ -28,25 +29,25 @@ implements BlockEntityRenderer<TankBlockEntity>{
 	public void render(TankBlockEntity tile_entity, float f, MatrixStack matrices, VertexConsumerProvider vertex_consumer, int i,
 			int j) {
 		matrices.push();
-		System.out.println(tile_entity.custom_name);
 		if(tile_entity.contained_id != "") {
-			// Calculate the current offset in the y value
-	        double offset = Math.sin((tile_entity.getWorld().getTime() + f) / 8.0) / 8.0;
-	        // Move the item
-	        matrices.translate(0.5, 0.25 + offset, 0.5);
-	        matrices.scale(0.6f, 0.6f, 0.6f);
-	 
-	        // Rotate the item
-	        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
-	        
 	        EntityType<?> entityType2 = EntityType.get(tile_entity.contained_id).orElse(null);
 	        if(entityType2 != null) {
-		        LivingEntity temp = (LivingEntity) entityType2.create(tile_entity.getWorld());
-		        temp.readCustomDataFromNbt(tile_entity.entity_data);
+	        	
+		        LivingEntity entity = (LivingEntity) entityType2.create(tile_entity.getWorld());
+		        entity.readCustomDataFromNbt(tile_entity.entity_data);
 		        if(!tile_entity.custom_name.isEmpty()) {
-		        	temp.setCustomName(Text.of(tile_entity.custom_name));
+		        	entity.setCustomName(Text.of(tile_entity.custom_name));
 		        }
-	            this.entityRenderDispatcher.render(temp, 0.0, 0.0, 0.0, 0.0f, f, matrices, vertex_consumer, i);
+				float g = 0.53125f;
+	            float h = Math.max(entity.getWidth(), entity.getHeight());
+	            if ((double)h > 1.0) {
+	                g /= h;
+	            }
+		        matrices.translate(0.5, (1-(g*entity.getHeight()))/2, 0.5);
+	            matrices.scale(g, g, g);
+		        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+
+	            this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vertex_consumer, i);
 	        }
 		}
         matrices.pop();

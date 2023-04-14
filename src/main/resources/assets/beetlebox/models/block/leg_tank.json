@@ -1,0 +1,9 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "beetlebox:block/leg_tank_top",
+        "front": "beetlebox:block/leg_tank_side",
+        "side": "beetlebox:block/leg_tank_side",
+        "bottom": "beetlebox:block/leg_tank_bottom"
+    }
+}

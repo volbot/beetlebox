@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -47,6 +48,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		
         BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.TANK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.LEG_TANK, RenderLayer.getCutout());
 		
 		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
 			  	if (entityRenderer.getModel() instanceof BipedEntityModel) {
@@ -70,6 +72,19 @@ public class BeetleBoxClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(BeetleRegistry.ELEPHANT, ElephantEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
+        
+        ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
+        	if (livingEntity == null || itemStack.getNbt() == null) {
+        		return 0F;
+        	}
+        	return itemStack.getNbt().contains("EntityType")?1F:0F;
+        });
+        ModelPredicateProviderRegistry.register(BeetleRegistry.LEG_BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
+        	if (livingEntity == null || itemStack.getNbt() == null) {
+        		return 0F;
+        	}
+        	return itemStack.getNbt().contains("EntityType")?1F:0F;
+        });
         
         BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 	}

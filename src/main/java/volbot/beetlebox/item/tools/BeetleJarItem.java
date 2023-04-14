@@ -3,7 +3,6 @@ package volbot.beetlebox.item.tools;
 import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.item.TooltipContext;
@@ -28,6 +27,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 
@@ -73,7 +73,9 @@ public class BeetleJarItem extends Item {
 	        if(blockState.getBlock() instanceof BeetleTankBlock) {
 	        	TankBlockEntity e = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
 		        if(!nbt.contains("EntityType") && !e.contained_id.isEmpty()) {
-		        	System.out.println("beep");
+		        	if (this.beetlesOnly && !(EntityType.get(e.contained_id).orElse(null).create(e.getWorld()) instanceof BeetleEntity)) {
+		        		return ActionResult.FAIL;
+		        	}
 		        	nbt.putString("EntityType",e.contained_id);
 		    		String custom_name = e.custom_name;
 		    		if(!custom_name.isEmpty()) {
@@ -86,7 +88,9 @@ public class BeetleJarItem extends Item {
 		    		itemStack.setNbt(nbt);
 		        	return ActionResult.SUCCESS;
 		       	} else if (nbt.contains("EntityType") && e.contained_id.isEmpty()) {
-		        	System.out.println("boop");
+		        	if (((BeetleTankBlock)world.getBlockState(blockPos).getBlock()).beetlesOnly && !(EntityType.get(nbt.getString("EntityType")).orElse(null).create(e.getWorld()) instanceof BeetleEntity)) {
+		        		return ActionResult.FAIL;
+		        	}
 		       		e.setContained(nbt.getString("EntityType"));
 			        if(nbt.contains("EntityName")) {
 				        e.setCustomName(nbt.getString("EntityName"));

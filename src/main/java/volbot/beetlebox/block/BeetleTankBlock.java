@@ -10,9 +10,12 @@ import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleTankBlock extends BlockWithEntity {
+	
+	public boolean beetlesOnly;
 
-	public BeetleTankBlock(Settings settings) {
+	public BeetleTankBlock(boolean beetlesOnly, Settings settings) {
 		super(settings);
+		this.beetlesOnly = beetlesOnly;
 	}
 
 	@Override

@@ -53,7 +53,9 @@ public class TankBlockEntity extends BlockEntity {
 	public void writeNbt(NbtCompound nbt) {
 		nbt.putString("EntityType", contained_id);
 		nbt.putString("EntityName", custom_name);
-		nbt.put("EntityTag", entity_data);
+		if(entity_data != null) {
+			nbt.put("EntityTag", entity_data);
+		}
 
 		super.writeNbt(nbt);
 	}
@@ -61,32 +63,25 @@ public class TankBlockEntity extends BlockEntity {
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
-
-		contained_id = nbt.getString("EntityType");
-		if(nbt.contains("EntityName")) {
-			custom_name = nbt.getString("EntityName");
+		if (nbt.contains("EntityType")) {
+			contained_id = nbt.getString("EntityType");
+			if (nbt.contains("EntityName")) {
+				custom_name = nbt.getString("EntityName");
+			}
+			entity_data = nbt.getCompound("EntityTag");
 		}
-		entity_data = nbt.getCompound("EntityTag");
 	}
-	
+
 	/*
-	 * Makes a beetle escape the tank when the tank is broken, but also crashes the game.
-	 * Requires further analysis.
+	 * Makes a beetle escape the tank when the tank is broken, but also crashes the
+	 * game. Requires further analysis.
 	 */
 	/*
-	@Override
-    public void markRemoved() {
-		if(!this.contained_id.isEmpty()) {
-	        EntityType<?> entityType2 = EntityType.get(this.contained_id).orElse(null);
-	        Entity e = entityType2.create(this.getWorld());
-	        e.readNbt(this.entity_data);
-	        if(!this.custom_name.isEmpty()) {
-		        e.setCustomName(Text.of(this.custom_name));
-	        }
-            e.teleport(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
-	        world.spawnEntity(e);
-		}
-        super.markRemoved();
-    }
-    */
+	 * @Override public void markRemoved() { if(!this.contained_id.isEmpty()) {
+	 * EntityType<?> entityType2 = EntityType.get(this.contained_id).orElse(null);
+	 * Entity e = entityType2.create(this.getWorld()); e.readNbt(this.entity_data);
+	 * if(!this.custom_name.isEmpty()) { e.setCustomName(Text.of(this.custom_name));
+	 * } e.teleport(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
+	 * world.spawnEntity(e); } super.markRemoved(); }
+	 */
 }

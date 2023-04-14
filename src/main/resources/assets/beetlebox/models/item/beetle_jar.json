@@ -2,5 +2,10 @@
 	"parent": "item/generated",
 	"textures": {
 		"layer0": "beetlebox:item/beetle_jar"
-	}
+	},
+	"overrides": [
+		{ 
+			"predicate": {"full": 1}, "model": "beetlebox:item/beetle_jar_full"
+		}
+	]
 }

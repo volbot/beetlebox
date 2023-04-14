@@ -28,6 +28,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
@@ -95,16 +96,17 @@ public class BeetleRegistry {
     public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ELEPHANT, 0x5e3924, 0x180f06, new FabricItemSettings());
 
-    public static final Item LEG_BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), false);
+    public static final Item LEG_BEETLE_JAR = new BeetleJarItem(new FabricItemSettings().rarity(Rarity.UNCOMMON), false);
     public static final Item BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), true);
     public static final Item NET = new NetItem(new FabricItemSettings());
     
-    public static final Block TANK = new BeetleTankBlock(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    public static final Block TANK = new BeetleTankBlock(true, FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    public static final Block LEG_TANK = new BeetleTankBlock(false, FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
     
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,
 	        new Identifier("beetlebox", "tank_block_entity"),
-	        FabricBlockEntityTypeBuilder.create(TankBlockEntity::new, TANK).build()
+	        FabricBlockEntityTypeBuilder.create(TankBlockEntity::new,TANK, LEG_TANK).build()
 	    );
 	
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
@@ -114,7 +116,7 @@ public class BeetleRegistry {
 	public static void register() {
 		
 		//ENTITIES
-		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","kabutomushi"), JRB);
+		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","jrb"), JRB);
 		FabricDefaultAttributeRegistry.register(JRB, JRBEntity.createBeetleAttributes());
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","hercules"), HERC);
 		FabricDefaultAttributeRegistry.register(HERC, HercEntity.createBeetleAttributes());
@@ -166,6 +168,8 @@ public class BeetleRegistry {
 		
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
         Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), new BlockItem(TANK, new FabricItemSettings()));
+        Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON)));
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
