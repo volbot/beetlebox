@@ -90,6 +90,18 @@ public class BeetleRegistry {
 	public static final Item ATLAS_HELMET = new BeetleArmorItem(new ChitinMaterial.AtlasChitinMaterial(), Type.HELMET, new FabricItemSettings());
 	public static final Item ELEPHANT_HELMET = new BeetleArmorItem(new ChitinMaterial.ElephantChitinMaterial(), Type.HELMET, new FabricItemSettings());
     
+	public static final Item JRB_LEGS = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
+	public static final Item HERC_LEGS = new BeetleArmorItem(new ChitinMaterial.HercChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
+	public static final Item TITAN_LEGS = new BeetleArmorItem(new ChitinMaterial.TitanChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
+	public static final Item ATLAS_LEGS = new BeetleArmorItem(new ChitinMaterial.AtlasChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
+	public static final Item ELEPHANT_LEGS = new BeetleArmorItem(new ChitinMaterial.ElephantChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
+	
+	public static final Item JRB_BOOTS = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.BOOTS, new FabricItemSettings());
+	public static final Item HERC_BOOTS = new BeetleArmorItem(new ChitinMaterial.HercChitinMaterial(), Type.BOOTS, new FabricItemSettings());
+	public static final Item TITAN_BOOTS = new BeetleArmorItem(new ChitinMaterial.TitanChitinMaterial(), Type.BOOTS, new FabricItemSettings());
+	public static final Item ATLAS_BOOTS = new BeetleArmorItem(new ChitinMaterial.AtlasChitinMaterial(), Type.BOOTS, new FabricItemSettings());
+	public static final Item ELEPHANT_BOOTS = new BeetleArmorItem(new ChitinMaterial.ElephantChitinMaterial(), Type.BOOTS, new FabricItemSettings());
+	
 	public static final Item JRB_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.JRB, 0x110b0b, 0x180f0f, new FabricItemSettings());
     public static final Item HERC_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.HERC, 0xa99859, 0x150f10, new FabricItemSettings());
     public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0x0e0f10, 0x363840, new FabricItemSettings());
@@ -160,6 +172,18 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_helmet"), ATLAS_HELMET);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "elephant_helmet"), ELEPHANT_HELMET);
 
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_legs"), JRB_LEGS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_legs"), HERC_LEGS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_legs"), TITAN_LEGS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_legs"), ATLAS_LEGS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "elephant_legs"), ELEPHANT_LEGS);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_boots"), JRB_BOOTS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_boots"), HERC_BOOTS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_boots"), TITAN_BOOTS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "atlas_boots"), ATLAS_BOOTS);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "elephant_boots"), ELEPHANT_BOOTS);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_elytron"), JRB_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_elytron"), HERC_SHELL);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "titan_elytron"), TITAN_SHELL);
