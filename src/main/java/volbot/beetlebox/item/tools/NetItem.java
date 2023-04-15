@@ -20,13 +20,13 @@ public class NetItem extends Item {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         ItemStack saved = null;
     	for(ItemStack itemStack : user.getInventory().main) {
-        	if(itemStack.getItem() instanceof BeetleJarItem) {
+        	if(itemStack.getItem() instanceof BeetleJarItem<?>) {
         		NbtCompound nbt = itemStack.getOrCreateNbt();
         		BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-        		if(nbt.contains("EntityType") || item.canStore(entity)) {
+        		if(nbt.contains("EntityType") || !item.canStore(entity)) {
         			continue;
         		}
-        		if(nbt.contains("EntityType") || !item.canStore(entity)) {
+        		if(!nbt.contains("EntityType") && item.canStore(entity)) {
         			if(saved == null){
         				saved = itemStack;
         			}

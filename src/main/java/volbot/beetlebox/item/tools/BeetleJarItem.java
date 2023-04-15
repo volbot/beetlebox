@@ -87,7 +87,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		       	} else if (nbt.contains("EntityType") && te.contained_id.isEmpty()) {
 		       		Entity e = EntityType.get(nbt.getString("EntityType")).orElse(null).create(te.getWorld());
 		       		BeetleTankBlock<?> b = (BeetleTankBlock<?>)world.getBlockState(blockPos).getBlock();
-		        	if (b.canStore(e)) {
+		        	if (!b.canStore(e)) {
 		        		return ActionResult.FAIL;
 		        	}
 		       		te.setContained(nbt.getString("EntityType"));
