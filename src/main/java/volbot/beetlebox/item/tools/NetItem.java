@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -19,7 +20,8 @@ public class NetItem extends Item {
 	
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         ItemStack saved = null;
-    	for(ItemStack itemStack : user.getInventory().main) {
+        PlayerInventory inv = user.getInventory();
+    	for(ItemStack itemStack : inv.main) {
         	if(itemStack.getItem() instanceof BeetleJarItem<?>) {
         		NbtCompound nbt = itemStack.getOrCreateNbt();
         		BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
@@ -27,7 +29,10 @@ public class NetItem extends Item {
         			continue;
         		}
         		if(!nbt.contains("EntityType") && item.canStore(entity)) {
-        			if(saved == null){
+        			if(saved == null || 
+        					(!PlayerInventory.isValidHotbarIndex(inv.main.indexOf(saved))
+        					&& PlayerInventory.isValidHotbarIndex(inv.main.indexOf(itemStack)))
+        				){
         				saved = itemStack;
         			}
         			continue;

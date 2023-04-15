@@ -10,9 +10,12 @@ import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 
 public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
+	
+	Class<T> clazz;
 
-	public BeetleTankBlock(Settings settings) {
+	public BeetleTankBlock(Settings settings, Class<T> clazz) {
 		super(settings);
+		this.clazz=clazz;
 	}
 
 	@Override
@@ -26,13 +29,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
     }
     
     public boolean canStore(Entity entity) {
-    	  try{
-    		    @SuppressWarnings({ "unchecked", "unused" })
-				T test = (T)entity;
-    		    return true;
-    		  }catch(ClassCastException e){
-    		    return false;
-    		  }
-    }
+		return clazz.isAssignableFrom(entity.getClass());
+	}
 
 }

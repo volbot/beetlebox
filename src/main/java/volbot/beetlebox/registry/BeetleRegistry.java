@@ -108,13 +108,14 @@ public class BeetleRegistry {
     public static final Item TITAN_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.TITAN, 0x0e0f10, 0x363840, new FabricItemSettings());
     public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ELEPHANT, 0x5e3924, 0x180f06, new FabricItemSettings());
-
-    public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(new FabricItemSettings().rarity(Rarity.UNCOMMON));
-    public static final Item BEETLE_JAR = new BeetleJarItem<BeetleEntity>(new FabricItemSettings());
-    public static final Item NET = new NetItem(new FabricItemSettings());
     
-    public static final Block TANK = new BeetleTankBlock<BeetleEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
-    public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    public static final Item NET = new NetItem(new FabricItemSettings());
+
+    public static final Item BEETLE_JAR = new BeetleJarItem<BeetleEntity>(new FabricItemSettings(), BeetleEntity.class);
+    public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(new FabricItemSettings().rarity(Rarity.UNCOMMON), LivingEntity.class);
+    
+    public static final Block TANK = new BeetleTankBlock<BeetleEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
+    public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
     
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,
