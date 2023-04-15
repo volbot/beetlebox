@@ -20,6 +20,10 @@ public class TitanHelmetModel<T extends LivingEntity> extends BeetleArmorEntityM
 	ModelPartData root = modelData.getRoot();
 
 	Dilation d = new Dilation(1.0F);
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	ModelPartData head = root.addChild("head", ModelPartBuilder.create().uv(0, 0)
 			.cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, d),
 			ModelTransform.pivot(0.0F, 0.0F, 0.0F));

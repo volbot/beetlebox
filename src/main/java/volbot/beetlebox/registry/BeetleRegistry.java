@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
@@ -34,6 +35,7 @@ import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
@@ -107,12 +109,12 @@ public class BeetleRegistry {
     public static final Item ATLAS_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ATLAS, 0x080904, 0x22270d, new FabricItemSettings());
     public static final Item ELEPHANT_SPAWN_EGG = new SpawnEggItem(BeetleRegistry.ELEPHANT, 0x5e3924, 0x180f06, new FabricItemSettings());
 
-    public static final Item LEG_BEETLE_JAR = new BeetleJarItem(new FabricItemSettings().rarity(Rarity.UNCOMMON), false);
-    public static final Item BEETLE_JAR = new BeetleJarItem(new FabricItemSettings(), true);
+    public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(new FabricItemSettings().rarity(Rarity.UNCOMMON));
+    public static final Item BEETLE_JAR = new BeetleJarItem<BeetleEntity>(new FabricItemSettings());
     public static final Item NET = new NetItem(new FabricItemSettings());
     
-    public static final Block TANK = new BeetleTankBlock(true, FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
-    public static final Block LEG_TANK = new BeetleTankBlock(false, FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    public static final Block TANK = new BeetleTankBlock<BeetleEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
+    public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque());
     
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,

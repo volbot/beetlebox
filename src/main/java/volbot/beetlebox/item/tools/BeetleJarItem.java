@@ -27,17 +27,13 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
-import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 
-public class BeetleJarItem extends Item {
+public class BeetleJarItem<T extends LivingEntity> extends Item {
 	
-		public boolean beetlesOnly;
-	
-	    public BeetleJarItem(Settings settings, boolean beetlesOnly) {
+	    public BeetleJarItem(Settings settings) {
 	        super(settings.maxCount(1));
-	        this.beetlesOnly = beetlesOnly;
 	    }
 	    
 	    @Override
@@ -71,34 +67,37 @@ public class BeetleJarItem extends Item {
 	        	nbt = new NbtCompound();
 	        }
 	        if(blockState.getBlock() instanceof BeetleTankBlock) {
-	        	TankBlockEntity e = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
-		        if(!nbt.contains("EntityType") && !e.contained_id.isEmpty()) {
-		        	if (this.beetlesOnly && !(EntityType.get(e.contained_id).orElse(null).create(e.getWorld()) instanceof BeetleEntity)) {
+	        	TankBlockEntity te = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
+		        if(!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {
+		        	LivingEntity e = (LivingEntity) ((EntityType.get(te.contained_id).orElse(null).create(te.getWorld())));
+		        	if (!this.canStore(e)) {
 		        		return ActionResult.FAIL;
 		        	}
-		        	nbt.putString("EntityType",e.contained_id);
-		    		String custom_name = e.custom_name;
+		        	nbt.putString("EntityType",te.contained_id);
+		    		String custom_name = te.custom_name;
 		    		if(!custom_name.isEmpty()) {
 		    			nbt.putString("EntityName", custom_name);
 		    		}
-		    		nbt.put("EntityTag",e.entity_data);
-		    		e.setContained("");
-		    		e.setCustomName("");
-		    		e.setEntityData(null);
+		    		nbt.put("EntityTag",te.entity_data);
+		    		te.setContained("");
+		    		te.setCustomName("");
+		    		te.setEntityData(null);
 		    		itemStack.setNbt(nbt);
 		        	return ActionResult.SUCCESS;
-		       	} else if (nbt.contains("EntityType") && e.contained_id.isEmpty()) {
-		        	if (((BeetleTankBlock)world.getBlockState(blockPos).getBlock()).beetlesOnly && !(EntityType.get(nbt.getString("EntityType")).orElse(null).create(e.getWorld()) instanceof BeetleEntity)) {
+		       	} else if (nbt.contains("EntityType") && te.contained_id.isEmpty()) {
+		       		Entity e = EntityType.get(nbt.getString("EntityType")).orElse(null).create(te.getWorld());
+		       		BeetleTankBlock<?> b = (BeetleTankBlock<?>)world.getBlockState(blockPos).getBlock();
+		        	if (b.canStore(e)) {
 		        		return ActionResult.FAIL;
 		        	}
-		       		e.setContained(nbt.getString("EntityType"));
+		       		te.setContained(nbt.getString("EntityType"));
 			        if(nbt.contains("EntityName")) {
-				        e.setCustomName(nbt.getString("EntityName"));
+				        te.setCustomName(nbt.getString("EntityName"));
 			            itemStack.removeSubNbt("EntityName");
 			        } else {
-			        	e.setCustomName("");
+			        	te.setCustomName("");
 			        }
-		       		e.setEntityData(nbt.getCompound("EntityTag"));
+		       		te.setEntityData(nbt.getCompound("EntityTag"));
 		       		itemStack.removeSubNbt("EntityTag");
 		            itemStack.removeSubNbt("EntityType");
 		        	return ActionResult.SUCCESS;
@@ -152,6 +151,16 @@ public class BeetleJarItem extends Item {
 	            return TypedActionResult.fail(itemStack);
 	        }
 	        return TypedActionResult.pass(itemStack);
+	    }
+	    
+	    public boolean canStore(Entity entity) {
+	    	  try{
+	    		    @SuppressWarnings({ "unchecked", "unused" })
+					T test = (T)entity;
+	    		    return true;
+	    		  }catch(ClassCastException e){
+	    		    return false;
+	    		  }
 	    }
 	    
 	    

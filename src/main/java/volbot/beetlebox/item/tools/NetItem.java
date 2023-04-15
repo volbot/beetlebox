@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import volbot.beetlebox.entity.beetle.BeetleEntity;
 
 public class NetItem extends Item {
 
@@ -23,12 +22,11 @@ public class NetItem extends Item {
     	for(ItemStack itemStack : user.getInventory().main) {
         	if(itemStack.getItem() instanceof BeetleJarItem) {
         		NbtCompound nbt = itemStack.getOrCreateNbt();
-        		boolean beetle = entity instanceof BeetleEntity;
-        		BeetleJarItem item = (BeetleJarItem) itemStack.getItem();
-        		if(nbt.contains("EntityType") || ((!beetle)&&item.beetlesOnly)) {
+        		BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
+        		if(nbt.contains("EntityType") || item.canStore(entity)) {
         			continue;
         		}
-        		if(nbt.contains("EntityType") || (beetle&&(!item.beetlesOnly))) {
+        		if(nbt.contains("EntityType") || !item.canStore(entity)) {
         			if(saved == null){
         				saved = itemStack;
         			}

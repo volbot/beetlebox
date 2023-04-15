@@ -34,6 +34,7 @@ import volbot.beetlebox.render.entity.JRBEntityRenderer;
 import volbot.beetlebox.render.entity.TitanEntityModel;
 import volbot.beetlebox.render.entity.TitanEntityRenderer;
 
+@SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {
 	
@@ -43,7 +44,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elephant"), "main");
 	
-	@SuppressWarnings({ "rawtypes", "unchecked"})
+	@SuppressWarnings({ "unchecked", "rawtypes"})
 	@Override
 	public void onInitializeClient() {
 		
