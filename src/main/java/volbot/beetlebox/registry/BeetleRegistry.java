@@ -41,7 +41,6 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
-import net.minecraft.block.SpawnerBlock;
 
 public class BeetleRegistry {
 	
@@ -217,8 +216,20 @@ public class BeetleRegistry {
 	      	content.addAfter(HERC_ELYTRA, TITAN_ELYTRA);
 	      	content.addAfter(TITAN_ELYTRA, ATLAS_ELYTRA);
 	      	content.addAfter(ATLAS_ELYTRA, ELEPHANT_ELYTRA);
+	      	
+	      	content.addAfter(ELEPHANT_ELYTRA, JRB_LEGS);
+	      	content.addAfter(JRB_LEGS, HERC_LEGS);
+	      	content.addAfter(HERC_LEGS, TITAN_LEGS);
+	      	content.addAfter(TITAN_LEGS, ATLAS_LEGS);
+	      	content.addAfter(ATLAS_LEGS, ELEPHANT_LEGS);
+	      	
+	      	content.addAfter(ELEPHANT_LEGS, JRB_BOOTS);
+	      	content.addAfter(JRB_BOOTS, HERC_BOOTS);
+	      	content.addAfter(HERC_BOOTS, TITAN_BOOTS);
+	      	content.addAfter(TITAN_BOOTS, ATLAS_BOOTS);
+	      	content.addAfter(ATLAS_BOOTS, ELEPHANT_BOOTS);
 
-			content.addAfter(ELEPHANT_ELYTRA, JRB_SPAWN_EGG);
+			content.addAfter(ELEPHANT_BOOTS, JRB_SPAWN_EGG);
 	      	content.addAfter(JRB_SPAWN_EGG, HERC_SPAWN_EGG);
 	      	content.addAfter(HERC_SPAWN_EGG, TITAN_SPAWN_EGG);
 	      	content.addAfter(TITAN_SPAWN_EGG, ATLAS_SPAWN_EGG);
