@@ -23,6 +23,18 @@
     "item.beetlebox.atlas_helmet": "Atlas Helmet",
     "item.beetlebox.elephant_helmet": "Elephant Helmet",
     
+    "item.beetlebox.herc_legs": "Hercules Legs",
+    "item.beetlebox.titan_legs": "Titanus Legs",
+    "item.beetlebox.jrb_legs": "Kabutomushi Legs",
+    "item.beetlebox.atlas_legs": "Atlas Legs",
+    "item.beetlebox.elephant_legs": "Elephant Legs",
+    
+    "item.beetlebox.herc_boots": "Hercules Boots",
+    "item.beetlebox.titan_boots": "Titanus Boots",
+    "item.beetlebox.jrb_boots": "Kabutomushi Boots",
+    "item.beetlebox.atlas_boots": "Atlas Boots",
+    "item.beetlebox.elephant_boots": "Elephant Boots",
+    
     "item.beetlebox.leg_beetle_jar": "Legendary Beetle Jar",
     "item.beetlebox.beetle_jar": "Beetle Jar",
     "item.beetlebox.net": "Beetle Net",
