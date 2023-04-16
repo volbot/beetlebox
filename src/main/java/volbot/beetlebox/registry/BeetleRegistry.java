@@ -25,6 +25,9 @@ import net.minecraft.block.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.recipe.CookingRecipeSerializer;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.tag.BiomeTags;
@@ -32,8 +35,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
+import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.block.BeetleTankBlock;
+import volbot.beetlebox.block.BoilerBlock;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
@@ -43,6 +48,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
+import volbot.beetlebox.recipe.BoilingRecipe;
 
 public class BeetleRegistry {
 	
@@ -116,11 +122,25 @@ public class BeetleRegistry {
     
     public static final Block TANK = new BeetleTankBlock<BeetleEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
     public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
-    
+   
+    public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f));
+
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,
 	        new Identifier("beetlebox", "tank_block_entity"),
 	        FabricBlockEntityTypeBuilder.create(TankBlockEntity::new,TANK, LEG_TANK).build()
+	    );
+	
+    public static RecipeSerializer<BoilingRecipe> BOILING_RECIPE_SERIALIZER;
+    public static final RecipeType<BoilingRecipe> BOILING_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, new Identifier("beetlebox", "boiling_recipe"), new RecipeType<BoilingRecipe>() {
+        @Override
+        public String toString() {return "boiling_recipe";}
+    });
+	
+	public static final BlockEntityType<BoilerBlockEntity> BOILER_BLOCK_ENTITY = Registry.register(
+	        Registries.BLOCK_ENTITY_TYPE,
+	        new Identifier("beetlebox", "furnace_boiler_block_entity"),
+	        FabricBlockEntityTypeBuilder.create(BoilerBlockEntity::new, BOILER).build()
 	    );
 	
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
@@ -128,6 +148,8 @@ public class BeetleRegistry {
 			.build();
 	
 	public static void register() {
+		
+		BOILING_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("beetlebox", "boiling_recipe"), new CookingRecipeSerializer<>(BoilingRecipe::new, 200));
 		
 		//ENTITIES
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","jrb"), JRB);
@@ -197,6 +219,9 @@ public class BeetleRegistry {
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
         Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON)));
 
+        Registry.register(Registries.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), new BlockItem(BOILER, new FabricItemSettings()));
+        
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
 			content.add(NET);

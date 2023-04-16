@@ -1,0 +1,9 @@
+    {
+      "type": "beetlebox:boiling_recipe",
+      "ingredient": {
+        "item": "minecraft:leather"
+      },
+      "result": "minecraft:coal",
+      "experience": 0.2
+    }
+
