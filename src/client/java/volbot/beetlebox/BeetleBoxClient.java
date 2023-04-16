@@ -5,22 +5,28 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.render.armor.BeetleArmorRenderer;
 import volbot.beetlebox.render.armor.BeetleElytraFeatureRenderer;
 import volbot.beetlebox.render.armor.JRBHelmetModel;
 import volbot.beetlebox.render.armor.HercHelmetModel;
 import volbot.beetlebox.render.armor.TitanHelmetModel;
+import volbot.beetlebox.render.block.entity.BoilerBlockEntityRenderer;
 import volbot.beetlebox.render.block.entity.TankBlockEntityRenderer;
 import volbot.beetlebox.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.render.armor.ElephantHelmetModel;
@@ -50,9 +56,12 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		
 	    ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox","boiler_fluid"), (client, handler, buf, responseSender) -> {
-	        client.execute(() -> {
-	        	// long fluid_amt = buf.readLong();
-	            // Render fluid in tank here
+	    	BlockPos pos = buf.readBlockPos();
+        	FluidVariant variant = FluidVariant.fromPacket(buf);
+        	long fluid_amt = buf.readLong();
+	    	client.execute(() -> {
+	        	handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY).orElse(null).fluidStorage.variant = variant;
+	        	handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY).orElse(null).fluidStorage.amount = fluid_amt;
 	        });
 	    });
 		
@@ -96,5 +105,6 @@ public class BeetleBoxClient implements ClientModInitializer {
         });
         
         BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
+        BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
 	}
 }

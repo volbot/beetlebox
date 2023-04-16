@@ -17,6 +17,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeInputProvider;
@@ -71,6 +74,8 @@ RecipeInputProvider{
 			markDirty();
                         if (!world.isClient) {
                            var buf = PacketByteBufs.create();
+                           buf.writeBlockPos(pos);
+                           fluidStorage.variant.toPacket(buf);
                            buf.writeLong(BoilerBlockEntity.this.fluidStorage.amount);
                            PlayerLookup.tracking(BoilerBlockEntity.this).forEach(player -> {
                                ServerPlayNetworking.send(player, new Identifier("beetlebox","boiler_fluid"), buf);
@@ -81,6 +86,11 @@ RecipeInputProvider{
 
 	public BoilerBlockEntity(BlockPos pos, BlockState state) {
 		super(BeetleRegistry.BOILER_BLOCK_ENTITY, pos, state);
+	}
+	
+	@Override
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
 	}
 	
 	protected final PropertyDelegate propertyDelegate = new PropertyDelegate(){
@@ -119,7 +129,7 @@ RecipeInputProvider{
 	};
 
     public static void tick(World world, BlockPos pos, BlockState state, BoilerBlockEntity blockEntity) {
-       	System.out.println(blockEntity.fluidStorage.amount);
+       	//System.out.println(blockEntity.fluidStorage.amount);
         boolean bl2 = false;
         if (!blockEntity.getStack(0).isEmpty()) {
             BoilingRecipe recipe = (BoilingRecipe)blockEntity.matchGetter.getFirstMatch(blockEntity, world).orElse(null);
@@ -280,6 +290,14 @@ RecipeInputProvider{
             finder.addInput(itemStack);
         }
     }
+    
+
+
+	@Override
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
+	}
+
     
 
     

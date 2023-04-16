@@ -57,6 +57,7 @@ public class BoilerBlock extends BlockWithEntity {
 					blockEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER), 1000, t);
 					t.commit();
 					t.close();
+					blockEntity.markDirty();
 				} else if (current_boiling.isEmpty()) {
 					//take player input
 					blockEntity.setStack(0, player.getStackInHand(player.getActiveHand()));

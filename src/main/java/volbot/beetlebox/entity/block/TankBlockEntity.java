@@ -73,8 +73,8 @@ public class TankBlockEntity extends BlockEntity {
 	}
 
 	/*
-	 * Makes a beetle escape the tank when the tank is broken, but also crashes the
-	 * game. Requires further analysis.
+	 * Makes a beetle escape the tank when the tank is broken, but also causes world saves to fail.
+	 *  Requires further analysis.
 	 */
 	/*
 	 * @Override public void markRemoved() { if(!this.contained_id.isEmpty()) {
