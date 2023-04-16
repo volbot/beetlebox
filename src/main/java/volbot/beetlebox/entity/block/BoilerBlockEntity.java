@@ -2,6 +2,13 @@ package volbot.beetlebox.entity.block;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +16,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeInputProvider;
@@ -17,11 +25,13 @@ import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.RecipeUnlocker;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import volbot.beetlebox.recipe.BoilingRecipe;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BoilerBlockEntity extends BlockEntity implements SidedInventory,
@@ -36,7 +46,38 @@ RecipeInputProvider{
     private static final int[] SIDE_SLOTS = new int[]{1};
     protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
     int cookTime;
-    int cookTimeTotal;
+    int cookTimeTotal;    
+    private final RecipeManager.MatchGetter<Inventory, ? extends BoilingRecipe> matchGetter = 
+    		RecipeManager.createCachedMatchGetter(BeetleRegistry.BOILING_RECIPE_TYPE);
+
+   
+    // This field is going to contain the amount, and the fluid variant (more on that in a bit).
+	public final SingleVariantStorage<FluidVariant> fluidStorage = new SingleVariantStorage<>() {
+		@Override
+		protected FluidVariant getBlankVariant() {
+			return FluidVariant.blank();
+		}
+ 
+		@Override
+		protected long getCapacity(FluidVariant variant) {
+			// Here, you can pick your capacity depending on the fluid variant.
+			// For example, if we want to store 8 buckets of any fluid:
+			return (8 * FluidConstants.BUCKET) / 81; // This will convert it to mB amount to be consistent;
+		}
+ 
+		@Override
+		protected void onFinalCommit() {
+			// Called after a successful insertion or extraction, markDirty to ensure the new amount and variant will be saved properly.
+			markDirty();
+                        if (!world.isClient) {
+                           var buf = PacketByteBufs.create();
+                           buf.writeLong(BoilerBlockEntity.this.fluidStorage.amount);
+                           PlayerLookup.tracking(BoilerBlockEntity.this).forEach(player -> {
+                               ServerPlayNetworking.send(player, new Identifier("beetlebox","boiler_fluid"), buf);
+                           });
+                        }
+		}
+	};
 
 	public BoilerBlockEntity(BlockPos pos, BlockState state) {
 		super(BeetleRegistry.BOILER_BLOCK_ENTITY, pos, state);
@@ -76,22 +117,23 @@ RecipeInputProvider{
 			return 2;
 		}
 	};
-    private final RecipeManager.MatchGetter<Inventory, ? extends AbstractCookingRecipe> matchGetter = RecipeManager.createCachedMatchGetter(BeetleRegistry.BOILING_RECIPE_TYPE);
 
     public static void tick(World world, BlockPos pos, BlockState state, BoilerBlockEntity blockEntity) {
-       	
+       	System.out.println(blockEntity.fluidStorage.amount);
         boolean bl2 = false;
-        boolean bl3 = !blockEntity.inventory.get(0).isEmpty();
         if (!blockEntity.getStack(0).isEmpty()) {
-        	System.out.println("Grappa");
-            Recipe<?> recipe = bl3 ? (Recipe<?>)blockEntity.matchGetter.getFirstMatch(blockEntity, world).orElse(null) : null;
+            BoilingRecipe recipe = (BoilingRecipe)blockEntity.matchGetter.getFirstMatch(blockEntity, world).orElse(null);
+            if(!(recipe.fluid_in.equals(blockEntity.fluidStorage.variant) && recipe.fluid_droplets <= blockEntity.fluidStorage.amount)) {
+            	return;
+            }
             int i = blockEntity.getMaxCountPerStack();
             if (BoilerBlockEntity.canAcceptRecipeOutput(world.getRegistryManager(), recipe, blockEntity.inventory, i)) {
                 ++blockEntity.cookTime;
                 if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
                     blockEntity.cookTime = 0;
                     blockEntity.cookTimeTotal = BoilerBlockEntity.getCookTime(world, blockEntity);
-                    BoilerBlockEntity.craftRecipe(world.getRegistryManager(), recipe, blockEntity.inventory, i);
+                	System.out.println("craft");
+                    BoilerBlockEntity.craftRecipe(world.getRegistryManager(), recipe, blockEntity.inventory, blockEntity.fluidStorage, i);
                     bl2 = true;
                 }
             } else {
@@ -105,7 +147,7 @@ RecipeInputProvider{
         }
     }
     
-    private static boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable Recipe<?> recipe, DefaultedList<ItemStack> slots, int count) {
+    private static boolean craftRecipe(DynamicRegistryManager registryManager, @Nullable BoilingRecipe recipe, DefaultedList<ItemStack> slots, SingleVariantStorage<FluidVariant> fluidStorage, int count) {
         if (recipe == null || !BoilerBlockEntity.canAcceptRecipeOutput(registryManager, recipe, slots, count)) {
             return false;
         }
@@ -117,6 +159,10 @@ RecipeInputProvider{
         } else if (itemStack3.isOf(itemStack2.getItem())) {
             itemStack3.increment(1);
         }
+		Transaction t = Transaction.openOuter();
+        fluidStorage.extract(recipe.fluid_in, recipe.fluid_droplets, t);
+        t.commit();
+        t.close();
         itemStack.decrement(1);
         return true;
     }
@@ -173,7 +219,7 @@ RecipeInputProvider{
     }
     
     private static int getCookTime(World world, BoilerBlockEntity boiler) {
-        return boiler.matchGetter.getFirstMatch(boiler, world).map(AbstractCookingRecipe::getCookTime).orElse(200);
+        return boiler.matchGetter.getFirstMatch(boiler, world).map(AbstractCookingRecipe::getCookTime).orElse(50);
     }
 
 	@Override
@@ -234,4 +280,26 @@ RecipeInputProvider{
             finder.addInput(itemStack);
         }
     }
+    
+
+    
+	@Override
+	public void writeNbt(NbtCompound tag) {
+		super.writeNbt(tag);
+        tag.putShort("CookTime", (short)this.cookTime);
+        tag.putShort("CookTimeTotal", (short)this.cookTimeTotal);
+		tag.put("fluidVariant", fluidStorage.variant.toNbt());
+		tag.putLong("amount", fluidStorage.amount);
+		Inventories.writeNbt(tag, this.inventory);
+	}
+	@Override
+	public void readNbt(NbtCompound tag) {
+		super.readNbt(tag);
+        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        Inventories.readNbt(tag, this.inventory);
+        this.cookTime = tag.getShort("CookTime");
+        this.cookTimeTotal = tag.getShort("CookTimeTotal");
+		fluidStorage.variant = FluidVariant.fromNbt(tag.getCompound("fluidVariant"));
+		fluidStorage.amount = tag.getLong("amount");
+	}
 }

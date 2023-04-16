@@ -4,6 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -47,6 +48,13 @@ public class BeetleBoxClient implements ClientModInitializer {
 	@SuppressWarnings({ "unchecked", "rawtypes"})
 	@Override
 	public void onInitializeClient() {
+		
+	    ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox","boiler_fluid"), (client, handler, buf, responseSender) -> {
+	        client.execute(() -> {
+	        	// long fluid_amt = buf.readLong();
+	            // Render fluid in tank here
+	        });
+	    });
 		
         BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.TANK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.LEG_TANK, RenderLayer.getCutout());

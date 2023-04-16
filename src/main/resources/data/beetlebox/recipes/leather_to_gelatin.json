@@ -3,7 +3,7 @@
       "ingredient": {
         "item": "minecraft:leather"
       },
-      "result": "minecraft:coal",
+      "result": "beetlebox:gelatin",
       "experience": 0.2
     }
 

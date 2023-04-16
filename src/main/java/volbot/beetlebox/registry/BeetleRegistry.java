@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -84,6 +85,8 @@ public class BeetleRegistry {
 	public static final Item TITAN_SHELL = new Item(new FabricItemSettings());
 	public static final Item ATLAS_SHELL = new Item(new FabricItemSettings());
 	public static final Item ELEPHANT_SHELL = new Item(new FabricItemSettings());
+	
+	public static final Item GELATIN_POWDER = new Item(new FabricItemSettings());
 
 	public static final Item JRB_ELYTRA = new BeetleElytraItem(new ChitinMaterial.JRBChitinMaterial(), new FabricItemSettings());
 	public static final Item HERC_ELYTRA = new BeetleElytraItem(new ChitinMaterial.HercChitinMaterial(), new FabricItemSettings());
@@ -149,7 +152,9 @@ public class BeetleRegistry {
 	
 	public static void register() {
 		
-		BOILING_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("beetlebox", "boiling_recipe"), new CookingRecipeSerializer<>(BoilingRecipe::new, 200));
+		BOILING_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER, new Identifier("beetlebox", "boiling_recipe"), new CookingRecipeSerializer<>(BoilingRecipe::new, 50));
+		
+		FluidStorage.SIDED.registerForBlockEntity((myTank, direction) -> myTank.fluidStorage, BOILER_BLOCK_ENTITY);
 		
 		//ENTITIES
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox","jrb"), JRB);
@@ -177,6 +182,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin"), GELATIN_POWDER);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_spawn_egg"), HERC_SPAWN_EGG);

@@ -1,5 +1,8 @@
 package volbot.beetlebox.block;
 
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -7,7 +10,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -47,11 +52,13 @@ public class BoilerBlock extends BlockWithEntity {
 					player.setStackInHand(player.getActiveHand(), blockEntity.removeStack(0));
 				}
 			} else {
-
-				System.out.println("eeby3");
-				if (current_boiling.isEmpty()) {
+				if (player.getStackInHand(player.getActiveHand()).isOf(Items.WATER_BUCKET)) {
+					Transaction t = Transaction.openOuter();
+					blockEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER), 1000, t);
+					t.commit();
+					t.close();
+				} else if (current_boiling.isEmpty()) {
 					//take player input
-					System.out.println(player.getStackInHand(player.getActiveHand()).getName().getString());
 					blockEntity.setStack(0, player.getStackInHand(player.getActiveHand()));
 					player.setStackInHand(player.getActiveHand(), ItemStack.EMPTY);
 				} else if (current_boiling.isOf(player.getStackInHand(player.getActiveHand()).getItem()) && current_boiling.getCount()<current_boiling.getMaxCount()){
