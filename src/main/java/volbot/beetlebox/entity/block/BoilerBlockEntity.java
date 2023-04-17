@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
@@ -127,18 +128,29 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 			return 2;
 		}
 	};
+	
+	public boolean canCook(BoilingRecipe recipe) {
+		if (recipe == null) {
+			return false;
+		}
+		if (!(recipe.fluid_in.equals(this.fluidStorage.variant)
+				&& recipe.fluid_droplets <= this.fluidStorage.amount)) {
+			return false;
+		}
+		BlockState below = this.getWorld().getBlockState(this.getPos().add(0, -1, 0));
+		if (below.isOf(Blocks.CAMPFIRE) || below.isOf(Blocks.FIRE) || below.isOf(Blocks.LAVA) || below.isOf(Blocks.LAVA_CAULDRON)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	public static void tick(World world, BlockPos pos, BlockState state, BoilerBlockEntity blockEntity) {
-		// System.out.println(blockEntity.fluidStorage.amount);
 		boolean bl2 = false;
 		if (!blockEntity.getStack(0).isEmpty()) {
 			BoilingRecipe recipe = (BoilingRecipe) blockEntity.matchGetter.getFirstMatch(blockEntity, world)
 					.orElse(null);
-			if (recipe == null) {
-				return;
-			}
-			if (!(recipe.fluid_in.equals(blockEntity.fluidStorage.variant)
-					&& recipe.fluid_droplets <= blockEntity.fluidStorage.amount)) {
+			if(!blockEntity.canCook(recipe)) {
 				return;
 			}
 			int i = blockEntity.getMaxCountPerStack();
@@ -147,7 +159,6 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 				if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
 					blockEntity.cookTime = 0;
 					blockEntity.cookTimeTotal = BoilerBlockEntity.getCookTime(world, blockEntity);
-					System.out.println("craft");
 					BoilerBlockEntity.craftRecipe(world.getRegistryManager(), recipe, blockEntity.inventory,
 							blockEntity.fluidStorage, i);
 					bl2 = true;
@@ -214,6 +225,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	@Override
 	public ItemStack removeStack(int slot, int amount) {
 		ItemStack stack = Inventories.splitStack(this.inventory, slot, amount);
+		markDirty();
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
 		return stack;
@@ -222,6 +234,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	@Override
 	public ItemStack removeStack(int slot) {
 		ItemStack stack = Inventories.removeStack(this.inventory, slot);
+		markDirty();
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
 		return stack;
@@ -238,10 +251,10 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 		if (slot == 0 && !bl) {
 			this.cookTimeTotal = BoilerBlockEntity.getCookTime(this.world, this);
 			this.cookTime = 0;
-			this.markDirty();
-			this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
-					Block.NOTIFY_LISTENERS);
 		}
+		this.markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
 	}
 
 	private static int getCookTime(World world, BoilerBlockEntity boiler) {

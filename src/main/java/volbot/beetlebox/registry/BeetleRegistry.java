@@ -86,7 +86,7 @@ public class BeetleRegistry {
 	public static final Item ATLAS_SHELL = new Item(new FabricItemSettings());
 	public static final Item ELEPHANT_SHELL = new Item(new FabricItemSettings());
 	
-	public static final Item GELATIN_POWDER = new Item(new FabricItemSettings());
+	public static final Item GELATIN = new Item(new FabricItemSettings());
 
 	public static final Item JRB_ELYTRA = new BeetleElytraItem(new ChitinMaterial.JRBChitinMaterial(), new FabricItemSettings());
 	public static final Item HERC_ELYTRA = new BeetleElytraItem(new ChitinMaterial.HercChitinMaterial(), new FabricItemSettings());
@@ -183,7 +183,7 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
 		
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin"), GELATIN_POWDER);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin"), GELATIN);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jrb_spawn_egg"), JRB_SPAWN_EGG);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "herc_spawn_egg"), HERC_SPAWN_EGG);
@@ -233,6 +233,10 @@ public class BeetleRegistry {
 			content.add(BEETLE_JAR);
 			content.add(NET);
 			content.add(TANK);
+			
+
+			content.add(BOILER);
+			content.add(GELATIN);
 			
 	      	content.add(JRB_SHELL);
 	      	content.addAfter(JRB_SHELL, HERC_SHELL);

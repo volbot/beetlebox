@@ -57,13 +57,23 @@ public class BoilerBlock extends BlockWithEntity {
 					blockEntity.fluidStorage.insert(FluidVariant.of(Fluids.WATER), 1000, t);
 					t.commit();
 					t.close();
-					blockEntity.markDirty();
+					if(!player.getAbilities().creativeMode) {
+						player.getStackInHand(player.getActiveHand()).decrement(1);
+						ItemStack stack1 = new ItemStack(Items.BUCKET);
+						player.getInventory().insertStack(stack1);
+					}
+				} else if (player.getStackInHand(player.getActiveHand()).isOf(output.getItem())) {
+					ItemStack ret = output.split(current_boiling.getMaxCount()-current_boiling.getCount());
+					player.getInventory().insertStack(ret);
+					blockEntity.setStack(1,output);
 				} else if (current_boiling.isEmpty()) {
 					//take player input
 					blockEntity.setStack(0, player.getStackInHand(player.getActiveHand()));
 					player.setStackInHand(player.getActiveHand(), ItemStack.EMPTY);
 				} else if (current_boiling.isOf(player.getStackInHand(player.getActiveHand()).getItem()) && current_boiling.getCount()<current_boiling.getMaxCount()){
-					//add player hand contents to current_boiling
+					ItemStack ret = player.getStackInHand(player.getActiveHand()).split(current_boiling.getMaxCount()-current_boiling.getCount());
+					current_boiling.setCount(current_boiling.getCount()+ret.getCount());
+					blockEntity.setStack(0,current_boiling);
 				}
 			}
 		}

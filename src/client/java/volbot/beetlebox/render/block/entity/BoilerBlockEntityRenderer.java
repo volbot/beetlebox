@@ -1,8 +1,5 @@
 package volbot.beetlebox.render.block.entity;
 
-
-
-
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.impl.client.rendering.fluid.FluidRendererHookContainer;
@@ -42,80 +39,84 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 
-public class BoilerBlockEntityRenderer 
-implements BlockEntityRenderer<BoilerBlockEntity>{
+public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
 
 	private final ModelPart m;
-	private final BlockRenderManager blockRenderer;
-	
+
 	public BoilerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
-		this.blockRenderer = ctx.getRenderManager();
 		ModelData modelData = new ModelData();
-    	ModelPartData modelPartData = modelData.getRoot();
-        ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(), ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-        root.addChild("cube", ModelPartBuilder.create().cuboid("cube", 0.5f, 0.5f, 0.5f, 14f, 14f, 14f).uv(0, 0), ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-        m = TexturedModelData.of(modelData, 16, 16).createModel();
-    }
-	
+		ModelPartData modelPartData = modelData.getRoot();
+		ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", 0.5f, 0.5f, 0.5f, 14f, 14f, 14f).uv(0, 0),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		m = TexturedModelData.of(modelData, 16, 16).createModel();
+	}
+
 	@Override
-	public void render(BoilerBlockEntity boiler, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i, int j) {
+	public void render(BoilerBlockEntity boiler, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i,
+			int j) {
 		ItemStack input = boiler.getStack(0);
 		ItemStack output = boiler.getStack(1);
 		SingleVariantStorage<FluidVariant> fluidStorage = boiler.fluidStorage;
 		long amo = fluidStorage.getAmount();
 		long cap = fluidStorage.getCapacity();
-		double beep = Math.ceil(10*amo/cap)+1;
+		double beep = Math.ceil(99 * amo / cap) + 16;
 		ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-		int light = getLightLevel(boiler.getWorld(),boiler.getPos().add(0,1,0));
+		int light = getLightLevel(boiler.getWorld(), boiler.getPos().add(0, 1, 0));
 		matrices.push();
 		matrices.pop();
 		matrices.push();
-		
+
 		matrices.pop();
 		matrices.push();
-		if(beep > 0) {
-			matrices.scale(1f, (float)beep / 10f, 1f);
-			VertexConsumer vertexConsumer = vcp.getBuffer(RenderLayer.getEntityTranslucent(new Identifier("beetlebox","textures/block/fluid_boiling.png")));
-			m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
-			if(!input.isEmpty()) {
-				matrices.translate(0.5, 0.75, 0.7);
-		        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
-				itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vcp, boiler.getWorld(), 1);
+		matrices.scale(1f, (float) beep / 120f, 1f);
+		VertexConsumer vertexConsumer = vcp.getBuffer(
+				RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/fluid_boiling.png")));
+		m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
+		if (!input.isEmpty()) {
+			matrices.translate(0.5, 0.75, 0.7);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+			itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
+					vcp, boiler.getWorld(), 1);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
+			matrices.translate(-0.5, -0.75, -0.7);
+			if (input.getCount() > 1) {
+				matrices.translate(0.7, 0.75, 0.4);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
+				matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+				itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV,
+						matrices, vcp, boiler.getWorld(), 1);
 				matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
-				matrices.translate(-0.5, -0.75, -0.7);
-		        if(input.getCount()>1) {
-					matrices.translate(0.7, 0.75, 0.4);
-		        	matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
-			        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
-					itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vcp, boiler.getWorld(), 1);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
+				matrices.translate(-0.7, -0.75, -0.4);
+				if (input.getCount() > 2) {
+					matrices.translate(0.3, 0.75, 0.4);
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+					itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV,
+							matrices, vcp, boiler.getWorld(), 1);
 					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
-	        		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
-					matrices.translate(-0.7, -0.75, -0.4);
-	        		if(input.getCount()>2) {
-						matrices.translate(0.3, 0.75, 0.4);
-		        		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
-				        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
-						itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vcp, boiler.getWorld(), 1);
-						matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
-			        	matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
-						matrices.translate(-0.3, -0.75, -0.4);
-		        	}
-		        }
-			}
-			if(!output.isEmpty()) {
-				matrices.translate(0.5, 0.925, 0.4);
-		        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
-				itemRenderer.renderItem(output, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices, vcp, boiler.getWorld(), 5);
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
+					matrices.translate(-0.3, -0.75, -0.4);
+				}
 			}
 		}
+		if (!output.isEmpty()) {
+			matrices.translate(0.5, 0.925, 0.4);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+			itemRenderer.renderItem(output, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
+					vcp, boiler.getWorld(), 5);
+		}
+
 		matrices.pop();
 
 	}
-	
+
 	private int getLightLevel(World world, BlockPos pos) {
-        int bLight = world.getLightLevel(LightType.BLOCK, pos);
-        int sLight = world.getLightLevel(LightType.SKY, pos);
-        return LightmapTextureManager.pack(bLight, sLight);
-    }
+		int bLight = world.getLightLevel(LightType.BLOCK, pos);
+		int sLight = world.getLightLevel(LightType.SKY, pos);
+		return LightmapTextureManager.pack(bLight, sLight);
+	}
 
 }
