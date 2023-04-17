@@ -2,7 +2,6 @@ package volbot.beetlebox.block;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -44,11 +43,9 @@ public class BoilerBlock extends BlockWithEntity {
 			if (player.getMainHandStack().isEmpty()) {
 				if (!output.isEmpty()) {
 					// give player output
-					System.out.println("give output");
 					player.setStackInHand(player.getActiveHand(), blockEntity.removeStack(1));
 				} else if(!current_boiling.isEmpty()) {
 					// give player input
-					System.out.println("give input");
 					player.setStackInHand(player.getActiveHand(), blockEntity.removeStack(0));
 				}
 			} else {

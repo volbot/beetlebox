@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
@@ -43,7 +44,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 
 	protected static final int INPUT_SLOT_INDEX = 0;
 	protected static final int OUTPUT_SLOT_INDEX = 1;
-
+	
 	private static final int[] TOP_SLOTS = new int[] { 0 };
 	private static final int[] BOTTOM_SLOTS = new int[] { 2, 1 };
 	private static final int[] SIDE_SLOTS = new int[] { 1 };
@@ -59,6 +60,11 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 		@Override
 		protected FluidVariant getBlankVariant() {
 			return FluidVariant.blank();
+		}
+		 
+		@Override
+		protected boolean canInsert(FluidVariant variant) {
+			return variant.equals(FluidVariant.of(Fluids.WATER));
 		}
 
 		@Override
@@ -84,7 +90,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 			}
 		}
 	};
-
+	
 	public BoilerBlockEntity(BlockPos pos, BlockState state) {
 		super(BeetleRegistry.BOILER_BLOCK_ENTITY, pos, state);
 	}
