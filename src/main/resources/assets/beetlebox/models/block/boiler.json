@@ -1,5 +1,10 @@
 {
     "parent": "block/composter",
     "textures": {
+   	 	"particle": "beetlebox:block/boiler_side",
+    	"top": "beetlebox:block/boiler_top",
+    	"bottom": "beetlebox:block/boiler_bottom",
+    	"side": "beetlebox:block/boiler_side",
+    	"inside": "beetlebox:block/boiler_top"
     }
 }
