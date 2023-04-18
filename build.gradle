@@ -20,7 +20,7 @@ repositories {
 }
 
 loom {
-    splitEnvironmentSourceSets()
+    //splitEnvironmentSourceSets()
 
     runs {
         datagen {
@@ -39,11 +39,20 @@ loom {
     mods {
         modid {
             sourceSet sourceSets.main
-            sourceSet sourceSets.client
         }
     }
     
     accessWidenerPath = file("src/main/resources/beetlebox.accesswidener")
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDirs += [
+                    'src/main/generated'
+            ]
+        }
+    }
 }
 
 dependencies {

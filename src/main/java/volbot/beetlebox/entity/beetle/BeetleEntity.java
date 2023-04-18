@@ -36,6 +36,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	private static final TrackedData<Byte> FLYING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
 	
 	private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
+	private static final Ingredient HEALING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	
     private boolean isLandNavigator;
 

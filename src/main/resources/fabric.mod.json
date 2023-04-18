@@ -16,19 +16,18 @@
 	"icon": "assets/beetlebox/icon.png",
 	"environment": "*",
 	"entrypoints": {
+		"fabric-datagen": [
+      		"volbot.beetlebox.data.BeetleDataGen"
+    	],
 		"main": [
 			"volbot.beetlebox.BeetleBoxMod"
 		],
 		"client": [
-			"volbot.beetlebox.BeetleBoxClient"
+			"volbot.beetlebox.client.BeetleBoxClient"
 		]
 	},
 	"mixins": [
-		"beetlebox.mixins.json",
-		{
-			"config": "beetlebox.client.mixins.json",
-			"environment": "client"
-		}
+	
 	],
 	"depends": {
 		"fabricloader": ">=0.14.17",
