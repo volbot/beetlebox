@@ -2,6 +2,7 @@ package volbot.beetlebox.data;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 
 public class BeetleDataGen implements DataGeneratorEntrypoint {
@@ -10,6 +11,7 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(BeetleItemTagGenerator::new);
+		pack.addProvider(BeetleRecipeGenerator::new);
 	}
 
 }

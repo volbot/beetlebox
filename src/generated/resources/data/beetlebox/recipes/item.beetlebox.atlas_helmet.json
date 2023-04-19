@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:atlas_elytron"
+    },
+    "h": {
+      "item": "minecraft:iron_helmet"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ehe",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:atlas_helmet"
+  },
+  "show_notification": true
+}

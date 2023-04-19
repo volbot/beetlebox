@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:titanus_elytron"
+    },
+    "h": {
+      "item": "minecraft:iron_helmet"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ehe",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:titanus_helmet"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:atlas_elytron"
+    },
+    "l": {
+      "item": "minecraft:elytra"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ele",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:atlas_elytra"
+  },
+  "show_notification": true
+}

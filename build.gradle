@@ -45,14 +45,8 @@ loom {
     accessWidenerPath = file("src/main/resources/beetlebox.accesswidener")
 }
 
-sourceSets {
-    main {
-        resources {
-            srcDirs += [
-                    'src/main/generated'
-            ]
-        }
-    }
+sourceSets.main.resources {
+    srcDir "src/generated/resources"
 }
 
 dependencies {

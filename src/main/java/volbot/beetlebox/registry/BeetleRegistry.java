@@ -60,35 +60,11 @@ import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
 
 public class BeetleRegistry {
-	
-	private static void registerBeetle(EntityType<? extends BeetleEntity> beetleType, String beetle_id, int color1, int color2, BeetleArmorEntityModel<?> helmet_model) {
-		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox",beetle_id), beetleType);
-		FabricDefaultAttributeRegistry.register(beetleType, BeetleEntity.createBeetleAttributes());
-		Item SPAWN_EGG = new SpawnEggItem(beetleType, color1, color2, new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_spawn_egg"), SPAWN_EGG);
-		spawn_eggs.add(SPAWN_EGG);
-		Item ELYTRA = new BeetleElytraItem(new ChitinMaterial.JRBChitinMaterial(), new FabricItemSettings());
-		Item HELMET = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.HELMET, new FabricItemSettings());
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.LEGGINGS, new FabricItemSettings());
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial.JRBChitinMaterial(), Type.BOOTS, new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_helmet"), HELMET);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytra"), ELYTRA);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_legs"), LEGS);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_boots"), BOOTS);
-		armor_sets.add(ELYTRA);
-		armor_sets.add(HELMET);
-		beetle_helmets.put(HELMET, helmet_model);
-		armor_sets.add(LEGS);
-		armor_sets.add(BOOTS);
-		Item ELYTRON = new Item(new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytron"), ELYTRON);
-		beetle_drops.add(ELYTRON);
-	}
 
 	public static HashMap<Item, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
-	protected static Vector<Item> spawn_eggs = new Vector<>();
-	protected static Vector<Item> armor_sets = new Vector<>();
-	protected static Vector<Item> beetle_drops = new Vector<>();
+	public static Vector<Item> spawn_eggs = new Vector<>();
+	public static Vector<Item> armor_sets = new Vector<>();
+	public static Vector<Item> beetle_drops = new Vector<>();
 	
 	//ENTITY TYPES
 	public static final EntityType<JRBEntity> JRB = FabricEntityTypeBuilder.createMob()
@@ -160,11 +136,11 @@ public class BeetleRegistry {
 		FluidStorage.SIDED.registerForBlockEntity((myTank, direction) -> myTank.fluidStorage, BOILER_BLOCK_ENTITY);
 		
 		//ENTITIES
-		BeetleRegistry.registerBeetle(JRB, "jrb", 0x110b0b, 0x180f0f, new JRBHelmetModel<>());
-		BeetleRegistry.registerBeetle(HERC, "hercules", 0xa99859, 0x150f10, new HercHelmetModel<>());
-		BeetleRegistry.registerBeetle(TITAN, "titanus", 0x0e0f10, 0x363840, new TitanHelmetModel<>());
-		BeetleRegistry.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
-		BeetleRegistry.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
+		BeetleUtils.registerBeetle(JRB, "jrb", 0x110b0b, 0x180f0f, new JRBHelmetModel<>());
+		BeetleUtils.registerBeetle(HERC, "hercules", 0xa99859, 0x150f10, new HercHelmetModel<>());
+		BeetleUtils.registerBeetle(TITAN, "titanus", 0x0e0f10, 0x363840, new TitanHelmetModel<>());
+		BeetleUtils.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
+		BeetleUtils.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
 		
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
