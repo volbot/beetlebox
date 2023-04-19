@@ -17,7 +17,7 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(BeetleRecipeGenerator::new);
 		pack.addProvider(BeetleLootGenerator::new);
 		pack.addProvider(BeetleModelGenerator::new);
-		pack.addProvider(BeetleEnglishProvider::new);
+		//pack.addProvider(BeetleEnglishProvider::new);
 	}
 
 }

@@ -17,7 +17,7 @@ public class BeetleItemTagGenerator extends ItemTagProvider {
 		super(output, completableFuture);
 	}
 	
-	private static final TagKey<Item> SLIMEBALLS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "slime_balls"));
+	public static final TagKey<Item> SLIMEBALLS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "slime_balls"));
 	
 	@Override
 	protected void configure(WrapperLookup arg) {

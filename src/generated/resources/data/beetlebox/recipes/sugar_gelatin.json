@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "g": {
+      "item": "beetlebox:gelatin"
+    },
+    "s": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "sg",
+    "gs"
+  ],
+  "result": {
+    "item": "beetlebox:sugar_gelatin"
+  },
+  "show_notification": true
+}

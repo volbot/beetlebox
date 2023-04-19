@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.minecraft.item.ArmorItem.Type;
 import net.minecraft.item.BlockItem;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -14,7 +13,6 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
@@ -27,7 +25,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.recipe.CookingRecipeSerializer;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -45,9 +42,6 @@ import volbot.beetlebox.block.BoilerBlock;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
-import volbot.beetlebox.item.equipment.BeetleArmorItem;
-import volbot.beetlebox.item.equipment.BeetleElytraItem;
-import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
@@ -179,6 +173,8 @@ public class BeetleRegistry {
 			
 			content.add(BOILER);
 			content.add(GELATIN);
+			content.add(SUGAR_GELATIN);
+			content.add(GELATIN_GLUE);
 			
 			for(Item i : beetle_drops) {
 	      		content.add(i);
