@@ -103,10 +103,13 @@ public class BeetleRegistry {
     public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(new FabricItemSettings().rarity(Rarity.UNCOMMON), LivingEntity.class);
     
     public static final Block TANK = new BeetleTankBlock<BeetleEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
+    public static final Item TANK_ITEM = new BlockItem(TANK, new FabricItemSettings());
     public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
+    public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
    
     public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f));
-
+    public static final Item BOILER_ITEM = new BlockItem(BOILER, new FabricItemSettings());
+    
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 	        Registries.BLOCK_ENTITY_TYPE,
 	        new Identifier("beetlebox", "tank_block_entity"),
@@ -162,12 +165,12 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin_glue"), GELATIN_GLUE);
 		
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
-        Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), new BlockItem(TANK, new FabricItemSettings()));
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), TANK_ITEM);
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
-        Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON)));
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
 
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
-        Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), new BlockItem(BOILER, new FabricItemSettings()));
+        Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
         
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
