@@ -20,7 +20,6 @@ public class BeetleModelGenerator extends FabricModelProvider {
 
 	@Override
 	public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-		// TODO Auto-generated method stub
 		
 	}
 
