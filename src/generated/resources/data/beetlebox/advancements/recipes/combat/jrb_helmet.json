@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_hercules_elytron": {
+    "has_jrb_elytron": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:hercules_elytron"
+              "beetlebox:jrb_elytron"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.hercules_helmet"
+        "recipe": "minecraft:jrb_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_hercules_elytron",
+      "has_jrb_elytron",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.hercules_helmet"
+      "minecraft:jrb_helmet"
     ]
   }
 }

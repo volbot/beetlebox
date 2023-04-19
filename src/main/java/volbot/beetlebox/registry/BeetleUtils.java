@@ -9,11 +9,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ArmorItem.Type;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
+import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
@@ -43,27 +48,26 @@ public class BeetleUtils {
 		Item ELYTRON = new Item(new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytron"), ELYTRON);
 		BeetleRegistry.beetle_drops.add(ELYTRON);
-		BeetleRecipeGenerator.shaped_recipes.add(createElytraRecipe(ELYTRA, ELYTRON));
-		BeetleRecipeGenerator.shaped_recipes.add(createHelmetRecipe(HELMET, ELYTRON));
+		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_elytra", createElytraRecipe(ELYTRA, ELYTRON));
+		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_helmet", createHelmetRecipe(HELMET, ELYTRON));
+		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 	}
-	
+
 	public static ShapedRecipeJsonBuilder createElytraRecipe(Item ELYTRA, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ELYTRA)
-		.pattern("eee")
-		.pattern("ele")
-		.pattern("eee")
-		.input('e', ELYTRON)
-		.input('l', Items.ELYTRA)
-		.criterion(RecipeProvider.hasItem(ELYTRON),RecipeProvider.conditionsFromItem(ELYTRON));
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ELYTRA).pattern("eee").pattern("ele")
+				.pattern("eee").input('e', ELYTRON).input('l', Items.ELYTRA)
+				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
-	
+
 	public static ShapedRecipeJsonBuilder createHelmetRecipe(Item HELMET, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET)
-		.pattern("eee")
-		.pattern("ehe")
-		.pattern("eee")
-		.input('e', ELYTRON)
-		.input('h', Items.IRON_HELMET)
-		.criterion(RecipeProvider.hasItem(ELYTRON),RecipeProvider.conditionsFromItem(ELYTRON));
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).pattern("eee").pattern("ehe")
+				.pattern("eee").input('e', ELYTRON).input('h', Items.IRON_HELMET)
+				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
+
+	public static LootTable.Builder createLootTable(Item ELYTRON) {
+		return LootTable.builder()
+	        .pool(LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F))
+	        .with(ItemEntry.builder(ELYTRON)));
+	    }
 }

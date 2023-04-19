@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.atlas_helmet"
+        "recipe": "minecraft:atlas_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.atlas_helmet"
+      "minecraft:atlas_helmet"
     ]
   }
 }

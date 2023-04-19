@@ -1,5 +1,6 @@
 package volbot.beetlebox.data.recipe;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.function.Consumer;
@@ -17,7 +18,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 		super(output);
 	}
 	
-	public static Vector<ShapedRecipeJsonBuilder> shaped_recipes = new Vector<>();
+	public static HashMap<String, ShapedRecipeJsonBuilder> shaped_recipes = new HashMap<>();
 
 	@Override
 	public void generate(Consumer<RecipeJsonProvider> exporter) {
@@ -26,8 +27,10 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				RecipeCategory.MISC, 
 				BeetleRegistry.GELATIN_GLUE,
                 0.7f, 200, "gelatin_glue");
-		for(ShapedRecipeJsonBuilder recipe : shaped_recipes) {
-			recipe.offerTo(exporter, recipe.getOutputItem().getName().getString());
+		for(String s : shaped_recipes.keySet()) {
+			System.out.println(s);
+			ShapedRecipeJsonBuilder recipe = shaped_recipes.get(s);
+			recipe.offerTo(exporter, s);
 		}
 	}
 

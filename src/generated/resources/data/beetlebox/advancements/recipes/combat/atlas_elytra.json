@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.atlas_elytra"
+        "recipe": "minecraft:atlas_elytra"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.atlas_elytra"
+      "minecraft:atlas_elytra"
     ]
   }
 }

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_jrb_elytron": {
+    "has_elephant_elytron": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:jrb_elytron"
+              "beetlebox:elephant_elytron"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.jrb_elytra"
+        "recipe": "minecraft:elephant_elytra"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_jrb_elytron",
+      "has_elephant_elytron",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.jrb_elytra"
+      "minecraft:elephant_elytra"
     ]
   }
 }

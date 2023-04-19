@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.hercules_elytra"
+        "recipe": "minecraft:hercules_elytra"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.hercules_elytra"
+      "minecraft:hercules_elytra"
     ]
   }
 }

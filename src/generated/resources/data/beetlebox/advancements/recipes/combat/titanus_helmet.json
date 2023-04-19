@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:item.beetlebox.titanus_helmet"
+        "recipe": "minecraft:titanus_helmet"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:item.beetlebox.titanus_helmet"
+      "minecraft:titanus_helmet"
     ]
   }
 }
