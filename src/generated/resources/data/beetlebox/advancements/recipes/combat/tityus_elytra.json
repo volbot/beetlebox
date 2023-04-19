@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:tityus_elytra"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tityus_elytron": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "beetlebox:tityus_elytron"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tityus_elytron",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:tityus_elytra"
+    ]
+  }
+}

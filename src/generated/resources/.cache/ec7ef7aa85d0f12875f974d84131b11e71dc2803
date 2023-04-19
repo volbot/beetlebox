@@ -1,4 +1,4 @@
-// 1.19.4	2023-04-19T16:52:55.304345443	beetlebox/Recipes
+// 1.19.4	2023-04-19T18:26:53.494630048	beetlebox/Recipes
 586ec5de444e0e56bf5b5a4d4ee14f4e16d5354c data/beetlebox/recipes/titanus_elytra.json
 18a39636ec5b085f64d56c5117ac75fbc3cbe3c5 data/beetlebox/recipes/titanus_helmet.json
 87923c7885b2d7fc8def4d5152d1ce20f190af91 data/beetlebox/advancements/recipes/combat/titanus_helmet.json
@@ -14,14 +14,18 @@ c3157afbd8b308d457350f260b582e9c0389c703 data/beetlebox/recipes/jrb_helmet.json
 8eaaec87d38f88b40af7c9b4c7c9a184fe7b5973 data/beetlebox/advancements/recipes/redstone/sticky_piston.json
 58ad81017c98f02b1b8bb2588c5f461111a22f8e data/beetlebox/recipes/elephant_elytra.json
 004ed1fa46a52e66e587be1e94074abf0a4e52a5 data/beetlebox/advancements/recipes/combat/titanus_elytra.json
-9aff273183767edf40c4df6bc201d0390e8567d9 data/beetlebox/recipes/hercules_helmet.json
 7b5b02ef8c4a798fc20cb7f8387ff04e4bef037f data/beetlebox/recipes/jrb_elytra.json
+9aff273183767edf40c4df6bc201d0390e8567d9 data/beetlebox/recipes/hercules_helmet.json
 90561543e31756887e669d9438583200ab44981a data/beetlebox/advancements/recipes/combat/elephant_helmet.json
 028a7342326efa9c57845ce7260c951f589e639e data/beetlebox/advancements/recipes/combat/elephant_elytra.json
+f5789d2314d55ef671221b183fff0a509e15f688 data/beetlebox/recipes/tityus_helmet.json
+ebe81908d16ddd295821795a7cb37d18a32abff8 data/beetlebox/recipes/tityus_elytra.json
+911e0668612f258901ef8979ca996f3b546f7c3a data/beetlebox/advancements/recipes/combat/tityus_elytra.json
 7100e618a837baf5fcff818ac77806227c9bfe66 data/beetlebox/advancements/recipes/combat/atlas_helmet.json
 7f1e5175b00d348fc5b13690d32fd9a458ab8454 data/beetlebox/recipes/atlas_helmet.json
 f5b4bb369a2d0bd34fe9e88f675974e03b909164 data/beetlebox/advancements/recipes/redstone/sugar_gelatin.json
 1c78fdc87cc5f2448468c7d5d4841bef58d0dbac data/beetlebox/recipes/atlas_elytra.json
+1168f168cbe8926c6c33a0c5ff66e2fc8ec40d37 data/beetlebox/advancements/recipes/combat/tityus_helmet.json
 80efec06f343f1c8ad858a40e267722620f99183 data/beetlebox/advancements/recipes/combat/atlas_elytra.json
 4829b949db09233c99754c6640f756eef2a55b4f data/beetlebox/advancements/recipes/combat/hercules_elytra.json
 98880c2c8cdee345f5c122cd61d4cbd201980c9c data/beetlebox/advancements/recipes/combat/jrb_elytra.json

@@ -30,6 +30,8 @@ import volbot.beetlebox.client.render.entity.JRBEntityModel;
 import volbot.beetlebox.client.render.entity.JRBEntityRenderer;
 import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
+import volbot.beetlebox.client.render.entity.TityusEntityModel;
+import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
 import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
@@ -39,11 +41,12 @@ import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
 public class BeetleBoxClient implements ClientModInitializer {
 	
 	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"), "main");
-	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "herc"), "main");
-	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titan"), "main");
+	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "hercules"), "main");
+	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titanus"), "main");
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elephant"), "main");
-	
+	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "tityus"), "main");
+
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource"})
 	@Override
 	public void onInitializeClient() {
@@ -81,7 +84,9 @@ public class BeetleBoxClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(BeetleRegistry.ELEPHANT, ElephantEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
-        
+        EntityRendererRegistry.register(BeetleRegistry.TITYUS, TityusEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_TITYUS_LAYER, TityusEntityModel::getTexturedModelData);
+
         ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
         	if (livingEntity == null || itemStack.getNbt() == null) {
         		return 0F;

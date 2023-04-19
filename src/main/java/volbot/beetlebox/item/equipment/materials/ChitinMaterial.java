@@ -54,13 +54,13 @@ public abstract class ChitinMaterial implements ArmorMaterial {
 	public static class HercChitinMaterial extends ChitinMaterial {
 		@Override
 		public String getName() {
-			return "herc";
+			return "hercules";
 		}
 	}
 	public static class TitanChitinMaterial extends ChitinMaterial {
 		@Override
 		public String getName() {
-			return "titan";
+			return "titanus";
 		}
 	}
 	public static class JRBChitinMaterial extends ChitinMaterial {

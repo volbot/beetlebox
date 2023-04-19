@@ -30,11 +30,15 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import net.minecraft.world.biome.Biome;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
+import volbot.beetlebox.entity.beetle.TityusEntity;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.block.BeetleTankBlock;
@@ -52,6 +56,7 @@ import volbot.beetlebox.client.render.armor.HercHelmetModel;
 import volbot.beetlebox.client.render.armor.TitanHelmetModel;
 import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
+import volbot.beetlebox.client.render.armor.TityusHelmetModel;
 
 public class BeetleRegistry {
 
@@ -83,6 +88,11 @@ public class BeetleRegistry {
         	.build();
 	public static final EntityType<ElephantEntity> ELEPHANT = FabricEntityTypeBuilder.createMob()
         	.entityFactory(ElephantEntity::new)
+        	.spawnGroup(SpawnGroup.CREATURE)
+        	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+        	.build();
+	public static final EntityType<TityusEntity> TITYUS = FabricEntityTypeBuilder.createMob()
+        	.entityFactory(TityusEntity::new)
         	.spawnGroup(SpawnGroup.CREATURE)
         	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
         	.build();
@@ -138,10 +148,16 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(TITAN, "titanus", 0x0e0f10, 0x363840, new TitanHelmetModel<>());
 		BeetleUtils.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
-		
+		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x5e3924, 0x180f06, new TityusHelmetModel<>());
+
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
+		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
+		
+		TagKey<Biome> plains_key = TagKey.of(RegistryKeys.BIOME, new Identifier("is_plains"));
+		Predicate<BiomeSelectionContext> plains = BiomeSelectors.tag(plains_key);
+		BiomeModifications.addSpawn(plains, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
 
 		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, HERC, 16, 1, 2);
