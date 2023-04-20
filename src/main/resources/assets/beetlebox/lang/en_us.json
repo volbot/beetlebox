@@ -4,36 +4,42 @@
     "item.beetlebox.titanus_spawn_egg": "Titanus Spawn Egg",
     "item.beetlebox.atlas_spawn_egg": "Atlas Spawn Egg",
     "item.beetlebox.elephant_spawn_egg": "Elephant Spawn Egg",
+    "item.beetlebox.tityus_spawn_egg": "Tityus Spawn Egg",
     
     "item.beetlebox.jrb_elytron": "Kabutomushi Elytron",
     "item.beetlebox.hercules_elytron": "Hercules Elytron",
     "item.beetlebox.titanus_elytron": "Titanus Elytron",
     "item.beetlebox.atlas_elytron": "Atlas Elytron",
     "item.beetlebox.elephant_elytron": "Elephant Elytron",
+    "item.beetlebox.tityus_elytron": "Tityus Elytron",
     
     "item.beetlebox.hercules_elytra": "Hercules Elytra",
     "item.beetlebox.titanus_elytra": "Titanus Elytra",
     "item.beetlebox.jrb_elytra": "Kabutomushi Elytra",
     "item.beetlebox.atlas_elytra": "Atlas Elytra",
     "item.beetlebox.elephant_elytra": "Elephant Elytra",
+    "item.beetlebox.tityus_elytra": "Tityus Elytra",
     
     "item.beetlebox.hercules_helmet": "Hercules Helmet",
     "item.beetlebox.titanus_helmet": "Titanus Helmet",
     "item.beetlebox.jrb_helmet": "Kabutomushi Helmet",
     "item.beetlebox.atlas_helmet": "Atlas Helmet",
     "item.beetlebox.elephant_helmet": "Elephant Helmet",
+    "item.beetlebox.tityus_helmet": "Tityus Helmet",
     
     "item.beetlebox.hercules_legs": "Hercules Legs",
     "item.beetlebox.titanus_legs": "Titanus Legs",
     "item.beetlebox.jrb_legs": "Kabutomushi Legs",
     "item.beetlebox.atlas_legs": "Atlas Legs",
     "item.beetlebox.elephant_legs": "Elephant Legs",
+    "item.beetlebox.tityus_legs": "Tityus Legs",
     
     "item.beetlebox.hercules_boots": "Hercules Boots",
     "item.beetlebox.titanus_boots": "Titanus Boots",
     "item.beetlebox.jrb_boots": "Kabutomushi Boots",
     "item.beetlebox.atlas_boots": "Atlas Boots",
     "item.beetlebox.elephant_boots": "Elephant Boots",
+    "item.beetlebox.tityus_boots": "Tityus Boots",
     
     "item.beetlebox.leg_beetle_jar": "Legendary Beetle Jar",
     "item.beetlebox.beetle_jar": "Beetle Jar",
@@ -54,6 +60,7 @@
     "entity.beetlebox.hercules": "Hercules",
     "entity.beetlebox.atlas": "Atlas",
     "entity.beetlebox.titanus": "Titanus",
-    "entity.beetlebox.elephant": "Elephant"
+    "entity.beetlebox.elephant": "Elephant",
+    "entity.beetlebox.tityus": "Tityus"
    
 }

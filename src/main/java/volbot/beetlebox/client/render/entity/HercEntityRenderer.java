@@ -14,6 +14,6 @@ public class HercEntityRenderer extends MobEntityRenderer<HercEntity, HercEntity
 	
     @Override
     public Identifier getTexture(HercEntity entity) {
-        return new Identifier("beetlebox", "textures/entity/beetle/herc.png");
+        return new Identifier("beetlebox", "textures/entity/beetle/hercules.png");
     }
 }

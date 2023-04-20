@@ -6,11 +6,16 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 
-public abstract class ChitinMaterial implements ArmorMaterial {
+public class ChitinMaterial implements ArmorMaterial {
 	
 	private static final int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
 	private static final int[] PROTECTION_VALUES = new int[] {2, 5, 6, 2}; 
-
+	private final String beetle_id;
+	
+	public ChitinMaterial(String beetle_id) {
+		this.beetle_id = beetle_id;
+	}
+	
 	@Override
 	public int getDurability(Type type) {
 		return BASE_DURABILITY[type.getEquipmentSlot().getEntitySlotId()] * 333;
@@ -38,7 +43,7 @@ public abstract class ChitinMaterial implements ArmorMaterial {
 
 	@Override
 	public String getName() {
-		return "chitin";
+		return beetle_id;
 	}
 
 	@Override
@@ -49,36 +54,5 @@ public abstract class ChitinMaterial implements ArmorMaterial {
 	@Override
 	public float getKnockbackResistance() {
 		return 0F;
-	}
-	
-	public static class HercChitinMaterial extends ChitinMaterial {
-		@Override
-		public String getName() {
-			return "hercules";
-		}
-	}
-	public static class TitanChitinMaterial extends ChitinMaterial {
-		@Override
-		public String getName() {
-			return "titanus";
-		}
-	}
-	public static class JRBChitinMaterial extends ChitinMaterial {
-		@Override
-		public String getName() {
-			return "jrb";
-		}
-	}
-	public static class AtlasChitinMaterial extends ChitinMaterial {
-		@Override
-		public String getName() {
-			return "atlas";
-		}
-	}
-	public static class ElephantChitinMaterial extends ChitinMaterial {
-		@Override
-		public String getName() {
-			return "elephant";
-		}
 	}
 }

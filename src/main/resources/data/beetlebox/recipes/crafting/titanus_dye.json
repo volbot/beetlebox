@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"group": "black_dye",
+	"ingredients": [
+		{
+			"item": "beetlebox:titanus_elytron"
+		}
+	],
+	"result": {
+		"item": "minecraft:black_dye",
+		"count": 3
+	}
+}

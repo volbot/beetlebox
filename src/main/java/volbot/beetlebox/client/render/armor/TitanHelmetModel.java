@@ -12,7 +12,7 @@ import net.minecraft.entity.LivingEntity;
 public class TitanHelmetModel<T extends LivingEntity> extends BeetleArmorEntityModel<T>{
 	
 	public TitanHelmetModel() {
-		super(getTexturedModelData().createModel(), "titan");
+		super(getTexturedModelData().createModel(), "titanus");
 	}
 
 	public static TexturedModelData getTexturedModelData() {

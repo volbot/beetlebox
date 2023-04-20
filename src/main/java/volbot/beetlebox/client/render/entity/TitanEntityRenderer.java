@@ -14,6 +14,6 @@ public class TitanEntityRenderer extends MobEntityRenderer<TitanEntity, TitanEnt
 	
     @Override
     public Identifier getTexture(TitanEntity entity) {
-        return new Identifier("beetlebox", "textures/entity/beetle/titan.png");
+        return new Identifier("beetlebox", "textures/entity/beetle/titanus.png");
     }
 }

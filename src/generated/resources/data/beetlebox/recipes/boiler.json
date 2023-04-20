@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "b": {
+      "item": "minecraft:brick"
+    },
+    "c": {
+      "item": "minecraft:cauldron"
+    },
+    "i": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "pattern": [
+    "b b",
+    "bcb",
+    "bib"
+  ],
+  "result": {
+    "item": "beetlebox:boiler"
+  },
+  "show_notification": true
+}

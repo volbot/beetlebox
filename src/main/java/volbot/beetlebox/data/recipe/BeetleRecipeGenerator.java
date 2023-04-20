@@ -10,7 +10,11 @@ import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 import volbot.beetlebox.registry.BeetleRegistry;
 
@@ -40,16 +44,65 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			.pattern("s")
 			.pattern("p")
 			.input('s', BeetleItemTagGenerator.SLIMEBALLS)
-			.input('p', Blocks.PISTON)
+			.input('p', Items.PISTON)
 		.criterion("has_any_slimeball", RecipeProvider.conditionsFromTag(BeetleItemTagGenerator.SLIMEBALLS))
 		.offerTo(exporter);
 		
-		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BeetleRegistry.SUGAR_GELATIN)
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, Items.LEAD, 2)
+			.pattern("ss ")
+			.pattern("sg ")
+			.pattern("  s")
+			.input('g', BeetleItemTagGenerator.SLIMEBALLS)
+			.input('s', Items.STRING)
+		.criterion("has_any_slimeball", RecipeProvider.conditionsFromTag(BeetleItemTagGenerator.SLIMEBALLS))
+		.offerTo(exporter);
+	
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, BeetleRegistry.SUGAR_GELATIN)
 			.pattern("sg")
 			.pattern("gs")
 			.input('s', Items.SUGAR)
 			.input('g', BeetleRegistry.GELATIN)
 		.criterion(RecipeProvider.hasItem(BeetleRegistry.GELATIN), RecipeProvider.conditionsFromItem(BeetleRegistry.GELATIN))
+		.offerTo(exporter);
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BeetleRegistry.BOILER)
+			.pattern("b b")
+			.pattern("bcb")
+			.pattern("bib")
+			.input('b', Items.BRICK)
+			.input('c', Items.CAULDRON)
+			.input('i', Items.IRON_BARS)
+		.criterion(RecipeProvider.hasItem(Blocks.CAULDRON), RecipeProvider.conditionsFromItem(Blocks.CAULDRON))
+		.offerTo(exporter);
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BeetleRegistry.TANK)
+			.pattern("iii")
+			.pattern("gjg")
+			.pattern("iii")
+			.input('i', Items.IRON_INGOT)
+			.input('g', Items.GLASS_PANE)
+			.input('j', BeetleRegistry.BEETLE_JAR)
+		.criterion(RecipeProvider.hasItem(BeetleRegistry.BEETLE_JAR), RecipeProvider.conditionsFromItem(BeetleRegistry.BEETLE_JAR))
+		.offerTo(exporter);
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BeetleRegistry.BEETLE_JAR)
+			.pattern(" l ")
+			.pattern("gjg")
+			.pattern(" g ")
+			.input('l', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft","logs"))))
+			.input('g', Items.GLASS_PANE)
+			.input('j', Items.LEAD)
+		.criterion(RecipeProvider.hasItem(BeetleRegistry.NET), RecipeProvider.conditionsFromItem(BeetleRegistry.NET))
+		.offerTo(exporter);
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BeetleRegistry.NET)
+			.pattern(" sw")
+			.pattern(" ss")
+			.pattern("s  ")
+			.input('s', Items.STICK)
+			.input('w', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft","wool"))))
+		.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 		.offerTo(exporter);
 	}
 

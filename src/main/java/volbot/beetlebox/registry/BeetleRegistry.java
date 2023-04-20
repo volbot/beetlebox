@@ -148,7 +148,7 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(TITAN, "titanus", 0x0e0f10, 0x363840, new TitanHelmetModel<>());
 		BeetleUtils.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
-		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x5e3924, 0x180f06, new TityusHelmetModel<>());
+		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x9a8666, 0x1b1612, new TityusHelmetModel<>());
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
@@ -183,9 +183,12 @@ public class BeetleRegistry {
         Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
         
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
-			content.add(BEETLE_JAR);
+			content.add(BEETLE_JAR);			
+			content.add(LEG_BEETLE_JAR);
+
 			content.add(NET);
 			content.add(TANK);
+			content.add(LEG_TANK);
 			
 			content.add(BOILER);
 			content.add(GELATIN);
