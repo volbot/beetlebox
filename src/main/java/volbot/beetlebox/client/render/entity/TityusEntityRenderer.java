@@ -4,7 +4,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.BeetleBoxClient;
-import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
 
 public class TityusEntityRenderer extends MobEntityRenderer<TityusEntity, TityusEntityModel> {

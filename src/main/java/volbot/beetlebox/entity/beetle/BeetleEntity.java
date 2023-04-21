@@ -173,6 +173,10 @@ public abstract class BeetleEntity extends AnimalEntity {
     public boolean isBreedingItem(ItemStack stack) {
         return BREEDING_INGREDIENT.test(stack);
     }
+    
+    public boolean isHealingItem(ItemStack stack) {
+        return HEALING_INGREDIENT.test(stack);
+    }
 
 	@Override
 	public abstract PassiveEntity createChild(ServerWorld var1, PassiveEntity var2);

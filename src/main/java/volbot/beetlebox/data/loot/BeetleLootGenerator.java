@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
-import net.minecraft.entity.EntityType;
 import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.util.Identifier;
