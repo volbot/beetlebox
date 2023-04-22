@@ -49,6 +49,7 @@ import volbot.beetlebox.entity.beetle.ElephantEntity;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
+import volbot.beetlebox.entity.beetle.JunebugEntity;
 import volbot.beetlebox.recipe.BoilingRecipe;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.JRBHelmetModel;
@@ -93,6 +94,11 @@ public class BeetleRegistry {
         	.build();
 	public static final EntityType<TityusEntity> TITYUS = FabricEntityTypeBuilder.createMob()
         	.entityFactory(TityusEntity::new)
+        	.spawnGroup(SpawnGroup.CREATURE)
+        	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
+        	.build();
+	public static final EntityType<JunebugEntity> JUNEBUG = FabricEntityTypeBuilder.createMob()
+        	.entityFactory(JunebugEntity::new)
         	.spawnGroup(SpawnGroup.CREATURE)
         	.dimensions(EntityDimensions.fixed(0.4f, 0.4f))
         	.build();
@@ -149,6 +155,7 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
 		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x9a8666, 0x1b1612, new TityusHelmetModel<>());
+		BeetleUtils.registerBeetle(JUNEBUG, "junebug", 0x9a8666, 0x1b1612, null);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);

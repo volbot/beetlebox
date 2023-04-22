@@ -28,6 +28,8 @@ import volbot.beetlebox.client.render.entity.HercEntityModel;
 import volbot.beetlebox.client.render.entity.HercEntityRenderer;
 import volbot.beetlebox.client.render.entity.JRBEntityModel;
 import volbot.beetlebox.client.render.entity.JRBEntityRenderer;
+import volbot.beetlebox.client.render.entity.JunebugEntityModel;
+import volbot.beetlebox.client.render.entity.JunebugEntityRenderer;
 import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.client.render.entity.TityusEntityModel;
@@ -46,6 +48,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elephant"), "main");
 	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "tityus"), "main");
+	public static final EntityModelLayer MODEL_JUNEBUG_LAYER = new EntityModelLayer(new Identifier("beetlebox", "junebug"), "main");
 
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource"})
 	@Override
@@ -86,6 +89,8 @@ public class BeetleBoxClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(BeetleRegistry.TITYUS, TityusEntityRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(MODEL_TITYUS_LAYER, TityusEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(BeetleRegistry.JUNEBUG, JunebugEntityRenderer::new);
+        EntityModelLayerRegistry.registerModelLayer(MODEL_JUNEBUG_LAYER, JunebugEntityModel::getTexturedModelData);
 
         ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
         	if (livingEntity == null || itemStack.getNbt() == null) {

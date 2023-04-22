@@ -8,6 +8,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleModelGenerator extends FabricModelProvider {

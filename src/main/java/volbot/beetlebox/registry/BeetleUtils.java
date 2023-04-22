@@ -24,6 +24,7 @@ import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
+import volbot.beetlebox.client.render.armor.StandardHelmetModel;
 
 public class BeetleUtils {
 	public static void registerBeetle(EntityType<? extends BeetleEntity> beetleType, String beetle_id, int color1, int color2, BeetleArmorEntityModel<?> helmet_model) {
@@ -42,7 +43,7 @@ public class BeetleUtils {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_boots"), BOOTS);
 		BeetleRegistry.armor_sets.add(ELYTRA);
 		BeetleRegistry.armor_sets.add(HELMET);
-		BeetleRegistry.beetle_helmets.put(HELMET, helmet_model);
+		BeetleRegistry.beetle_helmets.put(HELMET, helmet_model == null ? helmet_model : new StandardHelmetModel<>(beetle_id));
 		BeetleRegistry.armor_sets.add(LEGS);
 		BeetleRegistry.armor_sets.add(BOOTS);
 		Item ELYTRON = new Item(new FabricItemSettings());
