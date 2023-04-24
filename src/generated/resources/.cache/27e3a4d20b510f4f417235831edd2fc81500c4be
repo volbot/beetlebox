@@ -1,7 +1,8 @@
-// 1.19.4	2023-04-19T22:50:40.038063103	beetlebox/minecraft:entity Loot Table
+// 1.19.4	2023-04-23T23:27:02.747469061	beetlebox/minecraft:entity Loot Table
 7be71a64e5e736ee06192fb707309eee263835da data/beetlebox/loot_tables/entities/elephant.json
 4d9279d9a75425e6e09794c77829412e6b376a61 data/beetlebox/loot_tables/entities/hercules.json
 dfb0b5af2510992201f233550386b71d3e4487ca data/beetlebox/loot_tables/entities/atlas.json
 346fdf9bd5a8b2783115abd9e65ee60bc5211c91 data/beetlebox/loot_tables/entities/jrb.json
 7efc54884320886274bcc98c76560bea80f6a0e6 data/beetlebox/loot_tables/entities/titanus.json
+98ca701065b08339a0fc027c1d4f385d18221ad5 data/beetlebox/loot_tables/entities/junebug.json
 0cf76e78c31142e29db88195d7adea630b34dc1d data/beetlebox/loot_tables/entities/tityus.json

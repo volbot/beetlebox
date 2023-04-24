@@ -155,16 +155,22 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(ATLAS, "atlas", 0x080904, 0x22270d, new AtlasHelmetModel<>());
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
 		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x9a8666, 0x1b1612, new TityusHelmetModel<>());
-		BeetleUtils.registerBeetle(JUNEBUG, "junebug", 0x9a8666, 0x1b1612, null);
+		BeetleUtils.registerBeetle(JUNEBUG, "junebug", 0x112612, 0x343419, null);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
+		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
+		
+		TagKey<Biome> desert_key = TagKey.of(RegistryKeys.BIOME, new Identifier("is_desert"));
+		Predicate<BiomeSelectionContext> desert = BiomeSelectors.tag(desert_key);
+		BiomeModifications.addSpawn(desert, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
 		
 		TagKey<Biome> plains_key = TagKey.of(RegistryKeys.BIOME, new Identifier("is_plains"));
 		Predicate<BiomeSelectionContext> plains = BiomeSelectors.tag(plains_key);
 		BiomeModifications.addSpawn(plains, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
+		BiomeModifications.addSpawn(plains, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
 
 		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, HERC, 16, 1, 2);
@@ -190,7 +196,7 @@ public class BeetleRegistry {
         Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
         
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
-			content.add(BEETLE_JAR);			
+			content.add(BEETLE_JAR);
 			content.add(LEG_BEETLE_JAR);
 
 			content.add(NET);
