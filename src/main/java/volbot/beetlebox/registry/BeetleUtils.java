@@ -43,7 +43,7 @@ public class BeetleUtils {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_boots"), BOOTS);
 		BeetleRegistry.armor_sets.add(ELYTRA);
 		BeetleRegistry.armor_sets.add(HELMET);
-		BeetleRegistry.beetle_helmets.put(HELMET, helmet_model == null ? helmet_model : new StandardHelmetModel<>(beetle_id));
+		BeetleRegistry.beetle_helmets.put(HELMET, helmet_model == null ? new StandardHelmetModel<>(beetle_id) : helmet_model);
 		BeetleRegistry.armor_sets.add(LEGS);
 		BeetleRegistry.armor_sets.add(BOOTS);
 		Item ELYTRON = new Item(new FabricItemSettings());
