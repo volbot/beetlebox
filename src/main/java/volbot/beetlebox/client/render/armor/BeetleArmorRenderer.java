@@ -22,9 +22,6 @@ implements ArmorRenderer {
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack,
 		LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
-		if(!(armorModel instanceof BipedEntityModel)) {
-			return;
-		}
 		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
 		armorModel.head.visible = true;

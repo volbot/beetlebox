@@ -27,6 +27,6 @@ public class StandardHelmetModel<T extends LivingEntity> extends BeetleArmorEnti
 				ModelPartBuilder.create().uv(0, 0).cuboid(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, d2),
 				ModelTransform.pivot(0.0F, 0.0F, 0.0F));
 
-		return TexturedModelData.of(modelData, 64, 64);
+		return TexturedModelData.of(modelData, 32, 32);
 	}
 }
