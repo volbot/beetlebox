@@ -24,7 +24,9 @@ implements ArmorRenderer {
 		LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
 		contextModel.copyStateTo(armorModel);
 		armorModel.setVisible(false);
-		contextModel.head.copyTransform(armorModel.head);
+		armorModel.head.roll = contextModel.head.roll;
+		armorModel.head.pitch = contextModel.head.pitch;
+		armorModel.head.yaw = contextModel.head.yaw;
 		armorModel.head.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
