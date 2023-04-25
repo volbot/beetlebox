@@ -22,8 +22,9 @@ implements ArmorRenderer {
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack,
 		LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
-		contextModel.copyBipedStateTo(armorModel);
+		contextModel.copyStateTo(armorModel);
 		armorModel.setVisible(false);
+		contextModel.head.copyTransform(armorModel.head);
 		armorModel.head.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
