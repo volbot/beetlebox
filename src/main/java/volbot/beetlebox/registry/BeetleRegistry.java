@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityDimensions;
@@ -157,27 +158,34 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(TITYUS, "tityus", 0x9a8666, 0x1b1612, new TityusHelmetModel<>());
 		BeetleUtils.registerBeetle(JUNEBUG, "junebug", 0x112612, 0x343419, null);
 
-		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(BiomeTags.IS_FOREST);
+		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
 		
-		TagKey<Biome> desert_key = TagKey.of(RegistryKeys.BIOME, new Identifier("is_desert"));
-		Predicate<BiomeSelectionContext> desert = BiomeSelectors.tag(desert_key);
+		Predicate<BiomeSelectionContext> desert = BiomeSelectors.tag(ConventionalBiomeTags.CLIMATE_HOT);
 		BiomeModifications.addSpawn(desert, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
 		
-		TagKey<Biome> plains_key = TagKey.of(RegistryKeys.BIOME, new Identifier("is_plains"));
-		Predicate<BiomeSelectionContext> plains = BiomeSelectors.tag(plains_key);
+		Predicate<BiomeSelectionContext> plains = BiomeSelectors.tag(ConventionalBiomeTags.PLAINS);
 		BiomeModifications.addSpawn(plains, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
 		BiomeModifications.addSpawn(plains, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
 
-		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(BiomeTags.IS_JUNGLE);
+		Predicate<BiomeSelectionContext> jungles = BiomeSelectors.tag(ConventionalBiomeTags.TREE_JUNGLE);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, HERC, 16, 1, 2);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
 		
+		Predicate<BiomeSelectionContext> floral = BiomeSelectors.tag(ConventionalBiomeTags.FLORAL);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, JRB, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, JUNEBUG, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, TITYUS, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, HERC, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
+
 		//ITEMS
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
