@@ -18,6 +18,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
+import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
@@ -27,10 +28,10 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.client.render.armor.StandardHelmetModel;
 
 public class BeetleUtils {
-	public static void registerBeetle(EntityType<? extends BeetleEntity> beetleType, String beetle_id, int color1, int color2, BeetleArmorEntityModel<?> helmet_model) {
-		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox",beetle_id), beetleType);
-		FabricDefaultAttributeRegistry.register(beetleType, BeetleEntity.createBeetleAttributes());
-		Item SPAWN_EGG = new SpawnEggItem(beetleType, color1, color2, new FabricItemSettings());
+	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, int color1, int color2, BeetleArmorEntityModel<?> helmet_model) {
+		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox",beetle_id), beetle_type);
+		FabricDefaultAttributeRegistry.register(beetle_type, BeetleEntity.createBeetleAttributes());
+		Item SPAWN_EGG = new SpawnEggItem(beetle_type, color1, color2, new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_spawn_egg"), SPAWN_EGG);
 		BeetleRegistry.spawn_eggs.add(SPAWN_EGG);
 		Item ELYTRA = new BeetleElytraItem(new ChitinMaterial(beetle_id), new FabricItemSettings());
@@ -52,6 +53,15 @@ public class BeetleUtils {
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_elytra", createElytraRecipe(ELYTRA, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_helmet", createHelmetRecipe(HELMET, ELYTRON));
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
+		
+		BeetleEnglishProvider.gen_lang.put(beetle_type.getTranslationKey(), beetle_name);
+
+		BeetleEnglishProvider.gen_lang.put(ELYTRA.getTranslationKey(), beetle_name + " Elytra");
+		BeetleEnglishProvider.gen_lang.put(HELMET.getTranslationKey(), beetle_name + " Helmet");
+		BeetleEnglishProvider.gen_lang.put(LEGS.getTranslationKey(), beetle_name + " Leggings");
+		BeetleEnglishProvider.gen_lang.put(BOOTS.getTranslationKey(), beetle_name + " Boots");
+		BeetleEnglishProvider.gen_lang.put(ELYTRON.getTranslationKey(), beetle_name + " Elytron");
+		BeetleEnglishProvider.gen_lang.put(SPAWN_EGG.getTranslationKey(), beetle_name + " Spawn Egg");
 	}
 
 	public static ShapedRecipeJsonBuilder createElytraRecipe(Item ELYTRA, Item ELYTRON) {
