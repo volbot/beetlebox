@@ -135,6 +135,15 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 		}
 	};
 	
+	public boolean fireLit() {
+		BlockState below = this.getWorld().getBlockState(this.getPos().add(0, -1, 0));
+		if (below.isOf(Blocks.CAMPFIRE) || below.isOf(Blocks.FIRE) || below.isOf(Blocks.LAVA) || below.isOf(Blocks.LAVA_CAULDRON)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public boolean canCook(BoilingRecipe recipe) {
 		if (recipe == null) {
 			return false;
@@ -143,12 +152,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 				&& recipe.fluid_droplets <= this.fluidStorage.amount)) {
 			return false;
 		}
-		BlockState below = this.getWorld().getBlockState(this.getPos().add(0, -1, 0));
-		if (below.isOf(Blocks.CAMPFIRE) || below.isOf(Blocks.FIRE) || below.isOf(Blocks.LAVA) || below.isOf(Blocks.LAVA_CAULDRON)) {
-			return true;
-		} else {
-			return false;
-		}
+		return fireLit();
 	}
 
 	public static void tick(World world, BlockPos pos, BlockState state, BoilerBlockEntity blockEntity) {
