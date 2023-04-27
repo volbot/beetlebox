@@ -32,6 +32,7 @@ import volbot.beetlebox.entity.block.BoilerBlockEntity;
 public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
 
 	private final ModelPart m;
+	private float d = 0f;
 
 	public BoilerBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
 		ModelData modelData = new ModelData();
@@ -61,8 +62,12 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		matrices.pop();
 		matrices.push();
 		matrices.scale(1f, (float) beep / 120f, 1f);
-		VertexConsumer vertexConsumer = vcp.getBuffer(
-				RenderLayer.getEntityTranslucent(this.getFluidTexture(boiler.fireLit(), (int)f*32)));
+		d += MinecraftClient.getInstance().getLastFrameDuration() / (boiler.fireLit() ? 0.5 : 2);
+		if (d >= 32) {
+			d = 0;
+		}
+		VertexConsumer vertexConsumer = vcp
+				.getBuffer(RenderLayer.getEntityTranslucent(this.getFluidTexture((int) d)));
 		m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 		if (!input.isEmpty()) {
 			matrices.translate(0.5, 0.75, 0.7);
@@ -108,13 +113,10 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		int sLight = world.getLightLevel(LightType.SKY, pos);
 		return LightmapTextureManager.pack(bLight, sLight);
 	}
-	
-	private Identifier getFluidTexture(boolean boiling, int state) {
-		if(boiling) {
-			return new Identifier("beetlebox", "textures/block/fluid_boiling_"+state+".png");
-		} else {
-			return new Identifier("beetlebox", "textures/block/fluid_still_"+state+".png");
-		}
+
+	private Identifier getFluidTexture(int state) {
+		return new Identifier("beetlebox", "textures/block/fluid_still_" + state + ".png");
+
 	}
 
 }
