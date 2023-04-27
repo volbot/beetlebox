@@ -14,6 +14,7 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.BlockModelRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
@@ -61,7 +62,7 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		matrices.push();
 		matrices.scale(1f, (float) beep / 120f, 1f);
 		VertexConsumer vertexConsumer = vcp.getBuffer(
-				RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/fluid_boiling.png")));
+				RenderLayer.getEntityTranslucent(this.getFluidTexture(boiler.fireLit(), (int)f*32)));
 		m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 		if (!input.isEmpty()) {
 			matrices.translate(0.5, 0.75, 0.7);
@@ -106,6 +107,14 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		int bLight = world.getLightLevel(LightType.BLOCK, pos);
 		int sLight = world.getLightLevel(LightType.SKY, pos);
 		return LightmapTextureManager.pack(bLight, sLight);
+	}
+	
+	private Identifier getFluidTexture(boolean boiling, int state) {
+		if(boiling) {
+			return new Identifier("beetlebox", "textures/block/fluid_boiling_"+state+".png");
+		} else {
+			return new Identifier("beetlebox", "textures/block/fluid_still_"+state+".png");
+		}
 	}
 
 }

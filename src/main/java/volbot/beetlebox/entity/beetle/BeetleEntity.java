@@ -15,6 +15,8 @@ import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.SpiderNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -24,6 +26,7 @@ import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -34,6 +37,8 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	private static final TrackedData<Byte> CLIMBING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
 	private static final TrackedData<Byte> FLYING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
+	private static final TrackedData<Integer> SIZE = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+
 	
 	private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	private static final Ingredient HEALING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
@@ -90,9 +95,13 @@ public abstract class BeetleEntity extends AnimalEntity {
 	//--------------------
 	// MOVEMENT UTILITIES
 	//--------------------
-	
+    
     @Override
-    protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
+    public boolean damage(DamageSource source, float amount) {
+    	if(source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
+    		return false;
+    	}
+    	return super.damage(source, amount);
     }
 	
 	public boolean isOverWater() {
@@ -110,6 +119,14 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	public boolean isClimbingWall() {
         return (this.dataTracker.get(CLIMBING) & 1) != 0;
+    }
+	
+	public int getSize() {
+        return this.dataTracker.get(SIZE);
+    }
+	
+	public void setSize(int size) {
+        this.dataTracker.set(SIZE, size);
     }
 
     public void setClimbingWall(boolean climbing) {
@@ -133,6 +150,8 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(CLIMBING, (byte)0);
         this.dataTracker.startTracking(FLYING, (byte)0);
+        this.dataTracker.startTracking(SIZE, 10);//(int)Math.ceil(Math.random()*100));
+
     }
 	  
     @Override
@@ -180,4 +199,19 @@ public abstract class BeetleEntity extends AnimalEntity {
 
 	@Override
 	public abstract PassiveEntity createChild(ServerWorld var1, PassiveEntity var2);
+
+	@Override
+	public void writeCustomDataToNbt(NbtCompound compound) {
+        super.writeCustomDataToNbt(compound);
+        compound.putBoolean("Flying", this.isFlying());
+        compound.putBoolean("Climbing", this.isClimbing());
+        compound.putInt("Size", this.getSize());
+    }
+	
+    public void readCustomDataFromNbt(NbtCompound compound) {
+        super.readCustomDataFromNbt(compound);
+        this.setFlying(compound.getBoolean("Flying"));
+        this.setClimbingWall(compound.getBoolean("Climbing"));
+        this.setSize(compound.getInt("Size"));
+    }
 }
