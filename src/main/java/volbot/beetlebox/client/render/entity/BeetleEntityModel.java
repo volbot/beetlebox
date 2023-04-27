@@ -27,8 +27,8 @@ public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityMo
 	private static final float BABY_SCALE = 0.4f;
 	private static final float BABY_Y_OFFSET = 2.3f;
 
-	private static final float STANDARD_SCALE = 0.8f;
-	private static final float STANDARD_Y_OFFSET = 0.37f;
+	private float STANDARD_SCALE = 0.8f;
+	private float STANDARD_Y_OFFSET = 0.37f;
 
     public BeetleEntityModel(ModelPart root) {
 		this.root = root.getChild(EntityModelPartNames.ROOT);
@@ -50,6 +50,10 @@ public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityMo
     @Override
     public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
      
+    	int size = entity.getSize();
+    	this.STANDARD_SCALE = 0.8f * (float)size / 10f;
+    	this.STANDARD_Y_OFFSET = (-1.2f - 0.3f*(float)Math.pow((float)size / 10f - 1f, 1/2));
+    	
         if(entity.isFlying()) {
         	if(!entity.isOnGround()) {
         		this.body.pitch = headPitch * ((float)Math.PI / 180) + -0.4727F;
@@ -70,7 +74,6 @@ public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityMo
                 this.leftWing.yaw = -this.rightWing.yaw;
                 this.leftWing.roll = -this.rightWing.roll;
         	}
-            
         	
         	this.rightElytron.pitch = 1.309F;
         	this.rightElytron.yaw = -0.5061F;
@@ -134,20 +137,17 @@ public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityMo
  
     @Override
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+		matrices.push();
     	if(this.child) {
-			matrices.push();
 			matrices.scale(BABY_SCALE, BABY_SCALE, BABY_SCALE);
 			matrices.translate(0.0F, BABY_Y_OFFSET, 0.0F);
 			this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-			matrices.pop();
-		}
-		else {
-			matrices.push();
+		} else {
+			matrices.translate(0.0F, 1.5F, 0.0F);
 			matrices.scale(STANDARD_SCALE, STANDARD_SCALE, STANDARD_SCALE);
 			matrices.translate(0.0F, STANDARD_Y_OFFSET, 0.0F);
 			this.root.render(matrices, vertices, light, overlay, red, green, blue, alpha);
-			matrices.pop();
 		}
-
+		matrices.pop();
     }
 }
