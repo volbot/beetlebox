@@ -1,6 +1,7 @@
 package volbot.beetlebox.entity.beetle;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
@@ -30,6 +31,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
 
@@ -66,6 +68,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	@Override
     public void tick() {
         super.tick();
+        this.calculateDimensions();
         if (!this.world.isClient) {
             this.setClimbingWall(this.horizontalCollision && !this.isFlying());
             final boolean isFlying = isFlying();
@@ -88,6 +91,13 @@ public abstract class BeetleEntity extends AnimalEntity {
             }
         }
     }
+	
+	@Override
+	public EntityDimensions getDimensions(EntityPose p) {
+		EntityDimensions dim = super.getDimensions(p);
+		dim=dim.scaled(50);//(float)Math.pow(this.getSize()/10,2.0));
+		return dim;
+	}
 	
 	
 	
@@ -127,6 +137,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	public void setSize(int size) {
         this.dataTracker.set(SIZE, size);
+        this.calculateDimensions();
     }
 
     public void setClimbingWall(boolean climbing) {
@@ -150,8 +161,8 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(CLIMBING, (byte)0);
         this.dataTracker.startTracking(FLYING, (byte)0);
-        this.dataTracker.startTracking(SIZE, 10);//(int)Math.ceil(Math.random()*100));
-
+        this.dataTracker.startTracking(SIZE, 80);//(int)Math.ceil(Math.random()*100));
+        this.calculateDimensions();
     }
 	  
     @Override

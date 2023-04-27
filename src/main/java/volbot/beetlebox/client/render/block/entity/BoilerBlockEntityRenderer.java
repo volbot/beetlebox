@@ -61,6 +61,7 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		matrices.pop();
 		matrices.push();
 		matrices.scale(1f, (float) beep / 120f, 1f);
+		System.out.println((int)f*32);
 		VertexConsumer vertexConsumer = vcp.getBuffer(
 				RenderLayer.getEntityTranslucent(this.getFluidTexture(boiler.fireLit(), (int)f*32)));
 		m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
