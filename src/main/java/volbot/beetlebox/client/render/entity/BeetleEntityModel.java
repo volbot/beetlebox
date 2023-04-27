@@ -74,7 +74,6 @@ public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityMo
                 this.leftWing.yaw = -this.rightWing.yaw;
                 this.leftWing.roll = -this.rightWing.roll;
         	}
-            
         	
         	this.rightElytron.pitch = 1.309F;
         	this.rightElytron.yaw = -0.5061F;
