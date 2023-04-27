@@ -95,10 +95,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 	//--------------------
 	// MOVEMENT UTILITIES
 	//--------------------
-	
-    @Override
-    protected void fall(double heightDifference, boolean onGround, BlockState state, BlockPos landedPosition) {
-    }
     
     @Override
     public boolean damage(DamageSource source, float amount) {
