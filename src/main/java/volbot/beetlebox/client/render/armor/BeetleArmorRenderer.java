@@ -27,6 +27,9 @@ implements ArmorRenderer {
 		armorModel.head.roll = contextModel.head.roll;
 		armorModel.head.pitch = contextModel.head.pitch;
 		armorModel.head.yaw = contextModel.head.yaw;
+		armorModel.head.pivotX = contextModel.head.pivotX;
+		armorModel.head.pivotY = contextModel.head.pivotY;
+		armorModel.head.pivotZ = contextModel.head.pivotZ;
 		armorModel.head.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
