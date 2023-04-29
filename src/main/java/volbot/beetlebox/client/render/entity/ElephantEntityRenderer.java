@@ -14,6 +14,7 @@ public class ElephantEntityRenderer extends MobEntityRenderer<ElephantEntity, El
 	
     @Override
     public Identifier getTexture(ElephantEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/elephant.png");
     }
 }
