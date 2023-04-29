@@ -1,10 +1,13 @@
 package volbot.beetlebox.client.render.armor;
 
 import net.minecraft.entity.LivingEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.ArmorEntityModel;
 
-public abstract class BeetleArmorEntityModel<T extends LivingEntity> extends BipedEntityModel<T>{
+@Environment(EnvType.CLIENT)
+public abstract class BeetleArmorEntityModel<T extends LivingEntity> extends ArmorEntityModel<T>{
 
 	private String name;
 	

@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.block.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +30,7 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 
+@Environment(EnvType.CLIENT)
 public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBlockEntity> {
 
 	private final ModelPart m;

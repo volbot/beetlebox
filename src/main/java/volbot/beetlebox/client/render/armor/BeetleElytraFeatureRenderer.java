@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.armor;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -18,6 +20,7 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
+@Environment(EnvType.CLIENT)
 public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends EntityModel<T>> extends ElytraFeatureRenderer<T, M> {
 
     private final ElytraEntityModel<T> elytra;

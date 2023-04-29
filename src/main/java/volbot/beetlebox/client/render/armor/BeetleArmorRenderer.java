@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.armor;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
@@ -9,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
+@Environment(EnvType.CLIENT)
 public class BeetleArmorRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
 implements ArmorRenderer {
 	
