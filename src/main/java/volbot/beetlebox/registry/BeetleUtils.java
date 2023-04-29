@@ -28,7 +28,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 import volbot.beetlebox.client.render.armor.StandardHelmetModel;
 
 public class BeetleUtils {
-	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, int color1, int color2, BeetleArmorEntityModel<?> helmet_model) {
+	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, int color1, int color2) {
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox",beetle_id), beetle_type);
 		FabricDefaultAttributeRegistry.register(beetle_type, BeetleEntity.createBeetleAttributes());
 		Item SPAWN_EGG = new SpawnEggItem(beetle_type, color1, color2, new FabricItemSettings());
@@ -44,7 +44,7 @@ public class BeetleUtils {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_boots"), BOOTS);
 		BeetleRegistry.armor_sets.add(ELYTRA);
 		BeetleRegistry.armor_sets.add(HELMET);
-		BeetleRegistry.beetle_helmets.put(HELMET, helmet_model == null ? new StandardHelmetModel<>(beetle_id) : helmet_model);
+		BeetleRegistry.beetle_helmets.add(HELMET);
 		BeetleRegistry.armor_sets.add(LEGS);
 		BeetleRegistry.armor_sets.add(BOOTS);
 		Item ELYTRON = new Item(new FabricItemSettings());

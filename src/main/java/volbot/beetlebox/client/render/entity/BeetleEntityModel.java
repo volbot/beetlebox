@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.entity.model.EntityModel;
@@ -8,6 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 
+@Environment(EnvType.CLIENT)
 public abstract class BeetleEntityModel<T extends BeetleEntity> extends EntityModel<T> {
 
 	private final ModelPart root;

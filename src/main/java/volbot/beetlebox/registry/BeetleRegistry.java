@@ -34,6 +34,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
+import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
@@ -48,17 +49,9 @@ import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 import volbot.beetlebox.entity.beetle.JunebugEntity;
 import volbot.beetlebox.recipe.BoilingRecipe;
-import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
-import volbot.beetlebox.client.render.armor.JRBHelmetModel;
-import volbot.beetlebox.client.render.armor.HercHelmetModel;
-import volbot.beetlebox.client.render.armor.TitanHelmetModel;
-import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
-import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
-import volbot.beetlebox.client.render.armor.TityusHelmetModel;
 
 public class BeetleRegistry {
-
-	public static HashMap<Item, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
+	public static Vector<Item> beetle_helmets = new Vector<>();
 	public static Vector<Item> spawn_eggs = new Vector<>();
 	public static Vector<Item> armor_sets = new Vector<>();
 	public static Vector<Item> beetle_drops = new Vector<>();
@@ -146,13 +139,13 @@ public class BeetleRegistry {
 		FluidStorage.SIDED.registerForBlockEntity((boiler, direction) -> boiler.fluidStorage, BOILER_BLOCK_ENTITY);
 		
 		//ENTITIES
-		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", 0x110b0b, 0x180f0f, new JRBHelmetModel<>());
-		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", 0xa99859, 0x150f10, new HercHelmetModel<>());
-		BeetleUtils.registerBeetle(TITAN, "titanus", "Titanus", 0x0e0f10, 0x363840, new TitanHelmetModel<>());
-		BeetleUtils.registerBeetle(ATLAS, "atlas", "Atlas Beetle", 0x080904, 0x22270d, new AtlasHelmetModel<>());
-		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", 0x5e3924, 0x180f06, new ElephantHelmetModel<>());
-		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", 0x9a8666, 0x1b1612, new TityusHelmetModel<>());
-		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "Junebug", 0x112612, 0x343419, null);
+		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", 0x110b0b, 0x180f0f);
+		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", 0xa99859, 0x150f10);
+		BeetleUtils.registerBeetle(TITAN, "titanus", "Titanus", 0x0e0f10, 0x363840);
+		BeetleUtils.registerBeetle(ATLAS, "atlas", "Atlas Beetle", 0x080904, 0x22270d);
+		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", 0x5e3924, 0x180f06);
+		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", 0x9a8666, 0x1b1612);
+		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "Junebug", 0x112612, 0x343419);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);

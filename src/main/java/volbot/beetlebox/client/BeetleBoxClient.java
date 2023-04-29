@@ -1,5 +1,7 @@
 package volbot.beetlebox.client;
 
+import java.util.HashMap;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -36,12 +38,23 @@ import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.item.equipment.BeetleArmorItem;
+import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
 import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
+import volbot.beetlebox.client.render.armor.JRBHelmetModel;
+import volbot.beetlebox.client.render.armor.HercHelmetModel;
+import volbot.beetlebox.client.render.armor.TitanHelmetModel;
+import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
+import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
+import volbot.beetlebox.client.render.armor.TityusHelmetModel;
+import volbot.beetlebox.client.render.armor.StandardHelmetModel;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {
+	
+	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
 	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"),
 			"main");
@@ -61,6 +74,14 @@ public class BeetleBoxClient implements ClientModInitializer {
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource" })
 	@Override
 	public void onInitializeClient() {
+		
+		BeetleBoxClient.beetle_helmets.put("jrb", new JRBHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("hercules", new HercHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("titanus", new TitanHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("atlas", new AtlasHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("elephant", new ElephantHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("tityus", new TityusHelmetModel<>());
+		BeetleBoxClient.beetle_helmets.put("junebug", new StandardHelmetModel<>("junebug"));
 
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox", "boiler_fluid"),
 				(client, handler, buf, responseSender) -> {
@@ -103,8 +124,9 @@ public class BeetleBoxClient implements ClientModInitializer {
 					}
 				});
 
-		for (Item i : BeetleRegistry.beetle_helmets.keySet()) {
-			ArmorRenderer.register(new BeetleArmorRenderer(BeetleRegistry.beetle_helmets.get(i)), i);
+		for (Item i : BeetleRegistry.beetle_helmets) {
+			BeetleArmorItem armorItem = (BeetleArmorItem)i;
+			ArmorRenderer.register(new BeetleArmorRenderer(BeetleBoxClient.beetle_helmets.get(armorItem.getMaterial().getName())), armorItem);
 		}
 
 		EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);

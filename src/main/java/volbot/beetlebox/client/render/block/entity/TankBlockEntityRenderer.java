@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.block.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -11,6 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.RotationAxis;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 
+@Environment(EnvType.CLIENT)
 public class TankBlockEntityRenderer
 implements BlockEntityRenderer<TankBlockEntity>{
 	

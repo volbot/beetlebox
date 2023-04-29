@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.entity;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -9,6 +11,7 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 
+@Environment(EnvType.CLIENT)
 public class JRBEntityModel extends BeetleEntityModel<JRBEntity> {
 
 	public JRBEntityModel(ModelPart root) {
