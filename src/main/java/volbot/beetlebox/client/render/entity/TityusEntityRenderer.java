@@ -14,6 +14,7 @@ public class TityusEntityRenderer extends MobEntityRenderer<TityusEntity, Tityus
 	
     @Override
     public Identifier getTexture(TityusEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/tityus.png");
     }
 }

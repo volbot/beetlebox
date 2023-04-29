@@ -14,6 +14,7 @@ public class AtlasEntityRenderer extends MobEntityRenderer<AtlasEntity, AtlasEnt
 	
     @Override
     public Identifier getTexture(AtlasEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/atlas.png");
     }
 }
