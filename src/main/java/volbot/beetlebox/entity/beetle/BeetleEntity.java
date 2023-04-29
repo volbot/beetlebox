@@ -93,14 +93,12 @@ public abstract class BeetleEntity extends AnimalEntity {
                 timeFlying = 0;
                 this.setNoGravity(false);
             }
-            if(unSynced) {
+            if(unSynced && this.size_cached!=0) {
             	this.setSize(size_cached);
+            } else {
+	            this.sendSizePacket();
             }
         }
-        System.out.println("OFFICIAL");
-        System.out.println(this.getSize());
-        System.out.println("CACHE");
-        System.out.println(size_cached);
     }
 	
 	@Override
@@ -156,13 +154,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 	}
 	
 	public void setSize(int size) {
-		if(size==0) {
-	        if(!(this.world.isClient)) {
-	            this.sendSizePacket();
-	        }
-            this.sendSizePacket();
-			return;
-		}
 		size_cached = size;
 		this.dataTracker.set(SIZE, size_cached);
         if(!(this.world.isClient)) {
