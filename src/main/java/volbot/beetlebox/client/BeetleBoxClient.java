@@ -81,7 +81,14 @@ public class BeetleBoxClient implements ClientModInitializer {
 					int entity_id = buf.readInt();
 					client.execute(() -> {
 						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));
-						e.setSize(size);
+						if(e!=null) {
+							try {
+								e.setSize(size);
+							} catch(NullPointerException ex) {
+								e.size_cached = size;
+								e.unSynced = true;
+							}
+						}
 					});
 				});
 
