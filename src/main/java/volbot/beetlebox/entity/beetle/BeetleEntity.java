@@ -1,8 +1,11 @@
 package volbot.beetlebox.entity.beetle;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.AnimalMateGoal;
@@ -29,9 +32,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
 
@@ -46,6 +50,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	private static final Ingredient HEALING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	
     private boolean isLandNavigator;
+    private boolean unSynced = true;
 
     public int timeFlying = 0;
 	
@@ -68,7 +73,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 	@Override
     public void tick() {
         super.tick();
-        this.calculateDimensions();
         if (!this.world.isClient) {
             this.setClimbingWall(this.horizontalCollision && !this.isFlying());
             final boolean isFlying = isFlying();
@@ -87,18 +91,20 @@ public abstract class BeetleEntity extends AnimalEntity {
             } else {
                 timeFlying = 0;
                 this.setNoGravity(false);
-                
+            }
+            if(this.getSize()==-1 || unSynced) {
+            	this.setSize((random.nextInt(20)+10));
             }
         }
     }
 	
 	@Override
 	public EntityDimensions getDimensions(EntityPose p) {
-		EntityDimensions dim = super.getDimensions(p);
-		dim=dim.scaled(50);//(float)Math.pow(this.getSize()/10,2.0));
-		return dim;
+		int size = this.getSize()/10;
+		return EntityDimensions.fixed(
+				0.4f*size,
+				0.4f*size);
 	}
-	
 	
 	
 	
@@ -137,6 +143,9 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	public void setSize(int size) {
         this.dataTracker.set(SIZE, size);
+        if(!(this.world.isClient)) {
+            this.sendSizePacket();
+        }
         this.calculateDimensions();
     }
 
@@ -161,9 +170,21 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(CLIMBING, (byte)0);
         this.dataTracker.startTracking(FLYING, (byte)0);
-        this.dataTracker.startTracking(SIZE, 80);//(int)Math.ceil(Math.random()*100));
-        this.calculateDimensions();
+        this.dataTracker.startTracking(SIZE, -1);
     }
+	
+	public void sendSizePacket() {
+		if(this.world.getPlayers().size()==0) {
+			this.unSynced=true;
+			return;
+		}
+	    ServerPlayerEntity p = (ServerPlayerEntity)this.world.getPlayers().get(0);
+        PacketByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(this.getSize());
+        buf.writeInt(this.getId());
+        ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_size"), buf);
+        this.unSynced=false;
+	}
 	  
     @Override
     protected EntityNavigation createNavigation(World world) {

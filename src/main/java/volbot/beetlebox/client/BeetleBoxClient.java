@@ -34,6 +34,7 @@ import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
 import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
@@ -41,71 +42,95 @@ import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {
-	
-	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"), "main");
-	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(new Identifier("beetlebox", "hercules"), "main");
-	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(new Identifier("beetlebox", "titanus"), "main");
-	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"), "main");
-	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(new Identifier("beetlebox", "elephant"), "main");
-	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "tityus"), "main");
-	public static final EntityModelLayer MODEL_JUNEBUG_LAYER = new EntityModelLayer(new Identifier("beetlebox", "junebug"), "main");
 
-	@SuppressWarnings({ "unchecked", "rawtypes", "resource"})
+	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"),
+			"main");
+	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "hercules"), "main");
+	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "titanus"), "main");
+	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"),
+			"main");
+	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "elephant"), "main");
+	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "tityus"), "main");
+	public static final EntityModelLayer MODEL_JUNEBUG_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "junebug"), "main");
+
+	@SuppressWarnings({ "unchecked", "rawtypes", "resource" })
 	@Override
 	public void onInitializeClient() {
-		
-	    ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox","boiler_fluid"), (client, handler, buf, responseSender) -> {
-	    	BlockPos pos = buf.readBlockPos();
-        	FluidVariant variant = FluidVariant.fromPacket(buf);
-        	long fluid_amt = buf.readLong();
-	    	client.execute(() -> {
-	        	handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY).orElse(null).fluidStorage.variant = variant;
-	        	handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY).orElse(null).fluidStorage.amount = fluid_amt;
-	        });
-	    });
-		
-        BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.TANK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.LEG_TANK, RenderLayer.getCutout());
-		
-		LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer, registrationHelper, context) -> {
-			  	if (entityRenderer.getModel() instanceof BipedEntityModel) {
-			  		registrationHelper.register(new BeetleElytraFeatureRenderer(entityRenderer, context.getModelLoader()));
-			  	}
-		});
-		
-		for(Item i : BeetleRegistry.beetle_helmets.keySet()) {
+
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox", "boiler_fluid"),
+				(client, handler, buf, responseSender) -> {
+					BlockPos pos = buf.readBlockPos();
+					FluidVariant variant = FluidVariant.fromPacket(buf);
+					long fluid_amt = buf.readLong();
+					client.execute(() -> {
+						handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY)
+								.orElse(null).fluidStorage.variant = variant;
+						handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY)
+								.orElse(null).fluidStorage.amount = fluid_amt;
+					});
+				});
+
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox/beetle_size"),
+				(client, handler, buf, responseSender) -> {
+					int size = buf.readInt();
+					int entity_id = buf.readInt();
+					client.execute(() -> {
+						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));
+						e.setSize(size);
+					});
+				});
+
+		BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.TANK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.LEG_TANK, RenderLayer.getCutout());
+
+		LivingEntityFeatureRendererRegistrationCallback.EVENT
+				.register((entityType, entityRenderer, registrationHelper, context) -> {
+					if (entityRenderer.getModel() instanceof BipedEntityModel) {
+						registrationHelper
+								.register(new BeetleElytraFeatureRenderer(entityRenderer, context.getModelLoader()));
+					}
+				});
+
+		for (Item i : BeetleRegistry.beetle_helmets.keySet()) {
 			ArmorRenderer.register(new BeetleArmorRenderer(BeetleRegistry.beetle_helmets.get(i)), i);
 		}
-		
-        EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.HERC, HercEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_HERC_LAYER, HercEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.TITAN, TitanEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_TITAN_LAYER, TitanEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.ATLAS, AtlasEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.ELEPHANT, ElephantEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.TITYUS, TityusEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_TITYUS_LAYER, TityusEntityModel::getTexturedModelData);
-        EntityRendererRegistry.register(BeetleRegistry.JUNEBUG, JunebugEntityRenderer::new);
-        EntityModelLayerRegistry.registerModelLayer(MODEL_JUNEBUG_LAYER, JunebugEntityModel::getTexturedModelData);
 
-        ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
-        	if (livingEntity == null || itemStack.getNbt() == null) {
-        		return 0F;
-        	}
-        	return itemStack.getNbt().contains("EntityType")?1F:0F;
-        });
-        ModelPredicateProviderRegistry.register(BeetleRegistry.LEG_BEETLE_JAR, new Identifier("full"), (itemStack, clientWorld, livingEntity, whatever) -> {
-        	if (livingEntity == null || itemStack.getNbt() == null) {
-        		return 0F;
-        	}
-        	return itemStack.getNbt().contains("EntityType")?1F:0F;
-        });
-        
-        BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
-        BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
+		EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.HERC, HercEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_HERC_LAYER, HercEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.TITAN, TitanEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_TITAN_LAYER, TitanEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.ATLAS, AtlasEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_ATLAS_LAYER, AtlasEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.ELEPHANT, ElephantEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_ELEPHANT_LAYER, ElephantEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.TITYUS, TityusEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_TITYUS_LAYER, TityusEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.JUNEBUG, JunebugEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_JUNEBUG_LAYER, JunebugEntityModel::getTexturedModelData);
+
+		ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"),
+				(itemStack, clientWorld, livingEntity, whatever) -> {
+					if (livingEntity == null || itemStack.getNbt() == null) {
+						return 0F;
+					}
+					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
+				});
+		ModelPredicateProviderRegistry.register(BeetleRegistry.LEG_BEETLE_JAR, new Identifier("full"),
+				(itemStack, clientWorld, livingEntity, whatever) -> {
+					if (livingEntity == null || itemStack.getNbt() == null) {
+						return 0F;
+					}
+					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
+				});
+
+		BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
 	}
 }
