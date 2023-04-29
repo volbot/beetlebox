@@ -50,7 +50,8 @@ public abstract class BeetleEntity extends AnimalEntity {
 	private static final Ingredient HEALING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	
     private boolean isLandNavigator;
-    private boolean unSynced = true;
+    public boolean unSynced = true;
+    public int size_cached = 0;
 
     public int timeFlying = 0;
 	
@@ -92,10 +93,14 @@ public abstract class BeetleEntity extends AnimalEntity {
                 timeFlying = 0;
                 this.setNoGravity(false);
             }
-            if(this.getSize()==-1 || unSynced) {
-            	this.setSize((random.nextInt(20)+10));
+            if(unSynced) {
+            	this.setSize(size_cached);
             }
         }
+        System.out.println("OFFICIAL");
+        System.out.println(this.getSize());
+        System.out.println("CACHE");
+        System.out.println(size_cached);
     }
 	
 	@Override
@@ -138,11 +143,28 @@ public abstract class BeetleEntity extends AnimalEntity {
     }
 	
 	public int getSize() {
-        return this.dataTracker.get(SIZE);
+		try {
+			return this.dataTracker.get(SIZE);
+		} catch(NullPointerException e) {
+			this.unSynced = true;
+			return this.size_cached;
+		}
     }
 	
+	public int getSizeUnsafe() {
+		return this.dataTracker.get(SIZE);
+	}
+	
 	public void setSize(int size) {
-        this.dataTracker.set(SIZE, size);
+		if(size==0) {
+	        if(!(this.world.isClient)) {
+	            this.sendSizePacket();
+	        }
+            this.sendSizePacket();
+			return;
+		}
+		size_cached = size;
+		this.dataTracker.set(SIZE, size_cached);
         if(!(this.world.isClient)) {
             this.sendSizePacket();
         }
@@ -170,7 +192,21 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(CLIMBING, (byte)0);
         this.dataTracker.startTracking(FLYING, (byte)0);
-        this.dataTracker.startTracking(SIZE, -1);
+        if(!this.world.isClient) {
+            if(size_cached != 0) {
+            	this.dataTracker.startTracking(SIZE, size_cached);
+            } else {
+            	int size = this.random.nextInt(20)+10;
+
+            	System.out.println(size);
+            	this.size_cached = size;
+            	this.dataTracker.startTracking(SIZE, size_cached);
+            }        	
+            this.sendSizePacket();
+        } else {
+        	this.dataTracker.startTracking(SIZE, size_cached);
+            this.unSynced=true;
+        }
     }
 	
 	public void sendSizePacket() {
@@ -237,13 +273,15 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.writeCustomDataToNbt(compound);
         compound.putBoolean("Flying", this.isFlying());
         compound.putBoolean("Climbing", this.isClimbing());
-        compound.putInt("Size", this.getSize());
+        compound.putInt("Size", this.getSizeUnsafe());
     }
 	
     public void readCustomDataFromNbt(NbtCompound compound) {
         super.readCustomDataFromNbt(compound);
         this.setFlying(compound.getBoolean("Flying"));
         this.setClimbingWall(compound.getBoolean("Climbing"));
-        this.setSize(compound.getInt("Size"));
+        if(compound.contains("Size")) {
+        	this.setSize(compound.getInt("Size"));
+        }
     }
 }
