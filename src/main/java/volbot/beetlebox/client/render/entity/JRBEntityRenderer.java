@@ -14,6 +14,7 @@ public class JRBEntityRenderer extends MobEntityRenderer<JRBEntity, JRBEntityMod
 	
     @Override
     public Identifier getTexture(JRBEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/jrb.png");
     }
 }

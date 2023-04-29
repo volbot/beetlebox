@@ -14,6 +14,7 @@ public class JunebugEntityRenderer extends MobEntityRenderer<JunebugEntity, June
 	
     @Override
     public Identifier getTexture(JunebugEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/junebug.png");
     }
 }

@@ -14,6 +14,7 @@ public class TitanEntityRenderer extends MobEntityRenderer<TitanEntity, TitanEnt
 	
     @Override
     public Identifier getTexture(TitanEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/titanus.png");
     }
 }

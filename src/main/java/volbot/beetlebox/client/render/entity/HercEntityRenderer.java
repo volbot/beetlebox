@@ -14,6 +14,7 @@ public class HercEntityRenderer extends MobEntityRenderer<HercEntity, HercEntity
 	
     @Override
     public Identifier getTexture(HercEntity entity) {
+    	this.shadowRadius = 0.27f*(entity.getSize()/10f);
         return new Identifier("beetlebox", "textures/entity/beetle/hercules.png");
     }
 }
