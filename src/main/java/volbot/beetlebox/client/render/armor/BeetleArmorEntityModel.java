@@ -4,10 +4,10 @@ import net.minecraft.entity.LivingEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.ArmorEntityModel;
+import net.minecraft.client.render.entity.model.BipedEntityModel;
 
 @Environment(EnvType.CLIENT)
-public abstract class BeetleArmorEntityModel<T extends LivingEntity> extends ArmorEntityModel<T>{
+public abstract class BeetleArmorEntityModel<T extends LivingEntity> extends BipedEntityModel<T>{
 
 	private String name;
 	

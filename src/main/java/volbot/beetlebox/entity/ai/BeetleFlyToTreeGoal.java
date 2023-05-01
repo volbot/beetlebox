@@ -8,7 +8,7 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.ai.FuzzyTargeting;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;

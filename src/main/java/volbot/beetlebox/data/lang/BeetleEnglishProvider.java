@@ -2,13 +2,13 @@ package volbot.beetlebox.data.lang;
 
 import java.util.HashMap;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleEnglishProvider extends FabricLanguageProvider {
 
-	public BeetleEnglishProvider(FabricDataOutput dataOutput) {
+	public BeetleEnglishProvider(FabricDataGenerator dataOutput) {
 		super(dataOutput, "en_us");
 	}
 	
