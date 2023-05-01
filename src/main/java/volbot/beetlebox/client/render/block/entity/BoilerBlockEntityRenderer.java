@@ -20,12 +20,12 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
@@ -73,37 +73,37 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 		m.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV);
 		if (!input.isEmpty()) {
 			matrices.translate(0.5, 0.75, 0.7);
-			matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(20));
-			itemRenderer.renderItem(input, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
-					vcp, 1);
-			matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-20));
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+			itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
+					vcp, boiler.getWorld(), 1);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
 			matrices.translate(-0.5, -0.75, -0.7);
 			if (input.getCount() > 1) {
 				matrices.translate(0.7, 0.75, 0.4);
-				matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(120));
-				matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(20));
-				itemRenderer.renderItem(input, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV,
-						matrices, vcp, 1);
-				matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-20));
-				matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-120));
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
+				matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+				itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV,
+						matrices, vcp, boiler.getWorld(), 1);
+				matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
 				matrices.translate(-0.7, -0.75, -0.4);
 				if (input.getCount() > 2) {
 					matrices.translate(0.3, 0.75, 0.4);
-					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-120));
-					matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(20));
-					itemRenderer.renderItem(input, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV,
-							matrices, vcp, 1);
-					matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(-20));
-					matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(120));
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-120));
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(20));
+					itemRenderer.renderItem(input, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV,
+							matrices, vcp, boiler.getWorld(), 1);
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-20));
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(120));
 					matrices.translate(-0.3, -0.75, -0.4);
 				}
 			}
 		}
 		if (!output.isEmpty()) {
 			matrices.translate(0.5, 0.925, 0.4);
-			matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(90));
-			itemRenderer.renderItem(output, ModelTransformation.Mode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
-					vcp, 5);
+			matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+			itemRenderer.renderItem(output, ModelTransformationMode.GROUND, light, OverlayTexture.DEFAULT_UV, matrices,
+					vcp, boiler.getWorld(), 5);
 		}
 
 		matrices.pop();

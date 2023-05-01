@@ -1,6 +1,6 @@
 package volbot.beetlebox.item.equipment.materials;
 
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ArmorItem.Type;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
@@ -17,13 +17,13 @@ public class ChitinMaterial implements ArmorMaterial {
 	}
 	
 	@Override
-	public int getDurability(EquipmentSlot slot) {
-		return BASE_DURABILITY[slot.getEntitySlotId()] * 333;
+	public int getDurability(Type type) {
+		return BASE_DURABILITY[type.getEquipmentSlot().getEntitySlotId()] * 333;
 	}
 
 	@Override
-	public int getProtectionAmount(EquipmentSlot slot) {
-		return PROTECTION_VALUES[slot.getEntitySlotId()];
+	public int getProtection(Type type) {
+		return PROTECTION_VALUES[type.getEquipmentSlot().getEntitySlotId()];
 	}
 
 	@Override
