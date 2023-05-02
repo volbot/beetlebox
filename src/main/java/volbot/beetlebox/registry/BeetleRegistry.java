@@ -26,6 +26,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.CookingRecipeSerializer;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
@@ -34,6 +35,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
+import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
@@ -49,6 +51,7 @@ import volbot.beetlebox.item.tools.NetItem;
 import volbot.beetlebox.entity.beetle.JRBEntity;
 import volbot.beetlebox.entity.beetle.JunebugEntity;
 import volbot.beetlebox.recipe.BoilingRecipe;
+import volbot.beetlebox.recipe.JellyMixRecipe;
 
 public class BeetleRegistry {
 	public static Vector<Item> beetle_helmets = new Vector<>();
@@ -97,6 +100,9 @@ public class BeetleRegistry {
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
 	public static final Item GELATIN_GLUE = new Item(new FabricItemSettings());
 	
+	public static final Item FRUIT_SYRUP = new FruitSyrup(new FabricItemSettings());
+	public static final Item JELLY_MIX = new Item(new FabricItemSettings());
+	
     public static final Item NET = new NetItem(new FabricItemSettings());
 
     public static final Item BEETLE_JAR = new BeetleJarItem<BeetleEntity>(new FabricItemSettings(), BeetleEntity.class);
@@ -120,6 +126,12 @@ public class BeetleRegistry {
     public static final RecipeType<BoilingRecipe> BOILING_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, new Identifier("beetlebox", "boiling_recipe"), new RecipeType<BoilingRecipe>() {
         @Override
         public String toString() {return "boiling_recipe";}
+    });
+    
+    public static RecipeSerializer<JellyMixRecipe> JELLY_RECIPE_SERIALIZER;
+    public static final RecipeType<JellyMixRecipe> JELLY_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, new Identifier("beetlebox", "jelly_mix"), new RecipeType<JellyMixRecipe>() {
+        @Override
+        public String toString() {return "jelly_mix";}
     });
 	
 	public static final BlockEntityType<BoilerBlockEntity> BOILER_BLOCK_ENTITY = Registry.register(
@@ -183,6 +195,9 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin"), GELATIN);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "sugar_gelatin"), SUGAR_GELATIN);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "gelatin_glue"), GELATIN_GLUE);
+
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "fruit_syrup"), FRUIT_SYRUP);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jelly_mix"), JELLY_MIX);
 		
         Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
         Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), TANK_ITEM);
@@ -204,6 +219,26 @@ public class BeetleRegistry {
 			content.add(GELATIN);
 			content.add(SUGAR_GELATIN);
 			content.add(GELATIN_GLUE);
+			
+			ItemStack apple_syrup = new ItemStack(FRUIT_SYRUP);
+			apple_syrup.getOrCreateNbt().putString("FruitType", "apple");
+			content.add(apple_syrup);
+			
+			ItemStack melon_syrup = new ItemStack(FRUIT_SYRUP);
+			melon_syrup.getOrCreateNbt().putString("FruitType", "melon");
+			content.add(melon_syrup);
+			
+			ItemStack berry_syrup = new ItemStack(FRUIT_SYRUP);
+			berry_syrup.getOrCreateNbt().putString("FruitType", "berry");
+			content.add(berry_syrup);
+			
+			ItemStack sugar_syrup = new ItemStack(FRUIT_SYRUP);
+			sugar_syrup.getOrCreateNbt().putString("FruitType", "sugar");
+			content.add(sugar_syrup);
+			
+			ItemStack glow_syrup = new ItemStack(FRUIT_SYRUP);
+			glow_syrup.getOrCreateNbt().putString("FruitType", "glow");
+			content.add(glow_syrup);
 			
 			for(Item i : beetle_drops) {
 	      		content.add(i);

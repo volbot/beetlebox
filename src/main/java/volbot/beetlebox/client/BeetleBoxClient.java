@@ -39,6 +39,7 @@ import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
@@ -161,8 +162,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 				});
 		
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-			return 0xFF0000;
-		}, BeetleRegistry.FRUIT_JELLY);
+			return FruitSyrup.getColor(stack);
+		}, BeetleRegistry.FRUIT_SYRUP);
 
 		BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);

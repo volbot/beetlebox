@@ -1,0 +1,8 @@
+    {
+      "type": "beetlebox:boiling_recipe",
+      "ingredient": {
+        "item": "minecraft:sweet_berries"
+      },
+      "result": "beetlebox:fruit_syrup"
+    }
+

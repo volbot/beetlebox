@@ -189,7 +189,6 @@ public abstract class BeetleEntity extends AnimalEntity {
             } else {
             	int size = this.random.nextInt(20)+10;
 
-            	System.out.println(size);
             	this.size_cached = size;
             	this.dataTracker.startTracking(SIZE, size_cached);
             }        	

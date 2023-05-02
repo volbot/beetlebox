@@ -17,7 +17,6 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
@@ -25,7 +24,6 @@ import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
-import volbot.beetlebox.client.render.armor.StandardHelmetModel;
 
 public class BeetleUtils {
 	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, int color1, int color2) {

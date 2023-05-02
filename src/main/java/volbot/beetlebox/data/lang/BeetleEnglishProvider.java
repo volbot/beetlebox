@@ -30,6 +30,14 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(BeetleRegistry.SUGAR_GELATIN, "Sugar Gelatin");
 		translationBuilder.add(BeetleRegistry.GELATIN_GLUE, "Gelatin Glue");
 		
+		translationBuilder.add("item.beetlebox.fruit_syrup.apple", "Apple Syrup");
+		translationBuilder.add("item.beetlebox.fruit_syrup.melon", "Melon Syrup");
+		translationBuilder.add("item.beetlebox.fruit_syrup.berry", "Berry Syrup");
+		translationBuilder.add("item.beetlebox.fruit_syrup.sugar", "Sugar Syrup");
+		translationBuilder.add("item.beetlebox.fruit_syrup.glow", "Glow Syrup");
+		
+		translationBuilder.add("item.beetlebox.jelly_mix", "Jelly Mix");
+		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));
 		}
