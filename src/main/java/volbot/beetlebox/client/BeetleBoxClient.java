@@ -37,6 +37,7 @@ import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
+import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.item.FruitSyrup;
@@ -161,9 +162,14 @@ public class BeetleBoxClient implements ClientModInitializer {
 					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
 				});
 		
+		for(Item i : BeetleRecipeGenerator.syrups) {
+			ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+				return FruitSyrup.getColor(stack);
+			}, i);
+		}
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			return FruitSyrup.getColor(stack);
-		}, BeetleRegistry.FRUIT_SYRUP);
+		}, BeetleRegistry.BEETLE_JELLY);
 
 		BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);

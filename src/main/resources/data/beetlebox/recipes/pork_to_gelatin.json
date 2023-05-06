@@ -1,5 +1,6 @@
     {
       "type": "beetlebox:boiling_recipe",
+  	  "category": "misc",
       "ingredient": {
         "item": "minecraft:porkchop"
       },

@@ -1,0 +1,21 @@
+{
+  "type": "beetlebox:jelly_recipe",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "beetlebox:gelatin"
+    },
+    {
+      "item": "beetlebox:melon_syrup"
+    },
+    {
+      "item": "minecraft:ancient_debris"
+    },
+    {
+      "item": "minecraft:grass"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:beetle_jelly"
+  }
+}
