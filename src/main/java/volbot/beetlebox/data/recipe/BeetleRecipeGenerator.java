@@ -27,7 +27,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 	public static HashMap<String, ShapedRecipeJsonBuilder> shaped_recipes = new HashMap<>();
 	public static Item[] syrups = new Item[] { BeetleRegistry.APPLE_SYRUP, BeetleRegistry.MELON_SYRUP,
-			BeetleRegistry.BERRY_SYRUP, BeetleRegistry.SUGAR_SYRUP, BeetleRegistry.GLOW_SYRUP };
+			BeetleRegistry.BERRY_SYRUP, BeetleRegistry.SUGAR_SYRUP, BeetleRegistry.CACTUS_SYRUP };
 	public static Item[] mags = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND, Items.ANCIENT_DEBRIS };
 
 	@Override

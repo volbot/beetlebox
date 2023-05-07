@@ -99,17 +99,26 @@ public class BeetleBoxClient implements ClientModInitializer {
 					});
 				});
 
-		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox/beetle_size"),
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox/beetle_packet"),
 				(client, handler, buf, responseSender) -> {
 					int size = buf.readInt();
+					float damage = buf.readFloat();
+					float speed = buf.readFloat();
+					float maxhealth = buf.readFloat();
 					int entity_id = buf.readInt();
 					client.execute(() -> {
 						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));
 						if(e!=null) {
 							try {
 								e.setSize(size);
+								e.setDamage(damage);
+								e.setSpeed(speed);
+								e.setMaxHealth(maxhealth);
 							} catch(NullPointerException ex) {
 								e.size_cached = size;
+								e.damage_cached = damage;
+								e.speed_cached = speed;
+								e.maxhealth_cached = maxhealth;
 								e.unSynced = true;
 							}
 						}

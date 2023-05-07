@@ -45,8 +45,8 @@ public class JellyMixRecipe extends ShapelessRecipe {
 			else if(i.test(BeetleRegistry.SUGAR_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "sugar");
 			}
-			else if(i.test(BeetleRegistry.GLOW_SYRUP.getDefaultStack())) {
-				output.getOrCreateNbt().putString("FruitType", "glow");
+			else if(i.test(BeetleRegistry.CACTUS_SYRUP.getDefaultStack())) {
+				output.getOrCreateNbt().putString("FruitType", "cactus");
 			}
 			
 			

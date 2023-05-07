@@ -1,8 +1,8 @@
     {
       "type": "beetlebox:boiling_recipe",
       "ingredient": {
-        "item": "minecraft:glow_berries"
+        "item": "minecraft:cactus"
       },
-      "result": "beetlebox:glow_syrup"
+      "result": "beetlebox:cactus_syrup"
     }
 

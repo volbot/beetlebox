@@ -22,7 +22,7 @@ public class FruitSyrup extends Item {
 			return 0xDD3333;
 		} else if(stack.isOf(BeetleRegistry.SUGAR_SYRUP) || fruit.equals("sugar")) {
 			return 0xBB8877;
-		} else if(stack.isOf(BeetleRegistry.GLOW_SYRUP) || fruit.equals("glow")) {
+		} else if(stack.isOf(BeetleRegistry.CACTUS_SYRUP) || fruit.equals("cactus")) {
 			return 0xFFFF99;
 		}
 		return 0x000000;

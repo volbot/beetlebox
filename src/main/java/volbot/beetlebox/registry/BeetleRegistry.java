@@ -33,6 +33,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
+import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
@@ -85,8 +86,8 @@ public class BeetleRegistry {
 	public static final Item MELON_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item BERRY_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item SUGAR_SYRUP = new FruitSyrup(new FabricItemSettings());
-	public static final Item GLOW_SYRUP = new FruitSyrup(new FabricItemSettings());
-	public static final Item BEETLE_JELLY = new Item(new FabricItemSettings());
+	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
+	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -148,7 +149,7 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(ATLAS, "atlas", "Atlas Beetle", 0x080904, 0x22270d);
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", 0x5e3924, 0x180f06);
 		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", 0x9a8666, 0x1b1612);
-		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "Junebug", 0x112612, 0x343419);
+		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "June Beetle", 0x112612, 0x343419);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
@@ -191,7 +192,7 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "melon_syrup"), MELON_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "berry_syrup"), BERRY_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "sugar_syrup"), SUGAR_SYRUP);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", "glow_syrup"), GLOW_SYRUP);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "cactus_syrup"), CACTUS_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jelly"), BEETLE_JELLY);
 
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
@@ -219,7 +220,7 @@ public class BeetleRegistry {
 			content.add(MELON_SYRUP);
 			content.add(BERRY_SYRUP);
 			content.add(SUGAR_SYRUP);
-			content.add(GLOW_SYRUP);
+			content.add(CACTUS_SYRUP);
 
 			for (Item i : beetle_drops) {
 				content.add(i);
