@@ -5,7 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -28,13 +27,13 @@ public class BeetleJelly extends Item {
 		String fruitstring = " (Unknown Effect)";
 		switch(fruit) {
 		case "apple":
-			fruitstring = " (Healing)";
-			return;
+			fruitstring = " (Max Health)";
+			break;
 		case "melon":
 			fruitstring = " (Size)";
 			break;
 		case "berry":
-			fruitstring = " (Max Health)";
+			fruitstring = " (Flight Speed)";
 			break;
 		case "sugar":
 			fruitstring = " (Speed)";
@@ -42,11 +41,8 @@ public class BeetleJelly extends Item {
 		case "cactus":
 			fruitstring = " (Damage)";
 			break;
-		}		
+		}	
 		tooltip.add(Text.literal(fruit.substring(0, 1).toUpperCase() + fruit.substring(1) + fruitstring));
-		if(fruit.contains("apple")) {
-			return;
-		}
 		int magnitude = nbt.getInt("Magnitude");
 		String magstring = "Unknown";
 		boolean increase = nbt.getBoolean("Increase");
