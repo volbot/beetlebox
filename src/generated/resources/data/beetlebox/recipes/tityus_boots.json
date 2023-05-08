@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "b": {
+      "item": "minecraft:iron_boots"
+    },
+    "e": {
+      "item": "beetlebox:tityus_elytron"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ebe",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:tityus_boots"
+  },
+  "show_notification": true
+}

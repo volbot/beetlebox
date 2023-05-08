@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:junebug_elytron"
+    },
+    "l": {
+      "item": "minecraft:iron_leggings"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ele",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:junebug_legs"
+  },
+  "show_notification": true
+}

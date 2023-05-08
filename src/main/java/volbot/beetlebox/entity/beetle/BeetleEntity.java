@@ -301,6 +301,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.sendPacket();
         }
         this.refreshAttributes();
+        System.out.println((this.world.isClient?"CLIENT":"SERVER")+" HEALTH: "+maxhealth_cached);
     }
 	
 	public void setSpeedMult(float speed) {
@@ -313,7 +314,6 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.sendPacket();
         }
         this.refreshAttributes();
-        System.out.println((this.world.isClient?"CLIENT":"SERVER")+" SPEEDMULT: "+speed_cached);
     }
 	
 	public void setFlightSpeedMult(float speed) {
@@ -435,7 +435,6 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.isLandNavigator = true;
             this.navigation.setSpeed(10.0f);
         } else {
-            //this.moveControl = new MoveControl(this);
             this.moveControl = new FlightMoveControl(this, 10, false);
             this.navigation = new BirdNavigation(this, this.getEntityWorld());
             this.isLandNavigator = false;
@@ -453,11 +452,12 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	public void refreshAttributes() {
 		AttributeContainer attributes = this.getAttributes();
+		float maxhealthOld = this.getMaxHealth();
 		attributes.removeModifiers(current_modifiers);
         Multimap<EntityAttribute, EntityAttributeModifier> multimap = HashMultimap.create();
         multimap.put(EntityAttributes.GENERIC_MAX_HEALTH, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_MAX_HEALTH.getTranslationKey(), 
-        		this.getAttributeBaseValue(EntityAttributes.GENERIC_MAX_HEALTH)*(this.getMaxHealth()-1f), 
+        		this.getAttributeBaseValue(EntityAttributes.GENERIC_MAX_HEALTH)*(this.getMaxHealthMult()-1f), 
         		EntityAttributeModifier.Operation.ADDITION));
         multimap.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(), 
@@ -472,6 +472,12 @@ public abstract class BeetleEntity extends AnimalEntity {
         		this.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)*(this.getDamageMult()-1f), 
         		EntityAttributeModifier.Operation.ADDITION));
         attributes.addTemporaryModifiers(multimap);
+        float maxhealthNew = this.getMaxHealth();
+        if(maxhealthOld < maxhealthNew) {
+        	this.heal(maxhealthNew - maxhealthOld);
+        } else if(this.getHealth() > maxhealthNew) {
+        	this.setHealth(maxhealthNew);
+        }
         this.current_modifiers=multimap;
 
 	}

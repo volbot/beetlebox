@@ -52,6 +52,8 @@ public class BeetleUtils {
 		BeetleRegistry.beetle_drops.add(ELYTRON);
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_elytra", createElytraRecipe(ELYTRA, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_helmet", createHelmetRecipe(HELMET, ELYTRON));
+		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_legs", createLegsRecipe(LEGS, ELYTRON));
+		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_boots", createBootsRecipe(BOOTS, ELYTRON));
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 		
 		BeetleEnglishProvider.gen_lang.put(beetle_type.getTranslationKey(), beetle_name);
@@ -73,6 +75,18 @@ public class BeetleUtils {
 	public static ShapedRecipeJsonBuilder createHelmetRecipe(Item HELMET, Item ELYTRON) {
 		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).pattern("eee").pattern("ehe")
 				.pattern("eee").input('e', ELYTRON).input('h', Items.IRON_HELMET)
+				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
+	}
+	
+	public static ShapedRecipeJsonBuilder createLegsRecipe(Item LEGS, Item ELYTRON) {
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).pattern("eee").pattern("ele")
+				.pattern("eee").input('e', ELYTRON).input('l', Items.IRON_LEGGINGS)
+				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
+	}
+	
+	public static ShapedRecipeJsonBuilder createBootsRecipe(Item BOOTS, Item ELYTRON) {
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).pattern("eee").pattern("ebe")
+				.pattern("eee").input('e', ELYTRON).input('b', Items.IRON_BOOTS)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 
