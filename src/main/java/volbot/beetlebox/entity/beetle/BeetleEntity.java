@@ -21,6 +21,7 @@ import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.SpiderNavigation;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -112,10 +113,13 @@ public abstract class BeetleEntity extends AnimalEntity {
                 timeFlying = 0;
                 this.setNoGravity(false);
             }
-            if(unSynced && this.size_cached!=0) {
-            	this.setSize(size_cached);
-            } else if (unSynced && this.size_cached==0){
-	            this.sendPacket();
+            if(unSynced) {
+	            if(this.size_cached!=0) {
+	            	this.setSize(size_cached);
+	            } else{
+		            this.sendPacket();
+	            }
+	            this.refreshAttributes();
             }
         }
     }
@@ -359,7 +363,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             if(damage_cached != 0) {
             	this.dataTracker.startTracking(DAMAGE, damage_cached);
             } else {
-            	float damage = 1.0f;
+            	float damage = (this.random.nextInt(15)-5) * 0.1f + 1.0f; // between 0.5x and 2.0x default
 
             	this.damage_cached = damage;
             	this.dataTracker.startTracking(DAMAGE, damage_cached);
@@ -368,7 +372,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             if(speed_cached != 0) {
             	this.dataTracker.startTracking(SPEED, speed_cached);
             } else {
-            	float speed = 1.0f;
+            	float speed = (this.random.nextInt(6)-2) * 0.1f + 1.0f; // between 0.8x and 1.4x default
 
             	this.speed_cached = speed;
             	this.dataTracker.startTracking(SPEED, speed_cached);
@@ -377,7 +381,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             if(maxhealth_cached != 0) {
             	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
             } else {
-            	float maxhealth = 1.0f;
+            	float maxhealth = (this.random.nextInt(10)-5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
 
             	this.maxhealth_cached = maxhealth;
             	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
@@ -386,12 +390,11 @@ public abstract class BeetleEntity extends AnimalEntity {
             if(flightspeed_cached != 0) {
             	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
             } else {
-            	float speed = 1.0f;
+            	float speed = (this.random.nextInt(10)-5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
 
             	this.flightspeed_cached = speed;
             	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
             }
-            
             this.sendPacket();
         } else {
         	this.dataTracker.startTracking(SIZE, size_cached);
@@ -430,9 +433,10 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.moveControl = new MoveControl(this);
             this.navigation = new SpiderNavigation(this, this.getEntityWorld());
             this.isLandNavigator = true;
-            this.navigation.setSpeed(1.0f);
+            this.navigation.setSpeed(10.0f);
         } else {
-            this.moveControl = new FlightMoveControl(this, (int)(1*this.getFlightSpeedMult()), false);
+            //this.moveControl = new MoveControl(this);
+            this.moveControl = new FlightMoveControl(this, 10, false);
             this.navigation = new BirdNavigation(this, this.getEntityWorld());
             this.isLandNavigator = false;
             this.navigation.setSpeed(1.0f);
@@ -442,13 +446,14 @@ public abstract class BeetleEntity extends AnimalEntity {
 	public static DefaultAttributeContainer.Builder createBeetleAttributes() {
         return MobEntity.createMobAttributes()
         		.add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0)
-        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2)
+        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3)
         		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0)
-        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0);
+        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 1.4);
     }
 	
 	public void refreshAttributes() {
-		this.getAttributes().removeModifiers(current_modifiers);
+		AttributeContainer attributes = this.getAttributes();
+		attributes.removeModifiers(current_modifiers);
         Multimap<EntityAttribute, EntityAttributeModifier> multimap = HashMultimap.create();
         multimap.put(EntityAttributes.GENERIC_MAX_HEALTH, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_MAX_HEALTH.getTranslationKey(), 
@@ -466,7 +471,7 @@ public abstract class BeetleEntity extends AnimalEntity {
         		EntityAttributes.GENERIC_ATTACK_DAMAGE.getTranslationKey(), 
         		this.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)*(this.getDamageMult()-1f), 
         		EntityAttributeModifier.Operation.ADDITION));
-        this.getAttributes().addTemporaryModifiers(multimap);
+        attributes.addTemporaryModifiers(multimap);
         this.current_modifiers=multimap;
 
 	}
