@@ -15,7 +15,7 @@ public class FruitSyrup extends Item {
 		NbtCompound nbt = stack.getOrCreateNbt();
 		String fruit = nbt.getString("FruitType");
 		if(stack.isOf(BeetleRegistry.APPLE_SYRUP) || fruit.equals("apple")) {
-			return 0xDD7777;
+			return 0xAA5555;
 		} else if(stack.isOf(BeetleRegistry.MELON_SYRUP) || fruit.equals("melon")) {
 			return 0x77DD77;
 		} else if(stack.isOf(BeetleRegistry.BERRY_SYRUP) || fruit.equals("berry")) {
@@ -25,7 +25,7 @@ public class FruitSyrup extends Item {
 		} else if(stack.isOf(BeetleRegistry.CACTUS_SYRUP) || fruit.equals("cactus")) {
 			return 0xFFFF99;
 		}
-		return 0x000000;
+		return 0xFFFFFF;
 	}
 
 	

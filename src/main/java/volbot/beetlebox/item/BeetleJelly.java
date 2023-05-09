@@ -23,6 +23,9 @@ public class BeetleJelly extends Item {
 		if (nbt == null) {
 			return;
 		}
+		if(!nbt.contains("FruitType") || !nbt.contains("Magnitude") || !nbt.contains("Increase")) {
+			return;
+		}
 		String fruit = nbt.getString("FruitType");
 		String fruitstring = " (Unknown Effect)";
 		switch(fruit) {
