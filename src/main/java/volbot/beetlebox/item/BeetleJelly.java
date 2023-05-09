@@ -44,6 +44,10 @@ public class BeetleJelly extends Item {
 		case "cactus":
 			fruitstring = " (Damage)";
 			break;
+		case "":
+			fruit = "Empty";
+			fruitstring = "";
+			break;
 		}	
 		tooltip.add(Text.literal(fruit.substring(0, 1).toUpperCase() + fruit.substring(1) + fruitstring));
 		int magnitude = nbt.getInt("Magnitude");
