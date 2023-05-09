@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_elephant_elytron": {
+    "has_elephant_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:elephant_elytron"
+              "beetlebox:elephant_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_elephant_elytron",
+      "has_elephant_chestplate",
       "has_the_recipe"
     ]
   ],

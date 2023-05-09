@@ -3,16 +3,16 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:titanus_elytra"
+        "recipe": "minecraft:titanus_chestplate"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_titanus_chestplate": {
+    "has_titanus_elytron": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:titanus_chestplate"
+              "beetlebox:titanus_elytron"
             ]
           }
         ]
@@ -22,13 +22,13 @@
   },
   "requirements": [
     [
-      "has_titanus_chestplate",
+      "has_titanus_elytron",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:titanus_elytra"
+      "minecraft:titanus_chestplate"
     ]
   }
 }
