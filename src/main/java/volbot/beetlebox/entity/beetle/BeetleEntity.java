@@ -301,7 +301,6 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.sendPacket();
         }
         this.refreshAttributes();
-        System.out.println((this.world.isClient?"CLIENT":"SERVER")+" HEALTH: "+maxhealth_cached);
     }
 	
 	public void setSpeedMult(float speed) {

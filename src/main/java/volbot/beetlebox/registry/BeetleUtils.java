@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -13,6 +14,7 @@ import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -38,27 +40,32 @@ public class BeetleUtils {
 		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.HELMET, new FabricItemSettings());
 		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.LEGGINGS, new FabricItemSettings());
 		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.BOOTS, new FabricItemSettings());
+		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.CHESTPLATE, new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_helmet"), HELMET);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytra"), ELYTRA);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_chestplate"), CHESTPLATE);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_legs"), LEGS);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_boots"), BOOTS);
-		BeetleRegistry.armor_sets.add(ELYTRA);
 		BeetleRegistry.armor_sets.add(HELMET);
+		BeetleRegistry.armor_sets.add(ELYTRA);
+		BeetleRegistry.armor_sets.add(CHESTPLATE);
 		BeetleRegistry.beetle_helmets.add(HELMET);
 		BeetleRegistry.armor_sets.add(LEGS);
 		BeetleRegistry.armor_sets.add(BOOTS);
 		Item ELYTRON = new Item(new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytron"), ELYTRON);
 		BeetleRegistry.beetle_drops.add(ELYTRON);
-		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_elytra", createElytraRecipe(ELYTRA, ELYTRON));
+		BeetleRecipeGenerator.shapeless_recipes.put(beetle_id+"_elytra", createElytraRecipe(CHESTPLATE, ELYTRA, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_helmet", createHelmetRecipe(HELMET, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_legs", createLegsRecipe(LEGS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_boots", createBootsRecipe(BOOTS, ELYTRON));
+		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_chestplate", createChestplateRecipe(CHESTPLATE, ELYTRON));
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 		
 		BeetleEnglishProvider.gen_lang.put(beetle_type.getTranslationKey(), beetle_name);
 
 		BeetleEnglishProvider.gen_lang.put(ELYTRA.getTranslationKey(), beetle_name + " Elytra");
+		BeetleEnglishProvider.gen_lang.put(CHESTPLATE.getTranslationKey(), beetle_name + " Chestplate");
 		BeetleEnglishProvider.gen_lang.put(HELMET.getTranslationKey(), beetle_name + " Helmet");
 		BeetleEnglishProvider.gen_lang.put(LEGS.getTranslationKey(), beetle_name + " Leggings");
 		BeetleEnglishProvider.gen_lang.put(BOOTS.getTranslationKey(), beetle_name + " Boots");
@@ -66,9 +73,16 @@ public class BeetleUtils {
 		BeetleEnglishProvider.gen_lang.put(SPAWN_EGG.getTranslationKey(), beetle_name + " Spawn Egg");
 	}
 
-	public static ShapedRecipeJsonBuilder createElytraRecipe(Item ELYTRA, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, ELYTRA).pattern("eee").pattern("ele")
-				.pattern("eee").input('e', ELYTRON).input('l', Items.ELYTRA)
+	public static ShapelessRecipeJsonBuilder createElytraRecipe(Item CHESTPLATE, Item ELYTRA, Item ELYTRON) {
+		return ShapelessRecipeJsonBuilder.create(RecipeCategory.COMBAT, ELYTRA)
+				.input(Ingredient.ofItems(CHESTPLATE))
+				.input(Ingredient.ofItems(Items.ELYTRA))
+				.criterion(RecipeProvider.hasItem(CHESTPLATE), RecipeProvider.conditionsFromItem(CHESTPLATE));
+	}
+	
+	public static ShapedRecipeJsonBuilder createChestplateRecipe(Item CHESTPLATE, Item ELYTRON) {
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).pattern("eee").pattern("ece")
+				.pattern("eee").input('e', ELYTRON).input('c', Items.IRON_CHESTPLATE)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 

@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_atlas_elytron": {
+    "has_atlas_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:atlas_elytron"
+              "beetlebox:atlas_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_atlas_elytron",
+      "has_atlas_chestplate",
       "has_the_recipe"
     ]
   ],

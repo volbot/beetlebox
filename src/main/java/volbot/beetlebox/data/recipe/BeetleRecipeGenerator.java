@@ -9,6 +9,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
@@ -26,6 +27,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 	}
 
 	public static HashMap<String, ShapedRecipeJsonBuilder> shaped_recipes = new HashMap<>();
+	public static HashMap<String, ShapelessRecipeJsonBuilder> shapeless_recipes = new HashMap<>();
 	public static Item[] syrups = new Item[] { BeetleRegistry.APPLE_SYRUP, BeetleRegistry.MELON_SYRUP,
 			BeetleRegistry.BERRY_SYRUP, BeetleRegistry.SUGAR_SYRUP, BeetleRegistry.CACTUS_SYRUP };
 	public static Item[] mags = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND, Items.ANCIENT_DEBRIS };
@@ -60,6 +62,11 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 		for (String s : shaped_recipes.keySet()) {
 			ShapedRecipeJsonBuilder recipe = shaped_recipes.get(s);
+			recipe.offerTo(exporter, s);
+		}
+		
+		for (String s : shapeless_recipes.keySet()) {
+			ShapelessRecipeJsonBuilder recipe = shapeless_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
 

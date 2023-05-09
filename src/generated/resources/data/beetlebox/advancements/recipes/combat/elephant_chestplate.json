@@ -1,34 +1,34 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "minecraft:titanus_elytra"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_titanus_chestplate": {
+    "has_elephant_elytron": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:titanus_chestplate"
+              "beetlebox:elephant_elytron"
             ]
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:elephant_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_titanus_chestplate",
+      "has_elephant_elytron",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:titanus_elytra"
+      "minecraft:elephant_chestplate"
     ]
   }
 }

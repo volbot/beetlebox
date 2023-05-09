@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_jrb_elytron": {
+    "has_jrb_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:jrb_elytron"
+              "beetlebox:jrb_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_jrb_elytron",
+      "has_jrb_chestplate",
       "has_the_recipe"
     ]
   ],

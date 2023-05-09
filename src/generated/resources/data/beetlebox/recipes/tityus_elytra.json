@@ -1,21 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "equipment",
-  "key": {
-    "e": {
-      "item": "beetlebox:tityus_elytron"
+  "ingredients": [
+    {
+      "item": "beetlebox:tityus_chestplate"
     },
-    "l": {
+    {
       "item": "minecraft:elytra"
     }
-  },
-  "pattern": [
-    "eee",
-    "ele",
-    "eee"
   ],
   "result": {
     "item": "beetlebox:tityus_elytra"
-  },
-  "show_notification": true
+  }
 }

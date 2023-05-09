@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "minecraft:iron_chestplate"
+    },
+    "e": {
+      "item": "beetlebox:tityus_elytron"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ece",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:tityus_chestplate"
+  },
+  "show_notification": true
+}
