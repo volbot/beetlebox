@@ -23,6 +23,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.client.render.block.entity.BoilerBlockEntityRenderer;
 import volbot.beetlebox.client.render.block.entity.TankBlockEntityRenderer;
+import volbot.beetlebox.client.render.entity.ActaeonEntityModel;
+import volbot.beetlebox.client.render.entity.ActaeonEntityRenderer;
 import volbot.beetlebox.client.render.entity.AtlasEntityModel;
 import volbot.beetlebox.client.render.entity.AtlasEntityRenderer;
 import volbot.beetlebox.client.render.entity.ElephantEntityModel;
@@ -52,6 +54,7 @@ import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
 import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
 import volbot.beetlebox.client.render.armor.TityusHelmetModel;
 import volbot.beetlebox.client.render.armor.StandardHelmetModel;
+import volbot.beetlebox.client.render.armor.ActaeonHelmetModel;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
@@ -59,20 +62,22 @@ public class BeetleBoxClient implements ClientModInitializer {
 	
 	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
-	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"),
-			"main");
+	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "jrb"), "main");
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "hercules"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "titanus"), "main");
-	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"),
-			"main");
+	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "atlas"), "main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "elephant"), "main");
 	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "tityus"), "main");
 	public static final EntityModelLayer MODEL_JUNEBUG_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "junebug"), "main");
+	public static final EntityModelLayer MODEL_ACTAEON_LAYER = new EntityModelLayer(
+			new Identifier("beetlebox", "actaeon"), "main");
 
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource" })
 	@Override
@@ -85,6 +90,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 		BeetleBoxClient.beetle_helmets.put("elephant", new ElephantHelmetModel<>());
 		BeetleBoxClient.beetle_helmets.put("tityus", new TityusHelmetModel<>());
 		BeetleBoxClient.beetle_helmets.put("junebug", new StandardHelmetModel<>("junebug"));
+		BeetleBoxClient.beetle_helmets.put("actaeon", new ActaeonHelmetModel<>());
 
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox", "boiler_fluid"),
 				(client, handler, buf, responseSender) -> {
@@ -158,6 +164,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(MODEL_TITYUS_LAYER, TityusEntityModel::getTexturedModelData);
 		EntityRendererRegistry.register(BeetleRegistry.JUNEBUG, JunebugEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_JUNEBUG_LAYER, JunebugEntityModel::getTexturedModelData);
+		EntityRendererRegistry.register(BeetleRegistry.ACTAEON, ActaeonEntityRenderer::new);
+		EntityModelLayerRegistry.registerModelLayer(MODEL_ACTAEON_LAYER, ActaeonEntityModel::getTexturedModelData);
 
 		ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"),
 				(itemStack, clientWorld, livingEntity, whatever) -> {

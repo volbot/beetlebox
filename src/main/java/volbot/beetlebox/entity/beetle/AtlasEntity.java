@@ -14,7 +14,9 @@ public class AtlasEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.ATLAS.create(this.getEntityWorld());
+		BeetleEntity e = BeetleRegistry.ATLAS.create(this.getEntityWorld());
+		e.generateGeneticStats(this, (BeetleEntity)other);
+        return e;
 	}
 	
 }

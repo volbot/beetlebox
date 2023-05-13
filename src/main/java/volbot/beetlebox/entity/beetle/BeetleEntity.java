@@ -390,7 +390,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
             } else {
             	float speed = (this.random.nextInt(10)-5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
-
+            	
             	this.flightspeed_cached = speed;
             	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
             }
@@ -479,6 +479,27 @@ public abstract class BeetleEntity extends AnimalEntity {
         }
         this.current_modifiers=multimap;
 
+	}
+	
+	protected void generateGeneticStats(BeetleEntity a, BeetleEntity b) {
+		BeetleEntity current;
+		boolean sw;
+		
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.size_cached = current.getSize();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.maxhealth_cached = current.getMaxHealthMult();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.speed_cached = current.getSpeedMult();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.flightspeed_cached = current.getFlightSpeedMult();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.damage_cached = current.getDamageMult();
 	}
 	
 	

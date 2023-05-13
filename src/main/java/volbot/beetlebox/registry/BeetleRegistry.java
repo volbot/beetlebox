@@ -41,6 +41,7 @@ import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.block.BoilerBlock;
+import volbot.beetlebox.entity.beetle.ActaeonEntity;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
@@ -76,6 +77,9 @@ public class BeetleRegistry {
 			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 	public static final EntityType<JunebugEntity> JUNEBUG = FabricEntityTypeBuilder.createMob()
 			.entityFactory(JunebugEntity::new).spawnGroup(SpawnGroup.CREATURE)
+			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
+	public static final EntityType<ActaeonEntity> ACTAEON = FabricEntityTypeBuilder.createMob()
+			.entityFactory(ActaeonEntity::new).spawnGroup(SpawnGroup.CREATURE)
 			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 
 	public static final Item GELATIN = new Item(new FabricItemSettings());
@@ -150,6 +154,7 @@ public class BeetleRegistry {
 		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", 0x5e3924, 0x180f06);
 		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", 0x9a8666, 0x1b1612);
 		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "June Beetle", 0x112612, 0x343419);
+		BeetleUtils.registerBeetle(ACTAEON, "actaeon", "Actaeon Beetle", 0x112612, 0x343419);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);
@@ -169,6 +174,7 @@ public class BeetleRegistry {
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
 		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
+		BiomeModifications.addSpawn(jungles, SpawnGroup.CREATURE, ACTAEON, 16, 1, 2);
 
 		Predicate<BiomeSelectionContext> floral = BiomeSelectors.tag(ConventionalBiomeTags.FLORAL);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, TITAN, 16, 1, 2);
@@ -178,6 +184,7 @@ public class BeetleRegistry {
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, HERC, 16, 1, 2);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
+		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ACTAEON, 16, 1, 2);
 
 		// ITEMS
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);

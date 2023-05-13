@@ -6,15 +6,15 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import volbot.beetlebox.registry.BeetleRegistry;
 
-public class ElephantEntity extends BeetleEntity {
+public class ActaeonEntity extends BeetleEntity {
 
-	public ElephantEntity(EntityType<? extends BeetleEntity> entityType, World world) {
+	public ActaeonEntity(EntityType<? extends BeetleEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-		BeetleEntity e = BeetleRegistry.ELEPHANT.create(this.getEntityWorld());
+		BeetleEntity e = BeetleRegistry.ACTAEON.create(this.getEntityWorld());
 		e.generateGeneticStats(this, (BeetleEntity)other);
         return e;
 	}
