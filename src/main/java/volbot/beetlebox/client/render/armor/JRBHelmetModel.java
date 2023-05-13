@@ -43,21 +43,21 @@ public class JRBHelmetModel<T extends LivingEntity> extends BeetleArmorEntityMod
 		ModelPartData horn = head.addChild("horn", ModelPartBuilder.create(),
 				ModelTransform.of(0.0364F, -12.1392F, -6.561F, -1.1345F, 0.0F, 0.0F));
 
-		horn.addChild("horn_r1", ModelPartBuilder.create().uv(0, 16).cuboid(-1.5F, -1.0F, -3.5F, 3.0F, 2.0F, 7.0F, d),
+		horn.addChild("horn_r1", ModelPartBuilder.create().uv(0, 16).cuboid(-1.5F, -1.0F, -3.5F, 3.0F, 2.0F, 7.0F),
 				ModelTransform.of(0.0053F, 0.0124F, 2.2155F, 0.2618F, 0.0F, 0.0F));
 
-		horn.addChild("d1_r1", ModelPartBuilder.create().uv(24, 0).cuboid(-3.25F, -0.5F, -2.5F, 2.0F, 2.0F, 3.0F, d),
+		horn.addChild("d1_r1", ModelPartBuilder.create().uv(24, 0).cuboid(-3.25F, -0.5F, -2.5F, 2.0F, 2.0F, 3.0F),
 				ModelTransform.of(-0.7349F, 0.15F, -1.3454F, 0.0F, 1.1345F, 0.0F));
 
 		horn.addChild("d2_r1", ModelPartBuilder.create().uv(0, 25).mirrored()
-				.cuboid(-0.5F, -0.5F, -2.0F, 2.0F, 2.0F, 3.0F, d).mirrored(false),
+				.cuboid(-0.5F, -0.5F, -2.0F, 2.0F, 2.0F, 3.0F).mirrored(false),
 				ModelTransform.of(0.662F, 0.15F, -0.8454F, 0.0F, -0.3491F, 0.0F));
 
 		horn.addChild("d1_r2", ModelPartBuilder.create().uv(24, 0).mirrored()
-				.cuboid(1.25F, -0.5F, -2.5F, 2.0F, 2.0F, 3.0F, d).mirrored(false),
+				.cuboid(1.25F, -0.5F, -2.5F, 2.0F, 2.0F, 3.0F).mirrored(false),
 				ModelTransform.of(0.662F, 0.15F, -1.3454F, 0.0F, -1.1345F, 0.0F));
 
-		horn.addChild("d2_r2", ModelPartBuilder.create().uv(0, 25).cuboid(-1.5F, -0.5F, -2.0F, 2.0F, 2.0F, 3.0F, d),
+		horn.addChild("d2_r2", ModelPartBuilder.create().uv(0, 25).cuboid(-1.5F, -0.5F, -2.0F, 2.0F, 2.0F, 3.0F),
 				ModelTransform.of(-0.7349F, 0.15F, -0.8454F, 0.0F, 0.3491F, 0.0F));
 
 		return TexturedModelData.of(modelData, 64, 64);
