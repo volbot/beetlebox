@@ -24,7 +24,7 @@ public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 		ModelData modelData = new ModelData();
     	ModelPartData modelPartData = modelData.getRoot();
         ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(), ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-        
+
         ModelPartData body = root.addChild("body", ModelPartBuilder.create().uv(0, 0).cuboid(-2.5F, -3.5F, -5.5F, 5.0F, 3.0F, 8.0F, new Dilation(0.0F)), ModelTransform.pivot(0.0F, 22.0F, 1.0F));
 
 		ModelPartData wings = body.addChild("wings", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 2.0F, -1.0F));
@@ -41,15 +41,21 @@ public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 
 		ModelPartData horn = head.addChild("horn", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, -1.5706F, -1.3191F));
 
-		horn.addChild("cube_r3", ModelPartBuilder.create().uv(0, 15).mirrored().cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(-0.5303F, 0.8316F, 0.2535F, -0.6847F, 0.6591F, -0.4636F));
+		horn.addChild("cube_r3", ModelPartBuilder.create().uv(20, 18).mirrored().cuboid(-1.0F, -0.5F, -1.0F, 1.0F, 1.0F, 2.0F).mirrored(false), ModelTransform.of(0.0F, 2.8742F, -5.737F, -0.2449F, 0.4677F, -0.1122F));
 
-		horn.addChild("cube_r4", ModelPartBuilder.create().uv(0, 15).cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(0.5303F, 0.8316F, 0.2535F, -0.6847F, -0.6591F, 0.4636F));
+		horn.addChild("cube_r4", ModelPartBuilder.create().uv(20, 18).cuboid(-0.5F, -1.25F, 1.5F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.0F, 3.4646F, -6.4112F, -0.2182F, 0.0F, 0.0F));
 
-		horn.addChild("cube_r5", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -0.5F, -1.0F, 1.0F, 1.0F, 3.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 1.7284F, -1.6932F, -0.5236F, 0.0F, 0.0F));
+		horn.addChild("cube_r5", ModelPartBuilder.create().uv(20, 18).cuboid(0.0F, -0.5F, -1.0F, 1.0F, 1.0F, 2.0F), ModelTransform.of(0.0F, 2.8742F, -5.737F, -0.2449F, -0.4677F, 0.1122F));
 
-		horn.addChild("cube_r6", ModelPartBuilder.create().uv(0, 4).cuboid(-0.5F, -1.75F, -0.75F, 1.0F, 2.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 3.3552F, -1.2856F, 0.2182F, 0.0F, 0.0F));
+		horn.addChild("cube_r6", ModelPartBuilder.create().uv(0, 15).mirrored().cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F).mirrored(false), ModelTransform.of(-0.5303F, 0.8316F, 0.2535F, -0.6847F, 0.6591F, -0.4636F));
 
-		horn.addChild("cube_r7", ModelPartBuilder.create().uv(4, 4).cuboid(-0.5F, -1.25F, -0.5F, 1.0F, 1.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, 4.1139F, -2.3977F, 0.2182F, 0.0F, 0.0F));
+		horn.addChild("cube_r7", ModelPartBuilder.create().uv(0, 15).cuboid(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.5303F, 0.8316F, 0.2535F, -0.6847F, -0.6591F, 0.4636F));
+
+		horn.addChild("cube_r8", ModelPartBuilder.create().uv(0, 0).cuboid(-0.5F, -0.5F, -1.0F, 1.0F, 1.0F, 3.0F), ModelTransform.of(0.0F, 1.7284F, -1.6932F, -0.5236F, 0.0F, 0.0F));
+
+		horn.addChild("cube_r9", ModelPartBuilder.create().uv(0, 4).cuboid(-0.5F, -1.75F, -0.75F, 1.0F, 2.0F, 2.0F), ModelTransform.of(0.0F, 3.3552F, -1.2856F, 0.2182F, 0.0F, 0.0F));
+
+		horn.addChild("cube_r10", ModelPartBuilder.create().uv(4, 4).cuboid(-0.5F, -1.25F, -0.5F, 1.0F, 1.0F, 1.0F), ModelTransform.of(0.0F, 4.1139F, -2.3977F, 0.2182F, 0.0F, 0.0F));
 
 		ModelPartData left_arms = body.addChild("left_arms", ModelPartBuilder.create(), ModelTransform.pivot(0.25F, 2.0F, 0.5F));
 
@@ -90,14 +96,6 @@ public class ElephantEntityModel extends BeetleEntityModel<ElephantEntity> {
 		right_hind_arm.addChild("RUA3_r2", ModelPartBuilder.create().uv(0, 11).cuboid(-0.2518F, -0.8638F, -0.5F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(-2.7114F, -2.1791F, -2.1678F, 0.2391F, -0.5194F, -0.4565F));
 
 		right_hind_arm.addChild("RLA3_r2", ModelPartBuilder.create().uv(0, 13).cuboid(-2.7482F, -0.8638F, -0.5F, 3.0F, 1.0F, 1.0F, new Dilation(0.0F)), ModelTransform.of(-2.7114F, -2.1791F, -2.1678F, 0.481F, -0.3133F, -1.0374F));
-
-		ModelPartData bb_main = root.addChild("bb_main", ModelPartBuilder.create(), ModelTransform.pivot(0.0F, 24.0F, 0.0F));
-
-		bb_main.addChild("cube_r8", ModelPartBuilder.create().uv(20, 18).cuboid(0.0F, -0.5F, -1.0F, 1.0F, 1.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -3.2258F, -10.806F, -0.2449F, -0.4677F, 0.1122F));
-
-		bb_main.addChild("cube_r9", ModelPartBuilder.create().uv(20, 18).mirrored().cuboid(-1.0F, -0.5F, -1.0F, 1.0F, 1.0F, 2.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.of(0.0F, -3.2258F, -10.806F, -0.2449F, 0.4677F, -0.1122F));
-
-		bb_main.addChild("cube_r10", ModelPartBuilder.create().uv(20, 18).cuboid(-0.5F, -1.25F, 1.5F, 1.0F, 1.0F, 2.0F, new Dilation(0.0F)), ModelTransform.of(0.0F, -2.6354F, -11.4802F, -0.2182F, 0.0F, 0.0F));
 		
         return TexturedModelData.of(modelData, 32, 32);
     }

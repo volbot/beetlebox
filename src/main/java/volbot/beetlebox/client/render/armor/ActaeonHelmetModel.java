@@ -24,7 +24,7 @@ public class ActaeonHelmetModel<T extends LivingEntity> extends BeetleArmorEntit
 		new Dilation(0.25F);
 		new Dilation(1.0F);
 
-		ModelPartData head = root.addChild("Head",
+		ModelPartData head = root.addChild("head",
 				ModelPartBuilder.create().uv(0, 0)
 						.cuboid(-3.9636F, -7.9781F, -3.5835F, 8.0F, 8.0F, 8.0F, new Dilation(1.0F)).uv(0, 0)
 						.cuboid(-3.9636F, -7.9781F, -3.5835F, 8.0F, 8.0F, 8.0F, new Dilation(1.5F)),
@@ -32,8 +32,8 @@ public class ActaeonHelmetModel<T extends LivingEntity> extends BeetleArmorEntit
 
 		ModelPartData horn = head.addChild("horn",
 				ModelPartBuilder.create().uv(1, 17).mirrored()
-						.cuboid(-4.3043F, 0.4575F, -5.1584F, 2.0F, 2.0F, 6.0F).mirrored(false)
-						.uv(1, 17).cuboid(3.3043F, 0.4575F, -5.1584F, 2.0F, 2.0F, 6.0F),
+						.cuboid(-4.3043F, 0.4575F, -5.1584F, 2.0F, 2.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
+						.uv(1, 17).cuboid(3.3043F, 0.4575F, -5.1584F, 2.0F, 2.0F, 6.0F, new Dilation(0.0F)),
 				ModelTransform.of(-0.5F, -9.1F, -2.8191F, -0.829F, 0.0F, 0.0F));
 
 		horn.addChild("cube_r1",
@@ -53,7 +53,7 @@ public class ActaeonHelmetModel<T extends LivingEntity> extends BeetleArmorEntit
 
 		horn.addChild("cube_r4",
 				ModelPartBuilder.create().uv(4, 20).mirrored()
-						.cuboid(-1.5F, -2.25F, -3.5F, 2.0F, 2.0F, 3.0F).mirrored(false),
+						.cuboid(-1.5F, -2.25F, -3.5F, 2.0F, 2.0F, 3.0F, new Dilation(0.0F)).mirrored(false),
 				ModelTransform.of(1.0F, 3.681F, -7.3874F, -0.2817F, 0.6784F, -0.1797F));
 
 		horn.addChild("cube_r5",
