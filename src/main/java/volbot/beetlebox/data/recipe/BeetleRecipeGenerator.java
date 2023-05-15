@@ -69,6 +69,14 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			ShapelessRecipeJsonBuilder recipe = shapeless_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
+		
+		Ingredient syrup = Ingredient.ofItems(syrups);
+		ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, BeetleRegistry.JELLY_TREAT)
+			.input(syrup).input(syrup).input(syrup)
+			.input(BeetleRegistry.GELATIN)
+			.criterion(RecipeProvider.hasItem(BeetleRegistry.GELATIN),
+						RecipeProvider.conditionsFromItem(BeetleRegistry.GELATIN))
+			.offerTo(exporter);
 
 		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, Blocks.STICKY_PISTON).pattern("s").pattern("p")
 				.input('s', BeetleItemTagGenerator.SLIMEBALLS).input('p', Items.PISTON)

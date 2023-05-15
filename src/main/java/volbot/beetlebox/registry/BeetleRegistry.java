@@ -92,6 +92,7 @@ public class BeetleRegistry {
 	public static final Item SUGAR_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
+	public static final Item JELLY_TREAT = new Item(new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -201,6 +202,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "sugar_syrup"), SUGAR_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "cactus_syrup"), CACTUS_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jelly"), BEETLE_JELLY);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "jelly_treat"), JELLY_TREAT);
 
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), TANK_ITEM);
@@ -228,6 +231,8 @@ public class BeetleRegistry {
 			content.add(BERRY_SYRUP);
 			content.add(SUGAR_SYRUP);
 			content.add(CACTUS_SYRUP);
+
+			content.add(JELLY_TREAT);
 
 			for (Item i : beetle_drops) {
 				content.add(i);

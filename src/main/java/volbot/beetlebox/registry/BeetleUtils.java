@@ -82,25 +82,25 @@ public class BeetleUtils {
 	
 	public static ShapedRecipeJsonBuilder createChestplateRecipe(Item CHESTPLATE, Item ELYTRON) {
 		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).pattern("eee").pattern("ece")
-				.pattern("eee").input('e', ELYTRON).input('c', Items.IRON_CHESTPLATE)
+				.pattern("eee").input('e', ELYTRON).input('c', Items.DIAMOND_CHESTPLATE)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 
 	public static ShapedRecipeJsonBuilder createHelmetRecipe(Item HELMET, Item ELYTRON) {
 		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).pattern("eee").pattern("ehe")
-				.pattern("eee").input('e', ELYTRON).input('h', Items.IRON_HELMET)
+				.pattern("eee").input('e', ELYTRON).input('h', Items.DIAMOND_HELMET)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 	
 	public static ShapedRecipeJsonBuilder createLegsRecipe(Item LEGS, Item ELYTRON) {
 		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).pattern("eee").pattern("ele")
-				.pattern("eee").input('e', ELYTRON).input('l', Items.IRON_LEGGINGS)
+				.pattern("eee").input('e', ELYTRON).input('l', Items.DIAMOND_LEGGINGS)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 	
 	public static ShapedRecipeJsonBuilder createBootsRecipe(Item BOOTS, Item ELYTRON) {
 		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).pattern("eee").pattern("ebe")
-				.pattern("eee").input('e', ELYTRON).input('b', Items.IRON_BOOTS)
+				.pattern("eee").input('e', ELYTRON).input('b', Items.DIAMOND_BOOTS)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 

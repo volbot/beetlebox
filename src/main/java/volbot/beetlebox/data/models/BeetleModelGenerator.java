@@ -4,8 +4,6 @@ import java.util.Vector;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.mixin.registry.sync.client.ItemModelsMixin;
-import net.minecraft.client.render.item.ItemModels;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
@@ -33,6 +31,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 		items.add(BeetleRegistry.SUGAR_GELATIN);
 		items.add(BeetleRegistry.GELATIN_GLUE);
 		items.add(BeetleRegistry.BEETLE_JELLY);
+		items.add(BeetleRegistry.JELLY_TREAT);
 		for(Item item : items ) {
 			itemModelGenerator.register(item, Models.GENERATED);
 		}
