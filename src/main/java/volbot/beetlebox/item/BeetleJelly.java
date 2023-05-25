@@ -35,13 +35,10 @@ public class BeetleJelly extends Item {
 		case "melon":
 			fruitstring = " (Size)";
 			break;
-		case "berry":
-			fruitstring = " (Flight Speed)";
-			break;
 		case "sugar":
 			fruitstring = " (Speed)";
 			break;
-		case "cactus":
+		case "berry":
 			fruitstring = " (Damage)";
 			break;
 		case "":

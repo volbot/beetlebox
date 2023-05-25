@@ -1,8 +1,0 @@
-    {
-      "type": "beetlebox:boiling_recipe",
-      "ingredient": {
-        "item": "minecraft:cactus"
-      },
-      "result": "beetlebox:cactus_syrup"
-    }
-

@@ -56,7 +56,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 	private static final TrackedData<Integer> SIZE = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.INTEGER);
 	private static final TrackedData<Float> DAMAGE = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Float> SPEED = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
-	private static final TrackedData<Float> FLIGHT_SPEED = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Float> MAXHEALTH = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
 	private  Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
@@ -68,7 +67,6 @@ public abstract class BeetleEntity extends AnimalEntity {
     public int size_cached = 0;
     public float damage_cached = 1.0f;
     public float speed_cached = 1.0f;
-    public float flightspeed_cached = 1.0f;
     public float maxhealth_cached = 1.0f;
 
     public int timeFlying = 0;
@@ -138,15 +136,12 @@ public abstract class BeetleEntity extends AnimalEntity {
 			case "sugar":
 				this.setSpeedMult(this.getSpeedMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
 				break;
-			case "cactus":
+			case "berry":
 				this.setDamageMult(this.getDamageMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
 				break;
-			case "berry":
-				this.setFlightSpeedMult(this.getFlightSpeedMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
-				break;
-			}
 		}
 		super.eat(player, hand, stack);
+		}
     }
 	
 	@Override
@@ -228,15 +223,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
     }
 	
-	public float getFlightSpeedMult() {
-		try {
-			return this.dataTracker.get(FLIGHT_SPEED);
-		} catch(NullPointerException e) {
-			this.unSynced = true;
-			return this.flightspeed_cached;
-		}
-    }
-	
 	public float getSpeedMult() {
 		try {
 			return this.dataTracker.get(SPEED);
@@ -314,18 +300,6 @@ public abstract class BeetleEntity extends AnimalEntity {
         }
         this.refreshAttributes();
     }
-	
-	public void setFlightSpeedMult(float speed) {
-		if(speed < 0.1f) {
-			speed=0.1f;
-		}
-		flightspeed_cached = speed;
-		this.dataTracker.set(FLIGHT_SPEED, flightspeed_cached);
-        if(!(this.world.isClient)) {
-            this.sendPacket();
-        }
-        this.refreshAttributes();
-    }
 
     public void setClimbingWall(boolean climbing) {
         byte b = this.dataTracker.get(CLIMBING);
@@ -371,7 +345,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             if(speed_cached != 0) {
             	this.dataTracker.startTracking(SPEED, speed_cached);
             } else {
-            	float speed = (this.random.nextInt(6)-2) * 0.1f + 1.0f; // between 0.8x and 1.4x default
+            	float speed = (this.random.nextInt(4)-2) * 0.1f + 1.0f; // between 0.8x and 1.4x default
 
             	this.speed_cached = speed;
             	this.dataTracker.startTracking(SPEED, speed_cached);
@@ -385,22 +359,12 @@ public abstract class BeetleEntity extends AnimalEntity {
             	this.maxhealth_cached = maxhealth;
             	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
             }
-            
-            if(flightspeed_cached != 0) {
-            	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
-            } else {
-            	float speed = (this.random.nextInt(10)-5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
-            	
-            	this.flightspeed_cached = speed;
-            	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
-            }
             this.sendPacket();
         } else {
         	this.dataTracker.startTracking(SIZE, size_cached);
         	this.dataTracker.startTracking(DAMAGE, damage_cached);
         	this.dataTracker.startTracking(SPEED, speed_cached);
         	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
-        	this.dataTracker.startTracking(FLIGHT_SPEED, flightspeed_cached);
             this.unSynced=true;
         }
     }
@@ -416,7 +380,6 @@ public abstract class BeetleEntity extends AnimalEntity {
         buf.writeFloat(this.getDamageMult());
         buf.writeFloat(this.getSpeedMult());
         buf.writeFloat(this.getMaxHealthMult());
-        buf.writeFloat(this.getFlightSpeedMult());
         buf.writeInt(this.getId());
         ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_packet"), buf);
         this.unSynced=false;
@@ -434,7 +397,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.isLandNavigator = true;
             this.navigation.setSpeed(10.0f);
         } else {
-            this.moveControl = new FlightMoveControl(this, 10, false);
+            this.moveControl = new FlightMoveControl(this, 6, false);
             this.navigation = new BirdNavigation(this, this.getEntityWorld());
             this.isLandNavigator = false;
             this.navigation.setSpeed(1.0f);
@@ -444,9 +407,9 @@ public abstract class BeetleEntity extends AnimalEntity {
 	public static DefaultAttributeContainer.Builder createBeetleAttributes() {
         return MobEntity.createMobAttributes()
         		.add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0)
-        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3)
+        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2)
         		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0)
-        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 1.4);
+        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
     }
 	
 	public void refreshAttributes() {
@@ -456,20 +419,16 @@ public abstract class BeetleEntity extends AnimalEntity {
         Multimap<EntityAttribute, EntityAttributeModifier> multimap = HashMultimap.create();
         multimap.put(EntityAttributes.GENERIC_MAX_HEALTH, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_MAX_HEALTH.getTranslationKey(), 
-        		this.getAttributeBaseValue(EntityAttributes.GENERIC_MAX_HEALTH)*(this.getMaxHealthMult()-1f), 
-        		EntityAttributeModifier.Operation.ADDITION));
+        		this.getMaxHealthMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
         multimap.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(), 
-        		this.getAttributeBaseValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)*(this.getSpeedMult()-1f), 
-        		EntityAttributeModifier.Operation.ADDITION));
-        multimap.put(EntityAttributes.GENERIC_FLYING_SPEED, new EntityAttributeModifier(
-        		EntityAttributes.GENERIC_FLYING_SPEED.getTranslationKey(), 
-        		this.getAttributeBaseValue(EntityAttributes.GENERIC_FLYING_SPEED)*(this.getFlightSpeedMult()-1f), 
-        		EntityAttributeModifier.Operation.ADDITION));
+        		this.getSpeedMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
         multimap.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(
         		EntityAttributes.GENERIC_ATTACK_DAMAGE.getTranslationKey(), 
-        		this.getAttributeBaseValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)*(this.getDamageMult()-1f), 
-        		EntityAttributeModifier.Operation.ADDITION));
+        		this.getDamageMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
         attributes.addTemporaryModifiers(multimap);
         float maxhealthNew = this.getMaxHealth();
         if(maxhealthOld < maxhealthNew) {
@@ -494,9 +453,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 		sw = a.getRandom().nextBoolean();
 		current = sw?a:b;
 		this.speed_cached = current.getSpeedMult();
-		sw = a.getRandom().nextBoolean();
-		current = sw?a:b;
-		this.flightspeed_cached = current.getFlightSpeedMult();
 		sw = a.getRandom().nextBoolean();
 		current = sw?a:b;
 		this.damage_cached = current.getDamageMult();
@@ -524,7 +480,6 @@ public abstract class BeetleEntity extends AnimalEntity {
         compound.putFloat("Damage", this.getDamageMult());
         compound.putFloat("MaxHealth", this.getMaxHealthMult());
         compound.putFloat("Speed", this.getSpeedMult());
-        compound.putFloat("FlightSpeed", this.getFlightSpeedMult());
     }
 	
     public void readCustomDataFromNbt(NbtCompound compound) {
@@ -542,9 +497,6 @@ public abstract class BeetleEntity extends AnimalEntity {
         }
         if(compound.contains("Speed")) {
         	this.setSpeedMult(compound.getFloat("Speed"));
-        }
-        if(compound.contains("FlightSpeed")) {
-        	this.setFlightSpeedMult(compound.getFloat("FlightSpeed"));
         }
     }
 }

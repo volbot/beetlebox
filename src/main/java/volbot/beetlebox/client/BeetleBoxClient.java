@@ -121,13 +121,11 @@ public class BeetleBoxClient implements ClientModInitializer {
 								e.setDamageMult(damage);
 								e.setSpeedMult(speed);
 								e.setMaxHealthMult(maxhealth);
-								e.setFlightSpeedMult(flightspeed);
 							} catch(NullPointerException ex) {
 								e.size_cached = size;
 								e.damage_cached = damage;
 								e.speed_cached = speed;
 								e.maxhealth_cached = maxhealth;
-								e.flightspeed_cached = flightspeed;
 								e.unSynced = true;
 							}
 						}
