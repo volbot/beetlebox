@@ -7,23 +7,17 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
 import net.minecraft.entity.ai.goal.AnimalMateGoal;
-import net.minecraft.entity.ai.goal.AttackWithOwnerGoal;
 import net.minecraft.entity.ai.goal.EscapeDangerGoal;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.TrackOwnerAttackerGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.SpiderNavigation;
@@ -37,14 +31,9 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.CreeperEntity;
-import net.minecraft.entity.mob.GhastEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -56,12 +45,11 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
 import volbot.beetlebox.registry.BeetleRegistry;
 
-public abstract class BeetleEntity extends TameableEntity {
+public abstract class BeetleEntity extends AnimalEntity {
 	
 	private static final TrackedData<Byte> CLIMBING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
 	private static final TrackedData<Byte> FLYING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
@@ -71,7 +59,7 @@ public abstract class BeetleEntity extends TameableEntity {
 	private static final TrackedData<Float> FLIGHT_SPEED = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	private static final TrackedData<Float> MAXHEALTH = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
-	private Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
+	private  Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
 	
 	private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	
@@ -85,7 +73,7 @@ public abstract class BeetleEntity extends TameableEntity {
 
     public int timeFlying = 0;
 	
-	public BeetleEntity(EntityType<? extends TameableEntity> entityType, World world) {
+	public BeetleEntity(EntityType<? extends AnimalEntity> entityType, World world) {
 		super(entityType, world);
         switchNavigator(false);
 	}
@@ -94,18 +82,13 @@ public abstract class BeetleEntity extends TameableEntity {
     protected void initGoals() {
         this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
         this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(0, new SitGoal(this));
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));     
-        this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.0, BREEDING_INGREDIENT, false));
-        this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(BeetleRegistry.BEETLE_JELLY,BeetleRegistry.JELLY_TREAT), false));
+        this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(BeetleRegistry.BEETLE_JELLY), false));
         this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-        this.goalSelector.add(7, new LookAroundGoal(this));        
-        this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
-        this.targetSelector.add(2, new AttackWithOwnerGoal(this));
-
+        this.goalSelector.add(7, new LookAroundGoal(this));
 	}
 	
 	@Override
@@ -167,65 +150,23 @@ public abstract class BeetleEntity extends TameableEntity {
     }
 	
 	@Override
-    public boolean canAttackWithOwner(LivingEntity target, LivingEntity owner) {
-        if (target instanceof CreeperEntity || target instanceof GhastEntity) {
-            return false;
-        }
-        if (target instanceof WolfEntity) {
-            WolfEntity wolfEntity = (WolfEntity)target;
-            return !wolfEntity.isTamed() || wolfEntity.getOwner() != owner;
-        }
-        if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity)owner).shouldDamagePlayer((PlayerEntity)target)) {
-            return false;
-        }
-        if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity)target).isTame()) {
-            return false;
-        }
-        return !(target instanceof TameableEntity) || !((TameableEntity)target).isTamed();
-    }
-	
-	@Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if(this.isTamed()) {
-        	ActionResult actionResult = super.interactMob(player, hand);
-            if (actionResult.isAccepted() && !this.isBaby() || !this.isOwner(player)) return actionResult;
-            this.setSitting(!this.isSitting());
-            this.jumping = false;
-            this.setFlying(false);
-            this.setClimbingWall(false);
-            this.navigation.stop();
-            this.setTarget(null);
-            return ActionResult.SUCCESS;
-        }
-        if (itemStack.isOf(BeetleRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack) || itemStack.isOf(BeetleRegistry.JELLY_TREAT)) {
+        if (itemStack.isOf(BeetleRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)) {
             if (!this.world.isClient && this.canEat()) {
                 this.eat(player, hand, itemStack);
-                if(this.isTamed()) {
-	                if(this.isBreedingItem(itemStack)) {
-	                	if(this.getHealth() < this.getMaxHealth()) {
-	                		this.heal(2.0f);
-	                		return ActionResult.SUCCESS;
-	                	}
-						int i = this.getBreedingAge();
-			            if (!this.world.isClient && i == 0 && this.canEat()) {
-			                this.lovePlayer(player);
-			            }
-			            if (this.isBaby()) {
-			                this.growUp(AnimalEntity.toGrowUpAge(-i), true);
-			            }
-	                }
-                } else if(Ingredient.ofItems(BeetleRegistry.JELLY_TREAT).test(itemStack)) {
-                	if (this.random.nextInt(10) == 0) {
-                        this.setOwner(player);
-                        this.navigation.stop();
-                        this.setTarget(null);
-                        this.setSitting(true);
-                        this.world.sendEntityStatus(this, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
-                        return ActionResult.SUCCESS;
-                    } else {
-                        this.world.sendEntityStatus(this, EntityStatuses.ADD_NEGATIVE_PLAYER_REACTION_PARTICLES);
-                    }
+                if(this.isBreedingItem(itemStack)) {
+                	if(this.getHealth() < this.getMaxHealthMult()) {
+                		this.heal(2.0f);
+                		return ActionResult.SUCCESS;
+                	}
+					int i = this.getBreedingAge();
+		            if (!this.world.isClient && i == 0 && this.canEat()) {
+		                this.lovePlayer(player);
+		            }
+		            if (this.isBaby()) {
+		                this.growUp(AnimalEntity.toGrowUpAge(-i), true);
+		            }
                 }
                 return ActionResult.SUCCESS;
             }
@@ -236,7 +177,7 @@ public abstract class BeetleEntity extends TameableEntity {
                 return ActionResult.CONSUME;
             }
         }
-        return ActionResult.FAIL;
+        return super.interactMob(player, hand);
     }
 	
 	@Override
@@ -606,9 +547,4 @@ public abstract class BeetleEntity extends TameableEntity {
         	this.setFlightSpeedMult(compound.getFloat("FlightSpeed"));
         }
     }
-    
-	@Override
-	public EntityView method_48926() {
-		return this.getEntityWorld();
-	}
 }
