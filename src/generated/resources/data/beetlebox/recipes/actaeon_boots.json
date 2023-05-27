@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "b": {
+      "item": "minecraft:diamond_boots"
+    },
+    "e": {
+      "item": "beetlebox:actaeon_elytron"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ebe",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:actaeon_boots"
+  },
+  "show_notification": true
+}

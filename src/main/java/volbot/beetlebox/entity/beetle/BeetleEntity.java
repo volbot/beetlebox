@@ -1,5 +1,8 @@
 package volbot.beetlebox.entity.beetle;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityDimensions;
@@ -13,13 +16,18 @@ import net.minecraft.entity.ai.goal.EscapeDangerGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.SpiderNavigation;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -33,24 +41,33 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
+import volbot.beetlebox.registry.BeetleRegistry;
 
 public abstract class BeetleEntity extends AnimalEntity {
 	
 	private static final TrackedData<Byte> CLIMBING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
 	private static final TrackedData<Byte> FLYING = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.BYTE);
 	private static final TrackedData<Integer> SIZE = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.INTEGER);
+	private static final TrackedData<Float> DAMAGE = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	private static final TrackedData<Float> SPEED = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
+	private static final TrackedData<Float> MAXHEALTH = DataTracker.registerData(BeetleEntity.class, TrackedDataHandlerRegistry.FLOAT);
 
+	private  Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
 	
 	private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
-	private static final Ingredient HEALING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
 	
     private boolean isLandNavigator;
     public boolean unSynced = true;
     public int size_cached = 0;
+    public float damage_cached = 1.0f;
+    public float speed_cached = 1.0f;
+    public float maxhealth_cached = 1.0f;
 
     public int timeFlying = 0;
 	
@@ -61,11 +78,13 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	@Override
     protected void initGoals() {
-        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.25));
+        this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
+        this.goalSelector.add(0, new SwimGoal(this));
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.0, BREEDING_INGREDIENT, false));
-        this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 1.0));
+        this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(BeetleRegistry.BEETLE_JELLY), false));
+        this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(7, new LookAroundGoal(this));
 	}
@@ -92,12 +111,68 @@ public abstract class BeetleEntity extends AnimalEntity {
                 timeFlying = 0;
                 this.setNoGravity(false);
             }
-            if(unSynced && this.size_cached!=0) {
-            	this.setSize(size_cached);
-            } else {
-	            this.sendSizePacket();
+            if(unSynced) {
+	            if(this.size_cached!=0) {
+	            	this.setSize(size_cached);
+	            } else{
+		            this.sendPacket();
+	            }
+	            this.refreshAttributes();
             }
         }
+    }
+	
+	@Override
+    protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
+		if(stack.isOf(BeetleRegistry.BEETLE_JELLY)) {
+			NbtCompound nbt = stack.getNbt();
+			switch(nbt.getString("FruitType")) {
+			case "melon":
+				this.setSize((int)(this.getSize()+(nbt.getBoolean("Increase")?1.0f:1.0f)*nbt.getFloat("Magnitude")));
+				break;
+			case "apple":
+				this.setMaxHealthMult(this.getMaxHealthMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
+				break;
+			case "sugar":
+				this.setSpeedMult(this.getSpeedMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
+				break;
+			case "berry":
+				this.setDamageMult(this.getDamageMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
+				break;
+		}
+		super.eat(player, hand, stack);
+		}
+    }
+	
+	@Override
+    public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        ItemStack itemStack = player.getStackInHand(hand);
+        if (itemStack.isOf(BeetleRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)) {
+            if (!this.world.isClient && this.canEat()) {
+                this.eat(player, hand, itemStack);
+                if(this.isBreedingItem(itemStack)) {
+                	if(this.getHealth() < this.getMaxHealthMult()) {
+                		this.heal(2.0f);
+                		return ActionResult.SUCCESS;
+                	}
+					int i = this.getBreedingAge();
+		            if (!this.world.isClient && i == 0 && this.canEat()) {
+		                this.lovePlayer(player);
+		            }
+		            if (this.isBaby()) {
+		                this.growUp(AnimalEntity.toGrowUpAge(-i), true);
+		            }
+                }
+                return ActionResult.SUCCESS;
+            }
+            if (this.isBaby()) {
+            	return ActionResult.FAIL;
+            }
+            if (this.world.isClient) {
+                return ActionResult.CONSUME;
+            }
+        }
+        return super.interactMob(player, hand);
     }
 	
 	@Override
@@ -116,7 +191,7 @@ public abstract class BeetleEntity extends AnimalEntity {
     
     @Override
     public boolean damage(DamageSource source, float amount) {
-    	if(source.equals(DamageSource.CACTUS) || source.equals(DamageSource.FALL)) {
+    	if(source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
     		return false;
     	}
     	return super.damage(source, amount);
@@ -148,17 +223,82 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
     }
 	
+	public float getSpeedMult() {
+		try {
+			return this.dataTracker.get(SPEED);
+		} catch(NullPointerException e) {
+			this.unSynced = true;
+			return this.speed_cached;
+		}
+    }
+	
+	public float getDamageMult() {
+		try {
+			return this.dataTracker.get(DAMAGE);
+		} catch(NullPointerException e) {
+			this.unSynced = true;
+			return this.damage_cached;
+		}
+    }
+	
+	public float getMaxHealthMult() {
+		try {
+			return this.dataTracker.get(MAXHEALTH);
+		} catch(NullPointerException e) {
+			this.unSynced = true;
+			return this.maxhealth_cached;
+		}
+    }
+	
 	public int getSizeUnsafe() {
 		return this.dataTracker.get(SIZE);
 	}
 	
 	public void setSize(int size) {
+		if(size < 10) {
+			size = 10;
+		}
 		size_cached = size;
 		this.dataTracker.set(SIZE, size_cached);
         if(!(this.world.isClient)) {
-            this.sendSizePacket();
+            this.sendPacket();
         }
         this.calculateDimensions();
+    }
+	
+	public void setDamageMult(float damage) {
+		if(damage < 0.1f) {
+			damage=0.1f;
+		}
+		this.dataTracker.set(DAMAGE, damage_cached);
+        if(!(this.world.isClient)) {
+            this.sendPacket();
+        }
+        this.refreshAttributes();
+    }
+	
+	public void setMaxHealthMult(float maxhealth) {
+		if(maxhealth < 0.1f) {
+			maxhealth=0.1f;
+		}
+		maxhealth_cached = maxhealth;
+		this.dataTracker.set(MAXHEALTH, maxhealth_cached);
+        if(!(this.world.isClient)) {
+            this.sendPacket();
+        }
+        this.refreshAttributes();
+    }
+	
+	public void setSpeedMult(float speed) {
+		if(speed < 0.5f) {
+			speed=0.5f;
+		}
+		speed_cached = speed;
+		this.dataTracker.set(SPEED, speed_cached);
+        if(!(this.world.isClient)) {
+            this.sendPacket();
+        }
+        this.refreshAttributes();
     }
 
     public void setClimbingWall(boolean climbing) {
@@ -175,6 +315,7 @@ public abstract class BeetleEntity extends AnimalEntity {
         byte b = this.dataTracker.get(FLYING);
         b = flying ? (byte)(b | 1) : (byte)(b & 0xFFFFFFFE);
         this.dataTracker.set(FLYING, (byte)b);
+        this.switchNavigator(!flying);
     }
 	
 	@Override
@@ -188,18 +329,47 @@ public abstract class BeetleEntity extends AnimalEntity {
             } else {
             	int size = this.random.nextInt(20)+10;
 
-            	System.out.println(size);
             	this.size_cached = size;
             	this.dataTracker.startTracking(SIZE, size_cached);
-            }        	
-            this.sendSizePacket();
+            }
+            
+            if(damage_cached != 0) {
+            	this.dataTracker.startTracking(DAMAGE, damage_cached);
+            } else {
+            	float damage = (this.random.nextInt(15)-5) * 0.1f + 1.0f; // between 0.5x and 2.0x default
+
+            	this.damage_cached = damage;
+            	this.dataTracker.startTracking(DAMAGE, damage_cached);
+            }
+            
+            if(speed_cached != 0) {
+            	this.dataTracker.startTracking(SPEED, speed_cached);
+            } else {
+            	float speed = (this.random.nextInt(4)-2) * 0.1f + 1.0f; // between 0.8x and 1.4x default
+
+            	this.speed_cached = speed;
+            	this.dataTracker.startTracking(SPEED, speed_cached);
+            }
+
+            if(maxhealth_cached != 0) {
+            	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
+            } else {
+            	float maxhealth = (this.random.nextInt(10)-5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
+
+            	this.maxhealth_cached = maxhealth;
+            	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
+            }
+            this.sendPacket();
         } else {
         	this.dataTracker.startTracking(SIZE, size_cached);
+        	this.dataTracker.startTracking(DAMAGE, damage_cached);
+        	this.dataTracker.startTracking(SPEED, speed_cached);
+        	this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
             this.unSynced=true;
         }
     }
 	
-	public void sendSizePacket() {
+	public void sendPacket() {
 		if(this.world.getPlayers().size()==0) {
 			this.unSynced=true;
 			return;
@@ -207,8 +377,11 @@ public abstract class BeetleEntity extends AnimalEntity {
 	    ServerPlayerEntity p = (ServerPlayerEntity)this.world.getPlayers().get(0);
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(this.getSize());
+        buf.writeFloat(this.getDamageMult());
+        buf.writeFloat(this.getSpeedMult());
+        buf.writeFloat(this.getMaxHealthMult());
         buf.writeInt(this.getId());
-        ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_size"), buf);
+        ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_packet"), buf);
         this.unSynced=false;
 	}
 	  
@@ -222,24 +395,68 @@ public abstract class BeetleEntity extends AnimalEntity {
             this.moveControl = new MoveControl(this);
             this.navigation = new SpiderNavigation(this, this.getEntityWorld());
             this.isLandNavigator = true;
-            this.navigation.setSpeed(1.0);
+            this.navigation.setSpeed(10.0f);
         } else {
-            this.moveControl = new FlightMoveControl(this, 30, false);
+            this.moveControl = new FlightMoveControl(this, 6, false);
             this.navigation = new BirdNavigation(this, this.getEntityWorld());
             this.isLandNavigator = false;
-            this.navigation.setSpeed(5.0);
+            this.navigation.setSpeed(1.0f);
         }
     }
 	
 	public static DefaultAttributeContainer.Builder createBeetleAttributes() {
         return MobEntity.createMobAttributes()
         		.add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0)
-        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3)
+        		.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2)
         		.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3.0)
-        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 3.0);
+        		.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.5);
     }
 	
+	public void refreshAttributes() {
+		AttributeContainer attributes = this.getAttributes();
+		float maxhealthOld = this.getMaxHealth();
+		attributes.removeModifiers(current_modifiers);
+        Multimap<EntityAttribute, EntityAttributeModifier> multimap = HashMultimap.create();
+        multimap.put(EntityAttributes.GENERIC_MAX_HEALTH, new EntityAttributeModifier(
+        		EntityAttributes.GENERIC_MAX_HEALTH.getTranslationKey(), 
+        		this.getMaxHealthMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
+        multimap.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(
+        		EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(), 
+        		this.getSpeedMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
+        multimap.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(
+        		EntityAttributes.GENERIC_ATTACK_DAMAGE.getTranslationKey(), 
+        		this.getDamageMult(), 
+        		EntityAttributeModifier.Operation.MULTIPLY_BASE));
+        attributes.addTemporaryModifiers(multimap);
+        float maxhealthNew = this.getMaxHealth();
+        if(maxhealthOld < maxhealthNew) {
+        	this.heal(maxhealthNew - maxhealthOld);
+        } else if(this.getHealth() > maxhealthNew) {
+        	this.setHealth(maxhealthNew);
+        }
+        this.current_modifiers=multimap;
+
+	}
 	
+	protected void generateGeneticStats(BeetleEntity a, BeetleEntity b) {
+		BeetleEntity current;
+		boolean sw;
+		
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.size_cached = current.getSize();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.maxhealth_cached = current.getMaxHealthMult();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.speed_cached = current.getSpeedMult();
+		sw = a.getRandom().nextBoolean();
+		current = sw?a:b;
+		this.damage_cached = current.getDamageMult();
+	}
 	
 	
     //--------------------
@@ -249,10 +466,6 @@ public abstract class BeetleEntity extends AnimalEntity {
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return BREEDING_INGREDIENT.test(stack);
-    }
-    
-    public boolean isHealingItem(ItemStack stack) {
-        return HEALING_INGREDIENT.test(stack);
     }
 
 	@Override
@@ -264,6 +477,9 @@ public abstract class BeetleEntity extends AnimalEntity {
         compound.putBoolean("Flying", this.isFlying());
         compound.putBoolean("Climbing", this.isClimbing());
         compound.putInt("Size", this.getSizeUnsafe());
+        compound.putFloat("Damage", this.getDamageMult());
+        compound.putFloat("MaxHealth", this.getMaxHealthMult());
+        compound.putFloat("Speed", this.getSpeedMult());
     }
 	
     public void readCustomDataFromNbt(NbtCompound compound) {
@@ -272,6 +488,15 @@ public abstract class BeetleEntity extends AnimalEntity {
         this.setClimbingWall(compound.getBoolean("Climbing"));
         if(compound.contains("Size")) {
         	this.setSize(compound.getInt("Size"));
+        }
+        if(compound.contains("Damage")) {
+        	this.setDamageMult(compound.getFloat("Damage"));
+        }
+        if(compound.contains("MaxHealth")) {
+        	this.setMaxHealthMult(compound.getFloat("MaxHealth"));
+        }
+        if(compound.contains("Speed")) {
+        	this.setSpeedMult(compound.getFloat("Speed"));
         }
     }
 }

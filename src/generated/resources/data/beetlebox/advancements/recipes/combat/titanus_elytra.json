@@ -7,12 +7,12 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "has_titanus_elytron": {
+    "has_titanus_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:titanus_elytron"
+              "beetlebox:titanus_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_titanus_elytron",
+      "has_titanus_chestplate",
       "has_the_recipe"
     ]
   ],

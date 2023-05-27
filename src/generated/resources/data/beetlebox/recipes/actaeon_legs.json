@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:actaeon_elytron"
+    },
+    "l": {
+      "item": "minecraft:diamond_leggings"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ele",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:actaeon_legs"
+  },
+  "show_notification": true
+}

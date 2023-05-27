@@ -1,0 +1,8 @@
+    {
+      "type": "beetlebox:boiling_recipe",
+      "ingredient": {
+        "item": "minecraft:melon_slice"
+      },
+      "result": "beetlebox:melon_syrup"
+    }
+

@@ -11,7 +11,8 @@ import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 public class BeetleDataGen implements DataGeneratorEntrypoint {
 
 	@Override
-	public void onInitializeDataGenerator(FabricDataGenerator pack) {
+	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(BeetleItemTagGenerator::new);
 		pack.addProvider(BeetleRecipeGenerator::new);
 		pack.addProvider(BeetleLootGenerator::new);

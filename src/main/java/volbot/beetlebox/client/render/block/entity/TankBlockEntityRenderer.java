@@ -10,7 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 
 @Environment(EnvType.CLIENT)
@@ -43,7 +43,7 @@ implements BlockEntityRenderer<TankBlockEntity>{
 	            }
 		        matrices.translate(0.5, (1-(g*entity.getHeight()))/2, 0.5);
 	            matrices.scale(g, g, g);
-		        matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion((tile_entity.getWorld().getTime() + f) * 4));
+		        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
 
 	            this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vertex_consumer, i);
 	        }

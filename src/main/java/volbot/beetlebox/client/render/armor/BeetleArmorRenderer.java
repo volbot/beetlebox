@@ -25,14 +25,8 @@ implements ArmorRenderer {
 	@Override
 	public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack,
 		LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
-		contextModel.copyStateTo(armorModel);
+		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
-		armorModel.head.roll = contextModel.head.roll;
-		armorModel.head.pitch = contextModel.head.pitch;
-		armorModel.head.yaw = contextModel.head.yaw;
-		armorModel.head.pivotX = contextModel.head.pivotX;
-		armorModel.head.pivotY = contextModel.head.pivotY;
-		armorModel.head.pivotZ = contextModel.head.pivotZ;
 		armorModel.head.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));

@@ -2,7 +2,7 @@ package volbot.beetlebox.data.models;
 
 import java.util.Vector;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
@@ -14,7 +14,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 
 	public static Vector<Item> items = new Vector<>();
 	
-	public BeetleModelGenerator(FabricDataGenerator output) {
+	public BeetleModelGenerator(FabricDataOutput output) {
 		super(output);
 	}
 
@@ -30,6 +30,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 		items.add(BeetleRegistry.GELATIN);
 		items.add(BeetleRegistry.SUGAR_GELATIN);
 		items.add(BeetleRegistry.GELATIN_GLUE);
+		items.add(BeetleRegistry.BEETLE_JELLY);
 		for(Item item : items ) {
 			itemModelGenerator.register(item, Models.GENERATED);
 		}

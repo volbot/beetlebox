@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "b": {
+      "item": "minecraft:diamond_boots"
+    },
+    "e": {
+      "item": "beetlebox:jrb_elytron"
+    }
+  },
+  "pattern": [
+    "eee",
+    "ebe",
+    "eee"
+  ],
+  "result": {
+    "item": "beetlebox:jrb_boots"
+  },
+  "show_notification": true
+}

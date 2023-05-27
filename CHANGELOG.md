@@ -1,6 +1,4 @@
-fix a series of bugs:
- - COMPLETELY FIXED VARIABLE BEETLE SIZES (as far as I can tell)
- 	- accurate saving of their sizes
- 	- reloading size upon removal from jar
- - FIX FOR SERVER-SIDE VERSION
- - FIX FOR FABRIC-API USAGE
+added beetle jelly! this allows you to change the stats of a beetle 
+added beetle stats! the damage, max health, size, and speed of a beetle are now all variable!
+extended beetle chestplates into a cute crop design, and made beetle elytras a craftable addition!
+among other things, i forget tbh

@@ -14,7 +14,9 @@ public class ElephantEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.ELEPHANT.create(this.getEntityWorld());
+		BeetleEntity e = BeetleRegistry.ELEPHANT.create(this.getEntityWorld());
+		e.generateGeneticStats(this, (BeetleEntity)other);
+        return e;
 	}
 	
 }

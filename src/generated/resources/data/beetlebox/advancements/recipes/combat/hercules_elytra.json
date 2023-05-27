@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_hercules_elytron": {
+    "has_hercules_chestplate": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:hercules_elytron"
+              "beetlebox:hercules_chestplate"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_hercules_elytron",
+      "has_hercules_chestplate",
       "has_the_recipe"
     ]
   ],

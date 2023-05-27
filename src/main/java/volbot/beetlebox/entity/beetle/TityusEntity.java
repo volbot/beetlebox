@@ -14,7 +14,9 @@ public class TityusEntity extends BeetleEntity {
 
 	@Override
 	public PassiveEntity createChild(ServerWorld world, PassiveEntity other) {
-        return BeetleRegistry.TITYUS.create(this.getEntityWorld());
+		BeetleEntity e = BeetleRegistry.TITYUS.create(this.getEntityWorld());
+		e.generateGeneticStats(this, (BeetleEntity)other);
+        return e;
 	}
 
 }

@@ -2,13 +2,13 @@ package volbot.beetlebox.data.lang;
 
 import java.util.HashMap;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleEnglishProvider extends FabricLanguageProvider {
 
-	public BeetleEnglishProvider(FabricDataGenerator dataOutput) {
+	public BeetleEnglishProvider(FabricDataOutput dataOutput) {
 		super(dataOutput, "en_us");
 	}
 	
@@ -29,6 +29,14 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(BeetleRegistry.GELATIN, "Gelatin Powder");
 		translationBuilder.add(BeetleRegistry.SUGAR_GELATIN, "Sugar Gelatin");
 		translationBuilder.add(BeetleRegistry.GELATIN_GLUE, "Gelatin Glue");
+		
+		translationBuilder.add(BeetleRegistry.APPLE_SYRUP, "Apple Syrup");
+		translationBuilder.add(BeetleRegistry.MELON_SYRUP, "Melon Syrup");
+		translationBuilder.add(BeetleRegistry.BERRY_SYRUP, "Berry Syrup");
+		translationBuilder.add(BeetleRegistry.SUGAR_SYRUP, "Sugar Syrup");
+		translationBuilder.add(BeetleRegistry.CACTUS_SYRUP, "Cactus Syrup");
+		
+		translationBuilder.add(BeetleRegistry.BEETLE_JELLY, "Beetle Jelly");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));
