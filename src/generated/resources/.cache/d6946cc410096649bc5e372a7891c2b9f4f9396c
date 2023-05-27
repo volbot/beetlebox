@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-25T00:46:56.077345496	beetlebox/Model Definitions
+// 1.19.4	2023-05-25T23:22:18.560289228	beetlebox/Model Definitions
 44a6e1bd365890ca7f54bd88c16164d8f5336c67 assets/beetlebox/models/item/actaeon_elytron.json
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
@@ -35,7 +35,6 @@ c58b2849fafb048a3ecf1ce722a2f63de9b1f38c assets/beetlebox/models/item/tityus_ely
 02ec094f767e1e4eeaede6a5d81515a57d0291f2 assets/beetlebox/models/item/sugar_gelatin.json
 d6de18183b99f766fb5a9fd4ea420263fee30554 assets/beetlebox/models/item/elephant_elytra.json
 17dc60b654036d6bc30fcfc7c5f81940b1df37b0 assets/beetlebox/models/item/actaeon_legs.json
-da616a98019202bcd70782c2c9a8cbba5428c9d4 assets/beetlebox/models/item/jelly_treat.json
 a4fc1cf294cb617394e2bfb5b824babc8a93385f assets/beetlebox/models/item/titanus_elytra.json
 ac55cbfcd5c91eb1814a794966165e4c3c6bfeee assets/beetlebox/models/item/elephant_helmet.json
 e8526dafe7316b5b3f8850707a4170c1243337f1 assets/beetlebox/models/item/hercules_boots.json
@@ -49,6 +48,6 @@ c96e1a1a14192d382a2f90058e2e3ce2e2979a34 assets/beetlebox/models/item/elephant_c
 5f6a36de0d93e6320af5a720d1bc00139af8c2c6 assets/beetlebox/models/item/hercules_legs.json
 3ca68af4098f102dbff9bbebf429742214b92aff assets/beetlebox/models/item/atlas_legs.json
 20272e85ab8c4ae07dad0270bc44af3c55f1859e assets/beetlebox/models/item/elephant_elytron.json
-807213d08d6e01fe307ef606e42ef2e6a7cb6454 assets/beetlebox/models/item/titanus_chestplate.json
 91b532ede2f6899317d24e0331746ebc7f95ccec assets/beetlebox/models/item/elephant_legs.json
+807213d08d6e01fe307ef606e42ef2e6a7cb6454 assets/beetlebox/models/item/titanus_chestplate.json
 d78b44f3ca6802f72d270c266d162bdca9104f32 assets/beetlebox/models/item/atlas_elytra.json

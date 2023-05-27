@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-25T00:46:56.079645586	beetlebox/Recipes
+// 1.19.4	2023-05-25T23:22:18.56319993	beetlebox/Recipes
 b68776c57450316bfbe1044737b4cccba1c1f9ea data/beetlebox/advancements/recipes/building_blocks/boiler.json
 96cc7a75e32cdb77d104740731fb0ca9561bbe33 data/beetlebox/recipes/titanus_elytra.json
 6aed7105c9a3d7a3747cb53702373fa93c5e51e6 data/beetlebox/recipes/titanus_helmet.json
@@ -137,7 +137,6 @@ ef8e3efbac7ce98f0ce4cad8c84601fc95b34ff1 data/beetlebox/recipes/junebug_elytra.j
 3af633dc373e032d83039c8cbbf17b47b64c60de data/beetlebox/recipes/beetle_jelly_230.json
 76fa06376cce00bcd0e0ce13a83f2212c7714c97 data/beetlebox/recipes/elephant_helmet.json
 80a222919ce455bac06d328d370f64f130e75a8c data/beetlebox/recipes/sticky_piston.json
-70a267b3a3160e6b512aa721bb28680ec7354510 data/beetlebox/recipes/jelly_treat.json
 90fb0eec75460227a194326804de4177b3c69302 data/beetlebox/recipes/actaeon_legs.json
 4466cbefc47f81b57ceef0411abe2a2e0e227d19 data/beetlebox/advancements/recipes/food/beetle_jelly_101.json
 74636e438405c554d24bc8483e1ac2859f7a6c55 data/beetlebox/recipes/beetle_jelly_000.json
@@ -146,15 +145,14 @@ ef8e3efbac7ce98f0ce4cad8c84601fc95b34ff1 data/beetlebox/recipes/junebug_elytra.j
 133fc8a656949eda6a4b341e33897e68d8920338 data/beetlebox/recipes/beetle_jelly_331.json
 5a2b6df49f4abe90aba17f7b27fc328555cb040d data/beetlebox/advancements/recipes/combat/elephant_legs.json
 ab58108ea3369463c61b931af75bc19f741876c9 data/beetlebox/recipes/beetle_jelly_231.json
-d88d344e95756e58284ed99048faf1ea198e5a71 data/beetlebox/advancements/recipes/food/beetle_jelly_321.json
 0d9f35b3884a666b0a395c35e0c56f9417ef2041 data/beetlebox/recipes/titanus_chestplate.json
+d88d344e95756e58284ed99048faf1ea198e5a71 data/beetlebox/advancements/recipes/food/beetle_jelly_321.json
 499d5e55885c5bc817b68f39e6fb55157cc8dea9 data/beetlebox/advancements/recipes/food/beetle_jelly_110.json
 5178ac1528567af16ae22e0bd615f3d8d51b3f16 data/beetlebox/recipes/beetle_jelly_120.json
 c9f781d306e2fabefa865cead946c3ac156ac4a5 data/beetlebox/recipes/beetle_jelly_101.json
 f5b4bb369a2d0bd34fe9e88f675974e03b909164 data/beetlebox/advancements/recipes/misc/sugar_gelatin.json
 e713db07b017d1d67f942fcf4e9c11363e831266 data/beetlebox/recipes/atlas_elytra.json
 acb6236e22d3b1ebe806fae23e220420910be32c data/beetlebox/recipes/beetle_jelly_221.json
-4281c00223746f1d9ac372039872b9c045cb2e7b data/beetlebox/advancements/recipes/food/jelly_treat.json
 c275c7438562362a98a3a3489032f67e78a48290 data/beetlebox/advancements/recipes/combat/junebug_boots.json
 de8de88eeb366ac05a460aaaf62181f5a4a0dc60 data/beetlebox/advancements/recipes/combat/atlas_elytra.json
 26b28164491009623d8044929d8c3c9c624630b4 data/beetlebox/advancements/recipes/food/beetle_jelly_230.json

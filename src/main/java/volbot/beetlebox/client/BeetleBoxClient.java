@@ -111,7 +111,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 					float damage = buf.readFloat();
 					float speed = buf.readFloat();
 					float maxhealth = buf.readFloat();
-					float flightspeed = buf.readFloat();
 					int entity_id = buf.readInt();
 					client.execute(() -> {
 						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));

@@ -61,13 +61,13 @@ public class JellyMixRecipe extends ShapelessRecipe {
 				output.getOrCreateNbt().putInt("Magnitude", 1);
 			}
 			else if(i.test(Items.GOLD_INGOT.getDefaultStack())) {
-				output.getOrCreateNbt().putInt("Magnitude", 5);
+				output.getOrCreateNbt().putInt("Magnitude", 3);
 			}
 			else if(i.test(Items.DIAMOND.getDefaultStack())) {
-				output.getOrCreateNbt().putInt("Magnitude", 10);
+				output.getOrCreateNbt().putInt("Magnitude", 7);
 			}
-			else if(i.test(Items.ANCIENT_DEBRIS.getDefaultStack())) {
-				output.getOrCreateNbt().putInt("Magnitude", 25);
+			else if(i.test(Items.NETHERITE_SCRAP.getDefaultStack())) {
+				output.getOrCreateNbt().putInt("Magnitude", 30);
 			}
 			
 		}

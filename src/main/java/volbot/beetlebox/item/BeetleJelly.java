@@ -53,13 +53,13 @@ public class BeetleJelly extends Item {
 		case 1:
 			magstring = "Small";
 			break;
-		case 5:
+		case 3:
 			magstring = "Moderate";
 			break;
-		case 10:
+		case 7:
 			magstring = "Large";
 			break;
-		case 25:
+		case 30:
 			magstring = "Enormous";
 			break;
 		}

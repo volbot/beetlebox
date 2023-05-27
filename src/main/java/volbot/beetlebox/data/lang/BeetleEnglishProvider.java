@@ -37,7 +37,6 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(BeetleRegistry.CACTUS_SYRUP, "Cactus Syrup");
 		
 		translationBuilder.add(BeetleRegistry.BEETLE_JELLY, "Beetle Jelly");
-		translationBuilder.add(BeetleRegistry.JELLY_TREAT, "Jelly Treat");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));
