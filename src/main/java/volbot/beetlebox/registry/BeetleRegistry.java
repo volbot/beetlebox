@@ -227,7 +227,6 @@ public class BeetleRegistry {
 			content.add(MELON_SYRUP);
 			content.add(BERRY_SYRUP);
 			content.add(SUGAR_SYRUP);
-			content.add(CACTUS_SYRUP);
 
 			for (Item i : beetle_drops) {
 				content.add(i);
