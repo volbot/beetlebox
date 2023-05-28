@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "equipment",
   "ingredients": [
     {
       "item": "beetlebox:atlas_chestplate"

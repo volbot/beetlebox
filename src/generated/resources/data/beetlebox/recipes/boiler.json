@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building",
   "key": {
     "b": {
       "item": "minecraft:brick"
@@ -19,6 +18,5 @@
   ],
   "result": {
     "item": "beetlebox:boiler"
-  },
-  "show_notification": true
+  }
 }

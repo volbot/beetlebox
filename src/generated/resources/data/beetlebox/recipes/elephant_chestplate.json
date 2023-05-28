@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "c": {
       "item": "minecraft:diamond_chestplate"
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "beetlebox:elephant_chestplate"
-  },
-  "show_notification": true
+  }
 }

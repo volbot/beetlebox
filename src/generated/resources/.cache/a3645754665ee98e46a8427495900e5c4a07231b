@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-25T23:22:18.56229792	beetlebox/minecraft:entity Loot Table
+// 1.19.2	2023-05-28T12:53:35.014853802	minecraft:entity Loot Table
 b42463438d8b836ed57d195ee19ab7a947292f8b data/beetlebox/loot_tables/entities/actaeon.json
 7be71a64e5e736ee06192fb707309eee263835da data/beetlebox/loot_tables/entities/elephant.json
 4d9279d9a75425e6e09794c77829412e6b376a61 data/beetlebox/loot_tables/entities/hercules.json

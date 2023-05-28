@@ -1,26 +1,23 @@
 package volbot.beetlebox.data.tags;
 
-import java.util.concurrent.CompletableFuture;
-
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.registry.BeetleRegistry;
 
 public class BeetleItemTagGenerator extends ItemTagProvider {
 
-	public BeetleItemTagGenerator(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
-		super(output, completableFuture);
+	public BeetleItemTagGenerator(FabricDataGenerator output) {
+		super(output);
 	}
 	
-	public static final TagKey<Item> SLIMEBALLS = TagKey.of(RegistryKeys.ITEM, new Identifier("c", "slime_balls"));
+	public static final TagKey<Item> SLIMEBALLS = TagKey.of(Registry.ITEM_KEY, new Identifier("c", "slime_balls"));
 	
 	@Override
-	protected void configure(WrapperLookup arg) {
+	protected void generateTags() {
 		getOrCreateTagBuilder(SLIMEBALLS)
         .add(BeetleRegistry.GELATIN_GLUE);
 	}

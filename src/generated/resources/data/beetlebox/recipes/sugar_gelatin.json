@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "g": {
       "item": "beetlebox:gelatin"
@@ -15,6 +14,5 @@
   ],
   "result": {
     "item": "beetlebox:sugar_gelatin"
-  },
-  "show_notification": true
+  }
 }

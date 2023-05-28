@@ -21,7 +21,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.Recipe;
@@ -29,7 +29,7 @@ import net.minecraft.recipe.RecipeInputProvider;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeMatcher;
 import net.minecraft.recipe.RecipeUnlocker;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.util.registry.DynamicRegistryManager;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -190,7 +190,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 			return false;
 		}
 		ItemStack itemStack = slots.get(0);
-		ItemStack itemStack2 = recipe.getOutput(registryManager);
+		ItemStack itemStack2 = recipe.getOutput();
 		ItemStack itemStack3 = slots.get(1);
 		if (itemStack3.isEmpty()) {
 			slots.set(1, itemStack2.copy());
@@ -210,7 +210,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 		if (slots.get(0).isEmpty() || recipe == null) {
 			return false;
 		}
-		ItemStack itemStack = recipe.getOutput(registryManager);
+		ItemStack itemStack = recipe.getOutput();
 		if (itemStack.isEmpty()) {
 			return false;
 		}
@@ -288,7 +288,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 
 	@Override
 	public boolean canPlayerUse(PlayerEntity player) {
-		return Inventory.canPlayerUse(this, player);
+		return true;
 	}
 
 	@Override

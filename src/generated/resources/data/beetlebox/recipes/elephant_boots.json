@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "b": {
       "item": "minecraft:diamond_boots"
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "beetlebox:elephant_boots"
-  },
-  "show_notification": true
+  }
 }

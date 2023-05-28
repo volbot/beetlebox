@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "s": {
       "item": "minecraft:stick"
@@ -16,6 +15,5 @@
   ],
   "result": {
     "item": "beetlebox:net"
-  },
-  "show_notification": true
+  }
 }

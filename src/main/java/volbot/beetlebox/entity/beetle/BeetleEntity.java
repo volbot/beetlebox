@@ -27,7 +27,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -128,7 +127,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 			NbtCompound nbt = stack.getNbt();
 			switch(nbt.getString("FruitType")) {
 			case "melon":
-				this.setSize((int)(this.getSize()+(nbt.getBoolean("Increase")?1.0f:1.0f)*nbt.getFloat("Magnitude")));
+				this.setSize((int)(this.getSize()+(nbt.getBoolean("Increase")?1.0f:-1.0f)*nbt.getFloat("Magnitude")));
 				break;
 			case "apple":
 				this.setMaxHealthMult(this.getMaxHealthMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));
@@ -191,7 +190,7 @@ public abstract class BeetleEntity extends AnimalEntity {
     
     @Override
     public boolean damage(DamageSource source, float amount) {
-    	if(source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
+    	if(source.equals(DamageSource.CACTUS) || source.equals(DamageSource.FALL)) {
     		return false;
     	}
     	return super.damage(source, amount);

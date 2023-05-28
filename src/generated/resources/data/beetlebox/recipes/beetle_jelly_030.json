@@ -1,6 +1,5 @@
 {
   "type": "beetlebox:jelly_recipe",
-  "category": "misc",
   "ingredients": [
     {
       "item": "beetlebox:gelatin"
