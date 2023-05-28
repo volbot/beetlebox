@@ -128,7 +128,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 			NbtCompound nbt = stack.getNbt();
 			switch(nbt.getString("FruitType")) {
 			case "melon":
-				this.setSize((int)(this.getSize()+(nbt.getBoolean("Increase")?1.0f:1.0f)*nbt.getFloat("Magnitude")));
+				this.setSize((int)(this.getSize()+(nbt.getBoolean("Increase")?1.0f:-1.0f)*nbt.getFloat("Magnitude")));
 				break;
 			case "apple":
 				this.setMaxHealthMult(this.getMaxHealthMult()+(nbt.getBoolean("Increase")?0.1f:-0.1f)*nbt.getFloat("Magnitude"));

@@ -135,7 +135,7 @@ public class BeetleRegistry {
 			FabricBlockEntityTypeBuilder.create(BoilerBlockEntity::new, BOILER).build());
 
 	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
-			.icon(() -> new ItemStack(armor_sets.get(0))).build();
+			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
 
 	public static void register() {
 
