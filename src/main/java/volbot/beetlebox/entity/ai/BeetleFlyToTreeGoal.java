@@ -91,7 +91,7 @@ public class BeetleFlyToTreeGoal extends FlyGoal {
         Iterable<BlockPos> iterable = BlockPos.iterate(MathHelper.floor(this.mob.getX() - 3.0), MathHelper.floor(this.mob.getY() - 6.0), MathHelper.floor(this.mob.getZ() - 3.0), MathHelper.floor(this.mob.getX() + 3.0), MathHelper.floor(this.mob.getY() + 6.0), MathHelper.floor(this.mob.getZ() + 3.0));
         for (BlockPos blockPos2 : iterable) {
             BlockState blockState;
-            if (blockPos.equals(blockPos2) || !((blockState = this.mob.world.getBlockState(mutable2.set((Vec3i)blockPos2, Direction.DOWN))).getBlock() instanceof LeavesBlock || blockState.isIn(BlockTags.LOGS)) || !this.mob.world.isAir(blockPos2) || !this.mob.world.isAir(mutable.set((Vec3i)blockPos2, Direction.UP))) continue;
+            if (blockPos.equals(blockPos2) || !((blockState = this.mob.getEntityWorld().getBlockState(mutable2.set((Vec3i)blockPos2, Direction.DOWN))).getBlock() instanceof LeavesBlock || blockState.isIn(BlockTags.LOGS)) || !this.mob.getEntityWorld().isAir(blockPos2) || !this.mob.getEntityWorld().isAir(mutable.set((Vec3i)blockPos2, Direction.UP))) continue;
             return Vec3d.ofBottomCenter(blockPos2);
         }
         return null;

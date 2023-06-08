@@ -92,7 +92,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	@Override
     public void tick() {
         super.tick();
-        if (!this.world.isClient) {
+        if (!this.getEntityWorld().isClient) {
             this.setClimbingWall(this.horizontalCollision && !this.isFlying());
             final boolean isFlying = isFlying();
             if (isFlying && this.isLandNavigator) {
@@ -148,7 +148,7 @@ public abstract class BeetleEntity extends AnimalEntity {
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
         if (itemStack.isOf(BeetleRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)) {
-            if (!this.world.isClient && this.canEat()) {
+            if (!this.getEntityWorld().isClient && this.canEat()) {
                 this.eat(player, hand, itemStack);
                 if(this.isBreedingItem(itemStack)) {
                 	if(this.getHealth() < this.getMaxHealthMult()) {
@@ -156,7 +156,7 @@ public abstract class BeetleEntity extends AnimalEntity {
                 		return ActionResult.SUCCESS;
                 	}
 					int i = this.getBreedingAge();
-		            if (!this.world.isClient && i == 0 && this.canEat()) {
+		            if (!this.getEntityWorld().isClient && i == 0 && this.canEat()) {
 		                this.lovePlayer(player);
 		            }
 		            if (this.isBaby()) {
@@ -168,7 +168,7 @@ public abstract class BeetleEntity extends AnimalEntity {
             if (this.isBaby()) {
             	return ActionResult.FAIL;
             }
-            if (this.world.isClient) {
+            if (this.getEntityWorld().isClient) {
                 return ActionResult.CONSUME;
             }
         }
@@ -199,10 +199,10 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	public boolean isOverWater() {
         BlockPos position = this.getBlockPos();
-        while (position.getY() > -64 && this.world.isAir(position)) {
+        while (position.getY() > -64 && this.getEntityWorld().isAir(position)) {
             position = position.down();
         }
-        return !this.world.getFluidState(position).isEmpty();
+        return !this.getEntityWorld().getFluidState(position).isEmpty();
     }
 	
 	@Override
@@ -260,7 +260,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
 		size_cached = size;
 		this.dataTracker.set(SIZE, size_cached);
-        if(!(this.world.isClient)) {
+        if(!(this.getEntityWorld().isClient)) {
             this.sendPacket();
         }
         this.calculateDimensions();
@@ -271,7 +271,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 			damage=0.1f;
 		}
 		this.dataTracker.set(DAMAGE, damage_cached);
-        if(!(this.world.isClient)) {
+        if(!(this.getEntityWorld().isClient)) {
             this.sendPacket();
         }
         this.refreshAttributes();
@@ -283,7 +283,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
 		maxhealth_cached = maxhealth;
 		this.dataTracker.set(MAXHEALTH, maxhealth_cached);
-        if(!(this.world.isClient)) {
+        if(!(this.getEntityWorld().isClient)) {
             this.sendPacket();
         }
         this.refreshAttributes();
@@ -295,7 +295,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
 		speed_cached = speed;
 		this.dataTracker.set(SPEED, speed_cached);
-        if(!(this.world.isClient)) {
+        if(!(this.getEntityWorld().isClient)) {
             this.sendPacket();
         }
         this.refreshAttributes();
@@ -323,7 +323,7 @@ public abstract class BeetleEntity extends AnimalEntity {
         super.initDataTracker();
         this.dataTracker.startTracking(CLIMBING, (byte)0);
         this.dataTracker.startTracking(FLYING, (byte)0);
-        if(!this.world.isClient) {
+        if(!this.getEntityWorld().isClient) {
             if(size_cached != 0) {
             	this.dataTracker.startTracking(SIZE, size_cached);
             } else {
@@ -370,11 +370,11 @@ public abstract class BeetleEntity extends AnimalEntity {
     }
 	
 	public void sendPacket() {
-		if(this.world.getPlayers().size()==0) {
+		if(this.getEntityWorld().getPlayers().size()==0) {
 			this.unSynced=true;
 			return;
 		}
-	    ServerPlayerEntity p = (ServerPlayerEntity)this.world.getPlayers().get(0);
+	    ServerPlayerEntity p = (ServerPlayerEntity)this.getEntityWorld().getPlayers().get(0);
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(this.getSize());
         buf.writeFloat(this.getDamageMult());

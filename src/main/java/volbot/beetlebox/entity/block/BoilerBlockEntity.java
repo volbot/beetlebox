@@ -218,7 +218,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 		if (itemStack2.isEmpty()) {
 			return true;
 		}
-		if (!itemStack2.isItemEqual(itemStack)) {
+		if (!ItemStack.areEqual(itemStack,itemStack2)) {
 			return false;
 		}
 		if (itemStack2.getCount() < count && itemStack2.getCount() < itemStack2.getMaxCount()) {
@@ -253,7 +253,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	@Override
 	public void setStack(int slot, ItemStack stack) {
 		ItemStack itemStack = this.inventory.get(slot);
-		boolean bl = !stack.isEmpty() && stack.isItemEqual(itemStack) && ItemStack.areNbtEqual(stack, itemStack);
+		boolean bl = !stack.isEmpty() && ItemStack.areEqual(stack,itemStack) && stack.getNbt().equals(itemStack.getNbt());
 		this.inventory.set(slot, stack);
 		if (stack.getCount() > this.getMaxCountPerStack()) {
 			stack.setCount(this.getMaxCountPerStack());

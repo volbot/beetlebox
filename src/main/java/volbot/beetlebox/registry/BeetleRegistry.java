@@ -22,7 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.Item;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.CookingRecipeSerializer;
@@ -30,6 +30,9 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.HercEntity;
@@ -100,13 +103,13 @@ public class BeetleRegistry {
 			new FabricItemSettings().rarity(Rarity.UNCOMMON), LivingEntity.class);
 
 	public static final Block TANK = new BeetleTankBlock<BeetleEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
+			FabricBlockSettings.copyOf(Blocks.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
 	public static final Item TANK_ITEM = new BlockItem(TANK, new FabricItemSettings());
 	public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
+			FabricBlockSettings.copyOf(Blocks.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
 	public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 
-	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f));
+	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).strength(4.0f));
 	public static final Item BOILER_ITEM = new BlockItem(BOILER, new FabricItemSettings());
 
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
@@ -134,8 +137,9 @@ public class BeetleRegistry {
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "boiler_block_entity"),
 			FabricBlockEntityTypeBuilder.create(BoilerBlockEntity::new, BOILER).build());
 
-	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
-			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
+	public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier("beetlebox","item_group"));
+	
+	
 
 	public static void register() {
 
@@ -186,7 +190,12 @@ public class BeetleRegistry {
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ACTAEON, 16, 1, 2);
 
-		// ITEMS
+		Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+					.displayName(Text.of("beetlebox"))
+					.icon(() -> new ItemStack(BEETLE_JELLY))
+					.build()
+				);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
@@ -210,6 +219,8 @@ public class BeetleRegistry {
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
 
+		
+		
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
 			content.add(LEG_BEETLE_JAR);
