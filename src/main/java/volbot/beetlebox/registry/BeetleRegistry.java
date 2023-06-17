@@ -147,14 +147,14 @@ public class BeetleRegistry {
 		FluidStorage.SIDED.registerForBlockEntity((boiler, direction) -> boiler.fluidStorage, BOILER_BLOCK_ENTITY);
 
 		// ENTITIES
-		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", 0x110b0b, 0x180f0f);
-		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", 0xa99859, 0x150f10);
-		BeetleUtils.registerBeetle(TITAN, "titanus", "Titanus", 0x0e0f10, 0x363840);
-		BeetleUtils.registerBeetle(ATLAS, "atlas", "Atlas Beetle", 0x080904, 0x22270d);
-		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", 0x5e3924, 0x180f06);
-		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", 0x9a8666, 0x1b1612);
-		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "June Beetle", 0x112612, 0x343419);
-		BeetleUtils.registerBeetle(ACTAEON, "actaeon", "Actaeon Beetle", 0x115181b, 0x20252a);
+		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", "flip", 0x110b0b, 0x180f0f);
+		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", "pinch", 0xa99859, 0x150f10);
+		BeetleUtils.registerBeetle(TITAN, "titanus", "Titanus", "pinch", 0x0e0f10, 0x363840);
+		BeetleUtils.registerBeetle(ATLAS, "atlas", "Atlas Beetle", "flip", 0x080904, 0x22270d);
+		BeetleUtils.registerBeetle(ELEPHANT, "elephant", "Elephant Beetle", "flip", 0x5e3924, 0x180f06);
+		BeetleUtils.registerBeetle(TITYUS, "tityus", "Tityus", "pinch", 0x9a8666, 0x1b1612);
+		BeetleUtils.registerBeetle(JUNEBUG, "junebug", "June Beetle", "headbutt", 0x112612, 0x343419);
+		BeetleUtils.registerBeetle(ACTAEON, "actaeon", "Actaeon Beetle", "flip", 0x115181b, 0x20252a);
 
 		Predicate<BiomeSelectionContext> forests = BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS);
 		BiomeModifications.addSpawn(forests, SpawnGroup.CREATURE, JRB, 16, 1, 2);

@@ -9,7 +9,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 public class BeetleElytraItem extends BeetleArmorItem implements FabricElytraItem {
 
 	public BeetleElytraItem(ChitinMaterial mat, Settings settings) {
-		super(mat, Type.CHESTPLATE, settings.rarity(Rarity.UNCOMMON));
+		super(mat, Type.CHESTPLATE, 2, settings.rarity(Rarity.UNCOMMON));
 	}
 	
 	@Override

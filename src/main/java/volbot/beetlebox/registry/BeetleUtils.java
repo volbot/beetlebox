@@ -23,12 +23,13 @@ import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
+import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleUtils {
-	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, int color1, int color2) {
+	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id, String beetle_name, String helmet_ability, int color1, int color2) {
 		
 		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox",beetle_id), beetle_type);
 		
@@ -37,10 +38,10 @@ public class BeetleUtils {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_spawn_egg"), SPAWN_EGG);
 		BeetleRegistry.spawn_eggs.add(SPAWN_EGG);
 		Item ELYTRA = new BeetleElytraItem(new ChitinMaterial(beetle_id), new FabricItemSettings());
-		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.HELMET, new FabricItemSettings());
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.LEGGINGS, new FabricItemSettings());
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.BOOTS, new FabricItemSettings());
-		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.CHESTPLATE, new FabricItemSettings());
+		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.HELMET, 1, new FabricItemSettings());
+		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.LEGGINGS, 1, new FabricItemSettings());
+		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.BOOTS, 1, new FabricItemSettings());
+		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.CHESTPLATE, 1, new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_helmet"), HELMET);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_elytra"), ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id+"_chestplate"), CHESTPLATE);
@@ -61,6 +62,8 @@ public class BeetleUtils {
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_boots", createBootsRecipe(BOOTS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id+"_chestplate", createChestplateRecipe(CHESTPLATE, ELYTRON));
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
+		
+		BeetleArmorAbilities.beetle_abilities.put(beetle_name, helmet_ability);
 		
 		BeetleEnglishProvider.gen_lang.put(beetle_type.getTranslationKey(), beetle_name);
 
