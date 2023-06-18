@@ -29,24 +29,25 @@ public class BeetleArmorAbilities {
 
 	public static void helmetAttack(LivingEntity attacker, LivingEntity target, ItemStack helmet) {
 		ArmorItem armorItem = (ArmorItem) helmet.getItem();
-		if(((BeetleArmorItem)armorItem).tier==1) {
-			return;
-		}
 		ArmorMaterial armorMaterial = armorItem.getMaterial();
-		switch (beetle_abilities.get(armorMaterial.getName())) {
-		case "flip":
-			if (attacker.isOnGround()) {
-				target.setVelocity(target.getVelocity().x, 0.9, target.getVelocity().z);
-			} else {
-				target.addVelocity(0, 0.625, 0);
+		if (helmet.getOrCreateNbt().contains("beetle_helmet_attack")) {
+			switch (beetle_abilities.get(armorMaterial.getName())) {
+			case "flip":
+				if (attacker.isOnGround()) {
+					target.setVelocity(target.getVelocity().x, 0.9, target.getVelocity().z);
+				} else {
+					target.addVelocity(0, 0.625, 0);
+				}
+				break;
+			case "pinch":
+				((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 25, 2),
+						attacker);
+				break;
+			case "headbutt":
+				((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 50, 2),
+						attacker);
+				break;
 			}
-			break;
-		case "pinch":
-			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.WITHER, 25, 2), attacker);
-			break;
-		case "headbutt":
-			((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 50, 2), attacker);
-			break;
 		}
 	}
 }

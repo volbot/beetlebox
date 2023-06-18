@@ -15,7 +15,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class JellyMixRecipe extends ShapelessRecipe {
     final ItemStack output;
@@ -30,22 +30,22 @@ public class JellyMixRecipe extends ShapelessRecipe {
 	
 	public static ItemStack addNbt(DefaultedList<Ingredient> input, ItemStack output) {
 		for(Ingredient i : input) {
-			if(i.test(BeetleRegistry.GELATIN.getDefaultStack())) {
+			if(i.test(ItemRegistry.GELATIN.getDefaultStack())) {
 				continue;
 			}
-			if(i.test(BeetleRegistry.APPLE_SYRUP.getDefaultStack())) {
+			if(i.test(ItemRegistry.APPLE_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "apple");
 			}
-			else if(i.test(BeetleRegistry.MELON_SYRUP.getDefaultStack())) {
+			else if(i.test(ItemRegistry.MELON_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "melon");
 			}
-			else if(i.test(BeetleRegistry.BERRY_SYRUP.getDefaultStack())) {
+			else if(i.test(ItemRegistry.BERRY_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "berry");
 			}
-			else if(i.test(BeetleRegistry.SUGAR_SYRUP.getDefaultStack())) {
+			else if(i.test(ItemRegistry.SUGAR_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "sugar");
 			}
-			else if(i.test(BeetleRegistry.CACTUS_SYRUP.getDefaultStack())) {
+			else if(i.test(ItemRegistry.CACTUS_SYRUP.getDefaultStack())) {
 				output.getOrCreateNbt().putString("FruitType", "cactus");
 			}
 			

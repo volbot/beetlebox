@@ -47,7 +47,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public abstract class BeetleEntity extends AnimalEntity {
 	
@@ -83,7 +83,7 @@ public abstract class BeetleEntity extends AnimalEntity {
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
         this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
         this.goalSelector.add(4, new TemptGoal(this, 1.0, BREEDING_INGREDIENT, false));
-        this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(BeetleRegistry.BEETLE_JELLY), false));
+        this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(ItemRegistry.BEETLE_JELLY), false));
         this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
         this.goalSelector.add(7, new LookAroundGoal(this));
@@ -124,7 +124,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	
 	@Override
     protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
-		if(stack.isOf(BeetleRegistry.BEETLE_JELLY)) {
+		if(stack.isOf(ItemRegistry.BEETLE_JELLY)) {
 			NbtCompound nbt = stack.getNbt();
 			switch(nbt.getString("FruitType")) {
 			case "melon":
@@ -147,7 +147,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	@Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if (itemStack.isOf(BeetleRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)) {
+        if (itemStack.isOf(ItemRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)) {
             if (!this.world.isClient && this.canEat()) {
                 this.eat(player, hand, itemStack);
                 if(this.isBreedingItem(itemStack)) {

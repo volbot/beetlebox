@@ -16,27 +16,25 @@ import net.minecraft.world.World;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleArmorItem extends ArmorItem {
-	
-	public BeetleArmorItem(ChitinMaterial mat, Type type, int tier, Settings settings) {
-		super(mat, type, settings);		
-		this.tier=tier;
-	}
 
-	public int tier;
+	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
+		super(mat, type, settings);
+	}
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		super.inventoryTick(stack, world, entity, slot, selected);
-		if(this.tier==1) {
-			return;
-		}
 		if (entity instanceof LivingEntity) {
 			if (((LivingEntity) entity).getEquippedStack(getSlotType()).getItem() instanceof BeetleArmorItem) {
 				if (slot == 1) {
-					BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
+					if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
+						BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
+					}
 				}
 				if (slot == 0) {
-					entity.fallDistance = Math.min(1, entity.fallDistance);
+					if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
+						entity.fallDistance = Math.min(1, entity.fallDistance);
+					}
 				}
 			}
 		}
@@ -46,29 +44,37 @@ public class BeetleArmorItem extends ArmorItem {
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		switch (this.getSlotType()) {
 		case HEAD:
-			switch (BeetleArmorAbilities.beetle_abilities.get(this.material.getName())) {
-			case "flip":
-				tooltip.add(Text.literal("Ability: Flip"));
-				tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC));
-				break;
-			case "pinch":
-				tooltip.add(Text.literal("Ability: Pinch"));
-				tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.ITALIC));
-				break;
-			case "headbutt":
-				tooltip.add(Text.literal("Ability: Headbutt"));
-				tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.ITALIC));
-				break;
+			if (stack.getOrCreateNbt().contains("beetle_helmet_attack")) {
+				switch (BeetleArmorAbilities.beetle_abilities.get(this.material.getName())) {
+				case "flip":
+					tooltip.add(Text.literal("Ability: Flip"));
+					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC));
+					break;
+				case "pinch":
+					tooltip.add(Text.literal("Ability: Pinch"));
+					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.ITALIC));
+					break;
+				case "headbutt":
+					tooltip.add(Text.literal("Ability: Headbutt"));
+					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.ITALIC));
+					break;
+				}
 			}
 			break;
 		case CHEST:
-			tooltip.add(Text.literal("Ability: Fall-Flight"));
+			if (stack.getItem() instanceof BeetleElytraItem) {
+				tooltip.add(Text.literal("Ability: Fall-Flight"));
+			}
 			break;
 		case LEGS:
-			tooltip.add(Text.literal("Ability: Wall Climbing"));
+			if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
+				tooltip.add(Text.literal("Ability: Wall Climbing"));
+			}
 			break;
 		case FEET:
-			tooltip.add(Text.literal("Ability: Fall Protection"));
+			if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
+				tooltip.add(Text.literal("Ability: Fall Protection"));
+			}
 			break;
 		default:
 			break;

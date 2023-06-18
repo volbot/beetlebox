@@ -8,7 +8,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleModelGenerator extends FabricModelProvider {
 
@@ -25,12 +25,12 @@ public class BeetleModelGenerator extends FabricModelProvider {
 
 	@Override
 	public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-		items.addAll(BeetleRegistry.armor_sets);
-		items.addAll(BeetleRegistry.beetle_drops);
-		items.add(BeetleRegistry.GELATIN);
-		items.add(BeetleRegistry.SUGAR_GELATIN);
-		items.add(BeetleRegistry.GELATIN_GLUE);
-		items.add(BeetleRegistry.BEETLE_JELLY);
+		items.addAll(ItemRegistry.armor_sets);
+		items.addAll(ItemRegistry.beetle_drops);
+		items.add(ItemRegistry.GELATIN);
+		items.add(ItemRegistry.SUGAR_GELATIN);
+		items.add(ItemRegistry.GELATIN_GLUE);
+		items.add(ItemRegistry.BEETLE_JELLY);
 		for(Item item : items ) {
 			itemModelGenerator.register(item, Models.GENERATED);
 		}

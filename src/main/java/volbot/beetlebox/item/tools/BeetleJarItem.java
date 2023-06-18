@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.block.TankBlockEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
 
 public class BeetleJarItem<T extends LivingEntity> extends Item {
 
@@ -71,7 +71,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			nbt = new NbtCompound();
 		}
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
-			TankBlockEntity te = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
+			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
 			if (!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {
 				LivingEntity e = (LivingEntity) ((EntityType.get(te.contained_id).orElse(null).create(te.getWorld())));
 				if (!this.canStore(e)) {
