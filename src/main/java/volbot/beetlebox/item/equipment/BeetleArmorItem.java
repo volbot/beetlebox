@@ -62,7 +62,7 @@ public class BeetleArmorItem extends ArmorItem {
 			}
 			break;
 		case CHEST:
-			if (stack.getItem() instanceof BeetleElytraItem) {
+			if (stack.getOrCreateNbt().contains("beetle_chest_elytra") || stack.getItem() instanceof BeetleElytraItem) {
 				tooltip.add(Text.literal("Ability: Fall-Flight"));
 			}
 			break;

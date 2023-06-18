@@ -14,6 +14,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
+import volbot.beetlebox.item.BeetleItemUpgrade;
 import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.tools.BeetleJarItem;
@@ -36,6 +37,12 @@ public class ItemRegistry {
 	public static final Item SUGAR_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
+
+	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", new FabricItemSettings());
+	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", new FabricItemSettings());
+	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", new FabricItemSettings());
+	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage",
+			new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -62,6 +69,11 @@ public class ItemRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "sugar_syrup"), SUGAR_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "cactus_syrup"), CACTUS_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jelly"), BEETLE_JELLY);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_h_attack"), UPGRADE_H_ATTACK);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_c_elytra"), UPGRADE_C_ELYTRA);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_l_climb"), UPGRADE_L_CLIMB);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_b_falldam"), UPGRADE_B_FALLDAM);
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);
@@ -77,6 +89,11 @@ public class ItemRegistry {
 			content.add(MELON_SYRUP);
 			content.add(BERRY_SYRUP);
 			content.add(SUGAR_SYRUP);
+
+			content.add(UPGRADE_H_ATTACK);
+			content.add(UPGRADE_C_ELYTRA);
+			content.add(UPGRADE_L_CLIMB);
+			content.add(UPGRADE_B_FALLDAM);
 
 			for (Item i : beetle_drops) {
 				content.add(i);
