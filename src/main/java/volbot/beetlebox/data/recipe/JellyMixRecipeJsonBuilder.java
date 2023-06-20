@@ -29,8 +29,7 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.recipe.JellyMixRecipe;
 
 public class JellyMixRecipeJsonBuilder 
-extends RecipeJsonBuilder
-implements CraftingRecipeJsonBuilder{
+extends ShapelessRecipeJsonBuilder{
 
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
     private final RecipeCategory category;
@@ -41,6 +40,7 @@ implements CraftingRecipeJsonBuilder{
     private String group;
 	
 	public JellyMixRecipeJsonBuilder(RecipeCategory category, ItemConvertible output, int count) {
+		super(category,output,count);
 		this.output = output.asItem();
 		this.count=count;
 		this.category=category;

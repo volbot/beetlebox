@@ -17,7 +17,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.item.equipment.BeetleElytraItem;
+import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 @Environment(EnvType.CLIENT)
@@ -33,11 +33,11 @@ public class BeetleElytraFeatureRenderer<T extends LivingEntity, M extends Entit
     @Override
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
-        if (!(itemStack.getItem() instanceof BeetleElytraItem)) {
+        if (!(itemStack.getOrCreateNbt().contains("beetle_chest_elytra"))) {
         	return;
         }
         Identifier skin = new Identifier("beetlebox","textures/entity/elytra/"
-        		+((ChitinMaterial)(((BeetleElytraItem)itemStack.getItem()).getMaterial())).getName()
+        		+((ChitinMaterial)(((BeetleArmorItem)itemStack.getItem()).getMaterial())).getName()
         		+"_elytra.png");
         matrixStack.push();
         matrixStack.translate(0.0f, 0.0f, 0.125f);

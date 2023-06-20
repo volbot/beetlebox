@@ -1,4 +1,4 @@
-// 1.19.4	2023-05-25T23:22:18.560289228	beetlebox/Model Definitions
+// 1.19.4	2023-06-19T22:34:06.789369174	beetlebox/Model Definitions
 44a6e1bd365890ca7f54bd88c16164d8f5336c67 assets/beetlebox/models/item/actaeon_elytron.json
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
@@ -48,6 +48,6 @@ c96e1a1a14192d382a2f90058e2e3ce2e2979a34 assets/beetlebox/models/item/elephant_c
 5f6a36de0d93e6320af5a720d1bc00139af8c2c6 assets/beetlebox/models/item/hercules_legs.json
 3ca68af4098f102dbff9bbebf429742214b92aff assets/beetlebox/models/item/atlas_legs.json
 20272e85ab8c4ae07dad0270bc44af3c55f1859e assets/beetlebox/models/item/elephant_elytron.json
-91b532ede2f6899317d24e0331746ebc7f95ccec assets/beetlebox/models/item/elephant_legs.json
 807213d08d6e01fe307ef606e42ef2e6a7cb6454 assets/beetlebox/models/item/titanus_chestplate.json
+91b532ede2f6899317d24e0331746ebc7f95ccec assets/beetlebox/models/item/elephant_legs.json
 d78b44f3ca6802f72d270c266d162bdca9104f32 assets/beetlebox/models/item/atlas_elytra.json

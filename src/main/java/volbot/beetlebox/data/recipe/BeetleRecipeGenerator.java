@@ -6,13 +6,18 @@ import java.util.function.Consumer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.ComplexRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.LegacySmithingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.LegacySmithingRecipeJsonBuilder.SmithingRecipeJsonProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.SmithingTransformRecipeJsonBuilder.SmithingTransformRecipeJsonProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
@@ -28,6 +33,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 	}
 
 	public static HashMap<String, ShapedRecipeJsonBuilder> shaped_recipes = new HashMap<>();
+	public static HashMap<String, UpgradeUsageRecipeJsonBuilder> upgrade_recipes = new HashMap<>();
 	public static HashMap<String, ShapelessRecipeJsonBuilder> shapeless_recipes = new HashMap<>();
 	public static Item[] syrups = new Item[] { ItemRegistry.APPLE_SYRUP, ItemRegistry.MELON_SYRUP,
 			ItemRegistry.BERRY_SYRUP, ItemRegistry.SUGAR_SYRUP };
@@ -65,19 +71,16 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			ShapedRecipeJsonBuilder recipe = shaped_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
+		
+		for (String s : upgrade_recipes.keySet()) {
+			UpgradeUsageRecipeJsonBuilder recipe = upgrade_recipes.get(s);
+			recipe.offerTo(exporter, s);
+		}
 
 		for (String s : shapeless_recipes.keySet()) {
 			ShapelessRecipeJsonBuilder recipe = shapeless_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
-
-		/*
-		Ingredient syrup = Ingredient.ofItems(syrups);
-		ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, BeetleRegistry.JELLY_TREAT).input(syrup).input(syrup)
-				.input(syrup).input(BeetleRegistry.GELATIN).criterion(RecipeProvider.hasItem(BeetleRegistry.GELATIN),
-						RecipeProvider.conditionsFromItem(BeetleRegistry.GELATIN))
-				.offerTo(exporter);
-		*/
 		
 		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, Blocks.STICKY_PISTON).pattern("s").pattern("p")
 				.input('s', BeetleItemTagGenerator.SLIMEBALLS).input('p', Items.PISTON)
@@ -120,6 +123,6 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				.input('w', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "wool"))))
 				.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 				.offerTo(exporter);
+		
 	}
-
 }

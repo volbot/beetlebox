@@ -8,6 +8,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.recipe.BoilingRecipe;
 import volbot.beetlebox.recipe.JellyMixRecipe;
+import volbot.beetlebox.recipe.UpgradeRecipe;
+import volbot.beetlebox.recipe.UpgradeUsageRecipe;
 
 public class DataRegistry {
 
@@ -21,6 +23,21 @@ public class DataRegistry {
 					return "jelly_recipe";
 				}
 			});
+	
+	public static final RecipeType<UpgradeRecipe> UPGRADE_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE,
+			new Identifier("beetlebox", "upgrade_recipe"), new RecipeType<UpgradeRecipe>() {
+				@Override
+				public String toString() {
+					return "upgrade_recipe";
+				}
+			});
+	public static final RecipeType<UpgradeUsageRecipe> UPGRADE_USAGE_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE,
+			new Identifier("beetlebox", "upgrade_usage_recipe"), new RecipeType<UpgradeUsageRecipe>() {
+				@Override
+				public String toString() {
+					return "upgrade_usage_recipe";
+				}
+			});
 
 	public static void register() {
 
@@ -28,6 +45,10 @@ public class DataRegistry {
 				new Identifier("beetlebox", "boiling_recipe"), new CookingRecipeSerializer<>(BoilingRecipe::new, 50));
 		Registry.register(Registries.RECIPE_SERIALIZER, JellyMixRecipe.Serializer.ID,
 				JellyMixRecipe.Serializer.INSTANCE);
+		Registry.register(Registries.RECIPE_SERIALIZER, UpgradeRecipe.Serializer.ID,
+				UpgradeRecipe.Serializer.INSTANCE);
+		Registry.register(Registries.RECIPE_SERIALIZER, UpgradeUsageRecipe.Serializer.ID,
+				UpgradeUsageRecipe.Serializer.INSTANCE);
 
 	}
 }

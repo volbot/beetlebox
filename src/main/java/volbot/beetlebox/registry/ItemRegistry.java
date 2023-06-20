@@ -27,6 +27,11 @@ public class ItemRegistry {
 	public static Vector<Item> armor_sets = new Vector<>();
 	public static Vector<Item> beetle_drops = new Vector<>();
 
+	public static Vector<Item> helmet_upgrades = new Vector<>();
+	public static Vector<Item> chest_upgrades = new Vector<>();
+	public static Vector<Item> legs_upgrades = new Vector<>();
+	public static Vector<Item> boots_upgrades = new Vector<>();
+
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
 	public static final Item GELATIN_GLUE = new Item(new FabricItemSettings());
@@ -38,11 +43,11 @@ public class ItemRegistry {
 	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
+	public static final Item UPGRADE_DORMANT = new Item(new FabricItemSettings());
 	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", new FabricItemSettings());
 	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", new FabricItemSettings());
 	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", new FabricItemSettings());
-	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage",
-			new FabricItemSettings());
+	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage", new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -55,6 +60,11 @@ public class ItemRegistry {
 
 	public static void register() {
 
+		helmet_upgrades.add(UPGRADE_H_ATTACK);
+		chest_upgrades.add(UPGRADE_C_ELYTRA);
+		legs_upgrades.add(UPGRADE_L_CLIMB);
+		boots_upgrades.add(UPGRADE_B_FALLDAM);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
@@ -69,7 +79,8 @@ public class ItemRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "sugar_syrup"), SUGAR_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "cactus_syrup"), CACTUS_SYRUP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jelly"), BEETLE_JELLY);
-		
+
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_dormant"), UPGRADE_DORMANT);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_h_attack"), UPGRADE_H_ATTACK);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_c_elytra"), UPGRADE_C_ELYTRA);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_l_climb"), UPGRADE_L_CLIMB);

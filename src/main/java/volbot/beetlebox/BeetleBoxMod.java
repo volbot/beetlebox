@@ -17,8 +17,8 @@ public class BeetleBoxMod implements ModInitializer {
 		
 		LOGGER.info("loading insects, bugs and the like...");
 
-        BeetleRegistry.register();
         ItemRegistry.register();
+        BeetleRegistry.register();
         BlockRegistry.register();
         DataRegistry.register();
     }

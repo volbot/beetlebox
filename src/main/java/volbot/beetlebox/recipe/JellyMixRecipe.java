@@ -81,16 +81,13 @@ public class JellyMixRecipe extends ShapelessRecipe {
     
     public static class Serializer
     implements RecipeSerializer<JellyMixRecipe> {
-    	 // Define ExampleRecipeSerializer as a singleton by making its constructor private and exposing an instance.
         private Serializer() {
         }
 
         public static final Serializer INSTANCE = new Serializer();
 
-        // This will be the "type" field in the json
         public static final Identifier ID = new Identifier("beetlebox","jelly_recipe");
 
-       // [...]
     	@SuppressWarnings("deprecation")
 		@Override
         public JellyMixRecipe read(Identifier identifier, JsonObject jsonObject) {
