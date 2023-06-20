@@ -27,7 +27,6 @@ import volbot.beetlebox.data.recipe.UpgradeUsageRecipeJsonBuilder;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
-import volbot.beetlebox.item.equipment.BeetleElytraItem;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleUtils {
@@ -88,7 +87,7 @@ public class BeetleUtils {
 		}
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 
-		BeetleArmorAbilities.beetle_abilities.put(beetle_name, helmet_ability);
+		BeetleArmorAbilities.beetle_abilities.put(beetle_id, helmet_ability);
 
 		BeetleEnglishProvider.gen_lang.put(beetle_type.getTranslationKey(), beetle_name);
 

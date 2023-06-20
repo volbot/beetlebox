@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,7 +16,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
-public class BeetleArmorItem extends ArmorItem {
+public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
 	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
 		super(mat, type, settings);
@@ -78,6 +79,16 @@ public class BeetleArmorItem extends ArmorItem {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	@Override
+	public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
+		if(chestStack.getOrCreateNbt().contains("beetle_chest_elytra")) {
+			doVanillaElytraTick(entity, chestStack);
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -1,4 +1,4 @@
-package volbot.beetlebox.registry;
+ package volbot.beetlebox.registry;
 
 import java.util.Vector;
 
@@ -17,6 +17,7 @@ import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.BeetleItemUpgrade;
 import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
+import volbot.beetlebox.item.equipment.materials.DormantUpgrade;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 
@@ -43,7 +44,7 @@ public class ItemRegistry {
 	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
-	public static final Item UPGRADE_DORMANT = new Item(new FabricItemSettings());
+	public static final Item UPGRADE_DORMANT = new DormantUpgrade(new FabricItemSettings());
 	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", new FabricItemSettings());
 	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", new FabricItemSettings());
 	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", new FabricItemSettings());
