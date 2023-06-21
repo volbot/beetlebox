@@ -42,6 +42,8 @@ import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
@@ -98,9 +100,9 @@ public class BeetleBoxClient implements ClientModInitializer {
 					FluidVariant variant = FluidVariant.fromPacket(buf);
 					long fluid_amt = buf.readLong();
 					client.execute(() -> {
-						handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY)
+						handler.getWorld().getBlockEntity(pos, BlockRegistry.BOILER_BLOCK_ENTITY)
 								.orElse(null).fluidStorage.variant = variant;
-						handler.getWorld().getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY)
+						handler.getWorld().getBlockEntity(pos, BlockRegistry.BOILER_BLOCK_ENTITY)
 								.orElse(null).fluidStorage.amount = fluid_amt;
 					});
 				});
@@ -131,8 +133,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 					});
 				});
 
-		BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.TANK, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(BeetleRegistry.LEG_TANK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TANK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LEG_TANK, RenderLayer.getCutout());
 
 		LivingEntityFeatureRendererRegistrationCallback.EVENT
 				.register((entityType, entityRenderer, registrationHelper, context) -> {
@@ -142,7 +144,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 					}
 				});
 
-		for (Item i : BeetleRegistry.beetle_helmets) {
+		for (Item i : ItemRegistry.beetle_helmets) {
 			BeetleArmorItem armorItem = (BeetleArmorItem)i;
 			ArmorRenderer.register(new BeetleArmorRenderer(BeetleBoxClient.beetle_helmets.get(armorItem.getMaterial().getName())), armorItem);
 		}
@@ -164,14 +166,14 @@ public class BeetleBoxClient implements ClientModInitializer {
 		EntityRendererRegistry.register(BeetleRegistry.ACTAEON, ActaeonEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_ACTAEON_LAYER, ActaeonEntityModel::getTexturedModelData);
 
-		ModelPredicateProviderRegistry.register(BeetleRegistry.BEETLE_JAR, new Identifier("full"),
+		ModelPredicateProviderRegistry.register(ItemRegistry.BEETLE_JAR, new Identifier("full"),
 				(itemStack, clientWorld, livingEntity, whatever) -> {
 					if (livingEntity == null || itemStack.getNbt() == null) {
 						return 0F;
 					}
 					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
 				});
-		ModelPredicateProviderRegistry.register(BeetleRegistry.LEG_BEETLE_JAR, new Identifier("full"),
+		ModelPredicateProviderRegistry.register(ItemRegistry.LEG_BEETLE_JAR, new Identifier("full"),
 				(itemStack, clientWorld, livingEntity, whatever) -> {
 					if (livingEntity == null || itemStack.getNbt() == null) {
 						return 0F;
@@ -179,16 +181,16 @@ public class BeetleBoxClient implements ClientModInitializer {
 					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
 				});
 		
-		for(Item i : BeetleRecipeGenerator.syrups) {
+		for(Item i : BeetleRecipeGenerator.syrups) { 
 			ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 				return FruitSyrup.getColor(stack);
 			}, i);
 		}
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			return FruitSyrup.getColor(stack);
-		}, BeetleRegistry.BEETLE_JELLY);
+		}, ItemRegistry.BEETLE_JELLY);
 
-		BlockEntityRendererRegistry.register(BeetleRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
-		BlockEntityRendererRegistry.register(BeetleRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
 	}
 }

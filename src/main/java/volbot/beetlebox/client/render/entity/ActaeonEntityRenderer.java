@@ -7,7 +7,6 @@ import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.BeetleBoxClient;
 import volbot.beetlebox.entity.beetle.ActaeonEntity;
-import volbot.beetlebox.entity.beetle.ElephantEntity;
 
 @Environment(EnvType.CLIENT)
 public class ActaeonEntityRenderer extends MobEntityRenderer<ActaeonEntity, ActaeonEntityModel> {

@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_h_attack"
+    },
+    {
+      "item": "beetlebox:junebug_helmet"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:junebug_helmet"
+  }
+}

@@ -17,6 +17,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.block.TankBlockEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
 
 public class BeetleJarItem<T extends LivingEntity> extends Item {
 
@@ -43,14 +44,14 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		NbtCompound nbt = stack.getNbt();
 		if (nbt == null) {
-			tooltip.add(Text.literal("Contained: None"));
+			tooltip.add(Text.literal("Contained: None").formatted(Formatting.GRAY));
 			return;
 		}
 		EntityType<?> e = EntityType.get(nbt.getString("EntityType")).orElse(null);
 		if (e == null) {
-			tooltip.add(Text.literal("Contained: None"));
+			tooltip.add(Text.literal("Contained: None").formatted(Formatting.GRAY));
 		} else {
-			tooltip.add(Text.literal("Contained: ").append(e.getName()));
+			tooltip.add(Text.literal("Contained: ").append(e.getName()).formatted(Formatting.GRAY));
 		}
 	}
 
@@ -71,7 +72,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			nbt = new NbtCompound();
 		}
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
-			TankBlockEntity te = world.getBlockEntity(blockPos, BeetleRegistry.TANK_BLOCK_ENTITY).orElse(null);
+			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
 			if (!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {
 				LivingEntity e = (LivingEntity) ((EntityType.get(te.contained_id).orElse(null).create(te.getWorld())));
 				if (!this.canStore(e)) {

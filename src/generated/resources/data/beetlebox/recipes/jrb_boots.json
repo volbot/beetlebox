@@ -7,12 +7,18 @@
     },
     "e": {
       "item": "beetlebox:jrb_elytron"
+    },
+    "g": {
+      "item": "beetlebox:gelatin_glue"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
     }
   },
   "pattern": [
-    "eee",
-    "ebe",
-    "eee"
+    "eoe",
+    "gbg",
+    "eoe"
   ],
   "result": {
     "item": "beetlebox:jrb_boots"

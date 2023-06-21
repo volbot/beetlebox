@@ -8,7 +8,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
 
 public class TankBlockEntity extends BlockEntity {
 
@@ -17,7 +17,7 @@ public class TankBlockEntity extends BlockEntity {
 	public NbtCompound entity_data;
 
 	public TankBlockEntity(BlockPos pos, BlockState state) {
-		super(BeetleRegistry.TANK_BLOCK_ENTITY, pos, state);
+		super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
 	}
 
 	@Override

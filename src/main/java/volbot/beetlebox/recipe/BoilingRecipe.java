@@ -8,7 +8,8 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.book.CookingRecipeCategory;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.DataRegistry;
 
 public class BoilingRecipe extends AbstractCookingRecipe {
 
@@ -17,19 +18,19 @@ public class BoilingRecipe extends AbstractCookingRecipe {
 	
 	public BoilingRecipe(Identifier id, String group, CookingRecipeCategory category,
 			Ingredient input, ItemStack output, float exp, int cookTime) {
-		super(BeetleRegistry.BOILING_RECIPE_TYPE, id, group, category, input, output, 0f, cookTime);
+		super(DataRegistry.BOILING_RECIPE_TYPE, id, group, category, input, output, 0f, cookTime);
 		this.fluid_in = FluidVariant.of(Fluids.WATER);
 		this.fluid_droplets = 100;
 	}
 
     @Override
     public ItemStack createIcon() {
-        return new ItemStack(BeetleRegistry.BOILER);
+        return new ItemStack(BlockRegistry.BOILER);
     }
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return BeetleRegistry.BOILING_RECIPE_SERIALIZER;
+        return DataRegistry.BOILING_RECIPE_SERIALIZER;
     }
 
 }

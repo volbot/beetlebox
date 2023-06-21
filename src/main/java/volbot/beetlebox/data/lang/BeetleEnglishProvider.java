@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleEnglishProvider extends FabricLanguageProvider {
 
@@ -16,27 +17,33 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(TranslationBuilder translationBuilder) {
-		translationBuilder.add(BeetleRegistry.ITEM_GROUP, "Beetlebox");
+		translationBuilder.add(ItemRegistry.ITEM_GROUP, "Beetlebox");
 		
-		translationBuilder.add(BeetleRegistry.TANK, "Beetle Tank");
-		translationBuilder.add(BeetleRegistry.LEG_TANK, "Legendary Beetle Tank");
-		translationBuilder.add(BeetleRegistry.BOILER, "Boiler");
+		translationBuilder.add(BlockRegistry.TANK, "Beetle Tank");
+		translationBuilder.add(BlockRegistry.LEG_TANK, "Legendary Beetle Tank");
+		translationBuilder.add(BlockRegistry.BOILER, "Boiler");
 		
-		translationBuilder.add(BeetleRegistry.NET, "Catching Net");
-		translationBuilder.add(BeetleRegistry.BEETLE_JAR, "Beetle Jar");
-		translationBuilder.add(BeetleRegistry.LEG_BEETLE_JAR, "Legendary Beetle Jar");
+		translationBuilder.add(ItemRegistry.NET, "Catching Net");
+		translationBuilder.add(ItemRegistry.BEETLE_JAR, "Beetle Jar");
+		translationBuilder.add(ItemRegistry.LEG_BEETLE_JAR, "Legendary Beetle Jar");
 
-		translationBuilder.add(BeetleRegistry.GELATIN, "Gelatin Powder");
-		translationBuilder.add(BeetleRegistry.SUGAR_GELATIN, "Sugar Gelatin");
-		translationBuilder.add(BeetleRegistry.GELATIN_GLUE, "Gelatin Glue");
+		translationBuilder.add(ItemRegistry.GELATIN, "Gelatin Powder");
+		translationBuilder.add(ItemRegistry.SUGAR_GELATIN, "Sugar Gelatin");
+		translationBuilder.add(ItemRegistry.GELATIN_GLUE, "Gelatin Glue");
 		
-		translationBuilder.add(BeetleRegistry.APPLE_SYRUP, "Apple Syrup");
-		translationBuilder.add(BeetleRegistry.MELON_SYRUP, "Melon Syrup");
-		translationBuilder.add(BeetleRegistry.BERRY_SYRUP, "Berry Syrup");
-		translationBuilder.add(BeetleRegistry.SUGAR_SYRUP, "Sugar Syrup");
-		translationBuilder.add(BeetleRegistry.CACTUS_SYRUP, "Cactus Syrup");
+		translationBuilder.add(ItemRegistry.APPLE_SYRUP, "Apple Syrup");
+		translationBuilder.add(ItemRegistry.MELON_SYRUP, "Melon Syrup");
+		translationBuilder.add(ItemRegistry.BERRY_SYRUP, "Berry Syrup");
+		translationBuilder.add(ItemRegistry.SUGAR_SYRUP, "Sugar Syrup");
+		translationBuilder.add(ItemRegistry.CACTUS_SYRUP, "Cactus Syrup");
 		
-		translationBuilder.add(BeetleRegistry.BEETLE_JELLY, "Beetle Jelly");
+		translationBuilder.add(ItemRegistry.BEETLE_JELLY, "Beetle Jelly");
+		
+		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Beetle Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Elytra Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Climb Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Fall-Damage Upgrade Chip");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));

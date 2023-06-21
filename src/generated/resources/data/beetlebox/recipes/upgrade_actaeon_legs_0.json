@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_l_climb"
+    },
+    {
+      "item": "beetlebox:actaeon_legs"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:actaeon_legs"
+  }
+}

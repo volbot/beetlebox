@@ -38,7 +38,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import volbot.beetlebox.recipe.BoilingRecipe;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.DataRegistry;
 
 public class BoilerBlockEntity extends BlockEntity implements SidedInventory, RecipeUnlocker, RecipeInputProvider {
 
@@ -52,7 +53,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	int cookTime;
 	int cookTimeTotal;
 	private final RecipeManager.MatchGetter<Inventory, ? extends BoilingRecipe> matchGetter = RecipeManager
-			.createCachedMatchGetter(BeetleRegistry.BOILING_RECIPE_TYPE);
+			.createCachedMatchGetter(DataRegistry.BOILING_RECIPE_TYPE);
 
 	// This field is going to contain the amount, and the fluid variant (more on
 	// that in a bit).
@@ -92,7 +93,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	};
 	
 	public BoilerBlockEntity(BlockPos pos, BlockState state) {
-		super(BeetleRegistry.BOILER_BLOCK_ENTITY, pos, state);
+		super(BlockRegistry.BOILER_BLOCK_ENTITY, pos, state);
 	}
 
 	@Override

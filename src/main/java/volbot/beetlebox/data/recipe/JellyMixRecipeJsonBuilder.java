@@ -14,7 +14,6 @@ import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
@@ -29,8 +28,7 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.recipe.JellyMixRecipe;
 
 public class JellyMixRecipeJsonBuilder 
-extends RecipeJsonBuilder
-implements CraftingRecipeJsonBuilder{
+extends ShapelessRecipeJsonBuilder{
 
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
     private final RecipeCategory category;
@@ -41,6 +39,7 @@ implements CraftingRecipeJsonBuilder{
     private String group;
 	
 	public JellyMixRecipeJsonBuilder(RecipeCategory category, ItemConvertible output, int count) {
+		super(category,output,count);
 		this.output = output.asItem();
 		this.count=count;
 		this.category=category;

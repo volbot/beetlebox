@@ -9,7 +9,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleItemTagGenerator extends ItemTagProvider {
 
@@ -22,6 +22,6 @@ public class BeetleItemTagGenerator extends ItemTagProvider {
 	@Override
 	protected void configure(WrapperLookup arg) {
 		getOrCreateTagBuilder(SLIMEBALLS)
-        .add(BeetleRegistry.GELATIN_GLUE);
+        .add(ItemRegistry.GELATIN_GLUE);
 	}
 }
