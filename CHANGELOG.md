@@ -1,1 +1,4 @@
-updated to 1.20! let me know if you find any (non-coleopteran) bugs!
+added armor upgrades! 
+craft them, feed them to a beetle, and then craft them onto your armor 
+to receive unique armor bonuses!
+also fixed armor toughness values and other quirks of armor
