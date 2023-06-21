@@ -1,0 +1,20 @@
+{
+  "type": "beetlebox:jelly_recipe",
+  "ingredients": [
+    {
+      "item": "beetlebox:gelatin"
+    },
+    {
+      "item": "beetlebox:melon_syrup"
+    },
+    {
+      "item": "minecraft:iron_ingot"
+    },
+    {
+      "item": "minecraft:tall_grass"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:beetle_jelly"
+  }
+}

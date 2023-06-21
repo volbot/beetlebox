@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
@@ -18,7 +19,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
-	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
+	public BeetleArmorItem(ChitinMaterial mat, EquipmentSlot type, Settings settings) {
 		super(mat, type, settings);
 	}
 
@@ -46,7 +47,7 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 		switch (this.getSlotType()) {
 		case HEAD:
 			if (stack.getOrCreateNbt().contains("beetle_helmet_attack")) {
-				switch (BeetleArmorAbilities.beetle_abilities.get(this.material.getName())) {
+				switch (BeetleArmorAbilities.beetle_abilities.get(this.getMaterial().getName())) {
 				case "flip":
 					tooltip.add(Text.literal("Ability: Flip").formatted(Formatting.GRAY));
 					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));

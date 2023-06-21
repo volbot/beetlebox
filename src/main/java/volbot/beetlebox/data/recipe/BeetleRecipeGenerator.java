@@ -3,27 +3,27 @@ package volbot.beetlebox.data.recipe;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.RecipeProvider;
+import net.minecraft.data.server.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
-	public BeetleRecipeGenerator(FabricDataOutput output) {
+	public BeetleRecipeGenerator(FabricDataGenerator output) {
 		super(output);
 	}
 
@@ -35,13 +35,13 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 	public static Item[] mags = new Item[] { Items.IRON_INGOT, Items.GOLD_INGOT, Items.DIAMOND, Items.NETHERITE_SCRAP };
 
 	@Override
-	public void generate(Consumer<RecipeJsonProvider> exporter) {
+	public void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
 
 		for (int syrup_dex = 0; syrup_dex < syrups.length; syrup_dex++) {
 			for (int mag_dex = 0; mag_dex < mags.length; mag_dex++) {
 				for (int dir_dex = 0; dir_dex < 2; dir_dex++) {
 					JellyMixRecipeJsonBuilder recipe = JellyMixRecipeJsonBuilder
-							.create(RecipeCategory.FOOD, ItemRegistry.BEETLE_JELLY)
+							.create(ItemRegistry.BEETLE_JELLY)
 							.input(Ingredient.ofItems(ItemRegistry.GELATIN))
 							.criterion(RecipeProvider.hasItem(ItemRegistry.GELATIN),
 									RecipeProvider.conditionsFromItem(ItemRegistry.GELATIN));
@@ -59,7 +59,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			}
 		}
 
-		offerSmelting(exporter, List.of(ItemRegistry.SUGAR_GELATIN), RecipeCategory.MISC, ItemRegistry.GELATIN_GLUE,
+		offerSmelting(exporter, List.of(ItemRegistry.SUGAR_GELATIN), ItemRegistry.GELATIN_GLUE,
 				0.7f, 200, "gelatin_glue");
 
 		for (String s : shaped_recipes.keySet()) {
@@ -77,45 +77,45 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			recipe.offerTo(exporter, s);
 		}
 		
-		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, Blocks.STICKY_PISTON).pattern("s").pattern("p")
+		ShapedRecipeJsonBuilder.create(Blocks.STICKY_PISTON).pattern("s").pattern("p")
 				.input('s', BeetleItemTagGenerator.SLIMEBALLS).input('p', Items.PISTON)
 				.criterion("has_any_slimeball", RecipeProvider.conditionsFromTag(BeetleItemTagGenerator.SLIMEBALLS))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, Items.LEAD, 2).pattern("ss ").pattern("sg ").pattern("  s")
+		ShapedRecipeJsonBuilder.create(Items.LEAD, 2).pattern("ss ").pattern("sg ").pattern("  s")
 				.input('g', BeetleItemTagGenerator.SLIMEBALLS).input('s', Items.STRING)
 				.criterion("has_any_slimeball", RecipeProvider.conditionsFromTag(BeetleItemTagGenerator.SLIMEBALLS))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ItemRegistry.SUGAR_GELATIN).pattern("sg").pattern("gs")
+		ShapedRecipeJsonBuilder.create(ItemRegistry.SUGAR_GELATIN).pattern("sg").pattern("gs")
 				.input('s', Items.SUGAR).input('g', ItemRegistry.GELATIN)
 				.criterion(RecipeProvider.hasItem(ItemRegistry.GELATIN),
 						RecipeProvider.conditionsFromItem(ItemRegistry.GELATIN))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BOILER).pattern("b b")
+		ShapedRecipeJsonBuilder.create(BlockRegistry.BOILER).pattern("b b")
 				.pattern("bcb").pattern("bib").input('b', Items.BRICK).input('c', Items.CAULDRON)
 				.input('i', Items.IRON_BARS)
 				.criterion(RecipeProvider.hasItem(Blocks.CAULDRON), RecipeProvider.conditionsFromItem(Blocks.CAULDRON))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.TANK).pattern("iii").pattern("gjg")
+		ShapedRecipeJsonBuilder.create(BlockRegistry.TANK).pattern("iii").pattern("gjg")
 				.pattern("iii").input('i', Items.IRON_INGOT).input('g', Items.GLASS_PANE)
 				.input('j', ItemRegistry.BEETLE_JAR).criterion(RecipeProvider.hasItem(ItemRegistry.BEETLE_JAR),
 						RecipeProvider.conditionsFromItem(ItemRegistry.BEETLE_JAR))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.BEETLE_JAR).pattern(" l ").pattern("gjg")
+		ShapedRecipeJsonBuilder.create(ItemRegistry.BEETLE_JAR).pattern(" l ").pattern("gjg")
 				.pattern(" g ")
-				.input('l', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "logs"))))
+				.input('l', Ingredient.fromTag(TagKey.of(Registry.ITEM_KEY, new Identifier("minecraft", "logs"))))
 				.input('g', Items.GLASS_PANE).input('j', Items.LEAD)
 				.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
 						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 				.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.NET).pattern(" sw").pattern(" ss")
+		ShapedRecipeJsonBuilder.create(ItemRegistry.NET).pattern(" sw").pattern(" ss")
 				.pattern("s  ").input('s', Items.STICK)
-				.input('w', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "wool"))))
+				.input('w', Ingredient.fromTag(TagKey.of(Registry.ITEM_KEY, new Identifier("minecraft", "wool"))))
 				.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 				.offerTo(exporter);
 		

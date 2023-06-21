@@ -1,6 +1,5 @@
 {
   "type": "beetlebox:upgrade_usage",
-  "category": "equipment",
   "ingredients": [
     {
       "item": "beetlebox:upgrade_b_falldam"

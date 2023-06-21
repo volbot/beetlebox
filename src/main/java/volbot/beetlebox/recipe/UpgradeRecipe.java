@@ -7,16 +7,15 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class UpgradeRecipe extends ShapedRecipe {
 
-	public UpgradeRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height,
+	public UpgradeRecipe(Identifier id, String group, int width, int height,
 			DefaultedList<Ingredient> input, ItemStack output) {
-		super(id, group, category, width, height, input, addNbt(input, output));
+		super(id, group, width, height, input, addNbt(input, output));
 		this.output = addNbt(input, output);
 		this.input = input;
 	}
@@ -61,14 +60,14 @@ public class UpgradeRecipe extends ShapedRecipe {
 		@Override
 		public UpgradeRecipe read(Identifier identifier, JsonObject jsonObject) {
 			ShapedRecipe r = Serializer.SHAPED.read(identifier, jsonObject);
-			return new UpgradeRecipe(identifier, r.getGroup(), r.getCategory(), r.getWidth(), r.getHeight(),
+			return new UpgradeRecipe(identifier, r.getGroup(), r.getWidth(), r.getHeight(),
 					r.getIngredients(), ItemRegistry.UPGRADE_DORMANT.getDefaultStack());
 		}
 
 		@Override
 		public UpgradeRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
 			ShapedRecipe r = Serializer.SHAPED.read(identifier, packetByteBuf);
-			return new UpgradeRecipe(identifier, r.getGroup(), r.getCategory(), r.getWidth(), r.getHeight(),
+			return new UpgradeRecipe(identifier, r.getGroup(), r.getWidth(), r.getHeight(),
 					r.getIngredients(), ItemRegistry.UPGRADE_DORMANT.getDefaultStack());
 		}
 

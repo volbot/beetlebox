@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "j": {
+      "item": "minecraft:lead"
+    },
+    "l": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    " l ",
+    "gjg",
+    " g "
+  ],
+  "result": {
+    "item": "beetlebox:beetle_jar"
+  }
+}

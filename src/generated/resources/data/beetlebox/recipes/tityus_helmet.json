@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "e": {
       "item": "beetlebox:tityus_elytron"
@@ -22,6 +21,5 @@
   ],
   "result": {
     "item": "beetlebox:tityus_helmet"
-  },
-  "show_notification": true
+  }
 }

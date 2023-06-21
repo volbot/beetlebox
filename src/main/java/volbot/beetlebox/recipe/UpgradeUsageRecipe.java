@@ -10,7 +10,6 @@ import net.minecraft.recipe.ShapelessRecipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -20,9 +19,9 @@ public class UpgradeUsageRecipe extends ShapelessRecipe {
     final ItemStack output;
     final DefaultedList<Ingredient> input;
 
-	public UpgradeUsageRecipe(Identifier id, String group, CraftingRecipeCategory category, ItemStack output,
+	public UpgradeUsageRecipe(Identifier id, String group, ItemStack output,
 			DefaultedList<Ingredient> input) {
-		super(id, group, category, addNbt(input, output), input);
+		super(id, group, addNbt(input, output), input);
 		this.output = addNbt(input, output);
 		this.input = input;
 	}
@@ -61,11 +60,9 @@ public class UpgradeUsageRecipe extends ShapelessRecipe {
 
         public static final Identifier ID = new Identifier("beetlebox","upgrade_usage");
 
-    	@SuppressWarnings("deprecation")
-		@Override
+    	@Override
         public UpgradeUsageRecipe read(Identifier identifier, JsonObject jsonObject) {
             String string = JsonHelper.getString(jsonObject, "group", "");
-            CraftingRecipeCategory craftingRecipeCategory = CraftingRecipeCategory.CODEC.byId(JsonHelper.getString(jsonObject, "category", null), CraftingRecipeCategory.MISC);
             DefaultedList<Ingredient> defaultedList = Serializer.getIngredients(JsonHelper.getArray(jsonObject, "ingredients"));
             if (defaultedList.isEmpty()) {
                 throw new JsonParseException("No ingredients for shapeless recipe");
@@ -74,7 +71,7 @@ public class UpgradeUsageRecipe extends ShapelessRecipe {
                 throw new JsonParseException("Too many ingredients for shapeless recipe");
             }
             ItemStack itemStack = ShapedRecipe.outputFromJson(JsonHelper.getObject(jsonObject, "result"));
-            return new UpgradeUsageRecipe(identifier, string, craftingRecipeCategory, itemStack, defaultedList);
+            return new UpgradeUsageRecipe(identifier, string, itemStack, defaultedList);
         }
 
         private static DefaultedList<Ingredient> getIngredients(JsonArray json) {
@@ -90,20 +87,18 @@ public class UpgradeUsageRecipe extends ShapelessRecipe {
         @Override
         public UpgradeUsageRecipe read(Identifier identifier, PacketByteBuf packetByteBuf) {
             String string = packetByteBuf.readString();
-            CraftingRecipeCategory craftingRecipeCategory = packetByteBuf.readEnumConstant(CraftingRecipeCategory.class);
             int i = packetByteBuf.readVarInt();
             DefaultedList<Ingredient> defaultedList = DefaultedList.ofSize(i, Ingredient.EMPTY);
             for (int j = 0; j < defaultedList.size(); ++j) {
                 defaultedList.set(j, Ingredient.fromPacket(packetByteBuf));
             }
             ItemStack itemStack = packetByteBuf.readItemStack();
-            return new UpgradeUsageRecipe(identifier, string, craftingRecipeCategory, itemStack, defaultedList);
+            return new UpgradeUsageRecipe(identifier, string, itemStack, defaultedList);
         }
 
         @Override
         public void write(PacketByteBuf packetByteBuf, UpgradeUsageRecipe jellyMixRecipe) {
             packetByteBuf.writeString(jellyMixRecipe.getGroup());
-            packetByteBuf.writeEnumConstant(jellyMixRecipe.getCategory());
             packetByteBuf.writeVarInt(jellyMixRecipe.input.size());
             for (Ingredient ingredient : jellyMixRecipe.input) {
                 ingredient.write(packetByteBuf);

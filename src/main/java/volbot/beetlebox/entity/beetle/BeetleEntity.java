@@ -27,7 +27,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -213,7 +212,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 
 	@Override
 	public boolean damage(DamageSource source, float amount) {
-		if (source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
+    	if(source.equals(DamageSource.CACTUS) || source.equals(DamageSource.FALL)) {
 			return false;
 		}
 		return super.damage(source, amount);

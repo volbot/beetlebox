@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "equipment",
   "key": {
     "e": {
       "item": "beetlebox:hercules_elytron"
@@ -22,6 +21,5 @@
   ],
   "result": {
     "item": "beetlebox:hercules_legs"
-  },
-  "show_notification": true
+  }
 }

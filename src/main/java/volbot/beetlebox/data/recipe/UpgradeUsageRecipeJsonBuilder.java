@@ -14,42 +14,37 @@ import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.server.recipe.RecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.book.CraftingRecipeCategory;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.recipe.UpgradeUsageRecipe;
 
 public class UpgradeUsageRecipeJsonBuilder 
 extends ShapelessRecipeJsonBuilder{
 
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
-    private final RecipeCategory category;
     private final Item output;
     private final int count;
     private final List<Ingredient> inputs = Lists.newArrayList();
     @Nullable
     private String group;
 	
-	public UpgradeUsageRecipeJsonBuilder(RecipeCategory category, ItemConvertible output, int count) {
-		super(category,output,count);
+	public UpgradeUsageRecipeJsonBuilder(ItemConvertible output, int count) {
+		super(output,count);
 		this.output = output.asItem();
 		this.count=count;
-		this.category=category;
 	}
 	
 	@Override
     public void offerTo(Consumer<RecipeJsonProvider> exporter, Identifier recipeId) {
         this.validate(recipeId);
         this.advancementBuilder.parent(ROOT).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR);
-        exporter.accept(new UpgradeUsageRecipeJsonProvider(recipeId, this.output, this.count, this.group == null ? "" : this.group, ShapelessRecipeJsonBuilder.getCraftingCategory(this.category), this.inputs, this.advancementBuilder, recipeId.withPrefixedPath("recipes/" + this.category.getName() + "/")));
+        exporter.accept(new UpgradeUsageRecipeJsonProvider(recipeId, this.output, this.count, this.group == null ? "" : this.group, this.inputs, this.advancementBuilder, new Identifier("recipes/upgradeusage/"+recipeId.getPath())));
     }
 	
     private void validate(Identifier recipeId) {
@@ -75,12 +70,12 @@ extends ShapelessRecipeJsonBuilder{
         return this.output;
     }
     
-    public static UpgradeUsageRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output) {
-        return new UpgradeUsageRecipeJsonBuilder(category, output, 1);
+    public static UpgradeUsageRecipeJsonBuilder create(ItemConvertible output) {
+        return new UpgradeUsageRecipeJsonBuilder(output, 1);
     }
 
-    public static UpgradeUsageRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, int count) {
-        return new UpgradeUsageRecipeJsonBuilder(category, output, count);
+    public static UpgradeUsageRecipeJsonBuilder create(ItemConvertible output, int count) {
+        return new UpgradeUsageRecipeJsonBuilder(output, count);
     }
     
     public UpgradeUsageRecipeJsonBuilder input(ItemConvertible itemProvider) {
@@ -107,7 +102,7 @@ extends ShapelessRecipeJsonBuilder{
 
     
     public static class UpgradeUsageRecipeJsonProvider
-    extends RecipeJsonBuilder.CraftingRecipeJsonProvider {
+    extends ShapelessRecipeJsonProvider {
     	private final Identifier recipeId;
         private final Item output;
         private final int count;
@@ -116,8 +111,8 @@ extends ShapelessRecipeJsonBuilder{
         private final Advancement.Builder advancementBuilder;
         private final Identifier advancementId;
 
-        public UpgradeUsageRecipeJsonProvider(Identifier recipeId, Item output, int outputCount, String group, CraftingRecipeCategory craftingCategory, List<Ingredient> inputs, Advancement.Builder advancementBuilder, Identifier advancementId) {
-            super(craftingCategory);
+        public UpgradeUsageRecipeJsonProvider(Identifier recipeId, Item output, int outputCount, String group, List<Ingredient> inputs, Advancement.Builder advancementBuilder, Identifier advancementId) {
+            super(advancementId, output, outputCount, group, inputs, advancementBuilder, advancementId);
             this.recipeId = recipeId;
             this.output = output;
             this.count = outputCount;
@@ -139,7 +134,7 @@ extends ShapelessRecipeJsonBuilder{
             }
             json.add("ingredients", jsonArray);
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("item", Registries.ITEM.getId(this.output).toString());
+            jsonObject.addProperty("item", Registry.ITEM.getId(this.output).toString());
             if (this.count > 1) {
                 jsonObject.addProperty("count", this.count);
             }

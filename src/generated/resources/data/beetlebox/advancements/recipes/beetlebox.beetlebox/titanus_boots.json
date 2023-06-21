@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:titanus_boots"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_titanus_elytron": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "beetlebox:titanus_elytron"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_titanus_elytron",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:titanus_boots"
+    ]
+  }
+}

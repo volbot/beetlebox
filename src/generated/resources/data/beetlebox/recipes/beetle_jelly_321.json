@@ -1,0 +1,20 @@
+{
+  "type": "beetlebox:jelly_recipe",
+  "ingredients": [
+    {
+      "item": "beetlebox:gelatin"
+    },
+    {
+      "item": "beetlebox:sugar_syrup"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:tall_grass"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:beetle_jelly"
+  }
+}
