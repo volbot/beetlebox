@@ -48,33 +48,33 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 			if (stack.getOrCreateNbt().contains("beetle_helmet_attack")) {
 				switch (BeetleArmorAbilities.beetle_abilities.get(this.material.getName())) {
 				case "flip":
-					tooltip.add(Text.literal("Ability: Flip"));
-					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC));
+					tooltip.add(Text.literal("Ability: Flip").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
 					break;
 				case "pinch":
-					tooltip.add(Text.literal("Ability: Pinch"));
-					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.ITALIC));
+					tooltip.add(Text.literal("Ability: Pinch").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
 					break;
 				case "headbutt":
-					tooltip.add(Text.literal("Ability: Headbutt"));
-					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.ITALIC));
+					tooltip.add(Text.literal("Ability: Headbutt").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
 					break;
 				}
 			}
 			break;
 		case CHEST:
 			if (stack.getOrCreateNbt().contains("beetle_chest_elytra")) {
-				tooltip.add(Text.literal("Ability: Fall-Flight"));
+				tooltip.add(Text.literal("Ability: Fall-Flight").formatted(Formatting.GRAY));
 			}
 			break;
 		case LEGS:
 			if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
-				tooltip.add(Text.literal("Ability: Wall Climbing"));
+				tooltip.add(Text.literal("Ability: Wall Climbing").formatted(Formatting.GRAY));
 			}
 			break;
 		case FEET:
 			if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
-				tooltip.add(Text.literal("Ability: Fall Protection"));
+				tooltip.add(Text.literal("Ability: Fall Protection").formatted(Formatting.GRAY));
 			}
 			break;
 		default:

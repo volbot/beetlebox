@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -22,7 +21,6 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
-import volbot.beetlebox.data.recipe.JellyMixRecipeJsonBuilder;
 import volbot.beetlebox.data.recipe.UpgradeUsageRecipeJsonBuilder;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
@@ -63,26 +61,29 @@ public class BeetleUtils {
 		int j = 0;
 		for (Item i : ItemRegistry.helmet_upgrades) {
 			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_helmet_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).input(Ingredient.ofItems(i)).input(HELMET)
+					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).input(Ingredient.ofItems(i))
+							.input(HELMET)
 							.criterion(RecipeProvider.hasItem(HELMET), RecipeProvider.conditionsFromItem(HELMET)));
 		}
 		j = 0;
 		for (Item i : ItemRegistry.chest_upgrades) {
 			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_chest_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).input(Ingredient.ofItems(i)).input(CHESTPLATE)
-							.criterion(RecipeProvider.hasItem(CHESTPLATE),
+					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).input(Ingredient.ofItems(i))
+							.input(CHESTPLATE).criterion(RecipeProvider.hasItem(CHESTPLATE),
 									RecipeProvider.conditionsFromItem(CHESTPLATE)));
 		}
 		j = 0;
 		for (Item i : ItemRegistry.legs_upgrades) {
 			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_legs_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).input(Ingredient.ofItems(i)).input(LEGS)
+					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).input(Ingredient.ofItems(i))
+							.input(LEGS)
 							.criterion(RecipeProvider.hasItem(LEGS), RecipeProvider.conditionsFromItem(LEGS)));
 		}
 		j = 0;
 		for (Item i : ItemRegistry.boots_upgrades) {
 			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_boots_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).input(Ingredient.ofItems(i)).input(BOOTS)
+					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).input(Ingredient.ofItems(i))
+							.input(BOOTS)
 							.criterion(RecipeProvider.hasItem(BOOTS), RecipeProvider.conditionsFromItem(BOOTS)));
 		}
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
@@ -100,26 +101,30 @@ public class BeetleUtils {
 	}
 
 	public static ShapedRecipeJsonBuilder createChestplateRecipe(Item CHESTPLATE, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).pattern("eee").pattern("ece")
-				.pattern("eee").input('e', ELYTRON).input('c', Items.DIAMOND_CHESTPLATE)
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).pattern("eoe").pattern("gcg")
+				.pattern("eoe").input('e', ELYTRON).input('c', Items.DIAMOND_CHESTPLATE)
+				.input('g', ItemRegistry.GELATIN_GLUE).input('o', Items.OBSIDIAN)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 
 	public static ShapedRecipeJsonBuilder createHelmetRecipe(Item HELMET, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).pattern("eee").pattern("ehe")
-				.pattern("eee").input('e', ELYTRON).input('h', Items.DIAMOND_HELMET)
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).pattern("eoe").pattern("ghg")
+				.pattern("eoe").input('e', ELYTRON).input('h', Items.DIAMOND_HELMET)
+				.input('g', ItemRegistry.GELATIN_GLUE).input('o', Items.OBSIDIAN)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 
 	public static ShapedRecipeJsonBuilder createLegsRecipe(Item LEGS, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).pattern("eee").pattern("ele").pattern("eee")
-				.input('e', ELYTRON).input('l', Items.DIAMOND_LEGGINGS)
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).pattern("eoe").pattern("glg").pattern("eoe")
+				.input('e', ELYTRON).input('l', Items.DIAMOND_LEGGINGS).input('g', ItemRegistry.GELATIN_GLUE)
+				.input('o', Items.OBSIDIAN)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 
 	public static ShapedRecipeJsonBuilder createBootsRecipe(Item BOOTS, Item ELYTRON) {
-		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).pattern("eee").pattern("ebe").pattern("eee")
-				.input('e', ELYTRON).input('b', Items.DIAMOND_BOOTS)
+		return ShapedRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).pattern("eoe").pattern("gbg").pattern("eoe")
+				.input('e', ELYTRON).input('b', Items.DIAMOND_BOOTS).input('g', ItemRegistry.GELATIN_GLUE)
+				.input('o', Items.OBSIDIAN)
 				.criterion(RecipeProvider.hasItem(ELYTRON), RecipeProvider.conditionsFromItem(ELYTRON));
 	}
 

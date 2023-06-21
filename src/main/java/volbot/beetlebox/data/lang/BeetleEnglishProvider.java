@@ -39,11 +39,11 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		
 		translationBuilder.add(ItemRegistry.BEETLE_JELLY, "Beetle Jelly");
 		
-		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Bugsuit Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Bugsuit Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Elytra Bugsuit Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Climb Bugsuit Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Fall-Damage Bugsuit Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Beetle Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Elytra Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Climb Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Fall-Damage Upgrade Chip");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));

@@ -7,12 +7,18 @@
     },
     "e": {
       "item": "beetlebox:tityus_elytron"
+    },
+    "g": {
+      "item": "beetlebox:gelatin_glue"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
     }
   },
   "pattern": [
-    "eee",
-    "ece",
-    "eee"
+    "eoe",
+    "gcg",
+    "eoe"
   ],
   "result": {
     "item": "beetlebox:tityus_chestplate"

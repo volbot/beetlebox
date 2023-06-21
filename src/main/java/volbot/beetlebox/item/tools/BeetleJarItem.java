@@ -17,6 +17,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -43,14 +44,14 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
 		NbtCompound nbt = stack.getNbt();
 		if (nbt == null) {
-			tooltip.add(Text.literal("Contained: None"));
+			tooltip.add(Text.literal("Contained: None").formatted(Formatting.GRAY));
 			return;
 		}
 		EntityType<?> e = EntityType.get(nbt.getString("EntityType")).orElse(null);
 		if (e == null) {
-			tooltip.add(Text.literal("Contained: None"));
+			tooltip.add(Text.literal("Contained: None").formatted(Formatting.GRAY));
 		} else {
-			tooltip.add(Text.literal("Contained: ").append(e.getName()));
+			tooltip.add(Text.literal("Contained: ").append(e.getName()).formatted(Formatting.GRAY));
 		}
 	}
 
