@@ -11,6 +11,9 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
@@ -56,11 +59,18 @@ public class ItemRegistry {
 	public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(
 			new FabricItemSettings().rarity(Rarity.UNCOMMON), LivingEntity.class);
 
-	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
-			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
+	public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier("beetlebox","item_group"));
+
 
 	public static void register() {
 
+		
+		Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+				.displayName(Text.of("beetlebox"))
+				.icon(() -> new ItemStack(BEETLE_JELLY))
+				.build()
+			);
+		
 		helmet_upgrades.add(UPGRADE_H_ATTACK);
 		chest_upgrades.add(UPGRADE_C_ELYTRA);
 		legs_upgrades.add(UPGRADE_L_CLIMB);

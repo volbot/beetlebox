@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItem;
@@ -24,15 +24,15 @@ import volbot.beetlebox.entity.block.TankBlockEntity;
 public class BlockRegistry {
 
 	public static final Block TANK = new BeetleTankBlock<BeetleEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
+			FabricBlockSettings.copyOf(Blocks.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class);
 	public static final Item TANK_ITEM = new BlockItem(TANK, new FabricItemSettings());
 	public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
+			FabricBlockSettings.copyOf(Blocks.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
 	public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 
-	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f));
+	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.copyOf(Blocks.CAULDRON).strength(4.0f));
 	public static final Item BOILER_ITEM = new BlockItem(BOILER, new FabricItemSettings());
-
+	
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "tank_block_entity"),
 			FabricBlockEntityTypeBuilder.create(TankBlockEntity::new, TANK, LEG_TANK).build());
@@ -41,8 +41,8 @@ public class BlockRegistry {
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "boiler_block_entity"),
 			FabricBlockEntityTypeBuilder.create(BoilerBlockEntity::new, BOILER).build());
 
+	
 	public static void register() {
-		
 		FluidStorage.SIDED.registerForBlockEntity((boiler, direction) -> boiler.fluidStorage, BOILER_BLOCK_ENTITY);
 
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "tank"), TANK);
