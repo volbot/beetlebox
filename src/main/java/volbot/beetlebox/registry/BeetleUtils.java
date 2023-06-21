@@ -36,9 +36,9 @@ public class BeetleUtils {
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_spawn_egg"), SPAWN_EGG);
 		ItemRegistry.spawn_eggs.add(SPAWN_EGG);
 		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.HEAD, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.CHEST, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.LEGS, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.FEET, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.LEGS, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.FEET, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.CHEST, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_helmet"), HELMET);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_chestplate"), CHESTPLATE);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_legs"), LEGS);
