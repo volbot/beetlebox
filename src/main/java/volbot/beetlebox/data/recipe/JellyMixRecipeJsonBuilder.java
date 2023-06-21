@@ -14,37 +14,42 @@ import net.minecraft.advancement.AdvancementRewards;
 import net.minecraft.advancement.CriterionMerger;
 import net.minecraft.advancement.criterion.CriterionConditions;
 import net.minecraft.advancement.criterion.RecipeUnlockedCriterion;
-import net.minecraft.data.server.recipe.CraftingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.RecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder.ShapelessRecipeJsonProvider;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.recipe.JellyMixRecipe;
 
 public class JellyMixRecipeJsonBuilder 
-implements CraftingRecipeJsonBuilder{
+extends ShapelessRecipeJsonBuilder{
 
     private final Advancement.Builder advancementBuilder = Advancement.Builder.create();
+    private final RecipeCategory category;
     private final Item output;
     private final int count;
     private final List<Ingredient> inputs = Lists.newArrayList();
     @Nullable
     private String group;
 	
-	public JellyMixRecipeJsonBuilder(ItemConvertible output, int count) {
+	public JellyMixRecipeJsonBuilder(RecipeCategory category, ItemConvertible output, int count) {
+		super(category,output,count);
 		this.output = output.asItem();
 		this.count=count;
+		this.category=category;
 	}
 	
 	@Override
     public void offerTo(Consumer<RecipeJsonProvider> exporter, Identifier recipeId) {
         this.validate(recipeId);
         this.advancementBuilder.parent(ROOT).criterion("has_the_recipe", RecipeUnlockedCriterion.create(recipeId)).rewards(AdvancementRewards.Builder.recipe(recipeId)).criteriaMerger(CriterionMerger.OR);
-        exporter.accept(new JellyMixRecipeJsonProvider(recipeId, this.output, this.count, this.group == null ? "" : this.group, this.inputs, this.advancementBuilder, new Identifier("recipes/jellymix/"+recipeId.getPath())));
+        exporter.accept(new JellyMixRecipeJsonProvider(recipeId, this.output, this.count, this.group == null ? "" : this.group, ShapelessRecipeJsonBuilder.getCraftingCategory(this.category), this.inputs, this.advancementBuilder, recipeId.withPrefixedPath("recipes/" + this.category.getName() + "/")));
     }
 	
     private void validate(Identifier recipeId) {
@@ -70,12 +75,12 @@ implements CraftingRecipeJsonBuilder{
         return this.output;
     }
     
-    public static JellyMixRecipeJsonBuilder create(ItemConvertible output) {
-        return new JellyMixRecipeJsonBuilder(output, 1);
+    public static JellyMixRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output) {
+        return new JellyMixRecipeJsonBuilder(category, output, 1);
     }
 
-    public static JellyMixRecipeJsonBuilder create(ItemConvertible output, int count) {
-        return new JellyMixRecipeJsonBuilder(output, count);
+    public static JellyMixRecipeJsonBuilder create(RecipeCategory category, ItemConvertible output, int count) {
+        return new JellyMixRecipeJsonBuilder(category, output, count);
     }
     
     public JellyMixRecipeJsonBuilder input(ItemConvertible itemProvider) {
@@ -102,7 +107,7 @@ implements CraftingRecipeJsonBuilder{
 
     
     public static class JellyMixRecipeJsonProvider
-    extends ShapelessRecipeJsonProvider {
+    extends RecipeJsonBuilder.CraftingRecipeJsonProvider {
     	private final Identifier recipeId;
         private final Item output;
         private final int count;
@@ -111,8 +116,8 @@ implements CraftingRecipeJsonBuilder{
         private final Advancement.Builder advancementBuilder;
         private final Identifier advancementId;
 
-        public JellyMixRecipeJsonProvider(Identifier recipeId, Item output, int outputCount, String group, List<Ingredient> inputs, Advancement.Builder advancementBuilder, Identifier advancementId) {
-            super(advancementId, output, outputCount, group, inputs, advancementBuilder, advancementId);
+        public JellyMixRecipeJsonProvider(Identifier recipeId, Item output, int outputCount, String group, CraftingRecipeCategory craftingCategory, List<Ingredient> inputs, Advancement.Builder advancementBuilder, Identifier advancementId) {
+            super(craftingCategory);
             this.recipeId = recipeId;
             this.output = output;
             this.count = outputCount;
@@ -134,7 +139,7 @@ implements CraftingRecipeJsonBuilder{
             }
             json.add("ingredients", jsonArray);
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("item", Registry.ITEM.getId(this.output).toString());
+            jsonObject.addProperty("item", Registries.ITEM.getId(this.output).toString());
             if (this.count > 1) {
                 jsonObject.addProperty("count", this.count);
             }

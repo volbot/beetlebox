@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "b": {
+      "item": "minecraft:diamond_boots"
+    },
+    "e": {
+      "item": "beetlebox:hercules_elytron"
+    },
+    "g": {
+      "item": "beetlebox:gelatin_glue"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "eoe",
+    "gbg",
+    "eoe"
+  ],
+  "result": {
+    "item": "beetlebox:hercules_boots"
+  },
+  "show_notification": true
+}

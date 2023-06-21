@@ -18,7 +18,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
 
 public class BoilerBlock extends BlockWithEntity {
 
@@ -36,7 +36,7 @@ public class BoilerBlock extends BlockWithEntity {
     }
 
 	protected void boilerLogic(World world, BlockPos pos, PlayerEntity player) {
-		BoilerBlockEntity blockEntity = world.getBlockEntity(pos, BeetleRegistry.BOILER_BLOCK_ENTITY).orElse(null);
+		BoilerBlockEntity blockEntity = world.getBlockEntity(pos, BlockRegistry.BOILER_BLOCK_ENTITY).orElse(null);
 		if (blockEntity != null) {
 			ItemStack current_boiling = blockEntity.getStack(0);
 			ItemStack output = blockEntity.getStack(1);
@@ -78,7 +78,7 @@ public class BoilerBlock extends BlockWithEntity {
 	
 	@Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return checkType(type, BeetleRegistry.BOILER_BLOCK_ENTITY, (world1, pos, state1, be) -> BoilerBlockEntity.tick(world1, pos, state1, be));
+        return checkType(type, BlockRegistry.BOILER_BLOCK_ENTITY, (world1, pos, state1, be) -> BoilerBlockEntity.tick(world1, pos, state1, be));
     }
 
 	@Override

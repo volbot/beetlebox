@@ -2,6 +2,9 @@ package volbot.beetlebox;
 
 import net.fabricmc.api.ModInitializer;
 import volbot.beetlebox.registry.BeetleRegistry;
+import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.DataRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,9 @@ public class BeetleBoxMod implements ModInitializer {
 		
 		LOGGER.info("loading insects, bugs and the like...");
 
+        ItemRegistry.register();
         BeetleRegistry.register();
+        BlockRegistry.register();
+        DataRegistry.register();
     }
 }

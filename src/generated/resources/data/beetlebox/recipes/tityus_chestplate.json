@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "c": {
+      "item": "minecraft:diamond_chestplate"
+    },
+    "e": {
+      "item": "beetlebox:tityus_elytron"
+    },
+    "g": {
+      "item": "beetlebox:gelatin_glue"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "eoe",
+    "gcg",
+    "eoe"
+  ],
+  "result": {
+    "item": "beetlebox:tityus_chestplate"
+  },
+  "show_notification": true
+}

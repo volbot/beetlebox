@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "e": {
+      "item": "beetlebox:titanus_elytron"
+    },
+    "g": {
+      "item": "beetlebox:gelatin_glue"
+    },
+    "h": {
+      "item": "minecraft:diamond_helmet"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "eoe",
+    "ghg",
+    "eoe"
+  ],
+  "result": {
+    "item": "beetlebox:titanus_helmet"
+  },
+  "show_notification": true
+}
