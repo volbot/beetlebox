@@ -32,11 +32,6 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 						BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
 					}
 				}
-				if (slot == 0) {
-					if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
-						entity.fallDistance = Math.min(1, entity.fallDistance);
-					}
-				}
 			}
 		}
 	}

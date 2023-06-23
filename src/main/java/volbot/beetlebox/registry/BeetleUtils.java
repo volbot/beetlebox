@@ -12,7 +12,11 @@ import net.minecraft.item.ArmorItem.Type;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
+import net.minecraft.loot.function.LootFunction;
+import net.minecraft.loot.function.LootFunctionTypes;
+import net.minecraft.loot.function.LootingEnchantLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
@@ -130,6 +134,7 @@ public class BeetleUtils {
 
 	public static LootTable.Builder createLootTable(Item ELYTRON) {
 		return LootTable.builder().pool(
-				LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0F)).with(ItemEntry.builder(ELYTRON)));
+				LootPool.builder().rolls(UniformLootNumberProvider.create(1.0F,2.0F)).with(ItemEntry.builder(ELYTRON))
+				.apply(LootingEnchantLootFunction.builder(UniformLootNumberProvider.create(0.0F,3.0F))));
 	}
 }
