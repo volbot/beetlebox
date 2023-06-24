@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProv
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.ItemRegistry;

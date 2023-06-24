@@ -30,7 +30,7 @@ public class BlockRegistry {
 			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
 	public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 
-	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0f));
+	public static final Block BOILER = new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F));
 	public static final Item BOILER_ITEM = new BlockItem(BOILER, new FabricItemSettings());
 
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
@@ -49,7 +49,7 @@ public class BlockRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), TANK_ITEM);
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
-
+ 
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
 
