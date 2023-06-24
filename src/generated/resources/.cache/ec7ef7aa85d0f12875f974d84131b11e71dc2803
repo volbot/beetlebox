@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-23T21:14:53.332357993	beetlebox/Recipes
+// 1.19.4	2023-06-23T21:29:04.126931629	beetlebox/Recipes
 c8ee86907add599f05eba8a5405717dd44d1063e data/beetlebox/advancements/recipes/combat/upgrade_actaeon_legs_0.json
 f5d55dd4230811f1baa0e78026951c7c10b5b903 data/beetlebox/recipes/titanus_helmet.json
 87923c7885b2d7fc8def4d5152d1ce20f190af91 data/beetlebox/advancements/recipes/combat/titanus_helmet.json
@@ -115,8 +115,8 @@ c23804b40e77420bc2b5ccb06e902b6dfd5470da data/beetlebox/advancements/recipes/foo
 8330acd6ca209190213695bd6c71f999a374c2bd data/beetlebox/advancements/recipes/food/beetle_jelly_220.json
 853b04ca932826080d4985e15892cfb0b1fb0d70 data/beetlebox/recipes/actaeon_helmet.json
 6bc504447e4c4b3e73550c8716e36285e3a7028c data/beetlebox/advancements/recipes/combat/upgrade_tityus_helmet_0.json
-4e62f0f87fa88ed3b656dcc5bb67d969adf76425 data/beetlebox/recipes/atlas_chestplate.json
 1e169c5d9550c2a6fa6680b9f3a9865abf3538a4 data/beetlebox/recipes/upgrade_actaeon_chest_0.json
+4e62f0f87fa88ed3b656dcc5bb67d969adf76425 data/beetlebox/recipes/atlas_chestplate.json
 c48f11d77009ee38f8882edb65b063f2d73bc0d7 data/beetlebox/recipes/tityus_chestplate.json
 51c5ad324991be755a2199f88fb3ddb73204e0fa data/beetlebox/advancements/recipes/combat/actaeon_chestplate.json
 55b840084b7d2be53cc49cf688f6c13d67d363d8 data/beetlebox/recipes/tityus_legs.json
@@ -166,8 +166,8 @@ c4cea7b43c2d3cb7ad69bc3bed82c62d5dc4e841 data/beetlebox/recipes/tityus_boots.jso
 3617eb160cf92f519aef7cac0a8163b6313efa2c data/beetlebox/recipes/hercules_legs.json
 966cc3dfb8cf6ac3332e44b43b86503c9122c987 data/beetlebox/recipes/jrb_boots.json
 b69f6f0c3902af75c8d097a46323e472c2cc3948 data/beetlebox/recipes/upgrade_elephant_boots_0.json
-1506e6840b81c5513bc3d82a2cc1e96461351489 data/beetlebox/recipes/titanus_boots.json
 b2df4ee4b0aa27d00adaa9e3859089b69ecaea91 data/beetlebox/recipes/beetle_jelly_011.json
+1506e6840b81c5513bc3d82a2cc1e96461351489 data/beetlebox/recipes/titanus_boots.json
 5562b8f5ad7964915743e6a64156c3f89858a1cd data/beetlebox/advancements/recipes/combat/hercules_helmet.json
 9432bc7ab4d1894c3838aae7bb88e13ebd7152e3 data/beetlebox/recipes/beetle_jelly_211.json
 d2b5c8f63a185a720a682609be4e3609f11d1c68 data/beetlebox/recipes/upgrade_tityus_chest_0.json
