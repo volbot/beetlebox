@@ -49,7 +49,7 @@ public class BlockRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "tank"), TANK_ITEM);
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
-
+ 
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
 

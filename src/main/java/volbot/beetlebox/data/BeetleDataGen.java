@@ -7,6 +7,7 @@ import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.models.BeetleModelGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
+import volbot.beetlebox.data.tags.BeetleBlockTagGenerator;
 
 public class BeetleDataGen implements DataGeneratorEntrypoint {
 
@@ -14,6 +15,7 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 		pack.addProvider(BeetleItemTagGenerator::new);
+		pack.addProvider(BeetleBlockTagGenerator::new);
 		pack.addProvider(BeetleRecipeGenerator::new);
 		pack.addProvider(BeetleLootGenerator::new);
 		pack.addProvider(BeetleModelGenerator::new);

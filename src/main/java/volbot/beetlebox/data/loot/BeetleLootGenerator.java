@@ -9,7 +9,7 @@ import net.minecraft.loot.LootTable.Builder;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.util.Identifier;
 
-public class BeetleLootGenerator extends SimpleFabricLootTableProvider{
+public class BeetleLootGenerator extends SimpleFabricLootTableProvider {
 	public BeetleLootGenerator(FabricDataOutput output) {
 		super(output, LootContextTypes.ENTITY);
 	}

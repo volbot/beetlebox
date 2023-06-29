@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "beetlebox:boiler",
+    "beetlebox:tank",
+    "beetlebox:leg_tank"
+  ]
+}
