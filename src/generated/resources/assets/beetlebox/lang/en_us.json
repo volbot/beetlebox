@@ -70,10 +70,10 @@
   "item.beetlebox.tityus_helmet": "Tityus Helmet",
   "item.beetlebox.tityus_legs": "Tityus Leggings",
   "item.beetlebox.tityus_spawn_egg": "Tityus Spawn Egg",
-  "item.beetlebox.upgrade_b_falldam": "Boots Fall-Damage Upgrade Chip",
-  "item.beetlebox.upgrade_c_elytra": "Chestplate Elytra Upgrade Chip",
+  "item.beetlebox.upgrade_b_falldam": "Boots Velocity Upgrade Chip",
+  "item.beetlebox.upgrade_c_elytra": "Chestplate Glider Upgrade Chip",
   "item.beetlebox.upgrade_dormant": "Dormant Beetle Upgrade Chip",
   "item.beetlebox.upgrade_h_attack": "Helmet Attack Upgrade Chip",
-  "item.beetlebox.upgrade_l_climb": "Leggings Wall-Climb Upgrade Chip",
+  "item.beetlebox.upgrade_l_climb": "Leggings Wall-Crawl Upgrade Chip",
   "itemGroup.beetlebox.beetlebox": "Beetlebox"
 }

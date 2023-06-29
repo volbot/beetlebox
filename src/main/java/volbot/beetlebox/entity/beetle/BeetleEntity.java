@@ -6,6 +6,7 @@ import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketByteBuf;
@@ -205,6 +206,11 @@ public abstract class BeetleEntity extends AnimalEntity {
 		int size = this.getSize() / 10;
 		return EntityDimensions.fixed(0.4f * size, 0.4f * size);
 	}
+
+    @Override
+    public EntityGroup getGroup() {
+        return EntityGroup.ARTHROPOD;
+    }
 
 	// --------------------
 	// MOVEMENT UTILITIES

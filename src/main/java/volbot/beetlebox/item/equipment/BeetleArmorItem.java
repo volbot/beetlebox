@@ -33,11 +33,6 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 						BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
 					}
 				}
-				if (slot == 0) {
-					if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
-						entity.fallDistance = Math.min(1, entity.fallDistance);
-					}
-				}
 			}
 		}
 	}
@@ -50,32 +45,35 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 				switch (BeetleArmorAbilities.beetle_abilities.get(this.getMaterial().getName())) {
 				case "flip":
 					tooltip.add(Text.literal("Ability: Flip").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.DARK_GRAY));
 					break;
 				case "pinch":
 					tooltip.add(Text.literal("Ability: Pinch").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.DARK_GRAY));
 					break;
 				case "headbutt":
 					tooltip.add(Text.literal("Ability: Headbutt").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.ITALIC).formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.DARK_GRAY));
 					break;
 				}
 			}
 			break;
 		case CHEST:
 			if (stack.getOrCreateNbt().contains("beetle_chest_elytra")) {
-				tooltip.add(Text.literal("Ability: Fall-Flight").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Ability: Beetle Glider").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables elytra flight").formatted(Formatting.DARK_GRAY));
 			}
 			break;
 		case LEGS:
 			if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
-				tooltip.add(Text.literal("Ability: Wall Climbing").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Ability: Wall Crawler").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Allows wall climbing; sneak to stop in place").formatted(Formatting.DARK_GRAY));
 			}
 			break;
 		case FEET:
 			if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
-				tooltip.add(Text.literal("Ability: Fall Protection").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Ability: Velocity Protection").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Negates damage from falling and elytra collision").formatted(Formatting.DARK_GRAY));
 			}
 			break;
 		default:
