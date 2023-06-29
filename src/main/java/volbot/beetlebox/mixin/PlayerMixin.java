@@ -8,7 +8,6 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
@@ -51,7 +50,10 @@ public abstract class PlayerMixin extends LivingEntity {
 		float new_amount = amount;
 		if((boots.getItem() instanceof BeetleArmorItem) && 
 				(boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
-			if(source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
+			System.out.println("ubba: "+source.getName());
+			System.out.println("gubba: "+DamageSource.FLY_INTO_WALL.getName());
+			if(source.isFromFalling() ||
+					source.getName() == DamageSource.FLY_INTO_WALL.getName()) {
 				new_amount = 0f;
 			}
 		}

@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-23T21:29:04.123856759	beetlebox/Model Definitions
+// 1.19.2	2023-06-28T20:14:58.129696472	Models
 44a6e1bd365890ca7f54bd88c16164d8f5336c67 assets/beetlebox/models/item/actaeon_elytron.json
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
@@ -14,8 +14,8 @@ f6ecde6b27997374b3a0f9a962e72e635c74eded assets/beetlebox/models/item/titanus_el
 9f26cddbb7432eadd9081548ba5dc558b27a0c51 assets/beetlebox/models/item/tityus_elytron.json
 97e37e6c80768449a2b3af9da79d8c0dd26ae9c5 assets/beetlebox/models/item/actaeon_chestplate.json
 5a2ab77afe453c4bc8e1d2fb41140f6d6381de5a assets/beetlebox/models/item/hercules_chestplate.json
-5b82cc45bc08d2bc55db0a25b0ee1a5efc60a614 assets/beetlebox/models/item/upgrade_dormant.json
 64459f3096bb5080f9f32fda316461e794c1e18a assets/beetlebox/models/item/titanus_legs.json
+5b82cc45bc08d2bc55db0a25b0ee1a5efc60a614 assets/beetlebox/models/item/upgrade_dormant.json
 ae2f5f0fbbe74ab8a68410242bb379a7f261d6ba assets/beetlebox/models/item/junebug_helmet.json
 501567c93ece154b7b2171005f1c96f813bf8a2b assets/beetlebox/models/item/beetle_jelly.json
 de15aed3fc88185ec7d27c6dd43b82970ffaff05 assets/beetlebox/models/item/tityus_chestplate.json
