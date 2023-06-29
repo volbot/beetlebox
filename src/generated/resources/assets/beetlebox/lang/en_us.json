@@ -74,6 +74,5 @@
   "item.beetlebox.upgrade_c_elytra": "Chestplate Glider Upgrade Chip",
   "item.beetlebox.upgrade_dormant": "Dormant Beetle Upgrade Chip",
   "item.beetlebox.upgrade_h_attack": "Helmet Attack Upgrade Chip",
-  "item.beetlebox.upgrade_l_climb": "Leggings Wall-Crawl Upgrade Chip",
-  "itemGroup.beetlebox.beetlebox": "Beetlebox"
+  "item.beetlebox.upgrade_l_climb": "Leggings Wall-Crawl Upgrade Chip"
 }

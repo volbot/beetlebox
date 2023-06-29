@@ -30,5 +30,6 @@
     "recipes": [
       "minecraft:atlas_legs"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

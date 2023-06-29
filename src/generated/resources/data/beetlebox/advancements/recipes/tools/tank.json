@@ -30,5 +30,6 @@
     "recipes": [
       "beetlebox:tank"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

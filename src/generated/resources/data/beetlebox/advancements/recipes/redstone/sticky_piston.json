@@ -28,5 +28,6 @@
     "recipes": [
       "minecraft:sticky_piston"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

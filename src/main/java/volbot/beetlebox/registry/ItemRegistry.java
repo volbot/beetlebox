@@ -66,7 +66,7 @@ public class ItemRegistry {
 
 		
 		Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
-				.displayName(Text.of("beetlebox"))
+				.displayName(Text.literal("Beetlebox"))
 				.icon(() -> new ItemStack(BEETLE_JELLY))
 				.build()
 			);

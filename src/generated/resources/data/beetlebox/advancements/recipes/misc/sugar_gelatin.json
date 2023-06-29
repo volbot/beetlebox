@@ -30,5 +30,6 @@
     "recipes": [
       "beetlebox:sugar_gelatin"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

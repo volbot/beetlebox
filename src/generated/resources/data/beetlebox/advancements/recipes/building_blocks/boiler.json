@@ -30,5 +30,6 @@
     "recipes": [
       "beetlebox:boiler"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

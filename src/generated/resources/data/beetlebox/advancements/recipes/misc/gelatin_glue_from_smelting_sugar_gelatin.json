@@ -30,5 +30,6 @@
     "recipes": [
       "minecraft:gelatin_glue_from_smelting_sugar_gelatin"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

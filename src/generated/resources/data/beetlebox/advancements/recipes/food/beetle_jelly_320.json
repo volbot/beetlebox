@@ -30,5 +30,6 @@
     "recipes": [
       "beetlebox:beetle_jelly_320"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

@@ -30,5 +30,6 @@
     "recipes": [
       "minecraft:upgrade_titanus_boots_0"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

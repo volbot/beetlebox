@@ -17,8 +17,6 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(TranslationBuilder translationBuilder) {
-		translationBuilder.add(ItemRegistry.ITEM_GROUP, "Beetlebox");
-		
 		translationBuilder.add(BlockRegistry.TANK, "Beetle Tank");
 		translationBuilder.add(BlockRegistry.LEG_TANK, "Legendary Beetle Tank");
 		translationBuilder.add(BlockRegistry.BOILER, "Boiler");
