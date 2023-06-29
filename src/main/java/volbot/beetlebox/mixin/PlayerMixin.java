@@ -7,6 +7,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 import net.minecraft.item.ItemStack;
@@ -41,5 +43,18 @@ public abstract class PlayerMixin extends LivingEntity {
 				BeetleArmorAbilities.helmetAttack((LivingEntity) (Object) this, (LivingEntity) target, helmet);
 			}
 		}
+	}
+	
+	@Override
+    public boolean damage(DamageSource source, float amount) {
+		ItemStack boots = this.getEquippedStack(EquipmentSlot.FEET);
+		float new_amount = amount;
+		if((boots.getItem() instanceof BeetleArmorItem) && 
+				(boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
+			if(source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
+				new_amount = 0f;
+			}
+		}
+		return super.damage(source, new_amount);
 	}
 }
