@@ -7,7 +7,10 @@ import org.jetbrains.annotations.Nullable;
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -27,9 +30,28 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 		super.inventoryTick(stack, world, entity, slot, selected);
 		if (entity instanceof LivingEntity) {
 			if (((LivingEntity) entity).getEquippedStack(getSlotType()).getItem() instanceof BeetleArmorItem) {
-				if (slot == 1) {
+				if (slot == EquipmentSlot.LEGS.getEntitySlotId()) {
 					if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
 						BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
+					} else if (stack.getOrCreateNbt().contains("beetle_legs_2jump")) {
+						((LivingEntity) entity).getJumpBoostVelocityModifier();
+					}
+				} else if (slot == EquipmentSlot.HEAD.getEntitySlotId()) {
+					if (stack.getOrCreateNbt().contains("beetle_helmet_nv")) {
+						StatusEffectInstance curr = ((PlayerEntity) entity).getActiveStatusEffects()
+								.get(StatusEffects.NIGHT_VISION);
+						if (curr == null || curr.isDurationBelow(300)) {
+							((PlayerEntity) entity)
+									.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 400, 0));
+						}
+					}
+				} else if (slot == EquipmentSlot.FEET.getEntitySlotId()) {
+					if (stack.getOrCreateNbt().contains("beetle_boots_speed")) {
+						((LivingEntity) entity).setMovementSpeed(((LivingEntity) entity).getMovementSpeed() * 10f);// DOESN'T
+																													// WORK
+					}
+					if (stack.getOrCreateNbt().contains("beetle_boots_step")) {
+						((LivingEntity) entity).setStepHeight(1.0f);
 					}
 				}
 			}
@@ -66,23 +88,25 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 		case LEGS:
 			if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
 				tooltip.add(Text.literal("Ability: Wall Crawler").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Allows wall climbing; sneak to stop in place").formatted(Formatting.DARK_GRAY));
+				tooltip.add(
+						Text.literal("Allows wall climbing; sneak to stop in place").formatted(Formatting.DARK_GRAY));
 			}
 			break;
 		case FEET:
 			if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
 				tooltip.add(Text.literal("Ability: Velocity Protection").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Negates damage from falling and elytra collision").formatted(Formatting.DARK_GRAY));
+				tooltip.add(Text.literal("Negates damage from falling and elytra collision")
+						.formatted(Formatting.DARK_GRAY));
 			}
 			break;
 		default:
 			break;
 		}
 	}
-	
+
 	@Override
 	public boolean useCustomElytra(LivingEntity entity, ItemStack chestStack, boolean tickElytra) {
-		if(chestStack.getOrCreateNbt().contains("beetle_chest_elytra")) {
+		if (chestStack.getOrCreateNbt().contains("beetle_chest_elytra")) {
 			doVanillaElytraTick(entity, chestStack);
 			return true;
 		} else {

@@ -14,6 +14,7 @@ import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
+import volbot.beetlebox.item.BeetleItemUpgrade;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class UpgradeUsageRecipe extends ShapelessRecipe {
@@ -29,18 +30,10 @@ public class UpgradeUsageRecipe extends ShapelessRecipe {
 	
 	public static ItemStack addNbt(DefaultedList<Ingredient> input, ItemStack output) {
 		for(Ingredient i : input) {
-
-			if (i.test(ItemRegistry.UPGRADE_H_ATTACK.getDefaultStack())) {
-				output.getOrCreateNbt().putBoolean("beetle_helmet_attack", true);
-			}
-			if (i.test(ItemRegistry.UPGRADE_L_CLIMB.getDefaultStack())) {
-				output.getOrCreateNbt().putBoolean("beetle_legs_wallclimb", true);
-			}
-			if (i.test(ItemRegistry.UPGRADE_B_FALLDAM.getDefaultStack())) {
-				output.getOrCreateNbt().putBoolean("beetle_boots_falldamage", true);
-			}
-			if (i.test(ItemRegistry.UPGRADE_C_ELYTRA.getDefaultStack())) {
-				output.getOrCreateNbt().putBoolean("beetle_chest_elytra", true);
+			for(ItemStack stack : i.getMatchingStacks()){
+				if(stack.getItem() instanceof BeetleItemUpgrade) {
+					output.getOrCreateNbt().putBoolean(((BeetleItemUpgrade)stack.getItem()).id,true);
+				}
 			}
 			
 		}

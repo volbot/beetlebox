@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_c_boost"
+    },
+    {
+      "item": "beetlebox:titanus_chestplate"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:titanus_chestplate"
+  }
+}

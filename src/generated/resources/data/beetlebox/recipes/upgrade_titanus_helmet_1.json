@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_h_nv"
+    },
+    {
+      "item": "beetlebox:titanus_helmet"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:titanus_helmet"
+  }
+}

@@ -3,7 +3,8 @@
 	"package": "volbot.beetlebox.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"PlayerMixin"
+		"PlayerMixin",
+		"LivingEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

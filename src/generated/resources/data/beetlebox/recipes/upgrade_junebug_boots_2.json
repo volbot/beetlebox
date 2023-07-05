@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_b_step"
+    },
+    {
+      "item": "beetlebox:junebug_boots"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:junebug_boots"
+  }
+}

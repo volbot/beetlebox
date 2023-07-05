@@ -1,0 +1,15 @@
+{
+  "type": "beetlebox:upgrade_usage",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "beetlebox:upgrade_l_2jump"
+    },
+    {
+      "item": "beetlebox:atlas_legs"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:atlas_legs"
+  }
+}

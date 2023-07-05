@@ -46,9 +46,14 @@ public class ItemRegistry {
 
 	public static final Item UPGRADE_DORMANT = new DormantUpgrade(new FabricItemSettings());
 	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", new FabricItemSettings());
+	public static final Item UPGRADE_H_NV = new BeetleItemUpgrade("beetle_helmet_nv", new FabricItemSettings());
 	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", new FabricItemSettings());
+	public static final Item UPGRADE_C_BOOST = new BeetleItemUpgrade("beetle_chest_boost", new FabricItemSettings());
 	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", new FabricItemSettings());
+	public static final Item UPGRADE_L_2JUMP = new BeetleItemUpgrade("beetle_legs_2jump", new FabricItemSettings());
 	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage", new FabricItemSettings());
+	public static final Item UPGRADE_B_SPEED = new BeetleItemUpgrade("beetle_boots_speed", new FabricItemSettings());
+	public static final Item UPGRADE_B_STEP = new BeetleItemUpgrade("beetle_boots_step", new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -62,9 +67,14 @@ public class ItemRegistry {
 	public static void register() {
 
 		helmet_upgrades.add(UPGRADE_H_ATTACK);
+		helmet_upgrades.add(UPGRADE_H_NV);
 		chest_upgrades.add(UPGRADE_C_ELYTRA);
+		chest_upgrades.add(UPGRADE_C_BOOST);
 		legs_upgrades.add(UPGRADE_L_CLIMB);
+		legs_upgrades.add(UPGRADE_L_2JUMP);
 		boots_upgrades.add(UPGRADE_B_FALLDAM);
+		boots_upgrades.add(UPGRADE_B_SPEED);
+		boots_upgrades.add(UPGRADE_B_STEP);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
@@ -83,9 +93,14 @@ public class ItemRegistry {
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_dormant"), UPGRADE_DORMANT);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_h_attack"), UPGRADE_H_ATTACK);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_h_nv"), UPGRADE_H_NV);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_c_elytra"), UPGRADE_C_ELYTRA);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_c_boost"), UPGRADE_C_BOOST);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_l_climb"), UPGRADE_L_CLIMB);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_l_2jump"), UPGRADE_L_2JUMP);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_b_falldam"), UPGRADE_B_FALLDAM);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_b_step"), UPGRADE_B_STEP);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_b_speed"), UPGRADE_B_SPEED);
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
 			content.add(BEETLE_JAR);

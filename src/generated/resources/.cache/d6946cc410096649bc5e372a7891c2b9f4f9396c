@@ -1,4 +1,4 @@
-// 1.19.4	2023-06-23T21:29:04.123856759	beetlebox/Model Definitions
+// 1.19.4	2023-07-04T10:55:38.074719816	beetlebox/Model Definitions
 44a6e1bd365890ca7f54bd88c16164d8f5336c67 assets/beetlebox/models/item/actaeon_elytron.json
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
@@ -26,8 +26,10 @@ de15aed3fc88185ec7d27c6dd43b82970ffaff05 assets/beetlebox/models/item/tityus_che
 f38c869b8ab90b7fca892ef3143201d352431072 assets/beetlebox/models/item/jrb_chestplate.json
 2719eed24109f61ea0d03866cc7633b2763f8d8a assets/beetlebox/models/item/upgrade_h_attack.json
 f3ea77a07cf9d01ea137683326847a43947306b5 assets/beetlebox/models/item/atlas_boots.json
+588bb9e262e20d3be5f2008e39c4ffb7e7c92134 assets/beetlebox/models/item/upgrade_b_speed.json
 b1c002010d4922b10930a3075ef285a3c8da1c4b assets/beetlebox/models/item/jrb_boots.json
 38ecf33c5dfde5aec3d8d7e4240339580b16d219 assets/beetlebox/models/item/gelatin.json
+117ff71bf3251e9967e251d097fbd83d4fb3d5b9 assets/beetlebox/models/item/upgrade_l_2jump.json
 693b4ac2c14d046c9c88c326280c6d5e20d0061e assets/beetlebox/models/item/tityus_helmet.json
 65555238e38b8cc288f1591bc3862967f35e8dfb assets/beetlebox/models/item/hercules_elytron.json
 1914028d54fad5e0aca7cc2425a3b6bc3510cdbd assets/beetlebox/models/item/upgrade_b_falldam.json
@@ -37,11 +39,14 @@ b1c002010d4922b10930a3075ef285a3c8da1c4b assets/beetlebox/models/item/jrb_boots.
 ac55cbfcd5c91eb1814a794966165e4c3c6bfeee assets/beetlebox/models/item/elephant_helmet.json
 e8526dafe7316b5b3f8850707a4170c1243337f1 assets/beetlebox/models/item/hercules_boots.json
 8a32c2c69ad228cdad9dc13f2736ff57649980d9 assets/beetlebox/models/item/jrb_helmet.json
+543d60a881a99e888cfd089c43bdd3c431c4cc8e assets/beetlebox/models/item/upgrade_h_nv.json
 8b7473562838d30f9e0be53d5c36a9527db2f4ff assets/beetlebox/models/item/upgrade_l_climb.json
 9428276ed20e5886b77940cecdfcebe499c5b213 assets/beetlebox/models/item/tityus_boots.json
 0b7e91570581c62c1cb30f96cea7efa118846b07 assets/beetlebox/models/item/titanus_helmet.json
+476c822b9eb276a023918a21a19eff2056fde85c assets/beetlebox/models/item/upgrade_b_step.json
 c96e1a1a14192d382a2f90058e2e3ce2e2979a34 assets/beetlebox/models/item/elephant_chestplate.json
 4e8eedb390cc3db8e6b83791d849c894be6da663 assets/beetlebox/models/item/atlas_helmet.json
+a02ac6731e85506ea579b869b8e80195a9d53a21 assets/beetlebox/models/item/upgrade_c_boost.json
 1eb753d410d1dbcaa5234ec88557de4f2c2589d4 assets/beetlebox/models/item/atlas_chestplate.json
 5f6a36de0d93e6320af5a720d1bc00139af8c2c6 assets/beetlebox/models/item/hercules_legs.json
 3ca68af4098f102dbff9bbebf429742214b92aff assets/beetlebox/models/item/atlas_legs.json
