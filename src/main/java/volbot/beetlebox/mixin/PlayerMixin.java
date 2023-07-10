@@ -59,7 +59,7 @@ public abstract class PlayerMixin extends LivingEntity {
 		ItemStack legs = this.getEquippedStack(EquipmentSlot.LEGS);
 		double x = super.getJumpBoostVelocityModifier();
 		if (legs.getItem() instanceof BeetleArmorItem && legs.getOrCreateNbt().contains("beetle_legs_2jump")) {
-			x += 0.25;
+			//x += 0.25;
 		}
 		return x;
 	}

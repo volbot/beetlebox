@@ -5,6 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
@@ -16,6 +17,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -41,7 +43,19 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 					if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
 						BeetleArmorAbilities.wallClimb((PlayerEntity) entity);
 					} else if (stack.getOrCreateNbt().contains("beetle_legs_2jump")) {
-						((LivingEntity) entity).getJumpBoostVelocityModifier();
+				            NbtCompound nbt = stack.getOrCreateNbt();
+				            if (entity.isOnGround()) {
+				                nbt.putInt("doubleJump", 0);
+				            } else if (nbt.getInt("doubleJump") == 0) {
+				                if (!isJumping()) {
+				                    nbt.putInt("doubleJump", 1);
+				                }
+				            } else if (nbt.getInt("doubleJump") == 1) {
+				                if (isJumping()) {
+				                    BeetleArmorAbilities.secondJump((LivingEntity)entity);
+				                    nbt.putInt("doubleJump", 2);
+				                }
+				            }
 					}
 				} else if (slot == EquipmentSlot.HEAD.getEntitySlotId()) {
 					if (stack.getOrCreateNbt().contains("beetle_helmet_nv")) {
@@ -115,5 +129,10 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 			return false;
 		}
 	}
+	
+	private boolean isJumping() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return client != null && client.player != null && client.player.input.jumping;
+    }
 
 }

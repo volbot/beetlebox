@@ -18,6 +18,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class BeetleArmorAbilities {
@@ -62,18 +63,28 @@ public class BeetleArmorAbilities {
 	}
 
 	public static void elytraBoost(PlayerEntity user) {
-		System.out.println("1");
-		if (user.getEquippedStack(EquipmentSlot.CHEST).getOrCreateNbt().contains("beetle_chest_boost")) {
-			System.out.println("2");
-			World world = user.getEntityWorld();
-			if (user.isFallFlying()) {
-				System.out.println("3");
-				if (!world.isClient) {
-					System.out.println("4");
-					FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(world, ItemStack.EMPTY, user);
-					world.spawnEntity(fireworkRocketEntity);
+		ItemStack chest = user.getEquippedStack(EquipmentSlot.CHEST);
+		if (chest.getOrCreateNbt().contains("beetle_chest_elytra")) {
+			if(!user.isFallFlying()) {
+				user.startFallFlying();
+			} else if (chest.getOrCreateNbt().contains("beetle_chest_boost")) {
+				World world = user.getEntityWorld();
+				if (user.isFallFlying()) {
+					if (!world.isClient) {
+						FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(world, ItemStack.EMPTY,
+								user);
+						world.spawnEntity(fireworkRocketEntity);
+					}
 				}
 			}
 		}
+	}
+
+	public static void secondJump(LivingEntity entity) {
+		if(entity.isFallFlying()) {
+			((PlayerEntity)entity).stopFallFlying();
+		}
+		Vec3d velocity = entity.getVelocity();
+		entity.setVelocity(velocity.x, 0.75, velocity.z);
 	}
 }
