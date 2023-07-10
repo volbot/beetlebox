@@ -77,11 +77,6 @@ public abstract class PlayerMixin extends LivingEntity {
 		return super.damage(source, new_amount);
 	}
 
-	/*
-	 * @Override public void onEquipStack(EquipmentSlot slot, ItemStack oldStack,
-	 * ItemStack newStack) { super.onEquipStack(slot, oldStack, newStack); }
-	 */
-
 	@Override
 	protected void applyMovementEffects(BlockPos pos) {
 		if (!this.getEquippedStack(EquipmentSlot.FEET).getOrCreateNbt().contains("beetle_boots_speed")) {
@@ -93,14 +88,7 @@ public abstract class PlayerMixin extends LivingEntity {
 				instance.addPersistentModifier(BeetleArmorItem.speed_boost_attribute);
 			}
 		}
-		int i = EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, this);
-		if (i > 0) {
-			FrostWalkerEnchantment.freezeWater(this, this.world, pos, i);
-		}
-		if (this.shouldRemoveSoulSpeedBoost(this.getLandingBlockState())) {
-			this.removeSoulSpeedBoost();
-		}
-		this.addSoulSpeedBoostIfNeeded();
+		super.applyMovementEffects(pos);
 	}
 
 }

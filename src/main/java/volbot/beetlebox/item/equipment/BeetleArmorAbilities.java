@@ -2,13 +2,23 @@ package volbot.beetlebox.item.equipment;
 
 import java.util.HashMap;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.FireworkRocketEntity;
+import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.MinecraftDedicatedServer;
+import net.minecraft.stat.Stats;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 public class BeetleArmorAbilities {
 
@@ -47,6 +57,22 @@ public class BeetleArmorAbilities {
 				((LivingEntity) target).addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 50, 2),
 						attacker);
 				break;
+			}
+		}
+	}
+
+	public static void elytraBoost(PlayerEntity user) {
+		System.out.println("1");
+		if (user.getEquippedStack(EquipmentSlot.CHEST).getOrCreateNbt().contains("beetle_chest_boost")) {
+			System.out.println("2");
+			World world = user.getEntityWorld();
+			if (user.isFallFlying()) {
+				System.out.println("3");
+				if (!world.isClient) {
+					System.out.println("4");
+					FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(world, ItemStack.EMPTY, user);
+					world.spawnEntity(fireworkRocketEntity);
+				}
 			}
 		}
 	}

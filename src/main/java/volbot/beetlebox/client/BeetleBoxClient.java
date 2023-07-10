@@ -2,10 +2,14 @@ package volbot.beetlebox.client;
 
 import java.util.HashMap;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -15,9 +19,11 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -45,6 +51,7 @@ import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 import volbot.beetlebox.item.FruitSyrup;
+import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
@@ -61,6 +68,8 @@ import volbot.beetlebox.client.render.armor.ActaeonHelmetModel;
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {
+	
+	private static KeyBinding elytra_boost_keybind;
 	
 	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
@@ -84,6 +93,19 @@ public class BeetleBoxClient implements ClientModInitializer {
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource" })
 	@Override
 	public void onInitializeClient() {
+		
+		elytra_boost_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+	            "key.beetlebox.elytra_boost", 
+	            InputUtil.Type.KEYSYM, 
+	            GLFW.GLFW_KEY_R, 
+	            "category.beetlebox.beetlebox"
+	        ));
+	    
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+		    while (elytra_boost_keybind.wasPressed()) {
+		    	BeetleArmorAbilities.elytraBoost(client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+		    }
+		});
 		
 		BeetleBoxClient.beetle_helmets.put("jrb", new JRBHelmetModel<>());
 		BeetleBoxClient.beetle_helmets.put("hercules", new HercHelmetModel<>());
