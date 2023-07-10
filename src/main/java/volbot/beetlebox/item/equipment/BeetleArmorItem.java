@@ -4,11 +4,19 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.command.argument.UuidArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,8 +29,13 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 
 public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
+	public static EntityAttributeModifier speed_boost_attribute = 
+			new EntityAttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(),
+			1.2, EntityAttributeModifier.Operation.MULTIPLY_BASE);
+	
 	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
 		super(mat, type, settings);
+				
 	}
 
 	@Override
@@ -41,15 +54,10 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 						StatusEffectInstance curr = ((PlayerEntity) entity).getActiveStatusEffects()
 								.get(StatusEffects.NIGHT_VISION);
 						if (curr == null || curr.isDurationBelow(300)) {
-							((PlayerEntity) entity)
-									.addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 400, 0));
+							((PlayerEntity) entity).addStatusEffect(new StatusEffectInstance(StatusEffects.NIGHT_VISION, 400, 0));
 						}
 					}
 				} else if (slot == EquipmentSlot.FEET.getEntitySlotId()) {
-					if (stack.getOrCreateNbt().contains("beetle_boots_speed")) {
-						((LivingEntity) entity).setMovementSpeed(((LivingEntity) entity).getMovementSpeed() * 10f);// DOESN'T
-																													// WORK
-					}
 					if (stack.getOrCreateNbt().contains("beetle_boots_step")) {
 						((LivingEntity) entity).setStepHeight(1.0f);
 					}

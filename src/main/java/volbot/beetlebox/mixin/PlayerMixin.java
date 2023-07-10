@@ -1,10 +1,14 @@
 package volbot.beetlebox.mixin;
 
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.enchantment.FrostWalkerEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -12,8 +16,11 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 
@@ -46,16 +53,16 @@ public abstract class PlayerMixin extends LivingEntity {
 			}
 		}
 	}
-	
+
 	@Override
-    public double getJumpBoostVelocityModifier() {
+	public double getJumpBoostVelocityModifier() {
 		ItemStack legs = this.getEquippedStack(EquipmentSlot.LEGS);
 		double x = super.getJumpBoostVelocityModifier();
 		if (legs.getItem() instanceof BeetleArmorItem && legs.getOrCreateNbt().contains("beetle_legs_2jump")) {
-			x+=0.25;
+			x += 0.25;
 		}
 		return x;
-    }
+	}
 
 	@Override
 	public boolean damage(DamageSource source, float amount) {
@@ -68,6 +75,32 @@ public abstract class PlayerMixin extends LivingEntity {
 			}
 		}
 		return super.damage(source, new_amount);
+	}
+
+	/*
+	 * @Override public void onEquipStack(EquipmentSlot slot, ItemStack oldStack,
+	 * ItemStack newStack) { super.onEquipStack(slot, oldStack, newStack); }
+	 */
+
+	@Override
+	protected void applyMovementEffects(BlockPos pos) {
+		if (!this.getEquippedStack(EquipmentSlot.FEET).getOrCreateNbt().contains("beetle_boots_speed")) {
+			this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED)
+					.removeModifier(BeetleArmorItem.speed_boost_attribute);
+		} else {
+			EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
+			if(!instance.hasModifier(BeetleArmorItem.speed_boost_attribute)) {
+				instance.addPersistentModifier(BeetleArmorItem.speed_boost_attribute);
+			}
+		}
+		int i = EnchantmentHelper.getEquipmentLevel(Enchantments.FROST_WALKER, this);
+		if (i > 0) {
+			FrostWalkerEnchantment.freezeWater(this, this.world, pos, i);
+		}
+		if (this.shouldRemoveSoulSpeedBoost(this.getLandingBlockState())) {
+			this.removeSoulSpeedBoost();
+		}
+		this.addSoulSpeedBoostIfNeeded();
 	}
 
 }
