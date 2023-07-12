@@ -1,6 +1,5 @@
 package volbot.beetlebox.registry;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -47,16 +46,24 @@ public class ItemRegistry {
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
 	public static final Item UPGRADE_DORMANT = new DormantUpgrade(new FabricItemSettings());
-	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", EquipmentSlot.HEAD, new FabricItemSettings());
-	public static final Item UPGRADE_H_NV = new BeetleItemUpgrade("beetle_helmet_nv", EquipmentSlot.HEAD, new FabricItemSettings());
-	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", EquipmentSlot.CHEST, new FabricItemSettings());
-	public static final Item UPGRADE_C_BOOST = new BeetleItemUpgrade("beetle_chest_boost", EquipmentSlot.CHEST, new FabricItemSettings());
-	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", EquipmentSlot.LEGS, new FabricItemSettings());
-	public static final Item UPGRADE_L_2JUMP = new BeetleItemUpgrade("beetle_legs_2jump", EquipmentSlot.LEGS, new FabricItemSettings());
+	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", EquipmentSlot.HEAD,
+			new FabricItemSettings());
+	public static final Item UPGRADE_H_NV = new BeetleItemUpgrade("beetle_helmet_nv", EquipmentSlot.HEAD,
+			new FabricItemSettings());
+	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", EquipmentSlot.CHEST,
+			new FabricItemSettings());
+	public static final Item UPGRADE_C_BOOST = new BeetleItemUpgrade("beetle_chest_boost", EquipmentSlot.CHEST,
+			new FabricItemSettings());
+	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", EquipmentSlot.LEGS,
+			new FabricItemSettings());
+	public static final Item UPGRADE_L_2JUMP = new BeetleItemUpgrade("beetle_legs_2jump", EquipmentSlot.LEGS,
+			new FabricItemSettings());
 	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage", EquipmentSlot.FEET,
 			new FabricItemSettings());
-	public static final Item UPGRADE_B_SPEED = new BeetleItemUpgrade("beetle_boots_speed", EquipmentSlot.FEET, new FabricItemSettings());
-	public static final Item UPGRADE_B_STEP = new BeetleItemUpgrade("beetle_boots_step", EquipmentSlot.FEET, new FabricItemSettings());
+	public static final Item UPGRADE_B_SPEED = new BeetleItemUpgrade("beetle_boots_speed", EquipmentSlot.FEET,
+			new FabricItemSettings());
+	public static final Item UPGRADE_B_STEP = new BeetleItemUpgrade("beetle_boots_step", EquipmentSlot.FEET,
+			new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 

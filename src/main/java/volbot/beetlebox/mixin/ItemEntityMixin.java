@@ -27,7 +27,7 @@ public abstract class ItemEntityMixin {
 				if (!stack1.getOrCreateNbt().contains(potential_upgrade)) {
 					EquipmentSlot armor_type = ((ArmorItem) stack1.getItem()).getSlotType();
 					EquipmentSlot upgrade_type = ((BeetleItemUpgrade) stack2.getItem()).slot;
-					if (armor_type.equals(upgrade_type)) {
+					if (armor_type.equals(upgrade_type) || upgrade_type.equals(EquipmentSlot.MAINHAND)) {
 						stack2.decrement(1);
 						stack1.getOrCreateNbt().putBoolean(potential_upgrade, true);
 					}
@@ -41,7 +41,7 @@ public abstract class ItemEntityMixin {
 				if (!stack2.getOrCreateNbt().contains(potential_upgrade)) {
 					EquipmentSlot armor_type = ((ArmorItem) stack2.getItem()).getSlotType();
 					EquipmentSlot upgrade_type = ((BeetleItemUpgrade) stack1.getItem()).slot;
-					if (armor_type.equals(upgrade_type)) {
+					if (armor_type.equals(upgrade_type) || upgrade_type.equals(EquipmentSlot.MAINHAND)) {
 						stack1.decrement(1);
 						stack2.getOrCreateNbt().putBoolean(potential_upgrade, true);
 					}

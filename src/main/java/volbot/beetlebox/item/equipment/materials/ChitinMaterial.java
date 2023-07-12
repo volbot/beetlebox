@@ -8,8 +8,8 @@ import net.minecraft.sound.SoundEvents;
 
 public class ChitinMaterial implements ArmorMaterial {
 	
-	private static final int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
-	private static final int[] PROTECTION_VALUES = new int[] {3, 6, 8, 3}; 
+	protected static int[] BASE_DURABILITY = new int[] {13, 15, 16, 11};
+	protected static int[] PROTECTION_VALUES = new int[] {3, 6, 8, 3}; 
 	private final String beetle_id;
 	
 	public ChitinMaterial(String beetle_id) {

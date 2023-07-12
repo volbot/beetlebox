@@ -2,3 +2,6 @@ accessWidener	v1	named
 
 accessible class net/minecraft/recipe/CookingRecipeSerializer$RecipeFactory
 accessible method net/minecraft/entity/ItemEntity tryMerge Lnet/minecraft/entity/ItemEntity;tryMerge(Lnet/minecraft/entity/ItemEntity;)V
+mutable field net/minecraft/item/ArmorItem material Lnet/minecraft/item/ArmorMaterial;
+mutable field net/minecraft/item/ArmorItem protection I
+accessible field net/minecraft/item/ArmorItem protection I

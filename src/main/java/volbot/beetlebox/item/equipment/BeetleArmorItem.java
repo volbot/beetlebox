@@ -2,16 +2,11 @@ package volbot.beetlebox.item.equipment;
 
 import java.util.List;
 
-import javax.xml.crypto.dsig.keyinfo.KeyName;
-
 import org.jetbrains.annotations.Nullable;
 
 import net.fabricmc.fabric.api.entity.event.v1.FabricElytraItem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.option.KeybindsScreen;
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil.Key;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -23,8 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.KeybindTextContent;
-import net.minecraft.text.KeybindTranslations;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
@@ -39,7 +32,6 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
 	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
 		super(mat, type, settings);
-
 	}
 
 	@Override
