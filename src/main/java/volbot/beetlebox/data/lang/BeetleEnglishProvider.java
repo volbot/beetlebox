@@ -41,9 +41,14 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		
 		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Beetle Upgrade Chip");
 		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Glider Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_NV, "Helmet Night-Vision Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Elytra Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_BOOST, "Chestplate Boost Upgrade Chip");
 		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Crawl Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_2JUMP, "Leggings Double Jump Upgrade Chip");
 		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Velocity Protection Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Boots Speed Boost Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Boots Step Height Upgrade Chip");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));

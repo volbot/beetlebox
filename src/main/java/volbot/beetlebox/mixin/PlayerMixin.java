@@ -48,16 +48,6 @@ public abstract class PlayerMixin extends LivingEntity {
 	}
 
 	@Override
-	public double getJumpBoostVelocityModifier() {
-		ItemStack legs = this.getEquippedStack(EquipmentSlot.LEGS);
-		double x = super.getJumpBoostVelocityModifier();
-		if (legs.getItem() instanceof BeetleArmorItem && legs.getOrCreateNbt().contains("beetle_legs_2jump")) {
-			//x += 0.25;
-		}
-		return x;
-	}
-
-	@Override
 	public boolean damage(DamageSource source, float amount) {
 		ItemStack boots = this.getEquippedStack(EquipmentSlot.FEET);
 		float new_amount = amount;

@@ -24,6 +24,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -108,8 +109,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 		});
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (wallclimb_keybind.wasPressed()) {
-				BeetleArmorAbilities
-						.toggle_wallclimb(client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+				BeetleArmorAbilities.toggle_wallclimb(
+						(PlayerEntity) client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
 			}
 		});
 

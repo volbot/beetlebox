@@ -27,7 +27,7 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
 	public static EntityAttributeModifier speed_boost_attribute = new EntityAttributeModifier(
-			EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(), 1.2,
+			EntityAttributes.GENERIC_MOVEMENT_SPEED.getTranslationKey(), 1.1,
 			EntityAttributeModifier.Operation.MULTIPLY_BASE);
 
 	public BeetleArmorItem(ChitinMaterial mat, Type type, Settings settings) {
