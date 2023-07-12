@@ -1,10 +1,12 @@
- package volbot.beetlebox.registry;
+package volbot.beetlebox.registry;
 
+import java.util.Collection;
 import java.util.Vector;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -45,15 +47,16 @@ public class ItemRegistry {
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
 	public static final Item UPGRADE_DORMANT = new DormantUpgrade(new FabricItemSettings());
-	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", new FabricItemSettings());
-	public static final Item UPGRADE_H_NV = new BeetleItemUpgrade("beetle_helmet_nv", new FabricItemSettings());
-	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", new FabricItemSettings());
-	public static final Item UPGRADE_C_BOOST = new BeetleItemUpgrade("beetle_chest_boost", new FabricItemSettings());
-	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", new FabricItemSettings());
-	public static final Item UPGRADE_L_2JUMP = new BeetleItemUpgrade("beetle_legs_2jump", new FabricItemSettings());
-	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage", new FabricItemSettings());
-	public static final Item UPGRADE_B_SPEED = new BeetleItemUpgrade("beetle_boots_speed", new FabricItemSettings());
-	public static final Item UPGRADE_B_STEP = new BeetleItemUpgrade("beetle_boots_step", new FabricItemSettings());
+	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", EquipmentSlot.HEAD, new FabricItemSettings());
+	public static final Item UPGRADE_H_NV = new BeetleItemUpgrade("beetle_helmet_nv", EquipmentSlot.HEAD, new FabricItemSettings());
+	public static final Item UPGRADE_C_ELYTRA = new BeetleItemUpgrade("beetle_chest_elytra", EquipmentSlot.CHEST, new FabricItemSettings());
+	public static final Item UPGRADE_C_BOOST = new BeetleItemUpgrade("beetle_chest_boost", EquipmentSlot.CHEST, new FabricItemSettings());
+	public static final Item UPGRADE_L_CLIMB = new BeetleItemUpgrade("beetle_legs_wallclimb", EquipmentSlot.LEGS, new FabricItemSettings());
+	public static final Item UPGRADE_L_2JUMP = new BeetleItemUpgrade("beetle_legs_2jump", EquipmentSlot.LEGS, new FabricItemSettings());
+	public static final Item UPGRADE_B_FALLDAM = new BeetleItemUpgrade("beetle_boots_falldamage", EquipmentSlot.FEET,
+			new FabricItemSettings());
+	public static final Item UPGRADE_B_SPEED = new BeetleItemUpgrade("beetle_boots_speed", EquipmentSlot.FEET, new FabricItemSettings());
+	public static final Item UPGRADE_B_STEP = new BeetleItemUpgrade("beetle_boots_step", EquipmentSlot.FEET, new FabricItemSettings());
 
 	public static final Item NET = new NetItem(new FabricItemSettings());
 
@@ -75,7 +78,7 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_FALLDAM);
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
-		
+
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "net"), NET);
@@ -117,10 +120,18 @@ public class ItemRegistry {
 			content.add(BERRY_SYRUP);
 			content.add(SUGAR_SYRUP);
 
-			content.add(UPGRADE_H_ATTACK);
-			content.add(UPGRADE_C_ELYTRA);
-			content.add(UPGRADE_L_CLIMB);
-			content.add(UPGRADE_B_FALLDAM);
+			for (Item i : helmet_upgrades) {
+				content.add(i);
+			}
+			for (Item i : chest_upgrades) {
+				content.add(i);
+			}
+			for (Item i : legs_upgrades) {
+				content.add(i);
+			}
+			for (Item i : boots_upgrades) {
+				content.add(i);
+			}
 
 			for (Item i : beetle_drops) {
 				content.add(i);

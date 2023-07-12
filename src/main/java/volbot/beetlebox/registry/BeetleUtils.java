@@ -25,7 +25,6 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
-import volbot.beetlebox.data.recipe.UpgradeUsageRecipeJsonBuilder;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
@@ -62,34 +61,7 @@ public class BeetleUtils {
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_boots", createBootsRecipe(BOOTS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_chestplate",
 				createChestplateRecipe(CHESTPLATE, ELYTRON));
-		int j = 0;
-		for (Item i : ItemRegistry.helmet_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_helmet_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, HELMET).input(Ingredient.ofItems(i))
-							.input(HELMET)
-							.criterion(RecipeProvider.hasItem(HELMET), RecipeProvider.conditionsFromItem(HELMET)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.chest_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_chest_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, CHESTPLATE).input(Ingredient.ofItems(i))
-							.input(CHESTPLATE).criterion(RecipeProvider.hasItem(CHESTPLATE),
-									RecipeProvider.conditionsFromItem(CHESTPLATE)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.legs_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_legs_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, LEGS).input(Ingredient.ofItems(i))
-							.input(LEGS)
-							.criterion(RecipeProvider.hasItem(LEGS), RecipeProvider.conditionsFromItem(LEGS)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.boots_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_boots_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(RecipeCategory.COMBAT, BOOTS).input(Ingredient.ofItems(i))
-							.input(BOOTS)
-							.criterion(RecipeProvider.hasItem(BOOTS), RecipeProvider.conditionsFromItem(BOOTS)));
-		}
+		
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 
 		BeetleArmorAbilities.beetle_abilities.put(beetle_id, helmet_ability);

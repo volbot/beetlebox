@@ -28,7 +28,6 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 	}
 
 	public static HashMap<String, ShapedRecipeJsonBuilder> shaped_recipes = new HashMap<>();
-	public static HashMap<String, UpgradeUsageRecipeJsonBuilder> upgrade_recipes = new HashMap<>();
 	public static HashMap<String, ShapelessRecipeJsonBuilder> shapeless_recipes = new HashMap<>();
 	public static Item[] syrups = new Item[] { ItemRegistry.APPLE_SYRUP, ItemRegistry.MELON_SYRUP,
 			ItemRegistry.BERRY_SYRUP, ItemRegistry.SUGAR_SYRUP };
@@ -64,11 +63,6 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 		for (String s : shaped_recipes.keySet()) {
 			ShapedRecipeJsonBuilder recipe = shaped_recipes.get(s);
-			recipe.offerTo(exporter, s);
-		}
-		
-		for (String s : upgrade_recipes.keySet()) {
-			UpgradeUsageRecipeJsonBuilder recipe = upgrade_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
 

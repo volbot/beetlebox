@@ -1,8 +1,5 @@
 package volbot.beetlebox.mixin;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.enchantment.FrostWalkerEnchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,13 +10,9 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
@@ -85,7 +78,7 @@ public abstract class PlayerMixin extends LivingEntity {
 		} else {
 			EntityAttributeInstance instance = this.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED);
 			if(!instance.hasModifier(BeetleArmorItem.speed_boost_attribute)) {
-				instance.addPersistentModifier(BeetleArmorItem.speed_boost_attribute);
+				instance.addTemporaryModifier(BeetleArmorItem.speed_boost_attribute);
 			}
 		}
 		super.applyMovementEffects(pos);
