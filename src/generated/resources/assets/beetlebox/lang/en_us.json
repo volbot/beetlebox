@@ -2,6 +2,7 @@
   "block.beetlebox.boiler": "Boiler",
   "block.beetlebox.leg_tank": "Legendary Beetle Tank",
   "block.beetlebox.tank": "Beetle Tank",
+  "category.beetlebox.beetlebox": "beetlebox",
   "entity.beetlebox.actaeon": "Actaeon Beetle",
   "entity.beetlebox.atlas": "Atlas Beetle",
   "entity.beetlebox.elephant": "Elephant Beetle",
@@ -80,5 +81,7 @@
   "item.beetlebox.upgrade_h_nv": "Helmet Night-Vision Upgrade Chip",
   "item.beetlebox.upgrade_l_2jump": "Leggings Double Jump Upgrade Chip",
   "item.beetlebox.upgrade_l_climb": "Leggings Wall-Crawl Upgrade Chip",
-  "itemGroup.beetlebox.beetlebox": "Beetlebox"
+  "itemGroup.beetlebox.beetlebox": "Beetlebox",
+  "key.beetlebox.elytra_boost": "Elytra Boost",
+  "key.beetlebox.wall_climb": "Toggle Wall Crawler"
 }

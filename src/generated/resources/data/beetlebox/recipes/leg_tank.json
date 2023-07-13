@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "i": {
+      "item": "minecraft:gold_ingot"
+    },
+    "j": {
+      "item": "beetlebox:leg_beetle_jar"
+    }
+  },
+  "pattern": [
+    "idi",
+    "gjg",
+    "idi"
+  ],
+  "result": {
+    "item": "beetlebox:leg_tank"
+  },
+  "show_notification": true
+}

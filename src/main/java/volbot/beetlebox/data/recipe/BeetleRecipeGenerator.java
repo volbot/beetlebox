@@ -95,8 +95,8 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.TANK).pattern("iii").pattern("gjg")
 				.pattern("iii").input('i', Items.IRON_INGOT).input('g', Items.GLASS_PANE)
-				.input('j', ItemRegistry.BEETLE_JAR).criterion(RecipeProvider.hasItem(ItemRegistry.BEETLE_JAR),
-						RecipeProvider.conditionsFromItem(ItemRegistry.BEETLE_JAR))
+				.input('j', ItemRegistry.BEETLE_JAR).criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 				.offerTo(exporter);
 
 		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.BEETLE_JAR).pattern(" l ").pattern("gjg")
@@ -106,6 +106,30 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
 						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 				.offerTo(exporter);
+		
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.LEG_TANK)
+		.pattern("idi")
+		.pattern("gjg")
+		.pattern("idi")
+		.input('i', Items.GOLD_INGOT)
+		.input('d', Items.DIAMOND)
+		.input('g', Items.GLASS_PANE)
+		.input('j', ItemRegistry.LEG_BEETLE_JAR)
+		.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+				RecipeProvider.conditionsFromItem(ItemRegistry.NET))
+		.offerTo(exporter);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.LEG_BEETLE_JAR)
+		.pattern("dod")
+		.pattern("eje")
+		.pattern("ded")
+		.input('o', Items.OBSIDIAN)
+		.input('e', Items.ENDER_EYE)
+		.input('d', Items.DIAMOND)
+		.input('j', ItemRegistry.BEETLE_JAR)
+		.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+				RecipeProvider.conditionsFromItem(ItemRegistry.NET))
+		.offerTo(exporter);
 
 		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.NET).pattern(" sw").pattern(" ss")
 				.pattern("s  ").input('s', Items.STICK)

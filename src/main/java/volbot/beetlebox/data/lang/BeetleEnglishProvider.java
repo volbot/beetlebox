@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import volbot.beetlebox.client.BeetleBoxClient;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
@@ -49,6 +50,10 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Velocity Protection Upgrade Chip");
 		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Boots Speed Boost Upgrade Chip");
 		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Boots Step Height Upgrade Chip");
+		
+		translationBuilder.add(BeetleBoxClient.elytra_boost_keybind.getTranslationKey(), "Elytra Boost");
+		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getTranslationKey(), "Toggle Wall Crawler");
+		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getCategory(), "beetlebox");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));
