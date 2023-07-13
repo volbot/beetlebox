@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "x": {
-      "item": "minecraft:furnace_minecrart"
+      "item": "minecraft:minecart"
     },
     "g": {
       "item": "beetlebox:gelatin"
