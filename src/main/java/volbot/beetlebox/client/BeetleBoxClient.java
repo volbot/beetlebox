@@ -2,10 +2,14 @@ package volbot.beetlebox.client;
 
 import java.util.HashMap;
 
+import org.lwjgl.glfw.GLFW;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
@@ -15,9 +19,12 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -45,6 +52,7 @@ import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 import volbot.beetlebox.item.FruitSyrup;
+import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
@@ -61,17 +69,20 @@ import volbot.beetlebox.client.render.armor.ActaeonHelmetModel;
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)
 public class BeetleBoxClient implements ClientModInitializer {
-	
+
+	public static KeyBinding elytra_boost_keybind;
+	public static KeyBinding wallclimb_keybind;
+
 	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
-	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(
-			new Identifier("beetlebox", "jrb"), "main");
+	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"),
+			"main");
 	public static final EntityModelLayer MODEL_HERC_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "hercules"), "main");
 	public static final EntityModelLayer MODEL_TITAN_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "titanus"), "main");
-	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(
-			new Identifier("beetlebox", "atlas"), "main");
+	public static final EntityModelLayer MODEL_ATLAS_LAYER = new EntityModelLayer(new Identifier("beetlebox", "atlas"),
+			"main");
 	public static final EntityModelLayer MODEL_ELEPHANT_LAYER = new EntityModelLayer(
 			new Identifier("beetlebox", "elephant"), "main");
 	public static final EntityModelLayer MODEL_TITYUS_LAYER = new EntityModelLayer(
@@ -84,7 +95,25 @@ public class BeetleBoxClient implements ClientModInitializer {
 	@SuppressWarnings({ "unchecked", "rawtypes", "resource" })
 	@Override
 	public void onInitializeClient() {
-		
+
+		elytra_boost_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.elytra_boost",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R, "category.beetlebox.beetlebox"));
+		wallclimb_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.wall_climb",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "category.beetlebox.beetlebox"));
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			while (elytra_boost_keybind.wasPressed()) {
+				BeetleArmorAbilities
+						.elytra_boost(client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+			}
+		});
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			while (wallclimb_keybind.wasPressed()) {
+				BeetleArmorAbilities.toggle_wallclimb(
+						(PlayerEntity) client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+			}
+		});
+
 		BeetleBoxClient.beetle_helmets.put("jrb", new JRBHelmetModel<>());
 		BeetleBoxClient.beetle_helmets.put("hercules", new HercHelmetModel<>());
 		BeetleBoxClient.beetle_helmets.put("titanus", new TitanHelmetModel<>());
@@ -116,13 +145,13 @@ public class BeetleBoxClient implements ClientModInitializer {
 					int entity_id = buf.readInt();
 					client.execute(() -> {
 						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));
-						if(e!=null) {
+						if (e != null) {
 							try {
 								e.setSize(size);
 								e.setDamageMult(damage);
 								e.setSpeedMult(speed);
 								e.setMaxHealthMult(maxhealth);
-							} catch(NullPointerException ex) {
+							} catch (NullPointerException ex) {
 								e.size_cached = size;
 								e.damage_cached = damage;
 								e.speed_cached = speed;
@@ -145,8 +174,10 @@ public class BeetleBoxClient implements ClientModInitializer {
 				});
 
 		for (Item i : ItemRegistry.beetle_helmets) {
-			BeetleArmorItem armorItem = (BeetleArmorItem)i;
-			ArmorRenderer.register(new BeetleArmorRenderer(BeetleBoxClient.beetle_helmets.get(armorItem.getMaterial().getName())), armorItem);
+			BeetleArmorItem armorItem = (BeetleArmorItem) i;
+			ArmorRenderer.register(
+					new BeetleArmorRenderer(BeetleBoxClient.beetle_helmets.get(armorItem.getMaterial().getName())),
+					armorItem);
 		}
 
 		EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
@@ -180,8 +211,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 					}
 					return itemStack.getNbt().contains("EntityType") ? 1F : 0F;
 				});
-		
-		for(Item i : BeetleRecipeGenerator.syrups) { 
+
+		for (Item i : BeetleRecipeGenerator.syrups) {
 			ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 				return FruitSyrup.getColor(stack);
 			}, i);

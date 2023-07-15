@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "beetlebox:tank"
+        "recipe": "beetlebox:leg_beetle_jar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "beetlebox:tank"
+      "beetlebox:leg_beetle_jar"
     ]
   }
 }
