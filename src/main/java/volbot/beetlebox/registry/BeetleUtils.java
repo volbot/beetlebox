@@ -14,13 +14,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootingEnchantLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-<<<<<<< HEAD
 import net.minecraft.recipe.Ingredient;
-=======
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
->>>>>>> BLEEDING
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;
@@ -41,76 +35,28 @@ public class BeetleUtils {
 		Item SPAWN_EGG = new SpawnEggItem(beetle_type, color1, color2, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_spawn_egg"), SPAWN_EGG);
 		ItemRegistry.spawn_eggs.add(SPAWN_EGG);
-<<<<<<< HEAD
-		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.HEAD, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.LEGS, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.FEET, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), EquipmentSlot.CHEST, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item ELYTRON = new Item(new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_elytron"), ELYTRON);
+		ItemRegistry.beetle_drops.add(ELYTRON);
+		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), EquipmentSlot.HEAD, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), EquipmentSlot.LEGS, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), EquipmentSlot.FEET, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
+		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), EquipmentSlot.CHEST, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_helmet"), HELMET);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_chestplate"), CHESTPLATE);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_legs"), LEGS);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_boots"), BOOTS);
-=======
-		Item ELYTRON = new Item(new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_elytron"), ELYTRON);
-		ItemRegistry.beetle_drops.add(ELYTRON);
-		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.HELMET, new FabricItemSettings());
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.LEGGINGS, new FabricItemSettings());
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.BOOTS, new FabricItemSettings());
-		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.CHESTPLATE, new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_helmet"), HELMET);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_chestplate"), CHESTPLATE);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_legs"), LEGS);
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_boots"), BOOTS);
->>>>>>> BLEEDING
 		ItemRegistry.armor_sets.add(HELMET);
 		ItemRegistry.armor_sets.add(CHESTPLATE);
 		ItemRegistry.beetle_helmets.add(HELMET);
 		ItemRegistry.armor_sets.add(LEGS);
 		ItemRegistry.armor_sets.add(BOOTS);
-<<<<<<< HEAD
-		Item ELYTRON = new Item(new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
-		Registry.register(Registry.ITEM, new Identifier("beetlebox", beetle_id + "_elytron"), ELYTRON);
-		ItemRegistry.beetle_drops.add(ELYTRON);
-=======
->>>>>>> BLEEDING
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_helmet", createHelmetRecipe(HELMET, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_legs", createLegsRecipe(LEGS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_boots", createBootsRecipe(BOOTS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_chestplate",
 				createChestplateRecipe(CHESTPLATE, ELYTRON));
-<<<<<<< HEAD
-		int j = 0;
-		for (Item i : ItemRegistry.helmet_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_helmet_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(HELMET).input(Ingredient.ofItems(i))
-							.input(HELMET)
-							.criterion(RecipeProvider.hasItem(HELMET), RecipeProvider.conditionsFromItem(HELMET)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.chest_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_chest_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(CHESTPLATE).input(Ingredient.ofItems(i))
-							.input(CHESTPLATE).criterion(RecipeProvider.hasItem(CHESTPLATE),
-									RecipeProvider.conditionsFromItem(CHESTPLATE)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.legs_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_legs_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(LEGS).input(Ingredient.ofItems(i))
-							.input(LEGS)
-							.criterion(RecipeProvider.hasItem(LEGS), RecipeProvider.conditionsFromItem(LEGS)));
-		}
-		j = 0;
-		for (Item i : ItemRegistry.boots_upgrades) {
-			BeetleRecipeGenerator.upgrade_recipes.put("upgrade_" + beetle_id + "_boots_" + (j++),
-					UpgradeUsageRecipeJsonBuilder.create(BOOTS).input(Ingredient.ofItems(i))
-							.input(BOOTS)
-							.criterion(RecipeProvider.hasItem(BOOTS), RecipeProvider.conditionsFromItem(BOOTS)));
-		}
-=======
 		
->>>>>>> BLEEDING
 		BeetleLootGenerator.beetle_loot.put(beetle_id, createLootTable(ELYTRON));
 
 		BeetleArmorAbilities.beetle_abilities.put(beetle_id, helmet_ability);

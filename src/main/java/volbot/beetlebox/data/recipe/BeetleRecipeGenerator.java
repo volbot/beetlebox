@@ -107,7 +107,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 				.offerTo(exporter);
 		
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.LEG_TANK)
+		ShapedRecipeJsonBuilder.create(BlockRegistry.LEG_TANK)
 		.pattern("idi")
 		.pattern("gjg")
 		.pattern("idi")
@@ -119,7 +119,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 		.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.LEG_BEETLE_JAR)
+		ShapedRecipeJsonBuilder.create(ItemRegistry.LEG_BEETLE_JAR)
 		.pattern("dod")
 		.pattern("eje")
 		.pattern("ded")

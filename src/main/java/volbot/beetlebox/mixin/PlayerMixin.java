@@ -50,18 +50,12 @@ public abstract class PlayerMixin extends LivingEntity {
 	public boolean damage(DamageSource source, float amount) {
 		ItemStack boots = this.getEquippedStack(EquipmentSlot.FEET);
 		float new_amount = amount;
-<<<<<<< HEAD
 		if((boots.getItem() instanceof BeetleArmorItem) && 
 				(boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
 			System.out.println("ubba: "+source.getName());
 			System.out.println("gubba: "+DamageSource.FLY_INTO_WALL.getName());
 			if(source.isFromFalling() ||
 					source.getName() == DamageSource.FLY_INTO_WALL.getName()) {
-=======
-		if ((boots.getItem() instanceof BeetleArmorItem)
-				&& (boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
-			if (source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
->>>>>>> BLEEDING
 				new_amount = 0f;
 			}
 		}

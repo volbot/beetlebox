@@ -29,18 +29,6 @@ public class DataRegistry {
 					return "upgrade_recipe";
 				}
 			});
-<<<<<<< HEAD
-	public static final RecipeType<UpgradeUsageRecipe> UPGRADE_USAGE_RECIPE_TYPE = Registry.register(Registry.RECIPE_TYPE,
-			new Identifier("beetlebox", "upgrade_usage_recipe"), new RecipeType<UpgradeUsageRecipe>() {
-				@Override
-				public String toString() {
-					return "upgrade_usage_recipe";
-				}
-			});
-
-=======
-	
->>>>>>> BLEEDING
 	public static void register() {
 
 		BOILING_RECIPE_SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER,
@@ -49,11 +37,6 @@ public class DataRegistry {
 				JellyMixRecipe.Serializer.INSTANCE);
 		Registry.register(Registry.RECIPE_SERIALIZER, UpgradeRecipe.Serializer.ID,
 				UpgradeRecipe.Serializer.INSTANCE);
-<<<<<<< HEAD
-		Registry.register(Registry.RECIPE_SERIALIZER, UpgradeUsageRecipe.Serializer.ID,
-				UpgradeUsageRecipe.Serializer.INSTANCE);
-=======
->>>>>>> BLEEDING
 
 	}
 }
