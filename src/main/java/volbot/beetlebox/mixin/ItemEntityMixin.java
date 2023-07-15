@@ -11,8 +11,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
-import volbot.beetlebox.item.BeetleItemUpgrade;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
+import volbot.beetlebox.item.equipment.materials.BeetleItemUpgrade;
 
 @Mixin(ItemEntity.class)
 public abstract class ItemEntityMixin {

@@ -23,6 +23,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import volbot.beetlebox.client.BeetleBoxClient;
 import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
@@ -85,84 +86,7 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 
 	@Override
 	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-		switch (this.getSlotType()) {
-		case HEAD:
-			if (stack.getOrCreateNbt().contains("beetle_helmet_attack")) {
-				switch (BeetleArmorAbilities.beetle_abilities.get(this.material.getName())) {
-				case "flip":
-					tooltip.add(Text.literal("Ability: Flip").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.DARK_GRAY));
-					break;
-				case "pinch":
-					tooltip.add(Text.literal("Ability: Pinch").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.DARK_GRAY));
-					break;
-				case "headbutt":
-					tooltip.add(Text.literal("Ability: Headbutt").formatted(Formatting.GRAY));
-					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.DARK_GRAY));
-					break;
-				}
-			}
-			if (stack.getOrCreateNbt().contains("beetle_helmet_nv")) {
-				tooltip.add(Text.literal("Ability: Nocturnal").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Enables night vision").formatted(Formatting.DARK_GRAY));
-			}
-
-			break;
-		case CHEST:
-			if (stack.getOrCreateNbt().contains("beetle_chest_elytra")) {
-				tooltip.add(Text.literal("Ability: Beetle Elytra").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Enables elytra flight").formatted(Formatting.DARK_GRAY));
-				tooltip.add(Text.literal(
-						"   Press " + BeetleBoxClient.elytra_boost_keybind.getBoundKeyLocalizedText().getString()
-								+ " to start flying")
-						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
-
-			}
-			if (stack.getOrCreateNbt().contains("beetle_chest_boost")) {
-				tooltip.add(Text.literal("Ability: Elytra Boost").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Provides thrust while flying").formatted(Formatting.DARK_GRAY));
-				tooltip.add(Text.literal("   Press "
-						+ BeetleBoxClient.elytra_boost_keybind.getBoundKeyLocalizedText().getString() + " to boost")
-						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
-
-			}
-			break;
-		case LEGS:
-			if (stack.getOrCreateNbt().contains("beetle_legs_wallclimb")) {
-				tooltip.add(Text.literal("Ability: Wall Crawler").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Enables wall climbing").formatted(Formatting.DARK_GRAY));
-				tooltip.add(Text.literal("   Sneak to stop in place").formatted(Formatting.DARK_GRAY)
-						.formatted(Formatting.ITALIC));
-				tooltip.add(Text.literal("   Press "
-						+ BeetleBoxClient.wallclimb_keybind.getBoundKeyLocalizedText().getString() + " to toggle")
-						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
-			}
-			if (stack.getOrCreateNbt().contains("beetle_legs_2jump")) {
-				tooltip.add(Text.literal("Ability: Double Jump").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Adds a second, higher jump").formatted(Formatting.DARK_GRAY));
-				tooltip.add(Text.literal("   Cancels elytra flight for a precise landing")
-						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
-			}
-			break;
-		case FEET:
-			if (stack.getOrCreateNbt().contains("beetle_boots_falldamage")) {
-				tooltip.add(Text.literal("Ability: Velocity Protection").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Negates damage from falling and elytra collision")
-						.formatted(Formatting.DARK_GRAY));
-			}
-			if (stack.getOrCreateNbt().contains("beetle_boots_speed")) {
-				tooltip.add(Text.literal("Ability: Speed Boost").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Enables faster movement").formatted(Formatting.DARK_GRAY));
-			}
-			if (stack.getOrCreateNbt().contains("beetle_boots_step")) {
-				tooltip.add(Text.literal("Ability: Step Height Boost").formatted(Formatting.GRAY));
-				tooltip.add(Text.literal("Enables full-block step height").formatted(Formatting.DARK_GRAY));
-			}
-			break;
-		default:
-			break;
-		}
+		appendUpgradeTooltips(stack, world, tooltip, context);
 	}
 
 	@Override
@@ -180,4 +104,77 @@ public class BeetleArmorItem extends ArmorItem implements FabricElytraItem {
 		return client != null && client.player != null && client.player.input.jumping;
 	}
 
+	public static void appendUpgradeTooltips(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+			NbtCompound nbt = stack.getOrCreateNbt();
+			if (nbt.contains("beetle_helmet_attack") || stack.isOf(ItemRegistry.UPGRADE_H_ATTACK)) {
+				if(stack.getItem() instanceof BeetleArmorItem) {
+				switch (BeetleArmorAbilities.beetle_abilities.get(((BeetleArmorItem)stack.getItem()).material.getName())) {
+				case "flip":
+					tooltip.add(Text.literal("Ability: Flip").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Launches enemies into air on hit").formatted(Formatting.DARK_GRAY));
+					break;
+				case "pinch":
+					tooltip.add(Text.literal("Ability: Pinch").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Deals extra, delayed damage").formatted(Formatting.DARK_GRAY));
+					break;
+				case "headbutt":
+					tooltip.add(Text.literal("Ability: Headbutt").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Stuns enemies, slowing them").formatted(Formatting.DARK_GRAY));
+					break;
+				}
+				} else {
+					tooltip.add(Text.literal("Ability: Horn Attack").formatted(Formatting.GRAY));
+					tooltip.add(Text.literal("Ability depends on beetle species").formatted(Formatting.DARK_GRAY));
+				}
+			}
+			if (nbt.contains("beetle_helmet_nv") || stack.isOf(ItemRegistry.UPGRADE_H_NV)) {
+				tooltip.add(Text.literal("Ability: Nocturnal").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables night vision").formatted(Formatting.DARK_GRAY));
+			}
+			if (nbt.contains("beetle_chest_elytra") || stack.isOf(ItemRegistry.UPGRADE_C_ELYTRA)) {
+				tooltip.add(Text.literal("Ability: Beetle Elytra").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables elytra flight").formatted(Formatting.DARK_GRAY));
+				tooltip.add(Text.literal(
+						"   Press " + BeetleBoxClient.elytra_boost_keybind.getBoundKeyLocalizedText().getString()
+								+ " to start flying")
+						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
+
+			}
+			if (nbt.contains("beetle_chest_boost") || stack.isOf(ItemRegistry.UPGRADE_C_BOOST)) {
+				tooltip.add(Text.literal("Ability: Elytra Boost").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Provides thrust while flying").formatted(Formatting.DARK_GRAY));
+				tooltip.add(Text.literal("   Press "
+						+ BeetleBoxClient.elytra_boost_keybind.getBoundKeyLocalizedText().getString() + " to boost")
+						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
+
+			}
+			if (nbt.contains("beetle_legs_wallclimb") || stack.isOf(ItemRegistry.UPGRADE_L_CLIMB)) {
+				tooltip.add(Text.literal("Ability: Wall Crawler").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables wall climbing").formatted(Formatting.DARK_GRAY));
+				tooltip.add(Text.literal("   Sneak to stop in place").formatted(Formatting.DARK_GRAY)
+						.formatted(Formatting.ITALIC));
+				tooltip.add(Text.literal("   Press "
+						+ BeetleBoxClient.wallclimb_keybind.getBoundKeyLocalizedText().getString() + " to toggle")
+						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
+			}
+			if (nbt.contains("beetle_legs_2jump") || stack.isOf(ItemRegistry.UPGRADE_L_2JUMP)) {
+				tooltip.add(Text.literal("Ability: Double Jump").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Adds a second, higher jump").formatted(Formatting.DARK_GRAY));
+				tooltip.add(Text.literal("   Cancels elytra flight for a precise landing")
+						.formatted(Formatting.DARK_GRAY).formatted(Formatting.ITALIC));
+			}
+			if (nbt.contains("beetle_boots_falldamage") || stack.isOf(ItemRegistry.UPGRADE_B_FALLDAM)) {
+				tooltip.add(Text.literal("Ability: Velocity Protection").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Negates damage from falling and elytra collision")
+						.formatted(Formatting.DARK_GRAY));
+			}
+			if (nbt.contains("beetle_boots_speed") || stack.isOf(ItemRegistry.UPGRADE_B_SPEED)) {
+				tooltip.add(Text.literal("Ability: Speed Boost").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables faster movement").formatted(Formatting.DARK_GRAY));
+			}
+			if (nbt.contains("beetle_boots_step") || stack.isOf(ItemRegistry.UPGRADE_B_STEP)) {
+				tooltip.add(Text.literal("Ability: Step Height Boost").formatted(Formatting.GRAY));
+				tooltip.add(Text.literal("Enables full-block step height").formatted(Formatting.DARK_GRAY));
+			}
+	}
 }

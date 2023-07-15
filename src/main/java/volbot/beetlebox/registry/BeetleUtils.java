@@ -36,10 +36,13 @@ public class BeetleUtils {
 		Item SPAWN_EGG = new SpawnEggItem(beetle_type, color1, color2, new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_spawn_egg"), SPAWN_EGG);
 		ItemRegistry.spawn_eggs.add(SPAWN_EGG);
-		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.HELMET, new FabricItemSettings());
-		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.LEGGINGS, new FabricItemSettings());
-		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.BOOTS, new FabricItemSettings());
-		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id), Type.CHESTPLATE, new FabricItemSettings());
+		Item ELYTRON = new Item(new FabricItemSettings());
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_elytron"), ELYTRON);
+		ItemRegistry.beetle_drops.add(ELYTRON);
+		Item HELMET = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.HELMET, new FabricItemSettings());
+		Item LEGS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.LEGGINGS, new FabricItemSettings());
+		Item BOOTS = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.BOOTS, new FabricItemSettings());
+		Item CHESTPLATE = new BeetleArmorItem(new ChitinMaterial(beetle_id, ELYTRON), Type.CHESTPLATE, new FabricItemSettings());
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_helmet"), HELMET);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_chestplate"), CHESTPLATE);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_legs"), LEGS);
@@ -49,9 +52,6 @@ public class BeetleUtils {
 		ItemRegistry.beetle_helmets.add(HELMET);
 		ItemRegistry.armor_sets.add(LEGS);
 		ItemRegistry.armor_sets.add(BOOTS);
-		Item ELYTRON = new Item(new FabricItemSettings());
-		Registry.register(Registries.ITEM, new Identifier("beetlebox", beetle_id + "_elytron"), ELYTRON);
-		ItemRegistry.beetle_drops.add(ELYTRON);
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_helmet", createHelmetRecipe(HELMET, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_legs", createLegsRecipe(LEGS, ELYTRON));
 		BeetleRecipeGenerator.shaped_recipes.put(beetle_id + "_boots", createBootsRecipe(BOOTS, ELYTRON));

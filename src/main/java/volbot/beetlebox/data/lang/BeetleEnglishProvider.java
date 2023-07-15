@@ -40,16 +40,16 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		
 		translationBuilder.add(ItemRegistry.BEETLE_JELLY, "Beetle Jelly");
 		
-		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Beetle Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_H_NV, "Helmet Night-Vision Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Elytra Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_C_BOOST, "Chestplate Boost Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Crawl Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_L_2JUMP, "Leggings Double Jump Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Velocity Protection Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Boots Speed Boost Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Boots Step Height Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Horn Attack Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_NV, "Nocturnal Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Beetle Elytra Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_BOOST, "Elytra Boost Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Wall Crawler Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_2JUMP, "Double Jump Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Velocity Protection Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Speed Boost Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Step Height Upgrade Bug");
 		
 		translationBuilder.add(BeetleBoxClient.elytra_boost_keybind.getTranslationKey(), "Elytra Boost");
 		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getTranslationKey(), "Toggle Wall Crawler");
