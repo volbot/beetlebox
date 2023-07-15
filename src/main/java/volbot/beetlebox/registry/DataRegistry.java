@@ -9,7 +9,6 @@ import net.minecraft.util.Identifier;
 import volbot.beetlebox.recipe.BoilingRecipe;
 import volbot.beetlebox.recipe.JellyMixRecipe;
 import volbot.beetlebox.recipe.UpgradeRecipe;
-import volbot.beetlebox.recipe.UpgradeUsageRecipe;
 
 public class DataRegistry {
 
@@ -31,14 +30,7 @@ public class DataRegistry {
 					return "upgrade_recipe";
 				}
 			});
-	public static final RecipeType<UpgradeUsageRecipe> UPGRADE_USAGE_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE,
-			new Identifier("beetlebox", "upgrade_usage_recipe"), new RecipeType<UpgradeUsageRecipe>() {
-				@Override
-				public String toString() {
-					return "upgrade_usage_recipe";
-				}
-			});
-
+	
 	public static void register() {
 
 		BOILING_RECIPE_SERIALIZER = Registry.register(Registries.RECIPE_SERIALIZER,
@@ -47,8 +39,6 @@ public class DataRegistry {
 				JellyMixRecipe.Serializer.INSTANCE);
 		Registry.register(Registries.RECIPE_SERIALIZER, UpgradeRecipe.Serializer.ID,
 				UpgradeRecipe.Serializer.INSTANCE);
-		Registry.register(Registries.RECIPE_SERIALIZER, UpgradeUsageRecipe.Serializer.ID,
-				UpgradeUsageRecipe.Serializer.INSTANCE);
 
 	}
 }

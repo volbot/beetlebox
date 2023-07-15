@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import volbot.beetlebox.client.BeetleBoxClient;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
@@ -37,11 +38,20 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		
 		translationBuilder.add(ItemRegistry.BEETLE_JELLY, "Beetle Jelly");
 		
-		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Beetle Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Helmet Attack Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Chestplate Glider Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Leggings Wall-Crawl Upgrade Chip");
-		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Boots Velocity Upgrade Chip");
+		translationBuilder.add(ItemRegistry.UPGRADE_DORMANT, "Dormant Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_ATTACK, "Horn Attack Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_H_NV, "Nocturnal Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_ELYTRA, "Beetle Elytra Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_C_BOOST, "Elytra Boost Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_CLIMB, "Wall Crawler Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_L_2JUMP, "Double Jump Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_FALLDAM, "Velocity Protection Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Speed Boost Upgrade Bug");
+		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Step Height Upgrade Bug");
+		
+		translationBuilder.add(BeetleBoxClient.elytra_boost_keybind.getTranslationKey(), "Elytra Boost");
+		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getTranslationKey(), "Toggle Wall Crawler");
+		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getCategory(), "beetlebox");
 		
 		for(String key : gen_lang.keySet()) {
 			translationBuilder.add(key,gen_lang.get(key));

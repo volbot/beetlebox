@@ -1,0 +1,27 @@
+{
+  "type": "beetlebox:upgrade_recipe",
+  "category": "equipment",
+  "key": {
+    "x": {
+      "item": "minecraft:firework_rocket"
+    },
+    "g": {
+      "item": "beetlebox:gelatin"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    },
+    "w": {
+      "item": "minecraft:nether_wart"
+    }
+  },
+  "pattern": [
+    "gog",
+    "wxw",
+    "gog"
+  ],
+  "result": {
+    "item": "beetlebox:upgrade_dormant"
+  },
+  "show_notification": true
+}
