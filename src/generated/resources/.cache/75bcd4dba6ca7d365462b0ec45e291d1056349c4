@@ -1,2 +1,6 @@
+<<<<<<< HEAD:src/generated/resources/.cache/75bcd4dba6ca7d365462b0ec45e291d1056349c4
 // 1.19.2	2023-06-28T20:14:58.135623899	Tags for minecraft:block
+=======
+// 1.19.4	2023-07-14T21:27:59.057326277	beetlebox/Tags for minecraft:block
+>>>>>>> BLEEDING:src/generated/resources/.cache/65b5d54d5717357d1cf52723ba5bf32d0b821f01
 016642ccf8dc986af44cf7ea9240a78308ab1907 data/minecraft/tags/blocks/mineable/pickaxe.json

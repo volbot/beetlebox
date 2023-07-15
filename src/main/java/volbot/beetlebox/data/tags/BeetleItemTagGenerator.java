@@ -3,8 +3,14 @@ package volbot.beetlebox.data.tags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.minecraft.item.Item;
+<<<<<<< HEAD
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.TagKey;
+=======
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+import net.minecraft.registry.tag.TagKey;
+>>>>>>> BLEEDING
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.registry.ItemRegistry;

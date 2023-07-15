@@ -33,14 +33,29 @@ public class UpgradeRecipe extends ShapedRecipe {
 			if (i.test(Items.DIAMOND_SWORD.getDefaultStack())) {
 				output.getOrCreateNbt().putBoolean("beetle_helmet_attack", true);
 			}
+			if (i.test(Items.GOLDEN_CARROT.getDefaultStack())) {
+				output.getOrCreateNbt().putBoolean("beetle_helmet_nv", true);
+			}
 			if (i.test(Items.FERMENTED_SPIDER_EYE.getDefaultStack())) {
 				output.getOrCreateNbt().putBoolean("beetle_legs_wallclimb", true);
+			}
+			if (i.test(Items.RABBIT_FOOT.getDefaultStack())) {
+				output.getOrCreateNbt().putBoolean("beetle_legs_2jump", true);
 			}
 			if (i.test(Items.COBWEB.getDefaultStack())) {
 				output.getOrCreateNbt().putBoolean("beetle_boots_falldamage", true);
 			}
+			if (i.test(Items.BRICK_STAIRS.getDefaultStack())) {
+				output.getOrCreateNbt().putBoolean("beetle_boots_step", true);
+			}
+			if (i.test(Items.FURNACE_MINECART.getDefaultStack())) {
+				output.getOrCreateNbt().putBoolean("beetle_boots_speed", true);
+			}
 			if (i.test(Items.ELYTRA.getDefaultStack())) {
 				output.getOrCreateNbt().putBoolean("beetle_chest_elytra", true);
+			}
+			if (i.test(Items.FIREWORK_ROCKET.getDefaultStack())) {
+				output.getOrCreateNbt().putBoolean("beetle_chest_boost", true);
 			}
 		}
 		return output;

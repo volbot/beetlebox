@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "e": {
+      "item": "minecraft:ender_eye"
+    },
+    "j": {
+      "item": "beetlebox:beetle_jar"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "dod",
+    "eje",
+    "ded"
+  ],
+  "result": {
+    "item": "beetlebox:leg_beetle_jar"
+  },
+  "show_notification": true
+}

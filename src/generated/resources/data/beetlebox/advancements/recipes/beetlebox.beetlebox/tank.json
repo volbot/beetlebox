@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_beetle_jar": {
+    "has_net": {
       "conditions": {
         "items": [
           {
             "items": [
-              "beetlebox:beetle_jar"
+              "beetlebox:net"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "has_beetle_jar",
+      "has_net",
       "has_the_recipe"
     ]
   ],

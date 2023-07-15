@@ -1,2 +1,6 @@
+<<<<<<< HEAD:src/generated/resources/.cache/03e4de26f1265135874f8cdcaebc09d9c08eb42b
 // 1.19.2	2023-06-28T20:14:58.135489766	Tags for minecraft:item
+=======
+// 1.19.4	2023-07-14T21:27:59.057725898	beetlebox/Tags for minecraft:item
+>>>>>>> BLEEDING:src/generated/resources/.cache/f3f1fe65abdb65725688e27e92d42f7f5db5f3d7
 03a503aa805490e6ca3eeaa77fd156302c9f53f3 data/c/tags/items/slime_balls.json

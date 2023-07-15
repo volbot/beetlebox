@@ -1,4 +1,8 @@
+<<<<<<< HEAD:src/generated/resources/.cache/a3645754665ee98e46a8427495900e5c4a07231b
 // 1.19.2	2023-06-28T20:14:58.13498037	minecraft:entity Loot Table
+=======
+// 1.19.4	2023-07-14T21:27:59.057527198	beetlebox/minecraft:entity Loot Table
+>>>>>>> BLEEDING:src/generated/resources/.cache/27e3a4d20b510f4f417235831edd2fc81500c4be
 0edcce24de4b2b3e94d6a96aca7b53e270ae37c6 data/beetlebox/loot_tables/entities/actaeon.json
 728bcd7125d54f2012d01cb1cc94e71b41171e7b data/beetlebox/loot_tables/entities/elephant.json
 dcb514f9a6d7950f44bc22250b48b953796bdc01 data/beetlebox/loot_tables/entities/hercules.json
