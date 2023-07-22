@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "beetlebox:ash_log",
+    "beetlebox:ash_log_stripped",
+    "beetlebox:ash_wood",
+    "beetlebox:ash_wood_stripped"
+  ]
+}

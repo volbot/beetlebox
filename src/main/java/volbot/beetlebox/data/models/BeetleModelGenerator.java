@@ -8,6 +8,7 @@ import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
+import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetleModelGenerator extends FabricModelProvider {
@@ -20,7 +21,15 @@ public class BeetleModelGenerator extends FabricModelProvider {
 
 	@Override
 	public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG).log(BlockRegistry.ASH_LOG).wood(BlockRegistry.ASH_WOOD);
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_WOOD);
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG_STRIPPED).log(BlockRegistry.ASH_LOG_STRIPPED).wood(BlockRegistry.ASH_WOOD_STRIPPED);
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_WOOD_STRIPPED);
 		
+		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_PLANKS);
+		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_LEAVES);
+		
+		blockStateModelGenerator.registerTintableCross(BlockRegistry.ASH_SAPLING,BlockStateModelGenerator.TintType.NOT_TINTED);
 	}
 
 	@Override

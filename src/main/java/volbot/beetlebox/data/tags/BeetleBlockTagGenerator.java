@@ -21,6 +21,9 @@ public class BeetleBlockTagGenerator extends FabricTagProvider<Block> {
 		getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(BlockRegistry.BOILER).add(BlockRegistry.TANK)
 				.add(BlockRegistry.LEG_TANK);
 
+		getOrCreateTagBuilder(BlockTags.LOGS).add(BlockRegistry.ASH_LOG).add(BlockRegistry.ASH_LOG_STRIPPED)
+				.add(BlockRegistry.ASH_WOOD).add(BlockRegistry.ASH_WOOD_STRIPPED);
+
 	}
 
 }

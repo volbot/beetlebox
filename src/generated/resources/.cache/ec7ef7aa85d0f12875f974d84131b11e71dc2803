@@ -1,4 +1,4 @@
-// 1.19.4	2023-07-14T21:27:59.057997537	beetlebox/Recipes
+// 1.19.4	2023-07-22T02:04:28.943251263	beetlebox/Recipes
 b68776c57450316bfbe1044737b4cccba1c1f9ea data/beetlebox/advancements/recipes/building_blocks/boiler.json
 f5d55dd4230811f1baa0e78026951c7c10b5b903 data/beetlebox/recipes/titanus_helmet.json
 87923c7885b2d7fc8def4d5152d1ce20f190af91 data/beetlebox/advancements/recipes/combat/titanus_helmet.json
@@ -73,8 +73,8 @@ f6ec965690b09229d19583dad39bc795b8ea65a0 data/beetlebox/recipes/junebug_boots.js
 0725c38ed717ee15b94c662c7a0ce312861043cb data/beetlebox/advancements/recipes/combat/elephant_boots.json
 ac3d3e229d09c05f79286c9314d249895162c9f7 data/beetlebox/recipes/elephant_boots.json
 4b21bc664f1f39214b0d558381ae5ebe9a4291fb data/beetlebox/advancements/recipes/food/beetle_jelly_301.json
-99adb5070479749fb17f590240b0a85d19a1b5be data/beetlebox/recipes/jrb_legs.json
 c2b5366db8cdfbabb91671d9b82e8f6598fc9efe data/beetlebox/recipes/beetle_jelly_320.json
+99adb5070479749fb17f590240b0a85d19a1b5be data/beetlebox/recipes/jrb_legs.json
 95b89342b948d1a4e7dcb083083c045e39060f78 data/beetlebox/advancements/recipes/food/beetle_jelly_310.json
 f37e79397c5bcec88858f8c41501d622639bbe04 data/beetlebox/advancements/recipes/combat/tityus_boots.json
 e391e20488acadd320fe8bf4a7c83bd0ace9db45 data/beetlebox/recipes/hercules_boots.json

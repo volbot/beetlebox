@@ -2,12 +2,17 @@ package volbot.beetlebox.data;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.minecraft.registry.RegistryBuilder;
+import net.minecraft.registry.RegistryKeys;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;
 import volbot.beetlebox.data.loot.BeetleLootGenerator;
 import volbot.beetlebox.data.models.BeetleModelGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 import volbot.beetlebox.data.tags.BeetleBlockTagGenerator;
+import volbot.beetlebox.data.worldgen.WorldgenDataGenerator;
+import volbot.beetlebox.registry.ConfiguredFeatureRegistry;
+import volbot.beetlebox.registry.PlacedFeatureRegistry;
 
 public class BeetleDataGen implements DataGeneratorEntrypoint {
 
@@ -20,6 +25,13 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(BeetleLootGenerator::new);
 		pack.addProvider(BeetleModelGenerator::new);
 		pack.addProvider(BeetleEnglishProvider::new);
+		pack.addProvider(WorldgenDataGenerator::new);
+	}
+
+	@Override
+	public void buildRegistry(RegistryBuilder registryBuilder) {
+		registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ConfiguredFeatureRegistry::bootstrap);
+		registryBuilder.addRegistry(RegistryKeys.PLACED_FEATURE, PlacedFeatureRegistry::bootstrap);
 	}
 
 }
