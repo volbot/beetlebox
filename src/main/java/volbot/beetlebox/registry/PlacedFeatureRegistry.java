@@ -23,7 +23,7 @@ public class PlacedFeatureRegistry {
 		
 		register(context, ASH_PLACED_KEY,
 				configuredFeatureRegistryEntryLookup.getOrThrow(ConfiguredFeatureRegistry.ASH_KEY),
-				VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 2), BlockRegistry.ASH_SAPLING));
+				VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.1f, 1), BlockRegistry.ASH_SAPLING));
 	}
 
 	public static RegistryKey<PlacedFeature> registerKey(String name) {

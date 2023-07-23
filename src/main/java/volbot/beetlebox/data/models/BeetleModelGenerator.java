@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
@@ -14,22 +15,24 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class BeetleModelGenerator extends FabricModelProvider {
 
 	public static Vector<Item> items = new Vector<>();
-	
+
 	public BeetleModelGenerator(FabricDataOutput output) {
 		super(output);
 	}
 
 	@Override
 	public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG).log(BlockRegistry.ASH_LOG).wood(BlockRegistry.ASH_WOOD);
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG).log(BlockRegistry.ASH_LOG)  
+				.wood(BlockRegistry.ASH_WOOD);
 		blockStateModelGenerator.registerLog(BlockRegistry.ASH_WOOD);
-		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG_STRIPPED).log(BlockRegistry.ASH_LOG_STRIPPED).wood(BlockRegistry.ASH_WOOD_STRIPPED);
+		blockStateModelGenerator.registerLog(BlockRegistry.ASH_LOG_STRIPPED).log(BlockRegistry.ASH_LOG_STRIPPED)
+				.wood(BlockRegistry.ASH_WOOD_STRIPPED);
 		blockStateModelGenerator.registerLog(BlockRegistry.ASH_WOOD_STRIPPED);
-		
-		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_PLANKS);
-		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_LEAVES);
-		
-		blockStateModelGenerator.registerTintableCross(BlockRegistry.ASH_SAPLING,BlockStateModelGenerator.TintType.NOT_TINTED);
+
+		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_PLANKS).family(BlockRegistry.ASH_FAMILY);
+
+		blockStateModelGenerator.registerTintableCross(BlockRegistry.ASH_SAPLING,
+				BlockStateModelGenerator.TintType.NOT_TINTED);
 	}
 
 	@Override
@@ -45,7 +48,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 		items.addAll(ItemRegistry.chest_upgrades);
 		items.addAll(ItemRegistry.legs_upgrades);
 		items.addAll(ItemRegistry.boots_upgrades);
-		for(Item item : items ) {
+		for (Item item : items) {
 			itemModelGenerator.register(item, Models.GENERATED);
 		}
 	}

@@ -23,6 +23,26 @@ public class BeetleBlockTagGenerator extends FabricTagProvider<Block> {
 
 		getOrCreateTagBuilder(BlockTags.LOGS).add(BlockRegistry.ASH_LOG).add(BlockRegistry.ASH_LOG_STRIPPED)
 				.add(BlockRegistry.ASH_WOOD).add(BlockRegistry.ASH_WOOD_STRIPPED);
+		
+		getOrCreateTagBuilder(BlockTags.LEAVES).add(BlockRegistry.ASH_LEAVES);
+		
+		getOrCreateTagBuilder(BlockTags.PLANKS).add(BlockRegistry.ASH_PLANKS);
+
+		getOrCreateTagBuilder(BlockTags.FENCES).add(BlockRegistry.ASH_FENCE);
+		getOrCreateTagBuilder(BlockTags.WOODEN_FENCES).add(BlockRegistry.ASH_FENCE);
+		getOrCreateTagBuilder(BlockTags.FENCE_GATES).add(BlockRegistry.ASH_FENCE_GATE);
+
+		getOrCreateTagBuilder(BlockTags.WOODEN_DOORS).add(BlockRegistry.ASH_DOOR);
+		getOrCreateTagBuilder(BlockTags.WOODEN_STAIRS).add(BlockRegistry.ASH_STAIRS);
+		
+		getOrCreateTagBuilder(BlockTags.BUTTONS).add(BlockRegistry.ASH_BUTTON);
+		getOrCreateTagBuilder(BlockTags.WOODEN_BUTTONS).add(BlockRegistry.ASH_BUTTON);
+
+		getOrCreateTagBuilder(BlockTags.TRAPDOORS).add(BlockRegistry.ASH_TRAPDOOR);
+		getOrCreateTagBuilder(BlockTags.WOODEN_TRAPDOORS).add(BlockRegistry.ASH_TRAPDOOR);
+
+		getOrCreateTagBuilder(BlockTags.PRESSURE_PLATES).add(BlockRegistry.ASH_PLATE);
+		getOrCreateTagBuilder(BlockTags.WOODEN_PRESSURE_PLATES).add(BlockRegistry.ASH_PLATE);
 
 	}
 

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "beetlebox:block/ash_pressure_plate"
+    },
+    "powered=true": {
+      "model": "beetlebox:block/ash_pressure_plate_down"
+    }
+  }
+}

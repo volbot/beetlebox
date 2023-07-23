@@ -18,13 +18,21 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.color.block.BlockColors;
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.color.world.BiomeColors;
+import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.SignBlockEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -162,10 +170,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 					});
 				});
 
-		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TANK, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LEG_TANK, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_LEAVES, RenderLayer.getCutout());
-		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_SAPLING, RenderLayer.getCutout());
 
 		LivingEntityFeatureRendererRegistrationCallback.EVENT
 				.register((entityType, entityRenderer, registrationHelper, context) -> {
@@ -222,6 +226,19 @@ public class BeetleBoxClient implements ClientModInitializer {
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
 			return FruitSyrup.getColor(stack);
 		}, ItemRegistry.BEETLE_JELLY);
+
+		ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+	        return FoliageColors.getBirchColor();
+		}, BlockRegistry.ASH_LEAVES);
+
+		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
+			return FoliageColors.getDefaultColor();
+		}, BlockRegistry.ASH_LEAVES);
+		
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TANK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LEG_TANK, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_LEAVES, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_SAPLING, RenderLayer.getCutout());
 
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
