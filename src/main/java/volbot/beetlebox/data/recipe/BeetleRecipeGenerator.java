@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.OneTwentyRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -14,7 +15,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
@@ -35,7 +38,6 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 	@Override
 	public void generate(Consumer<RecipeJsonProvider> exporter) {
-
 		for (int syrup_dex = 0; syrup_dex < syrups.length; syrup_dex++) {
 			for (int mag_dex = 0; mag_dex < mags.length; mag_dex++) {
 				for (int dir_dex = 0; dir_dex < 2; dir_dex++) {
@@ -136,6 +138,12 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				.input('w', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "wool"))))
 				.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 				.offerTo(exporter);
+		
+		RecipeProvider.generateFamily(exporter, BlockRegistry.ASH_FAMILY);
+
+        RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
+        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
+        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
 		
 	}
 }

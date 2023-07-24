@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "beetlebox:ash_planks"
+    }
+  ],
+  "result": {
+    "item": "beetlebox:ash_button"
+  }
+}

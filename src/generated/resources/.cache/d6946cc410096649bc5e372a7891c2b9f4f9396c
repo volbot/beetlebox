@@ -1,4 +1,4 @@
-// 1.19.4	2023-07-23T00:04:53.508489042	beetlebox/Model Definitions
+// 1.19.4	2023-07-23T21:12:50.505435785	beetlebox/Model Definitions
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 7178dbb408cd8d14bd37496a03f4a42e00e3d3db assets/beetlebox/models/item/junebug_chestplate.json
@@ -101,8 +101,8 @@ f3ea77a07cf9d01ea137683326847a43947306b5 assets/beetlebox/models/item/atlas_boot
 d3ae2c63589c0c19b3b556f6c4265d220963eae5 assets/beetlebox/models/block/ash_door_top_right.json
 066c0a5ac0a48070161a9972cb2a93f952018258 assets/beetlebox/blockstates/ash_log_stripped.json
 e8526dafe7316b5b3f8850707a4170c1243337f1 assets/beetlebox/models/item/hercules_boots.json
-9fa326cfb42dc3b3c60a23918e0ac6949b76fb94 assets/beetlebox/blockstates/ash_log.json
 8a32c2c69ad228cdad9dc13f2736ff57649980d9 assets/beetlebox/models/item/jrb_helmet.json
+9fa326cfb42dc3b3c60a23918e0ac6949b76fb94 assets/beetlebox/blockstates/ash_log.json
 8b7473562838d30f9e0be53d5c36a9527db2f4ff assets/beetlebox/models/item/upgrade_l_climb.json
 545f7698a738fda5c79d72b6b3e3b91f5339e470 assets/beetlebox/models/block/ash_wood_stripped.json
 de915f4d80a79c840f43cef59626cd5b67114b60 assets/beetlebox/models/block/ash_fence_inventory.json

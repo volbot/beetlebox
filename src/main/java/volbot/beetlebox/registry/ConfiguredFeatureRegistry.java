@@ -19,7 +19,7 @@ public class ConfiguredFeatureRegistry {
 	public static final RegistryKey<ConfiguredFeature<?, ?>> ASH_KEY = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
 			new Identifier("beetlebox", "ash_tree"));
 
-	public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
+	public static void bootstrap(Registerable<ConfiguredFeature<?,?>> context) {
 		register(context, ASH_KEY, Feature.TREE,
 				new TreeFeatureConfig.Builder(BlockStateProvider.of(BlockRegistry.ASH_LOG),
 						new StraightTrunkPlacer(5, 6, 3), BlockStateProvider.of(BlockRegistry.ASH_LEAVES),

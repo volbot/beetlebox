@@ -232,13 +232,15 @@ public class BeetleBoxClient implements ClientModInitializer {
 		}, BlockRegistry.ASH_LEAVES);
 
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-			return FoliageColors.getDefaultColor();
+	        return FoliageColors.getBirchColor();
 		}, BlockRegistry.ASH_LEAVES);
 		
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TANK, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LEG_TANK, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_LEAVES, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_SAPLING, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_TRAPDOOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_DOOR, RenderLayer.getCutout());
 
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);

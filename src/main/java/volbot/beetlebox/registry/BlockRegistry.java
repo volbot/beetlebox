@@ -89,7 +89,7 @@ public class BlockRegistry {
 
 	public static final BlockFamily ASH_FAMILY = BlockFamilies.register(ASH_PLANKS).button(ASH_BUTTON).fence(ASH_FENCE)
 			.fenceGate(ASH_FENCE_GATE).door(ASH_DOOR).pressurePlate(ASH_PLATE).slab(ASH_SLAB).stairs(ASH_STAIRS)
-			.trapdoor(ASH_TRAPDOOR).build();
+			.trapdoor(ASH_TRAPDOOR).group("wooden").unlockCriterionName("has_planks").build();
 
 	public static final BlockEntityType<TankBlockEntity> TANK_BLOCK_ENTITY = Registry.register(
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "tank_block_entity"),
