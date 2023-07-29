@@ -67,10 +67,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		BlockState blockState = world.getBlockState(blockPos);
 		BlockPos blockPos2 = blockState.getCollisionShape(world, blockPos).isEmpty() ? blockPos
 				: blockPos.offset(direction);
-		NbtCompound nbt = itemStack.getNbt();
-		if (nbt == null) {
-			nbt = new NbtCompound();
-		}
+		NbtCompound nbt = itemStack.getOrCreateNbt();
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
 			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
 			if (!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {

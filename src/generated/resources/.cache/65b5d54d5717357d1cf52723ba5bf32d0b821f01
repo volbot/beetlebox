@@ -1,8 +1,8 @@
-// 1.19.4	2023-07-23T21:12:50.507733512	beetlebox/Tags for minecraft:block
-39370df5c34e1af058fb8ebca76aff59ed168bd5 data/minecraft/tags/blocks/wooden_pressure_plates.json
+// 1.19.4	2023-07-27T23:00:39.294203697	beetlebox/Tags for minecraft:block
+be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/blocks/wooden_pressure_plates.json
 016642ccf8dc986af44cf7ea9240a78308ab1907 data/minecraft/tags/blocks/mineable/pickaxe.json
 71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/blocks/trapdoors.json
-39370df5c34e1af058fb8ebca76aff59ed168bd5 data/minecraft/tags/blocks/pressure_plates.json
+be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/blocks/pressure_plates.json
 71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/blocks/wooden_trapdoors.json
 582ec3687f4a82d5ccfca02f4a6124d0fc2497cd data/minecraft/tags/blocks/wooden_stairs.json
 171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/blocks/wooden_buttons.json

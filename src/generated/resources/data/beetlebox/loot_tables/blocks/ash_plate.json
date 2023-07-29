@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "beetlebox:ash_pressure_plate"
+          "name": "beetlebox:ash_plate"
         }
       ],
       "rolls": 1.0

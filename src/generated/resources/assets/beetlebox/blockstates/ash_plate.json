@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "beetlebox:block/ash_plate"
+    },
+    "powered=true": {
+      "model": "beetlebox:block/ash_plate_down"
+    }
+  }
+}

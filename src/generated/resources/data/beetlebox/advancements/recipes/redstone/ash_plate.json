@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "beetlebox:ash_pressure_plate"
+        "recipe": "beetlebox:ash_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "beetlebox:ash_pressure_plate"
+      "beetlebox:ash_plate"
     ]
   }
 }
