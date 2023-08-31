@@ -82,7 +82,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				}
 				nbt.put("EntityTag", te.entity_data);
 				te.setContained("");
-				te.setCustomName("");
+				te.setEntityCustomName("");
 				te.setEntityData(null);
 				itemStack.setNbt(nbt);
 				return ActionResult.SUCCESS;
@@ -94,10 +94,10 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				}
 				te.setContained(nbt.getString("EntityType"));
 				if (nbt.contains("EntityName")) {
-					te.setCustomName(nbt.getString("EntityName"));
+					te.setEntityCustomName(nbt.getString("EntityName"));
 					itemStack.removeSubNbt("EntityName");
 				} else {
-					te.setCustomName("");
+					te.setEntityCustomName("");
 				}
 				te.setEntityData(nbt.getCompound("EntityTag"));
 				itemStack.removeSubNbt("EntityTag");

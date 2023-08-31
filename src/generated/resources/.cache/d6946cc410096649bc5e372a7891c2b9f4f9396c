@@ -1,4 +1,4 @@
-// 1.19.4	2023-07-27T23:00:39.291630129	beetlebox/Model Definitions
+// 1.19.4	2023-08-30T22:07:11.613099312	beetlebox/Model Definitions
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 50a495046f3bb18d7c905605f9b379a41466b47e assets/beetlebox/blockstates/ash_plate.json
@@ -10,6 +10,7 @@ bd85a640b37c0436f32ad6a8cec379963c00386b assets/beetlebox/models/block/ash_fence
 55f49af7f4aad21030ee7951c9a9256defbe32a2 assets/beetlebox/models/item/hercules_helmet.json
 f6ecde6b27997374b3a0f9a962e72e635c74eded assets/beetlebox/models/item/titanus_elytron.json
 c8f4c51b419ff50fd8a553fc43ad35c177668226 assets/beetlebox/models/item/ash_log.json
+f7f55ef5c991008651e056accfdb017472e899de assets/beetlebox/models/item/immigrator.json
 2e5ffd6b3f67ddba88ef5a191d42ac8797c5ae17 assets/beetlebox/blockstates/ash_wood.json
 087f351b5245f9f9a3990d3d8804a16af461500f assets/beetlebox/models/block/ash_wood.json
 5482792e5ff2c916ec41bfb091bc075ad9b31ccc assets/beetlebox/models/item/jrb_elytron.json
@@ -46,6 +47,7 @@ faece8ecad3cccdb081ec260ca8611519d0aa54b assets/beetlebox/models/block/ash_door_
 02ec094f767e1e4eeaede6a5d81515a57d0291f2 assets/beetlebox/models/item/sugar_gelatin.json
 750873d5e6cb4cf091d3dd5bb6fdb13d78502e89 assets/beetlebox/models/item/ash_trapdoor.json
 17dc60b654036d6bc30fcfc7c5f81940b1df37b0 assets/beetlebox/models/item/actaeon_legs.json
+88d21bea55f37aae0b4b5eabfa8962e5e91d615a assets/beetlebox/blockstates/immigrator.json
 d8b4ced8a436fe4ef8d5d209f16b9e2104dacc6c assets/beetlebox/models/block/ash_fence_post.json
 056b381aa3222f4b6056dd6e8833729a078f291b assets/beetlebox/models/block/ash_fence_gate_wall.json
 ac55cbfcd5c91eb1814a794966165e4c3c6bfeee assets/beetlebox/models/item/elephant_helmet.json
@@ -55,6 +57,7 @@ ac55cbfcd5c91eb1814a794966165e4c3c6bfeee assets/beetlebox/models/item/elephant_h
 0b7e91570581c62c1cb30f96cea7efa118846b07 assets/beetlebox/models/item/titanus_helmet.json
 352a765d0a3f34c9dfbd73b813315923b39cbf8f assets/beetlebox/models/item/ash_stairs.json
 78b0e1287b610be28457bcf713bd4ba5facd2405 assets/beetlebox/blockstates/ash_button.json
+49479084bc3236c26814c011729ee70f33a7fa6a assets/beetlebox/models/block/immigrator_vertical.json
 098611533b04246d2128a97e2fd45949f5a53118 assets/beetlebox/models/block/ash_fence_side.json
 c96e1a1a14192d382a2f90058e2e3ce2e2979a34 assets/beetlebox/models/item/elephant_chestplate.json
 276e9e365888f25571cc26fb3eea1403fc9d2b8c assets/beetlebox/models/block/ash_door_bottom_left_open.json
@@ -78,6 +81,7 @@ b75f1b85fdade1a0d68c4e4e9dce2b665d1782ca assets/beetlebox/models/block/ash_door_
 64459f3096bb5080f9f32fda316461e794c1e18a assets/beetlebox/models/item/titanus_legs.json
 501567c93ece154b7b2171005f1c96f813bf8a2b assets/beetlebox/models/item/beetle_jelly.json
 964c8ed6e5b3817a60b64e2c290fe30aad7ea41d assets/beetlebox/blockstates/ash_fence.json
+22159bdcd1cfdbcb7b96e9dff17682cf9cdda442 assets/beetlebox/models/block/immigrator.json
 de15aed3fc88185ec7d27c6dd43b82970ffaff05 assets/beetlebox/models/item/tityus_chestplate.json
 66c94f233ccd746e56448066ccf2c9c86b718564 assets/beetlebox/models/item/titanus_boots.json
 ce5e4bda9d653ac23f47c149ccd7a2f81410e469 assets/beetlebox/models/block/ash_log_stripped.json
@@ -96,8 +100,8 @@ f3ea77a07cf9d01ea137683326847a43947306b5 assets/beetlebox/models/item/atlas_boot
 1bde63cdedbf05aec3b1244f27a00cb2a3a181d0 assets/beetlebox/models/block/ash_trapdoor_open.json
 9a595eff343e4a22641551ea8e95eb1fe1a4853a assets/beetlebox/models/block/ash_door_bottom_right_open.json
 693b4ac2c14d046c9c88c326280c6d5e20d0061e assets/beetlebox/models/item/tityus_helmet.json
-7904bed8271153ed6c1fa4d534480f90104c12f7 assets/beetlebox/blockstates/ash_door.json
 65555238e38b8cc288f1591bc3862967f35e8dfb assets/beetlebox/models/item/hercules_elytron.json
+7904bed8271153ed6c1fa4d534480f90104c12f7 assets/beetlebox/blockstates/ash_door.json
 561ba91ada33868bec71655bd273f5409ccdf45d assets/beetlebox/blockstates/ash_trapdoor.json
 c3ab2b6a24ea499f24bb0d6e4e7fb2fd279169b6 assets/beetlebox/models/block/emigrator.json
 08ddc5295fd1dba147bcee0078f35d08b188b25b assets/beetlebox/models/item/ash_wood_stripped.json

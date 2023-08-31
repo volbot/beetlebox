@@ -37,10 +37,12 @@ import net.minecraft.util.Rarity;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.block.BoilerBlock;
 import volbot.beetlebox.block.EmigratorBlock;
+import volbot.beetlebox.block.ImmigratorBlock;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.block.EmigratorBlockEntity;
+import volbot.beetlebox.entity.block.ImmigratorBlockEntity;
 import volbot.beetlebox.worldgen.AshSaplingGenerator;
 
 public class BlockRegistry {
@@ -55,6 +57,7 @@ public class BlockRegistry {
 			new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 
 	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 
 	public static final BlockSetType ASH_BLOCKSET = BlockSetType.register(new BlockSetType("ash"));
 	public static final WoodType ASH_WOOD_TYPE = WoodType
@@ -111,6 +114,11 @@ public class BlockRegistry {
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "emigrator_block_entity"),
 			FabricBlockEntityTypeBuilder.create(EmigratorBlockEntity::new, EMIGRATOR).build());
 
+	public static final BlockEntityType<ImmigratorBlockEntity> IMMIGRATOR_BLOCK_ENTITY = Registry.register(
+			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "immigrator_block_entity"),
+			FabricBlockEntityTypeBuilder.create(ImmigratorBlockEntity::new, IMMIGRATOR).build());
+
+	
 	public static void register() {
 
 		FluidStorage.SIDED.registerForBlockEntity((boiler, direction) -> boiler.fluidStorage, BOILER_BLOCK_ENTITY);

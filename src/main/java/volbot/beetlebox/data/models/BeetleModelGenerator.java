@@ -35,6 +35,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 				BlockStateModelGenerator.TintType.NOT_TINTED); 
 		
 		blockStateModelGenerator.registerDispenserLikeOrientable(BlockRegistry.EMIGRATOR);
+		blockStateModelGenerator.registerDispenserLikeOrientable(BlockRegistry.IMMIGRATOR);
 	}
 
 	@Override

@@ -1,16 +1,16 @@
-// 1.19.4	2023-07-27T23:00:39.294921762	beetlebox/Block Loot Tables
+// 1.19.4	2023-08-30T22:07:11.619057391	beetlebox/Block Loot Tables
+61fbd67ebffd5c7b7baecb8c9512f931c1765651 data/beetlebox/loot_tables/blocks/ash_button.json
+61e7985ad78e51ffce0c6562895f5a95c1a660c6 data/beetlebox/loot_tables/blocks/ash_planks.json
+31b5fc207c025adc0710cd54a22dabc5d502af5e data/beetlebox/loot_tables/blocks/ash_leaves.json
+6e41ffa10fdcead7342ab3edabddc28c23fc4543 data/beetlebox/loot_tables/blocks/ash_door.json
+78602127e8957128573d5017d214d21bf2de9a00 data/beetlebox/loot_tables/blocks/ash_stairs.json
+4b377fb6a485d32f97cc5902ae7516ba59c2468c data/beetlebox/loot_tables/blocks/ash_plate.json
+9ad877eae1b08b30e214728de46ed8941993e88e data/beetlebox/loot_tables/blocks/ash_sapling.json
 9292215e1cb28ae29116ac57db4ce19607b0cfa5 data/beetlebox/loot_tables/blocks/ash_log.json
 823e04e3a2c56d8d8ca33f14f4daba140f643b09 data/beetlebox/loot_tables/blocks/ash_wood_stripped.json
-61fbd67ebffd5c7b7baecb8c9512f931c1765651 data/beetlebox/loot_tables/blocks/ash_button.json
 210117ca2fda7c86bc5bcfcf342c14931daed931 data/beetlebox/loot_tables/blocks/ash_fence_gate.json
 3d5dcb5296fe94f621feecc2c5e9fb0c1798237d data/beetlebox/loot_tables/blocks/ash_log_stripped.json
 b796866cec7c262769fec6c2553c206a7f8d0b14 data/beetlebox/loot_tables/blocks/ash_wood.json
-61e7985ad78e51ffce0c6562895f5a95c1a660c6 data/beetlebox/loot_tables/blocks/ash_planks.json
 075a1553456b8af0fb4a0d8e1dfbdaf4c3ec878a data/beetlebox/loot_tables/blocks/ash_fence.json
-31b5fc207c025adc0710cd54a22dabc5d502af5e data/beetlebox/loot_tables/blocks/ash_leaves.json
-78602127e8957128573d5017d214d21bf2de9a00 data/beetlebox/loot_tables/blocks/ash_stairs.json
-6e41ffa10fdcead7342ab3edabddc28c23fc4543 data/beetlebox/loot_tables/blocks/ash_door.json
-4b377fb6a485d32f97cc5902ae7516ba59c2468c data/beetlebox/loot_tables/blocks/ash_plate.json
 c0bbd5fda5388be034deaf21895c3d93ac5d2a8b data/beetlebox/loot_tables/blocks/ash_slab.json
 003f8d2cfb8732b5b9e5ca09ac1c06484344a859 data/beetlebox/loot_tables/blocks/ash_trapdoor.json
-9ad877eae1b08b30e214728de46ed8941993e88e data/beetlebox/loot_tables/blocks/ash_sapling.json

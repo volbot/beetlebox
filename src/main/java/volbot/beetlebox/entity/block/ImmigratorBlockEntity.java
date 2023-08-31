@@ -47,7 +47,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.block.DispenserBlock;
 
-public class EmigratorBlockEntity extends LootableContainerBlockEntity implements Hopper, IMobContainerTE {
+public class ImmigratorBlockEntity extends LootableContainerBlockEntity implements Hopper, IMobContainerTE {
 
 	public static final int TRANSFER_COOLDOWN = 8;
 	public static final int INVENTORY_SIZE = 5;
@@ -59,62 +59,90 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 	public String custom_name = "";
 	public NbtCompound entity_data;
 
-	public EmigratorBlockEntity(BlockPos pos, BlockState state) {
-		super(BlockRegistry.EMIGRATOR_BLOCK_ENTITY, pos, state);
+	public ImmigratorBlockEntity(BlockPos pos, BlockState state) {
+		super(BlockRegistry.IMMIGRATOR_BLOCK_ENTITY, pos, state);
 	}
 
 	public static void serverTick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-		EmigratorBlockEntity te = (EmigratorBlockEntity) blockEntity;
+		ImmigratorBlockEntity te = (ImmigratorBlockEntity) blockEntity;
 		--te.transferCooldown;
 		te.lastTickTime = world.getTime();
 		if (!te.needsCooldown()) {
 			te.setTransferCooldown(0);
-			extract(world, pos, state, te);
-			tryIntoJar(te);
-			ImmigratorBlockEntity.insert(world, pos, state, te);
+			tryFromJar(te);
+			insert(world, pos, state, te);
 		}
 	}
 
-	public static boolean extract(World world, BlockPos pos, BlockState state, EmigratorBlockEntity te) {
-		BlockEntity b = world.getBlockEntity(EmigratorBlock.getInputBlock(state, pos));
+	public static boolean insert(World world, BlockPos pos, BlockState state, IMobContainerTE te) {
+		BlockEntity b = world.getBlockEntity(ImmigratorBlock.getOutputBlock(state, pos));
 		if (b!=null && b instanceof IMobContainerTE) {
 			IMobContainerTE tank = (IMobContainerTE)b;
-			if (te.getContained()=="") {
-				te.setContained(tank.getContained());
-				te.setEntityCustomName(tank.getEntityCustomName());
-				te.setEntityData(tank.getEntityData());
-				tank.setContained("");
-				tank.setEntityCustomName("");
-				tank.setEntityData(null);
+			if (te.getContained() != "") {
+				tank.setContained(te.getContained());
+				tank.setEntityCustomName(te.getEntityCustomName());
+				tank.setEntityData(te.getEntityData());
+				te.setContained("");
+				te.setEntityCustomName("");
+				te.setEntityData(null);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public static void tryIntoJar(EmigratorBlockEntity te) {
-		if (te.contained_id != "") {
+	public static void tryFromJar(ImmigratorBlockEntity te) {
+		if (te.contained_id == "") {
 			for (ItemStack i : te.inventory) {
 				if (i.getItem() instanceof BeetleJarItem) {
-					LivingEntity e = (LivingEntity) ((EntityType.get(te.contained_id).orElse(null)
-							.create(te.getWorld())));
 					NbtCompound nbt = i.getOrCreateNbt();
-					if (((BeetleJarItem<?>) i.getItem()).canStore(e) && !nbt.contains("EntityType")) {
-						nbt.putString("EntityType", te.getContained());
-						String custom_name = te.getEntityCustomName();
-						if (!custom_name.isEmpty()) {
-							nbt.putString("EntityName", custom_name);
+					if (nbt.contains("EntityType")) {
+						te.contained_id = nbt.getString("EntityType");
+						if (nbt.contains("EntityName")) {
+							te.custom_name = nbt.getString("EntityName");
+							nbt.remove("EntityName");
+
 						}
-						nbt.put("EntityTag", te.getEntityData());
+						te.entity_data = nbt.getCompound("EntityTag");
+						nbt.remove("EntityTag");
+						nbt.remove("EntityType");
 						i.setNbt(nbt);
-						te.setContained("");
-						te.setEntityCustomName("");
-						te.setEntityData(null);
 						return;
 					}
 				}
 			}
 		}
+	}
+	
+	public void setContained(String id) {
+		this.contained_id = id;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
+	}
+
+	public void setEntityData(NbtCompound nbt) {
+		this.entity_data = nbt;
+		markDirty();
+	}
+
+	public void setEntityCustomName(String custom_name) {
+		this.custom_name = custom_name;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
+	}
+	
+	public String getContained() {
+		return this.contained_id;
+	}
+	
+	public String getEntityCustomName() {
+		return this.custom_name;
+	}
+	
+	public NbtCompound getEntityData() {
+		return this.entity_data;
 	}
 
 	private boolean needsCooldown() {
@@ -162,7 +190,7 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 
 	@Override
 	protected Text getContainerName() {
-		return Text.translatable("beetlebox.container.emigrator");
+		return Text.translatable("beetlebox.container.immigrator");
 	}
 
 	@Override
@@ -199,36 +227,5 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 			}
 			entity_data = nbt.getCompound("EntityTag");
 		}
-	}
-
-	public void setContained(String id) {
-		this.contained_id = id;
-		markDirty();
-		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
-				Block.NOTIFY_LISTENERS);
-	}
-
-	public void setEntityData(NbtCompound nbt) {
-		this.entity_data = nbt;
-		markDirty();
-	}
-
-	public void setEntityCustomName(String custom_name) {
-		this.custom_name = custom_name;
-		markDirty();
-		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
-				Block.NOTIFY_LISTENERS);
-	}
-	
-	public String getContained() {
-		return this.contained_id;
-	}
-	
-	public String getEntityCustomName() {
-		return this.custom_name;
-	}
-	
-	public NbtCompound getEntityData() {
-		return this.entity_data;
 	}
 }
