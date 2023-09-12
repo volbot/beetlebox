@@ -1,4 +1,6 @@
 {
+  "beetlebox.container.emigrator": "Emigrator",
+  "beetlebox.container.immigrator": "Immigrator",
   "block.beetlebox.ash_button": "Ash Button",
   "block.beetlebox.ash_door": "Ash Door",
   "block.beetlebox.ash_fence": "Ash Fence",
@@ -15,6 +17,8 @@
   "block.beetlebox.ash_wood": "Ash Wood",
   "block.beetlebox.ash_wood_stripped": "Stripped Ash Wood",
   "block.beetlebox.boiler": "Boiler",
+  "block.beetlebox.emigrator": "Emigrator",
+  "block.beetlebox.immigrator": "Immigrator",
   "block.beetlebox.leg_tank": "Legendary Beetle Tank",
   "block.beetlebox.tank": "Beetle Tank",
   "category.beetlebox.beetlebox": "beetlebox",

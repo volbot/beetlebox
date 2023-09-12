@@ -54,7 +54,6 @@ public class ImmigratorBlock extends BlockWithEntity {
 		int e = pos.getY() + 1 * direction.getOffsetY();
 		int f = pos.getZ() + 1 * direction.getOffsetZ();
 		return new BlockPos(d, e, f);
-
 	}
 
 	@Override

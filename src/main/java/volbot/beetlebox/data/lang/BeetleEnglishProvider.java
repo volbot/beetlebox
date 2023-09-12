@@ -66,6 +66,11 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(BlockRegistry.ASH_TRAPDOOR, "Ash Trapdoor");
 		translationBuilder.add(BlockRegistry.ASH_LEAVES, "Ash Leaves");
 		translationBuilder.add(BlockRegistry.ASH_STAIRS, "Ash Stairs");
+		
+		translationBuilder.add(BlockRegistry.IMMIGRATOR, "Immigrator");
+		translationBuilder.add(BlockRegistry.EMIGRATOR, "Emigrator");
+		translationBuilder.add("beetlebox.container.immigrator", "Immigrator");
+		translationBuilder.add("beetlebox.container.emigrator", "Emigrator");
 
 		translationBuilder.add(BeetleBoxClient.elytra_boost_keybind.getTranslationKey(), "Elytra Boost");
 		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getTranslationKey(), "Toggle Wall Crawler");
