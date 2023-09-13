@@ -1,51 +1,28 @@
 package volbot.beetlebox.entity.block;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.Hopper;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.screen.HopperScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPointer;
-import net.minecraft.util.math.BlockPointerImpl;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Position;
-import net.minecraft.util.math.PositionImpl;
 import net.minecraft.world.World;
-import volbot.beetlebox.block.EmigratorBlock;
 import volbot.beetlebox.block.ImmigratorBlock;
 import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.registry.BlockRegistry;
-import net.minecraft.block.entity.HopperBlockEntity;
-import net.minecraft.block.HopperBlock;
-import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.block.DispenserBlock;
 
 public class ImmigratorBlockEntity extends LootableContainerBlockEntity implements Hopper, IMobContainerTE {
 
@@ -53,8 +30,6 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 	public static final int INVENTORY_SIZE = 5;
 	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	private int transferCooldown = -1;
-	private long lastTickTime;
-
 	public String contained_id = "";
 	public String custom_name = "";
 	public NbtCompound entity_data;
@@ -66,7 +41,7 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 	public static void serverTick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
 		ImmigratorBlockEntity te = (ImmigratorBlockEntity) blockEntity;
 		--te.transferCooldown;
-		te.lastTickTime = world.getTime();
+		world.getTime();
 		if (!te.needsCooldown()) {
 			te.setTransferCooldown(0);
 			tryFromJar(te);

@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ButtonBlock;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
@@ -22,6 +23,9 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.WoodType;
+import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
+import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
+import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
@@ -41,6 +45,7 @@ import volbot.beetlebox.block.ImmigratorBlock;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
+import volbot.beetlebox.entity.mobstorage.EntityPlacementDispenserBehavior;
 import volbot.beetlebox.entity.block.EmigratorBlockEntity;
 import volbot.beetlebox.entity.block.ImmigratorBlockEntity;
 import volbot.beetlebox.worldgen.AshSaplingGenerator;
@@ -126,6 +131,10 @@ public class BlockRegistry {
 		Registry.register(Registries.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
 		ItemGroupEvents.modifyEntriesEvent(ItemRegistry.ITEM_GROUP).register(entries -> entries.add(LEG_TANK_ITEM));
+
+		//this needs to spawn a beetle when dispenser is called
+		DispenserBlock.registerBehavior(ItemRegistry.BEETLE_JAR, new EntityPlacementDispenserBehavior());
+		DispenserBlock.registerBehavior(ItemRegistry.LEG_BEETLE_JAR, new EntityPlacementDispenserBehavior());
 
 	}
 
