@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.google.common.collect.Multimap;
 
@@ -47,17 +48,15 @@ public abstract class PlayerMixin extends LivingEntity {
 		}
 	}
 
-	@Override
-	public boolean damage(DamageSource source, float amount) {
+	@Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At(value = "INVOKE"), cancellable = true)
+	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
 		ItemStack boots = this.getEquippedStack(EquipmentSlot.FEET);
-		float new_amount = amount;
 		if ((boots.getItem() instanceof BeetleArmorItem)
 				&& (boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
 			if (source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
-				new_amount = 0f;
+				info.setReturnValue(true);
 			}
 		}
-		return super.damage(source, new_amount);
 	}
 
 	@Override
