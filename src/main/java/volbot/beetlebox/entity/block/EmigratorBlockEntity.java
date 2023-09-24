@@ -49,6 +49,7 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 			te.setTransferCooldown(0);
 			extract(world, pos, state, te);
 			tryIntoJar(te);
+			ImmigratorBlockEntity.insert(world, pos, state, te);
 		}
 	}
 

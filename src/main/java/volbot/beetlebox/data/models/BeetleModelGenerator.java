@@ -32,10 +32,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 		blockStateModelGenerator.registerCubeAllModelTexturePool(BlockRegistry.ASH_PLANKS).family(BlockRegistry.ASH_FAMILY);
 
 		blockStateModelGenerator.registerTintableCross(BlockRegistry.ASH_SAPLING,
-				BlockStateModelGenerator.TintType.NOT_TINTED); 
-		
-		blockStateModelGenerator.registerDispenserLikeOrientable(BlockRegistry.EMIGRATOR);
-		blockStateModelGenerator.registerDispenserLikeOrientable(BlockRegistry.IMMIGRATOR);
+				BlockStateModelGenerator.TintType.NOT_TINTED);
 	}
 
 	@Override
