@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "beetlebox:block/immigrator_vertical",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "beetlebox:block/immigrator",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "beetlebox:block/immigrator"
+    },
+    "facing=south": {
+      "model": "beetlebox:block/immigrator",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "beetlebox:block/immigrator_vertical"
+    },
+    "facing=west": {
+      "model": "beetlebox:block/immigrator",
+      "y": 270
+    }
+  }
+}

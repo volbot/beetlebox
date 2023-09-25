@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "beetlebox:block/ash_log",
+    "side": "beetlebox:block/ash_log"
+  }
+}

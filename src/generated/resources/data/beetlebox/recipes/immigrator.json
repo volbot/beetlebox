@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "beetlebox:ash_planks"
+    },
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "p": {
+      "item": "minecraft:sticky_piston"
+    }
+  },
+  "pattern": [
+    "ia ",
+    "ipg",
+    "ia "
+  ],
+  "result": {
+    "item": "beetlebox:immigrator"
+  },
+  "show_notification": true
+}

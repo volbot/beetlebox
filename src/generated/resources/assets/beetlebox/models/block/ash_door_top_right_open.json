@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "textures": {
+    "bottom": "beetlebox:block/ash_door_bottom",
+    "top": "beetlebox:block/ash_door_top"
+  }
+}

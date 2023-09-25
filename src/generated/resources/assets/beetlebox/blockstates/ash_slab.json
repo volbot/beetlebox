@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "beetlebox:block/ash_slab"
+    },
+    "type=double": {
+      "model": "beetlebox:block/ash_planks"
+    },
+    "type=top": {
+      "model": "beetlebox:block/ash_slab_top"
+    }
+  }
+}

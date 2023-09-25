@@ -1,6 +1,9 @@
 package volbot.beetlebox;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
+import volbot.beetlebox.data.worldgen.WorldgenDataGenerator;
+import volbot.beetlebox.registry.BeetleFlammableBlockRegistry;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.DataRegistry;
@@ -21,5 +24,10 @@ public class BeetleBoxMod implements ModInitializer {
         BeetleRegistry.register();
         BlockRegistry.register();
         DataRegistry.register();
+        
+        WorldgenDataGenerator.generateModWorldGen();
+        BeetleFlammableBlockRegistry.registerFlammableBlocks();
+        StrippableBlockRegistry.register(BlockRegistry.ASH_LOG, BlockRegistry.ASH_LOG_STRIPPED);
+        StrippableBlockRegistry.register(BlockRegistry.ASH_WOOD, BlockRegistry.ASH_WOOD_STRIPPED);
     }
 }
