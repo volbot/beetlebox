@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "beetlebox:block/ash_planks",
+    "side": "beetlebox:block/ash_planks",
+    "top": "beetlebox:block/ash_planks"
+  }
+}

@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.server.recipe.OneTwentyRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -35,7 +36,6 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 
 	@Override
 	public void generateRecipes(Consumer<RecipeJsonProvider> exporter) {
-
 		for (int syrup_dex = 0; syrup_dex < syrups.length; syrup_dex++) {
 			for (int mag_dex = 0; mag_dex < mags.length; mag_dex++) {
 				for (int dir_dex = 0; dir_dex < 2; dir_dex++) {
@@ -137,5 +137,34 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 				.offerTo(exporter);
 		
+		RecipeProvider.generateFamily(exporter, BlockRegistry.ASH_FAMILY);
+
+        RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
+        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
+        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
+        
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.EMIGRATOR)
+		.pattern("ia ")
+		.pattern("ipg")
+		.pattern("ia ")
+		.input('i', Items.IRON_INGOT)
+		.input('a', BlockRegistry.ASH_PLANKS)
+		.input('g', Blocks.GLASS)
+		.input('p', Items.PISTON)
+		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+		.offerTo(exporter);
+        
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.IMMIGRATOR)
+		.pattern("ia ")
+		.pattern("ipg")
+		.pattern("ia ")
+		.input('i', Items.IRON_INGOT)
+		.input('a', BlockRegistry.ASH_PLANKS)
+		.input('g', Blocks.GLASS)
+		.input('p', Items.STICKY_PISTON)
+		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+		.offerTo(exporter);
 	}
 }

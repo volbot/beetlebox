@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "beetlebox:block/ash_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "beetlebox:block/ash_wood"
+    },
+    "axis=z": {
+      "model": "beetlebox:block/ash_wood",
+      "x": 90
+    }
+  }
+}

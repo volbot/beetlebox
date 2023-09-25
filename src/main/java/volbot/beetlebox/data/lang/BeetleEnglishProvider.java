@@ -51,6 +51,27 @@ public class BeetleEnglishProvider extends FabricLanguageProvider {
 		translationBuilder.add(ItemRegistry.UPGRADE_B_SPEED, "Speed Boost Upgrade Bug");
 		translationBuilder.add(ItemRegistry.UPGRADE_B_STEP, "Step Height Upgrade Bug");
 		
+		translationBuilder.add(BlockRegistry.ASH_LOG, "Ash Log");
+		translationBuilder.add(BlockRegistry.ASH_WOOD, "Ash Wood");
+		translationBuilder.add(BlockRegistry.ASH_LOG_STRIPPED, "Stripped Ash Log");
+		translationBuilder.add(BlockRegistry.ASH_WOOD_STRIPPED, "Stripped Ash Wood");
+		translationBuilder.add(BlockRegistry.ASH_PLANKS, "Ash Planks");
+		translationBuilder.add(BlockRegistry.ASH_PLATE, "Ash Pressure Plate");
+		translationBuilder.add(BlockRegistry.ASH_BUTTON, "Ash Button");
+		translationBuilder.add(BlockRegistry.ASH_FENCE, "Ash Fence");
+		translationBuilder.add(BlockRegistry.ASH_FENCE_GATE, "Ash Fence Gate");
+		translationBuilder.add(BlockRegistry.ASH_SLAB, "Ash Slab");
+		translationBuilder.add(BlockRegistry.ASH_SAPLING, "Ash Sapling");
+		translationBuilder.add(BlockRegistry.ASH_DOOR, "Ash Door");
+		translationBuilder.add(BlockRegistry.ASH_TRAPDOOR, "Ash Trapdoor");
+		translationBuilder.add(BlockRegistry.ASH_LEAVES, "Ash Leaves");
+		translationBuilder.add(BlockRegistry.ASH_STAIRS, "Ash Stairs");
+		
+		translationBuilder.add(BlockRegistry.IMMIGRATOR, "Immigrator");
+		translationBuilder.add(BlockRegistry.EMIGRATOR, "Emigrator");
+		translationBuilder.add("beetlebox.container.immigrator", "Immigrator");
+		translationBuilder.add("beetlebox.container.emigrator", "Emigrator");
+
 		translationBuilder.add(BeetleBoxClient.elytra_boost_keybind.getTranslationKey(), "Elytra Boost");
 		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getTranslationKey(), "Toggle Wall Crawler");
 		translationBuilder.add(BeetleBoxClient.wallclimb_keybind.getCategory(), "beetlebox");

@@ -1,6 +1,7 @@
 package volbot.beetlebox.registry;
 
 import java.util.function.Predicate;
+import java.util.Vector;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -9,6 +10,7 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
@@ -19,7 +21,7 @@ import volbot.beetlebox.entity.beetle.JRBEntity;
 import volbot.beetlebox.entity.beetle.JunebugEntity;
 
 public class BeetleRegistry {
-	
+
 	public static final EntityType<JRBEntity> JRB = FabricEntityTypeBuilder.createMob().entityFactory(JRBEntity::new)
 			.spawnGroup(SpawnGroup.CREATURE).dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 	public static final EntityType<HercEntity> HERC = FabricEntityTypeBuilder.createMob().entityFactory(HercEntity::new)
@@ -41,10 +43,12 @@ public class BeetleRegistry {
 			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 	public static final EntityType<ActaeonEntity> ACTAEON = FabricEntityTypeBuilder.createMob()
 			.entityFactory(ActaeonEntity::new).spawnGroup(SpawnGroup.CREATURE)
-			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
-	
-	public static void register() {
+			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();	
 
+	public static Vector<EntityType<? extends BeetleEntity>> beetles = new Vector<EntityType<? extends BeetleEntity>>();
+
+	public static void register() {
+		
 		// ENTITIES
 		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", "flip", 0x110b0b, 0x180f0f);
 		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", "pinch", 0xa99859, 0x150f10);
@@ -84,6 +88,6 @@ public class BeetleRegistry {
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ATLAS, 16, 1, 2);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ELEPHANT, 16, 1, 2);
 		BiomeModifications.addSpawn(floral, SpawnGroup.CREATURE, ACTAEON, 16, 1, 2);
-		
+
 	}
 }

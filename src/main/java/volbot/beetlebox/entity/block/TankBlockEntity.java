@@ -8,9 +8,10 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
+import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
 import volbot.beetlebox.registry.BlockRegistry;
 
-public class TankBlockEntity extends BlockEntity {
+public class TankBlockEntity extends BlockEntity implements IMobContainerTE {
 
 	public String contained_id = "";
 	public String custom_name = "";
@@ -37,11 +38,23 @@ public class TankBlockEntity extends BlockEntity {
 		markDirty();
 	}
 
-	public void setCustomName(String custom_name) {
+	public void setEntityCustomName(String custom_name) {
 		this.custom_name = custom_name;
 		markDirty();
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
+	}
+	
+	public String getContained() {
+		return this.contained_id;
+	}
+	
+	public String getEntityCustomName() {
+		return this.custom_name;
+	}
+	
+	public NbtCompound getEntityData() {
+		return this.entity_data;
 	}
 
 	@Override

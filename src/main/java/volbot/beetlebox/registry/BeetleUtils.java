@@ -28,8 +28,8 @@ import volbot.beetlebox.item.equipment.materials.ChitinMaterial;
 public class BeetleUtils {
 	public static void registerBeetle(EntityType<? extends BeetleEntity> beetle_type, String beetle_id,
 			String beetle_name, String helmet_ability, int color1, int color2) {
-
 		Registry.register(Registry.ENTITY_TYPE, new Identifier("beetlebox", beetle_id), beetle_type);
+
 
 		FabricDefaultAttributeRegistry.register(beetle_type, BeetleEntity.createBeetleAttributes());
 		Item SPAWN_EGG = new SpawnEggItem(beetle_type, color1, color2, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP));
