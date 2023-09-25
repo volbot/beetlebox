@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.block.entity.Hopper;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -51,16 +52,18 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 
 	public static boolean insert(World world, BlockPos pos, BlockState state, IMobContainerTE te) {
 		BlockEntity b = world.getBlockEntity(ImmigratorBlock.getOutputBlock(state, pos));
-		if (b!=null && b instanceof IMobContainerTE) {
-			IMobContainerTE tank = (IMobContainerTE)b;
-			if (te.getContained() != "") {
-				tank.setContained(te.getContained());
-				tank.setEntityCustomName(te.getEntityCustomName());
-				tank.setEntityData(te.getEntityData());
-				te.setContained("");
-				te.setEntityCustomName("");
-				te.setEntityData(null);
-				return true;
+		if (b!=null) {
+			if(b instanceof IMobContainerTE) {
+				IMobContainerTE tank = (IMobContainerTE)b;
+				if (te.getContained() != "") {
+					tank.setContained(te.getContained());
+					tank.setEntityCustomName(te.getEntityCustomName());
+					tank.setEntityData(te.getEntityData());
+					te.setContained("");
+					te.setEntityCustomName("");
+					te.setEntityData(null);
+					return true;
+				}
 			}
 		}
 		return false;
