@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.block.type.WoodTypeRegistry;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
@@ -14,7 +16,6 @@ import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.block.PressurePlateBlock.ActivationRule;
@@ -53,21 +54,21 @@ import volbot.beetlebox.worldgen.AshSaplingGenerator;
 public class BlockRegistry {
 
 	public static final Block TANK = registerBlock("tank", new BeetleTankBlock<BeetleEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class));
+			FabricBlockSettings.copy(Blocks.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class));
 	public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
+			FabricBlockSettings.copy(Blocks.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
 	public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 
 	public static final Block BOILER = registerBlock("boiler",
-			new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+			new BoilerBlock(FabricBlockSettings.copy(Blocks.STONE).strength(4.0F)));
 
-	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
-	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+	public static final Block EMIGRATOR = registerBlock("emigrator",
+			new EmigratorBlock(FabricBlockSettings.copy(Blocks.STONE).strength(4.0F)));
+	public static final Block IMMIGRATOR = registerBlock("immigrator",
+			new ImmigratorBlock(FabricBlockSettings.copy(Blocks.STONE).strength(4.0F)));
 
-	public static final BlockSetType ASH_BLOCKSET = BlockSetType.register(new BlockSetType("ash"));
-	public static final WoodType ASH_WOOD_TYPE = WoodType
-			.register(new WoodType("ash", BlockSetType.BIRCH, BlockSoundGroup.WOOD, BlockSoundGroup.HANGING_SIGN,
-					SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN));
+	public static final BlockSetType ASH_BLOCKSET = BlockSetTypeRegistry.registerWood(new Identifier("beetlebox","ash"));
+	public static final WoodType ASH_WOOD_TYPE = WoodTypeRegistry.register(new Identifier("beetlebox","ash"),ASH_BLOCKSET);
 
 	public static final Block ASH_SAPLING = registerBlock("ash_sapling",
 			new SaplingBlock(new AshSaplingGenerator(), FabricBlockSettings.copy(Blocks.OAK_SAPLING)));
@@ -123,7 +124,6 @@ public class BlockRegistry {
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "immigrator_block_entity"),
 			FabricBlockEntityTypeBuilder.create(ImmigratorBlockEntity::new, IMMIGRATOR).build());
 
-	
 	public static void register() {
 
 		FluidStorage.SIDED.registerForBlockEntity((boiler, direction) -> boiler.fluidStorage, BOILER_BLOCK_ENTITY);
