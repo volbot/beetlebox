@@ -67,10 +67,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		BlockState blockState = world.getBlockState(blockPos);
 		BlockPos blockPos2 = blockState.getCollisionShape(world, blockPos).isEmpty() ? blockPos
 				: blockPos.offset(direction);
-		NbtCompound nbt = itemStack.getNbt();
-		if (nbt == null) {
-			nbt = new NbtCompound();
-		}
+		NbtCompound nbt = itemStack.getOrCreateNbt();
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
 			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
 			if (!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {
@@ -85,7 +82,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				}
 				nbt.put("EntityTag", te.entity_data);
 				te.setContained("");
-				te.setCustomName("");
+				te.setEntityCustomName("");
 				te.setEntityData(null);
 				itemStack.setNbt(nbt);
 				return ActionResult.SUCCESS;
@@ -97,10 +94,10 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				}
 				te.setContained(nbt.getString("EntityType"));
 				if (nbt.contains("EntityName")) {
-					te.setCustomName(nbt.getString("EntityName"));
+					te.setEntityCustomName(nbt.getString("EntityName"));
 					itemStack.removeSubNbt("EntityName");
 				} else {
-					te.setCustomName("");
+					te.setEntityCustomName("");
 				}
 				te.setEntityData(nbt.getCompound("EntityTag"));
 				itemStack.removeSubNbt("EntityTag");
