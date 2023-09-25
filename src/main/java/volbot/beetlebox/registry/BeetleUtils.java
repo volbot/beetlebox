@@ -14,7 +14,6 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.LootingEnchantLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import volbot.beetlebox.data.lang.BeetleEnglishProvider;

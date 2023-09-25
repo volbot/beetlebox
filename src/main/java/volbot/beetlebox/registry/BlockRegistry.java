@@ -5,9 +5,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ButtonBlock;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.FenceBlock;
@@ -21,10 +19,7 @@ import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
-import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
-import net.minecraft.block.dispenser.ProjectileDispenserBehavior;
+import net.minecraft.block.WoodenButtonBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
@@ -60,11 +55,6 @@ public class BlockRegistry {
 	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 
-	public static final BlockSetType ASH_BLOCKSET = BlockSetType.register(new BlockSetType("ash"));
-	public static final WoodType ASH_WOOD_TYPE = WoodType
-			.register(new WoodType("ash", BlockSetType.BIRCH, BlockSoundGroup.WOOD, BlockSoundGroup.HANGING_SIGN,
-					SoundEvents.BLOCK_FENCE_GATE_CLOSE, SoundEvents.BLOCK_FENCE_GATE_OPEN));
-
 	public static final Block ASH_SAPLING = registerBlock("ash_sapling",
 			new SaplingBlock(new AshSaplingGenerator(), FabricBlockSettings.copy(Blocks.OAK_SAPLING)));
 
@@ -89,15 +79,15 @@ public class BlockRegistry {
 	public static final Block ASH_FENCE = registerBlock("ash_fence",
 			new FenceBlock(FabricBlockSettings.copy(Blocks.OAK_FENCE)));
 	public static final Block ASH_FENCE_GATE = registerBlock("ash_fence_gate",
-			new FenceGateBlock(FabricBlockSettings.copy(Blocks.OAK_FENCE_GATE), ASH_WOOD_TYPE));
+			new FenceGateBlock(FabricBlockSettings.copy(Blocks.OAK_FENCE_GATE)));
 	public static final Block ASH_DOOR = registerBlock("ash_door",
-			new DoorBlock(FabricBlockSettings.copy(Blocks.OAK_DOOR), ASH_BLOCKSET));
+			new DoorBlock(FabricBlockSettings.copy(Blocks.OAK_DOOR)));
 	public static final Block ASH_BUTTON = registerBlock("ash_button",
-			new ButtonBlock(FabricBlockSettings.copy(Blocks.OAK_DOOR), ASH_BLOCKSET, 30, true));
+			new WoodenButtonBlock(FabricBlockSettings.copy(Blocks.OAK_BUTTON)));
 	public static final Block ASH_PLATE = registerBlock("ash_plate", new PressurePlateBlock(ActivationRule.EVERYTHING,
-			FabricBlockSettings.copy(Blocks.OAK_PRESSURE_PLATE), ASH_BLOCKSET));
+			FabricBlockSettings.copy(Blocks.OAK_PRESSURE_PLATE)));
 	public static final Block ASH_TRAPDOOR = registerBlock("ash_trapdoor",
-			new TrapdoorBlock(FabricBlockSettings.copy(Blocks.OAK_TRAPDOOR), ASH_BLOCKSET));
+			new TrapdoorBlock(FabricBlockSettings.copy(Blocks.OAK_TRAPDOOR)));
 
 	public static final BlockFamily ASH_FAMILY = BlockFamilies.register(ASH_PLANKS).button(ASH_BUTTON).fence(ASH_FENCE)
 			.fenceGate(ASH_FENCE_GATE).door(ASH_DOOR).pressurePlate(ASH_PLATE).slab(ASH_SLAB).stairs(ASH_STAIRS)
@@ -112,11 +102,11 @@ public class BlockRegistry {
 			FabricBlockEntityTypeBuilder.create(BoilerBlockEntity::new, BOILER).build());
 
 	public static final BlockEntityType<EmigratorBlockEntity> EMIGRATOR_BLOCK_ENTITY = Registry.register(
-			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "emigrator_block_entity"),
+			Registry.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "emigrator_block_entity"),
 			FabricBlockEntityTypeBuilder.create(EmigratorBlockEntity::new, EMIGRATOR).build());
 
 	public static final BlockEntityType<ImmigratorBlockEntity> IMMIGRATOR_BLOCK_ENTITY = Registry.register(
-			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "immigrator_block_entity"),
+			Registry.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "immigrator_block_entity"),
 			FabricBlockEntityTypeBuilder.create(ImmigratorBlockEntity::new, IMMIGRATOR).build());
 
 	
@@ -130,7 +120,6 @@ public class BlockRegistry {
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
 
 		Registry.register(Registry.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
-		Registry.register(Registry.ITEM, new Identifier("beetlebox", "boiler"), BOILER_ITEM);
 		DispenserBlock.registerBehavior(ItemRegistry.BEETLE_JAR, new EntityPlacementDispenserBehavior());
 		DispenserBlock.registerBehavior(ItemRegistry.LEG_BEETLE_JAR, new EntityPlacementDispenserBehavior());
 
@@ -138,13 +127,12 @@ public class BlockRegistry {
 
 	private static Block registerBlock(String name, Block block) {
 		registerBlockItem(name, block);
-		return Registry.register(Registries.BLOCK, new Identifier("beetlebox", name), block);
+		return Registry.register(Registry.BLOCK, new Identifier("beetlebox", name), block);
 	}
 
 	private static Item registerBlockItem(String name, Block block) {
-		Item item = Registry.register(Registries.ITEM, new Identifier("beetlebox", name),
-				new BlockItem(block, new FabricItemSettings()));
-		ItemGroupEvents.modifyEntriesEvent(ItemRegistry.ITEM_GROUP).register(entries -> entries.add(item));
+		Item item = Registry.register(Registry.ITEM, new Identifier("beetlebox", name),
+				new BlockItem(block, new FabricItemSettings().group(ItemRegistry.ITEM_GROUP)));
 		return item;
 	}
 

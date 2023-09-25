@@ -2,12 +2,10 @@ package volbot.beetlebox.entity.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.block.entity.Hopper;
 import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.HopperScreenHandler;
 import net.minecraft.screen.ScreenHandler;

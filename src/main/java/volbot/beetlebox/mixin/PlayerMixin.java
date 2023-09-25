@@ -52,7 +52,7 @@ public abstract class PlayerMixin extends LivingEntity {
 		ItemStack boots = this.getEquippedStack(EquipmentSlot.FEET);
 		if ((boots.getItem() instanceof BeetleArmorItem)
 				&& (boots.getOrCreateNbt().contains("beetle_boots_falldamage"))) {
-			if (source.isOf(DamageTypes.FALL) || source.isOf(DamageTypes.FLY_INTO_WALL)) {
+			if (source.equals(DamageSource.FALL) || source.equals(DamageSource.FLY_INTO_WALL)) {
 				info.setReturnValue(true);
 			}
 		}

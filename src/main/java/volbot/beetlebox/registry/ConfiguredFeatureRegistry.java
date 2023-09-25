@@ -1,9 +1,8 @@
 package volbot.beetlebox.registry;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.registry.Registerable;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -16,7 +15,7 @@ import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
 public class ConfiguredFeatureRegistry {
-	public static final RegistryKey<ConfiguredFeature<?, ?>> ASH_KEY = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE,
+	public static final RegistryKey<ConfiguredFeature<?, ?>> ASH_KEY = RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,
 			new Identifier("beetlebox", "ash_tree"));
 
 	public static void bootstrap(Registerable<ConfiguredFeature<?,?>> context) {

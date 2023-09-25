@@ -7,7 +7,6 @@ import java.util.function.Consumer;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
-import net.minecraft.data.server.recipe.OneTwentyRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.RecipeProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -139,11 +138,11 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 		
 		RecipeProvider.generateFamily(exporter, BlockRegistry.ASH_FAMILY);
 
-        RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
+        RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS);
         RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
         RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
         
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.EMIGRATOR)
+        ShapedRecipeJsonBuilder.create(BlockRegistry.EMIGRATOR)
 		.pattern("ia ")
 		.pattern("ipg")
 		.pattern("ia ")
@@ -155,7 +154,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
 		.offerTo(exporter);
         
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.IMMIGRATOR)
+        ShapedRecipeJsonBuilder.create(BlockRegistry.IMMIGRATOR)
 		.pattern("ia ")
 		.pattern("ipg")
 		.pattern("ia ")

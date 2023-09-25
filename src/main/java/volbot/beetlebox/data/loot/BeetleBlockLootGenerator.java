@@ -1,24 +1,18 @@
 package volbot.beetlebox.data.loot;
 
-import java.util.function.BiConsumer;
-import java.util.HashMap;
-
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
-import net.minecraft.loot.LootTable.Builder;
-import net.minecraft.loot.context.LootContextTypes;
-import net.minecraft.util.Identifier;
 import volbot.beetlebox.registry.BlockRegistry;
 
 public class BeetleBlockLootGenerator extends FabricBlockLootTableProvider {
-	public BeetleBlockLootGenerator(FabricDataOutput output) {
+
+	public BeetleBlockLootGenerator(FabricDataGenerator output) {
 		super(output);
 	}
 	
     @Override
-    public void generate() {
-    	this.addDrop(BlockRegistry.ASH_LEAVES, leavesDrops(BlockRegistry.ASH_LEAVES, BlockRegistry.ASH_SAPLING, SAPLING_DROP_CHANCE));
+    public void generateBlockLootTables() {
+    	this.addDrop(BlockRegistry.ASH_LEAVES, leavesDrop(BlockRegistry.ASH_LEAVES, BlockRegistry.ASH_SAPLING, 0.05f));
     	this.addDrop(BlockRegistry.ASH_PLANKS);
     	this.addDrop(BlockRegistry.ASH_LOG);
     	this.addDrop(BlockRegistry.ASH_LOG_STRIPPED);
