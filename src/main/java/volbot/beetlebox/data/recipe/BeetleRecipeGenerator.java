@@ -144,6 +144,29 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
         RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
         RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
         RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
-		
+        
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.EMIGRATOR)
+		.pattern("ia ")
+		.pattern("ipg")
+		.pattern("ia ")
+		.input('i', Items.IRON_INGOT)
+		.input('a', BlockRegistry.ASH_PLANKS)
+		.input('g', Blocks.GLASS)
+		.input('p', Items.PISTON)
+		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+		.offerTo(exporter);
+        
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.IMMIGRATOR)
+		.pattern("ia ")
+		.pattern("ipg")
+		.pattern("ia ")
+		.input('i', Items.IRON_INGOT)
+		.input('a', BlockRegistry.ASH_PLANKS)
+		.input('g', Blocks.GLASS)
+		.input('p', Items.STICKY_PISTON)
+		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+		.offerTo(exporter);
 	}
 }
