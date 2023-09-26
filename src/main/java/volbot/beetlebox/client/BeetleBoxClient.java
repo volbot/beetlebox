@@ -140,13 +140,11 @@ public class BeetleBoxClient implements ClientModInitializer {
 
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox/beetle_packet"),
 				(client, handler, buf, responseSender) -> {
-					System.out.println("Packet received");
 					int size = buf.readInt();
 					float damage = buf.readFloat();
 					float speed = buf.readFloat();
 					float maxhealth = buf.readFloat();
 					UUID entity_id = buf.readUuid();
-					System.out.println("Packet parsed");
 					client.execute(() -> {
 						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityLookup().get(entity_id));
 						if (e != null) {
@@ -162,8 +160,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 								e.maxhealth_cached = maxhealth;
 								e.unSynced = true;
 							}
-						} else {
-							System.out.println("Null entity");
 						}
 					});
 				});
