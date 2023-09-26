@@ -1,6 +1,7 @@
 package volbot.beetlebox.client;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -150,9 +151,9 @@ public class BeetleBoxClient implements ClientModInitializer {
 					float damage = buf.readFloat();
 					float speed = buf.readFloat();
 					float maxhealth = buf.readFloat();
-					int entity_id = buf.readInt();
+					UUID entity_id = buf.readUuid();
 					client.execute(() -> {
-						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityById(entity_id));
+						BeetleEntity e = ((BeetleEntity) handler.getWorld().getEntityLookup().get(entity_id));
 						if (e != null) {
 							try {
 								e.setSize(size);

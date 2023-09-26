@@ -408,7 +408,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		buf.writeFloat(this.getDamageMult());
 		buf.writeFloat(this.getSpeedMult());
 		buf.writeFloat(this.getMaxHealthMult());
-		buf.writeInt(this.getId());
+		buf.writeUuid(this.getUuid());
 		ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_packet"), buf);
 		this.unSynced = false;
 	}
