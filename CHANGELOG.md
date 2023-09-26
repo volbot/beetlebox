@@ -1,16 +1,12 @@
-NEW UPGRADES!
- - elytra boost
- - double jump
- - speed boost
- - step height
- - night vision
-LEGENDARY JARS!
- - capture most living entities with a net using the legendary jar
- - store them in a legendary tank
-NEW WAY TO USE UPGRADES!
- - drop an upgrade and a piece of armor on the ground, and they will merge
- QOL CHANGES!
- - display type of upgrade on dormant/active upgrades
- - new keybind to toggle wall climb
- - new keybind to begin elytra flight / activate boost
- - armor can be repaired with its respective elytron
+NEW ASH TREES!
+ - new tree and wood type: the ASH TREE
+ - i like to refer to its color as a "buttery birch"
+ - cool beetle designs on the blocks
+NEW MACHINES!
+ - the EMIGRATOR removes a beetle from a tank and puts it into a jar
+ - the IMMIGRATOR takes a beetle from a jar and puts it in a tank
+ - dispensers can now eject beetles from jars
+ - these can be chained together
+ - these are mostly setup work for the next few updates
+MISCELLANEOUS!
+ - boilers have a proper hitbox now (you can get inside them)
