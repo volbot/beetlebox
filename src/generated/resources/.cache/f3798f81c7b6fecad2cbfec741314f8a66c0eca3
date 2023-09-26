@@ -1,4 +1,4 @@
-// 1.19.4	2023-09-25T00:34:15.650477115	beetlebox/Model Definitions
+// 1.19.2	2023-09-26T12:24:50.779860872	Models
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 50a495046f3bb18d7c905605f9b379a41466b47e assets/beetlebox/blockstates/ash_plate.json
@@ -72,8 +72,8 @@ fddce78a97a655bcc62199b83840adcdfaf653e3 assets/beetlebox/models/block/ash_plank
 9f26cddbb7432eadd9081548ba5dc558b27a0c51 assets/beetlebox/models/item/tityus_elytron.json
 97e37e6c80768449a2b3af9da79d8c0dd26ae9c5 assets/beetlebox/models/item/actaeon_chestplate.json
 5a2ab77afe453c4bc8e1d2fb41140f6d6381de5a assets/beetlebox/models/item/hercules_chestplate.json
-b75f1b85fdade1a0d68c4e4e9dce2b665d1782ca assets/beetlebox/models/block/ash_door_top_left.json
 64459f3096bb5080f9f32fda316461e794c1e18a assets/beetlebox/models/item/titanus_legs.json
+b75f1b85fdade1a0d68c4e4e9dce2b665d1782ca assets/beetlebox/models/block/ash_door_top_left.json
 501567c93ece154b7b2171005f1c96f813bf8a2b assets/beetlebox/models/item/beetle_jelly.json
 964c8ed6e5b3817a60b64e2c290fe30aad7ea41d assets/beetlebox/blockstates/ash_fence.json
 de15aed3fc88185ec7d27c6dd43b82970ffaff05 assets/beetlebox/models/item/tityus_chestplate.json

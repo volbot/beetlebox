@@ -1,7 +1,2 @@
-<<<<<<< HEAD:src/generated/resources/.cache/89b86ab0e66f527166d98df92ddbcf5416ed58f6
-// 1.19.2	2023-06-28T20:14:58.135352783	Language
-6a6edcfbd24aff13ab15223194fde13bc5b589e3 assets/beetlebox/lang/en_us.json
-=======
-// 1.19.4	2023-07-14T21:27:59.057866079	beetlebox/Language (en_us)
-a608139e89ad5f3cfb9675ed13ee75c522c6b5d8 assets/beetlebox/lang/en_us.json
->>>>>>> BLEEDING:src/generated/resources/.cache/2c13da7614c55603f946c12a73f7273d69a544d2
+// 1.19.2	2023-09-26T12:24:50.781246539	Language
+6aa3cae0b9b4dec3883819ac519a8e493ec82295 assets/beetlebox/lang/en_us.json

@@ -10,6 +10,6 @@ public class BeetleTreeGenerator {
 	public static void generateTrees() {
 		BiomeModifications.addFeature(
 				BiomeSelectors.tag(ConventionalBiomeTags.FLORAL).or(BiomeSelectors.tag(ConventionalBiomeTags.TREE_DECIDUOUS)).or(BiomeSelectors.tag(ConventionalBiomeTags.JUNGLE)),
-				GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeatureRegistry.ASH_PLACED_KEY);
+				GenerationStep.Feature.VEGETAL_DECORATION, PlacedFeatureRegistry.ASH_PLACED.getKey().get());
 	}
 }

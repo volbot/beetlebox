@@ -153,16 +153,16 @@ public abstract class BeetleEntity extends AnimalEntity {
 		}
 		if (stack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			NbtCompound nbt = stack.getOrCreateNbt();
-			if(nbt.contains("beetle_helmet_attack")) {
+			if (nbt.contains("beetle_helmet_attack")) {
 				this.dropItem(ItemRegistry.UPGRADE_H_ATTACK);
 			}
-			if(nbt.contains("beetle_chest_elytra")) {
+			if (nbt.contains("beetle_chest_elytra")) {
 				this.dropItem(ItemRegistry.UPGRADE_C_ELYTRA);
 			}
-			if(nbt.contains("beetle_legs_wallclimb")) {
+			if (nbt.contains("beetle_legs_wallclimb")) {
 				this.dropItem(ItemRegistry.UPGRADE_L_CLIMB);
 			}
-			if(nbt.contains("beetle_boots_falldamage")) {
+			if (nbt.contains("beetle_boots_falldamage")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_FALLDAM);
 			}
 		}
@@ -207,10 +207,10 @@ public abstract class BeetleEntity extends AnimalEntity {
 		return EntityDimensions.fixed(0.4f * size, 0.4f * size);
 	}
 
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.ARTHROPOD;
-    }
+	@Override
+	public EntityGroup getGroup() {
+		return EntityGroup.ARTHROPOD;
+	}
 
 	// --------------------
 	// MOVEMENT UTILITIES
@@ -218,7 +218,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 
 	@Override
 	public boolean damage(DamageSource source, float amount) {
-    	if(source.equals(DamageSource.CACTUS) || source.equals(DamageSource.FALL)) {
+		if (source.equals(DamageSource.CACTUS) || source.equals(DamageSource.FALL)) {
 			return false;
 		}
 		return super.damage(source, amount);
@@ -387,12 +387,15 @@ public abstract class BeetleEntity extends AnimalEntity {
 				this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
 			}
 			this.sendPacket();
+			System.out.println(this.getUuidAsString() + " SERVER:" + this.getSize());
+
 		} else {
 			this.dataTracker.startTracking(SIZE, size_cached);
 			this.dataTracker.startTracking(DAMAGE, damage_cached);
 			this.dataTracker.startTracking(SPEED, speed_cached);
 			this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
 			this.unSynced = true;
+			System.out.println(this.getUuidAsString() + " CLIENT:" + this.getSize());
 		}
 	}
 
@@ -407,7 +410,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		buf.writeFloat(this.getDamageMult());
 		buf.writeFloat(this.getSpeedMult());
 		buf.writeFloat(this.getMaxHealthMult());
-		buf.writeInt(this.getId());
+		buf.writeUuid(this.getUuid());
 		ServerPlayNetworking.send(p, new Identifier("beetlebox/beetle_packet"), buf);
 		this.unSynced = false;
 	}

@@ -1,6 +1,5 @@
-<<<<<<< HEAD:src/generated/resources/.cache/03e4de26f1265135874f8cdcaebc09d9c08eb42b
-// 1.19.2	2023-06-28T20:14:58.135489766	Tags for minecraft:item
-=======
-// 1.19.4	2023-07-14T21:27:59.057725898	beetlebox/Tags for minecraft:item
->>>>>>> BLEEDING:src/generated/resources/.cache/f3f1fe65abdb65725688e27e92d42f7f5db5f3d7
+// 1.19.2	2023-09-26T12:24:50.781898477	Tags for minecraft:item
+62d87340a5c22e311ed83d7ff30adf66bf2881f4 data/minecraft/tags/items/planks.json
+c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/c/tags/items/ash_logs.json
 03a503aa805490e6ca3eeaa77fd156302c9f53f3 data/c/tags/items/slime_balls.json
+c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/minecraft/tags/items/logs.json

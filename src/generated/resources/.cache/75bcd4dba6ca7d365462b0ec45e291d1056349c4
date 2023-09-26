@@ -1,6 +1,16 @@
-<<<<<<< HEAD:src/generated/resources/.cache/75bcd4dba6ca7d365462b0ec45e291d1056349c4
-// 1.19.2	2023-06-28T20:14:58.135623899	Tags for minecraft:block
-=======
-// 1.19.4	2023-07-14T21:27:59.057326277	beetlebox/Tags for minecraft:block
->>>>>>> BLEEDING:src/generated/resources/.cache/65b5d54d5717357d1cf52723ba5bf32d0b821f01
+// 1.19.2	2023-09-26T12:24:50.782459575	Tags for minecraft:block
+be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/blocks/wooden_pressure_plates.json
 016642ccf8dc986af44cf7ea9240a78308ab1907 data/minecraft/tags/blocks/mineable/pickaxe.json
+71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/blocks/trapdoors.json
+be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/blocks/pressure_plates.json
+71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/blocks/wooden_trapdoors.json
+582ec3687f4a82d5ccfca02f4a6124d0fc2497cd data/minecraft/tags/blocks/wooden_stairs.json
+171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/blocks/wooden_buttons.json
+1c2c6cdbade5b5cb6b0c724199608d9ffc26016c data/minecraft/tags/blocks/wooden_fences.json
+62d87340a5c22e311ed83d7ff30adf66bf2881f4 data/minecraft/tags/blocks/planks.json
+f94c46b01c767373be620ceed090662e6635195d data/minecraft/tags/blocks/leaves.json
+1c2c6cdbade5b5cb6b0c724199608d9ffc26016c data/minecraft/tags/blocks/fences.json
+171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/blocks/buttons.json
+dbaacec41d8c330644195ab0d2f038d473e264cd data/minecraft/tags/blocks/fence_gates.json
+fcea810a816b820a1a17363db67cea8e02306e91 data/minecraft/tags/blocks/wooden_doors.json
+c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/minecraft/tags/blocks/logs.json

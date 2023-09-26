@@ -119,7 +119,6 @@ public class BlockRegistry {
 		Registry.register(Registry.BLOCK, new Identifier("beetlebox", "leg_tank"), LEG_TANK);
 		Registry.register(Registry.ITEM, new Identifier("beetlebox", "leg_tank"), LEG_TANK_ITEM);
 
-		Registry.register(Registry.BLOCK, new Identifier("beetlebox", "boiler"), BOILER);
 		DispenserBlock.registerBehavior(ItemRegistry.BEETLE_JAR, new EntityPlacementDispenserBehavior());
 		DispenserBlock.registerBehavior(ItemRegistry.LEG_BEETLE_JAR, new EntityPlacementDispenserBehavior());
 

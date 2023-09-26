@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "a": {
       "item": "beetlebox:ash_planks"
@@ -22,6 +21,5 @@
   ],
   "result": {
     "item": "beetlebox:immigrator"
-  },
-  "show_notification": true
+  }
 }
