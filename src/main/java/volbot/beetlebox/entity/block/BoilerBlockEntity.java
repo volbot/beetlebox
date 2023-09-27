@@ -47,7 +47,7 @@ public class BoilerBlockEntity extends BlockEntity implements SidedInventory, Re
 	protected static final int OUTPUT_SLOT_INDEX = 1;
 	
 	private static final int[] TOP_SLOTS = new int[] { 0 };
-	private static final int[] BOTTOM_SLOTS = new int[] { 2, 1 };
+	private static final int[] BOTTOM_SLOTS = new int[] { 1 };
 	private static final int[] SIDE_SLOTS = new int[] { 1 };
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
 	int cookTime;

@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.block.TankBlockEntity;
+import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.registry.BlockRegistry;
 
 public class BeetleJarItem<T extends LivingEntity> extends Item {
@@ -70,36 +71,28 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		NbtCompound nbt = itemStack.getOrCreateNbt();
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
 			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
-			if (!nbt.contains("EntityType") && !te.contained_id.isEmpty()) {
-				LivingEntity e = (LivingEntity) ((EntityType.get(te.contained_id).orElse(null).create(te.getWorld())));
+			if (!nbt.contains("EntityType") && te.getContained(0)!=null) {
+				ContainedEntity contained = te.popContained();
+				LivingEntity e = (LivingEntity) ((EntityType.get(contained.contained_id).orElse(null).create(te.getWorld())));
 				if (!this.canStore(e)) {
 					return ActionResult.FAIL;
 				}
-				nbt.putString("EntityType", te.contained_id);
-				String custom_name = te.custom_name;
+				nbt.putString("EntityType", contained.contained_id);
+				String custom_name = contained.custom_name;
 				if (!custom_name.isEmpty()) {
 					nbt.putString("EntityName", custom_name);
 				}
-				nbt.put("EntityTag", te.entity_data);
-				te.setContained("");
-				te.setEntityCustomName("");
-				te.setEntityData(null);
+				nbt.put("EntityTag", contained.entity_data);
 				itemStack.setNbt(nbt);
 				return ActionResult.SUCCESS;
-			} else if (nbt.contains("EntityType") && te.contained_id.isEmpty()) {
+			} else if (nbt.contains("EntityType") && !te.isContainedFull()) {
 				Entity e = EntityType.get(nbt.getString("EntityType")).orElse(null).create(te.getWorld());
 				BeetleTankBlock<?> b = (BeetleTankBlock<?>) world.getBlockState(blockPos).getBlock();
 				if (!b.canStore(e)) {
 					return ActionResult.FAIL;
 				}
-				te.setContained(nbt.getString("EntityType"));
-				if (nbt.contains("EntityName")) {
-					te.setEntityCustomName(nbt.getString("EntityName"));
-					itemStack.removeSubNbt("EntityName");
-				} else {
-					te.setEntityCustomName("");
-				}
-				te.setEntityData(nbt.getCompound("EntityTag"));
+				te.pushContained(new ContainedEntity(nbt.getString("EntityType"),nbt.getCompound("EntityTag"),nbt.getString("EntityName")));
+				itemStack.removeSubNbt("EntityName");
 				itemStack.removeSubNbt("EntityTag");
 				itemStack.removeSubNbt("EntityType");
 				return ActionResult.SUCCESS;
