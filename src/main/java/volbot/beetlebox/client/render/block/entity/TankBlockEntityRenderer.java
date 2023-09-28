@@ -2,6 +2,10 @@ package volbot.beetlebox.client.render.block.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CandleBlock;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -12,14 +16,17 @@ import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.block.BlockRenderManager;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
@@ -46,15 +53,28 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 	}
 
 	@Override
-	public void render(TankBlockEntity tile_entity, float f, MatrixStack matrices,
-			VertexConsumerProvider vcp, int i, int j) {
-		ItemStack substrate = tile_entity.getStack(0);
+	public void render(TankBlockEntity tile_entity, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i,
+			int j) {
+		BlockRenderManager blockRenderer = MinecraftClient.getInstance().getBlockRenderManager();
 		matrices.push();
-		if(substrate!=ItemStack.EMPTY) {
-			VertexConsumer vertexConsumer = vcp
-					.getBuffer(RenderLayer.getEntitySolid(
-							new Identifier("beetlebox", "textures/block/entity/substrate.png")));
+		if (tile_entity.getStack(0) != ItemStack.EMPTY) {
+			VertexConsumer vertexConsumer = vcp.getBuffer(
+					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
 			m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+		}
+		matrices.pop();
+		matrices.push();
+		ItemStack stack;
+		if ((stack = tile_entity.getStack(1)) != ItemStack.EMPTY) {
+			if (stack.isOf(Items.CANDLE)) {
+				BlockState state = Blocks.CANDLE.getDefaultState().with(CandleBlock.LIT, true).with(CandleBlock.CANDLES,
+						3);
+				matrices.translate(0.25, 0.2, 1);				
+				matrices.scale(0.4f, 0.4f, 0.4f);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(135));
+
+				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
+			}
 		}
 		matrices.pop();
 		matrices.push();
@@ -73,9 +93,9 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					entity.setCustomName(Text.of(e.custom_name));
 				}
 				g = 0.4f;
-				h = Math.max(entity.getHeight(),entity.getWidth());
-				if(h >= 1f) {
-					g/=h;
+				h = Math.max(entity.getHeight(), entity.getWidth());
+				if (h >= 1f) {
+					g /= h;
 				}
 				matrices.translate(0.25, 0.2, 0.25);
 				matrices.scale(g, g, g);
@@ -99,9 +119,9 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					((BeetleEntity) entity).setSize(5);
 				}
 				g = 0.4f;
-				h = Math.max(entity.getHeight(),entity.getWidth());
-				if(h >= 1f) {
-					g/=h;
+				h = Math.max(entity.getHeight(), entity.getWidth());
+				if (h >= 1f) {
+					g /= h;
 				}
 
 				matrices.translate(0.75, 0.2, 0.75);
