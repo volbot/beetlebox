@@ -33,6 +33,8 @@ public class ItemRegistry {
 	public static Vector<Item> chest_upgrades = new Vector<>();
 	public static Vector<Item> legs_upgrades = new Vector<>();
 	public static Vector<Item> boots_upgrades = new Vector<>();
+	
+	public static final Item SUBSTRATE = new Item(new FabricItemSettings());
 
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
@@ -85,6 +87,8 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_FALLDAM);
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
+		
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
@@ -117,6 +121,8 @@ public class ItemRegistry {
 			content.add(LEG_BEETLE_JAR);
 
 			content.add(NET);
+			
+			content.add(SUBSTRATE);
 
 			content.add(GELATIN);
 			content.add(SUGAR_GELATIN);

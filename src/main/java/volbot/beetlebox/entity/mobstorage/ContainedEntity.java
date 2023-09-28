@@ -3,7 +3,7 @@ package volbot.beetlebox.entity.mobstorage;
 import net.minecraft.nbt.NbtCompound;
 
 public class ContainedEntity {
-
+	
 	public String contained_id = "";
 	public String custom_name = "";
 	public NbtCompound entity_data;

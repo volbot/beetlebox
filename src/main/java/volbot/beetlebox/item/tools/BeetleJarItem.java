@@ -55,8 +55,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			tooltip.add(Text.literal("Contained: ").append(e.getName()).formatted(Formatting.GRAY));
 		}
 	}
-
-	@Override
+	
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
 		if (!(world instanceof ServerWorld)) {
@@ -70,35 +69,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				: blockPos.offset(direction);
 		NbtCompound nbt = itemStack.getOrCreateNbt();
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
-			TankBlockEntity te = world.getBlockEntity(blockPos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
-			if (!nbt.contains("EntityType") && te.getContained(0)!=null) {
-				ContainedEntity contained = te.popContained();
-				LivingEntity e = (LivingEntity) ((EntityType.get(contained.contained_id).orElse(null).create(te.getWorld())));
-				if (!this.canStore(e)) {
-					return ActionResult.FAIL;
-				}
-				nbt.putString("EntityType", contained.contained_id);
-				String custom_name = contained.custom_name;
-				if (!custom_name.isEmpty()) {
-					nbt.putString("EntityName", custom_name);
-				}
-				nbt.put("EntityTag", contained.entity_data);
-				itemStack.setNbt(nbt);
-				return ActionResult.SUCCESS;
-			} else if (nbt.contains("EntityType") && !te.isContainedFull()) {
-				Entity e = EntityType.get(nbt.getString("EntityType")).orElse(null).create(te.getWorld());
-				BeetleTankBlock<?> b = (BeetleTankBlock<?>) world.getBlockState(blockPos).getBlock();
-				if (!b.canStore(e)) {
-					return ActionResult.FAIL;
-				}
-				te.pushContained(new ContainedEntity(nbt.getString("EntityType"),nbt.getCompound("EntityTag"),nbt.getString("EntityName")));
-				itemStack.removeSubNbt("EntityName");
-				itemStack.removeSubNbt("EntityTag");
-				itemStack.removeSubNbt("EntityType");
-				return ActionResult.SUCCESS;
-			} else {
-				return ActionResult.FAIL;
-			}
+			return ActionResult.CONSUME;
 		} else {
 			if (nbt == null || !nbt.contains("EntityType")) {
 				return ActionResult.FAIL;
@@ -151,6 +122,20 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 
 	public boolean canStore(Entity entity) {
 		return clazz.isAssignableFrom(entity.getClass());
+	}
+	
+	public static ContainedEntity getContained(ItemStack stack) {
+		NbtCompound nbt = stack.getNbt();
+		if(!nbt.contains("EntityType")) {
+			return null;
+		}
+		String contained_id = nbt.getString("EntityType");
+		NbtCompound entity_data = nbt.getCompound("EntityData");
+		String custom_name = "";
+		if(nbt.contains("EntityName")) {
+				custom_name = nbt.getString("EntityName");
+		}	
+		return new ContainedEntity(contained_id,entity_data,custom_name);
 	}
 
 

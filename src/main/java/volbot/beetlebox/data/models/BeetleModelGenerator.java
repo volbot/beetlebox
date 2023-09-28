@@ -39,6 +39,7 @@ public class BeetleModelGenerator extends FabricModelProvider {
 	public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 		items.addAll(ItemRegistry.armor_sets);
 		items.addAll(ItemRegistry.beetle_drops);
+		items.add(ItemRegistry.SUBSTRATE);
 		items.add(ItemRegistry.GELATIN);
 		items.add(ItemRegistry.SUGAR_GELATIN);
 		items.add(ItemRegistry.GELATIN_GLUE);

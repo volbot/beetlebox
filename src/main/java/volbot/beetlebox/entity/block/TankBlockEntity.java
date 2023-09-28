@@ -36,6 +36,18 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	public Packet<ClientPlayPacketListener> toUpdatePacket() {
 		return BlockEntityUpdateS2CPacket.create(this);
 	}
+	
+	public boolean canAcceptEntity() {
+		if(this.isContainedFull()) { //full entity slots
+			return false;
+		} else if(this.getStack(0)==ItemStack.EMPTY) { //no substrate
+			return false;
+		} else if(this.inventory.get(2)!=ItemStack.EMPTY) { //third item slot used
+			return false;
+		}
+		return true;
+		
+	}
 
 	public boolean isContainedFull() {
 		return contained[1] != null;
@@ -108,12 +120,16 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 		if (nbt.contains("EntityType1")) {
 			contained[0] = new ContainedEntity(nbt.getString("EntityType1"), nbt.getCompound("EntityTag1"),
 					nbt.getString("EntityName1"));
+		} else {
+			contained[0] = null;
 		}
 		if (nbt.contains("EntityType2")) {
 			contained[1] = new ContainedEntity(nbt.getString("EntityType2"), nbt.getCompound("EntityTag2"),
 					nbt.getString("EntityName2"));
+		} else {
+			contained[1] = null;
 		}
-		markDirty();
+		inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);
 	}
 
