@@ -60,25 +60,46 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 
 	protected ActionResult tankLogic(World world, BlockPos pos, PlayerEntity player) {
 		TankBlockEntity te = world.getBlockEntity(pos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
+		ItemStack handstack = player.getMainHandStack();
 		if (te != null) {
-			if (player.getMainHandStack().isEmpty()) {
-				if (te.getStack(0) != ItemStack.EMPTY) {
-					if (te.getStack(1) == ItemStack.EMPTY) {
-						if (te.getContained(0) == null) {
-							player.setStackInHand(player.getActiveHand(), te.getStack(0));
-							te.setStack(0, ItemStack.EMPTY);
-							return ActionResult.SUCCESS;
-						}
-					} else {
-						player.setStackInHand(player.getActiveHand(), te.getStack(1));
-						te.setStack(1, ItemStack.EMPTY);
-						return ActionResult.SUCCESS;
+			if (handstack.isEmpty()) {
+				int id = te.getTopStackId();
+				if(id==0) {
+					if(te.getContained(0) != null) {
+						return ActionResult.CONSUME;
 					}
 				}
+				player.setStackInHand(player.getActiveHand(), te.getStack(id));
+				te.setStack(id, ItemStack.EMPTY);
+				return ActionResult.SUCCESS;
 			} else {
-				if (player.getStackInHand(player.getActiveHand()).getItem() instanceof BeetleJarItem
-						&& te.getStack(0) != ItemStack.EMPTY) {
-					ItemStack jar_stack = player.getStackInHand(player.getActiveHand());
+				if (te.getStack(0) == ItemStack.EMPTY) {
+					if (te.isValid(0, handstack)) {
+						if (te.getContained(0) == null) {
+							if (te.getStack(0) == ItemStack.EMPTY) {
+								ItemStack substrate_new = handstack.getItem().getDefaultStack();
+								substrate_new.setCount(1);
+								te.setStack(0, substrate_new);
+								if (!player.isCreative()) {
+									ItemStack substrate_old = handstack;
+									substrate_old.decrement(1);
+									player.setStackInHand(player.getActiveHand(), substrate_old);
+								}
+								return ActionResult.SUCCESS;
+							} else if (handstack.getCount() < handstack.getItem().getMaxCount()
+									&& handstack.isOf(te.getStack(0).getItem())) {
+								te.setStack(0, ItemStack.EMPTY);
+								if (!player.isCreative()) {
+									ItemStack substrate = player.getStackInHand(player.getActiveHand());
+									substrate.increment(1);
+									player.setStackInHand(player.getActiveHand(), substrate);
+								}
+								return ActionResult.SUCCESS;
+							}
+						}
+					}
+				} else if (handstack.getItem() instanceof BeetleJarItem) {
+					ItemStack jar_stack = handstack;
 					BeetleJarItem<?> jar_item = (BeetleJarItem<?>) jar_stack.getItem();
 					NbtCompound nbt = jar_stack.getOrCreateNbt();
 					if (!nbt.contains("EntityType") && te.getContained(0) != null) {
@@ -108,52 +129,28 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						jar_stack.removeSubNbt("EntityType");
 						return ActionResult.SUCCESS;
 					}
-				} else if (player.getStackInHand(player.getActiveHand()).isOf(ItemRegistry.SUBSTRATE)
-						&& te.getContained(0) == null) {
-					if (te.getStack(0) == ItemStack.EMPTY) {
-						ItemStack substrate_new = ItemRegistry.SUBSTRATE.getDefaultStack();
-						substrate_new.setCount(1);
-						te.setStack(0, substrate_new);
+				} else if (te.isValid(1, handstack)) {
+					if (handstack.isOf(te.getTopStack().getItem()) && handstack.getCount() < handstack.getMaxCount()) {
+						te.setStack(te.getTopStackId(), ItemStack.EMPTY);
 						if (!player.isCreative()) {
-							ItemStack substrate_old = player.getStackInHand(player.getActiveHand());
-							substrate_old.decrement(1);
-							player.setStackInHand(player.getActiveHand(), substrate_old);
+							ItemStack item = handstack;
+							item.increment(1);
+							player.setStackInHand(player.getActiveHand(), item);
 						}
 						return ActionResult.SUCCESS;
-					} else if (player.getStackInHand(player.getActiveHand()).getCount() < ItemRegistry.SUBSTRATE
-							.getMaxCount()) {
-						te.setStack(0, ItemStack.EMPTY);
+					} else {
+						ItemStack item_new = handstack.getItem().getDefaultStack();
+						item_new.setCount(1);
+						if(te.getTopStackId() == 2) {
+							player.giveItemStack(te.getTopStack());
+						}
+						te.putTopStack(item_new);
 						if (!player.isCreative()) {
-							ItemStack substrate = player.getStackInHand(player.getActiveHand());
-							substrate.increment(1);
-							player.setStackInHand(player.getActiveHand(), substrate);
+							ItemStack item_old = handstack;
+							item_old.decrement(1);
+							player.setStackInHand(player.getActiveHand(), item_old);
 						}
 						return ActionResult.SUCCESS;
-					}
-				} else {
-					if (player.getStackInHand(player.getActiveHand()).isOf(Items.CANDLE)) {
-						if (te.getStack(0) != ItemStack.EMPTY) {
-							if (te.getStack(1) == ItemStack.EMPTY) {
-								ItemStack item_new = Items.CANDLE.getDefaultStack();
-								item_new.setCount(1);
-								te.setStack(1, item_new);
-								if (!player.isCreative()) {
-									ItemStack item_old = player.getStackInHand(player.getActiveHand());
-									item_old.decrement(1);
-									player.setStackInHand(player.getActiveHand(), item_old);
-								}
-								return ActionResult.SUCCESS;
-							} else if (player.getStackInHand(player.getActiveHand()).getCount() < Items.CANDLE
-									.getMaxCount()) {
-								te.setStack(1, ItemStack.EMPTY);
-								if (!player.isCreative()) {
-									ItemStack item = player.getStackInHand(player.getActiveHand());
-									item.increment(1);
-									player.setStackInHand(player.getActiveHand(), item);
-								}
-								return ActionResult.SUCCESS;
-							}
-						}
 					}
 				}
 			}

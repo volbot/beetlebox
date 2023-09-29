@@ -2,6 +2,8 @@ package volbot.beetlebox.client.render.block.entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.AbstractCandleBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
@@ -47,7 +49,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		ModelPartData modelPartData = modelData.getRoot();
 		ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", 1f, 1f, 1f, 14f, 2f, 14f).uv(0, 0),
+		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", 0f, 0f, 0f, 16f, 2f, 16f).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		m = TexturedModelData.of(modelData, 16, 16).createModel();
 	}
@@ -60,18 +62,43 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		if (tile_entity.getStack(0) != ItemStack.EMPTY) {
 			VertexConsumer vertexConsumer = vcp.getBuffer(
 					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
+			matrices.scale(0.99f, 1f, 0.99f);
+			matrices.translate(0.01, 0, 0.01);
 			m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		}
 		matrices.pop();
 		matrices.push();
 		ItemStack stack;
+		Block b;
 		if ((stack = tile_entity.getStack(1)) != ItemStack.EMPTY) {
-			if (stack.isOf(Items.CANDLE)) {
-				BlockState state = Blocks.CANDLE.getDefaultState().with(CandleBlock.LIT, true).with(CandleBlock.CANDLES,
-						3);
-				matrices.translate(0.25, 0.2, 1);				
+			b = Block.getBlockFromItem(stack.getItem());
+			if (b != Blocks.AIR) {
+				BlockState state = b.getDefaultState();
+				if (b instanceof AbstractCandleBlock) {
+					state = state.with(CandleBlock.LIT, true)
+							.with(CandleBlock.CANDLES, 3);
+				}
+				matrices.translate(0.25, 0.2, 1);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(135));
+
+				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
+
+			}
+		}
+		matrices.pop();
+		matrices.push();
+		if ((stack = tile_entity.getStack(2)) != ItemStack.EMPTY) {
+			b = Block.getBlockFromItem(stack.getItem());
+			if (b != Blocks.AIR) {
+				BlockState state = b.getDefaultState();
+				if (b instanceof AbstractCandleBlock) {
+					state = state.with(CandleBlock.LIT, true)
+							.with(CandleBlock.CANDLES, 3);
+				}
+				matrices.translate(0.75, 0.2, 0);
+				matrices.scale(0.4f, 0.4f, 0.4f);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(315));
 
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
