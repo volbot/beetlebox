@@ -51,7 +51,6 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	public static void tick(World world, BlockPos pos, BlockState state, TankBlockEntity te) {
-		System.out.println(te.production_time);
 		if (te.isSetupValid()) {
 			te.production_time++;
 			if (te.production_time >= te.production_time_max) {
