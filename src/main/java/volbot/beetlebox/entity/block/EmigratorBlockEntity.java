@@ -53,19 +53,20 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 		}
 	}
 
-
 	public static boolean extract(World world, BlockPos pos, BlockState state, EmigratorBlockEntity te) {
 		BlockEntity b = world.getBlockEntity(EmigratorBlock.getInputBlock(state, pos));
-		if (b!=null && b instanceof IMobContainerTE) {
-			IMobContainerTE tank = (IMobContainerTE)b;
-			if (te.getContained()=="") {
-				te.setContained(tank.getContained());
-				te.setEntityCustomName(tank.getEntityCustomName());
-				te.setEntityData(tank.getEntityData());
-				tank.setContained("");
-				tank.setEntityCustomName("");
-				tank.setEntityData(null);
-				return true;
+		if (b != null) {
+			if (b instanceof IMobContainerTE) {
+				IMobContainerTE tank = (IMobContainerTE) b;
+				if (te.getContained() == "") {
+					te.setContained(tank.getContained());
+					te.setEntityCustomName(tank.getEntityCustomName());
+					te.setEntityData(tank.getEntityData());
+					tank.setContained("");
+					tank.setEntityCustomName("");
+					tank.setEntityData(null);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -148,8 +149,6 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 	protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
 		return new HopperScreenHandler(syncId, playerInventory, this);
 	}
-	
-	
 
 	@Override
 	protected void writeNbt(NbtCompound nbt) {
@@ -200,15 +199,15 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity implement
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
 	}
-	
+
 	public String getContained() {
 		return this.contained_id;
 	}
-	
+
 	public String getEntityCustomName() {
 		return this.custom_name;
 	}
-	
+
 	public NbtCompound getEntityData() {
 		return this.entity_data;
 	}

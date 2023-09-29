@@ -1,5 +1,7 @@
 package volbot.beetlebox.entity.block;
 
+import java.util.Collections;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.AbstractCandleBlock;
@@ -29,7 +31,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class TankBlockEntity extends BlockEntity implements SidedInventory {
 
 	public ContainedEntity[] contained = { null, null };
-	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3 };
 
@@ -47,7 +49,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 			return false;
 		} else if (this.getStack(0) == ItemStack.EMPTY) { // no substrate
 			return false;
-		} else if (this.inventory.get(2) != ItemStack.EMPTY) { // third item slot used
+		} else if (getContained(0) != null && this.inventory.get(3) != ItemStack.EMPTY) { // third item slot used
 			return false;
 		}
 		return true;
@@ -134,36 +136,28 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 		} else {
 			contained[1] = null;
 		}
-		inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);
 	}
-	
+
 	public void putTopStack(ItemStack stack) {
-		setStack(Math.min(getTopStackId()+1,2), stack);
+		setStack(Math.min(getTopStackId() + 1, 3), stack);
 	}
 
 	public ItemStack getTopStack() {
-		if (getStack(2) != ItemStack.EMPTY) {
-			return getStack(2);
-		}
-		if (getStack(1) != ItemStack.EMPTY) {
-			return getStack(1);
-		}
-		if (getStack(0) != ItemStack.EMPTY) {
-			return getStack(0);
+		for(int i = inventory.size()-1; i >= 0 ; i--) {
+			if (getStack(i) != ItemStack.EMPTY) {
+				return getStack(i);
+			}
 		}
 		return ItemStack.EMPTY;
 	}
 
 	public int getTopStackId() {
-		if (getStack(2) != ItemStack.EMPTY) {
-			return 2;
-		}
-		if (getStack(1) != ItemStack.EMPTY) {
-			return 1;
-		}
-		if (getStack(0) != ItemStack.EMPTY) {
-			return 0;
+		for(int i = inventory.size()-1; i >= 0 ; i--) {
+			if (getStack(i) != ItemStack.EMPTY) {
+				return i;
+			}
 		}
 		return -1;
 	}
@@ -204,7 +198,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 
 	@Override
 	public int size() {
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -240,16 +234,17 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
 		if (stack.isOf(ItemRegistry.SUBSTRATE)) {
-			if(slot == 0) {
+			if (slot == 0) {
 				return true;
 			}
 		} else if (getStack(0) == ItemStack.EMPTY) {
 			return false;
 		}
-		for (int i = 1; i <= 2; i++) {
-			if (slot == i && (getStack(i) == ItemStack.EMPTY || (Block.getBlockFromItem(stack.getItem()) instanceof AbstractCandleBlock
-					|| stack.isOf(BlockRegistry.ASH_LOG.asItem())
-					|| Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock))) {
+		for (int i = 1; i <= 3; i++) {
+			if (slot == i && (getStack(i) == ItemStack.EMPTY
+					|| (Block.getBlockFromItem(stack.getItem()) instanceof AbstractCandleBlock
+							|| stack.isOf(BlockRegistry.ASH_LOG.asItem())
+							|| Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock))) {
 				return true;
 			}
 		}

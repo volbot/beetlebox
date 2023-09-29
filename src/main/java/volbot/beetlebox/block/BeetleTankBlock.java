@@ -64,8 +64,8 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		if (te != null) {
 			if (handstack.isEmpty()) {
 				int id = te.getTopStackId();
-				if(id==0) {
-					if(te.getContained(0) != null) {
+				if (id == 0) {
+					if (te.getContained(0) != null) {
 						return ActionResult.CONSUME;
 					}
 				}
@@ -129,19 +129,35 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						jar_stack.removeSubNbt("EntityType");
 						return ActionResult.SUCCESS;
 					}
-				} else if (te.isValid(1, handstack)) {
-					if (handstack.isOf(te.getTopStack().getItem()) && handstack.getCount() < handstack.getMaxCount()) {
-						te.setStack(te.getTopStackId(), ItemStack.EMPTY);
-						if (!player.isCreative()) {
-							ItemStack item = handstack;
-							item.increment(1);
-							player.setStackInHand(player.getActiveHand(), item);
+				} else {
+					if (te.isValid(te.getTopStackId(), handstack)) {
+						if (handstack.isOf(te.getTopStack().getItem())
+								&& handstack.getCount() < handstack.getMaxCount()) {
+							te.setStack(te.getTopStackId(), ItemStack.EMPTY);
+							if (!player.isCreative()) {
+								ItemStack item = handstack;
+								item.increment(1);
+								player.setStackInHand(player.getActiveHand(), item);
+							}
+							return ActionResult.SUCCESS;
+						} else {
+							ItemStack item_new = handstack.getItem().getDefaultStack();
+							item_new.setCount(1);
+							if (te.getTopStackId() == 3) {
+								player.giveItemStack(te.getTopStack());
+							}
+							te.putTopStack(item_new);
+							if (!player.isCreative()) {
+								ItemStack item_old = handstack;
+								item_old.decrement(1);
+								player.setStackInHand(player.getActiveHand(), item_old);
+							}
+							return ActionResult.SUCCESS;
 						}
-						return ActionResult.SUCCESS;
-					} else {
+					} else if(te.getTopStackId() < te.size()-1 && te.isValid(te.getTopStackId()+1, handstack)) {
 						ItemStack item_new = handstack.getItem().getDefaultStack();
 						item_new.setCount(1);
-						if(te.getTopStackId() == 2) {
+						if (te.getTopStackId() == 3) {
 							player.giveItemStack(te.getTopStack());
 						}
 						te.putTopStack(item_new);

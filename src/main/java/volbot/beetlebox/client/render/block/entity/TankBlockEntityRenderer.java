@@ -78,7 +78,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					state = state.with(CandleBlock.LIT, true)
 							.with(CandleBlock.CANDLES, 3);
 				}
-				matrices.translate(0.25, 0.2, 1);
+				matrices.translate(0.25, 0.122, 1);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(135));
 
@@ -96,9 +96,26 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					state = state.with(CandleBlock.LIT, true)
 							.with(CandleBlock.CANDLES, 3);
 				}
-				matrices.translate(0.75, 0.2, 0);
+				matrices.translate(0.75, 0.122, 0);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(315));
+
+				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
+			}
+		}
+		matrices.pop();
+		matrices.push();
+		if ((stack = tile_entity.getStack(3)) != ItemStack.EMPTY) {
+			b = Block.getBlockFromItem(stack.getItem());
+			if (b != Blocks.AIR) {
+				BlockState state = b.getDefaultState();
+				if (b instanceof AbstractCandleBlock) {
+					state = state.with(CandleBlock.LIT, true)
+							.with(CandleBlock.CANDLES, 3);
+				}
+				matrices.translate(0, 0.122, 0.25);
+				matrices.scale(0.4f, 0.4f, 0.4f);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
 
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
@@ -124,7 +141,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (h >= 1f) {
 					g /= h;
 				}
-				matrices.translate(0.25, 0.2, 0.25);
+				matrices.translate(0.75, 0.2, 0.75);
 				matrices.scale(g, g, g);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
 
@@ -151,7 +168,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					g /= h;
 				}
 
-				matrices.translate(0.75, 0.2, 0.75);
+				matrices.translate(0.25, 0.2, 0.25);
 				matrices.scale(g, g, g);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
 
