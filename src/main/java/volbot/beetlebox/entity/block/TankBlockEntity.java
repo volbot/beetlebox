@@ -5,8 +5,10 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CandleBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -16,28 +18,98 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.item.Larva;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class TankBlockEntity extends BlockEntity implements SidedInventory {
 
 	public ContainedEntity[] contained = { null, null };
+	public Larva larva = null;
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
+	public int production_time = 0;
+	public int production_time_max = 200;
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3 };
-	
+
 	public TankBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
+	}
+
+	public void setLarva(Larva larva) {
+		this.larva = larva;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
+	}
+
+	public static void tick(World world, BlockPos pos, BlockState state, TankBlockEntity te) {
+		System.out.println(te.production_time);
+		if (te.isSetupValid()) {
+			te.production_time++;
+			if (te.production_time >= te.production_time_max) {
+				te.setProductionTime(0);
+				te.setLarva(new Larva(te.getContained(0), te.getContained(1), world));
+			} else {
+				if (te.production_time % 10 == 0) {
+					double d = world.getRandom().nextGaussian() * 0.02;
+					double e = world.getRandom().nextGaussian() * 0.02;
+					double f = world.getRandom().nextGaussian() * 0.02;
+					world.addParticle(ParticleTypes.HEART,
+							0.5 + te.getPos().getX() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + te.getPos().getY() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + te.getPos().getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
+				}
+			}
+		} else {
+			te.production_time = 0;
+		}
+	}
+	
+	public void setProductionTime(int production_time) {
+		this.production_time = production_time;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
 	}
 
 	@Override
 	public Packet<ClientPlayPacketListener> toUpdatePacket() {
 		return BlockEntityUpdateS2CPacket.create(this);
+	}
+
+	public boolean isSetupValid() {
+		if (!isContainedFull()) {
+			return false;
+		}
+		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
+			return false;
+		}
+		if (this.larva != null) {
+			return false;
+		}
+		boolean hasFlower = false;
+		boolean hasCandle = false;
+		for (int i = 1; i <= 2; i++) {
+			ItemStack stack = getStack(i);
+			if (Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock) {
+				hasFlower = true;
+			}
+			if (Block.getBlockFromItem(stack.getItem()) instanceof CandleBlock) {
+				hasCandle = true;
+			}
+		}
+		if (!hasFlower || !hasCandle) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean canAcceptEntity() {
@@ -113,6 +185,14 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 				nbt.put("EntityTag2", contained[1].entity_data);
 			}
 		}
+		nbt.putInt("ProdTime", production_time);
+		if (larva != null) {
+			nbt.putString("LarvaType", larva.type);
+			nbt.putFloat("LarvaDamage", larva.damage);
+			nbt.putFloat("LarvaSpeed", larva.speed);
+			nbt.putInt("LarvaSize", larva.size);
+			nbt.putFloat("LarvaMaxHealth", larva.maxhealth);
+		}
 		Inventories.writeNbt(nbt, this.inventory);
 		super.writeNbt(nbt);
 	}
@@ -131,6 +211,13 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 					nbt.getString("EntityName2"));
 		} else {
 			contained[1] = null;
+		}
+		production_time = nbt.getInt("ProdTime");
+		if (nbt.contains("LarvaType")) {
+			larva = new Larva(nbt.getString("LarvaType"), nbt.getInt("LarvaSize"), nbt.getFloat("LarvaDamage"),
+					nbt.getFloat("LarvaSpeed"), nbt.getFloat("LarvaMaxHealth"));
+		} else {
+			larva = null;
 		}
 		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);

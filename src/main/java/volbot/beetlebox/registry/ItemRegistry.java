@@ -20,6 +20,7 @@ import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.materials.BeetleItemUpgrade;
 import volbot.beetlebox.item.equipment.materials.DormantUpgrade;
 import volbot.beetlebox.item.tools.BeetleJarItem;
+import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 
 public class ItemRegistry {
@@ -35,6 +36,8 @@ public class ItemRegistry {
 	public static Vector<Item> boots_upgrades = new Vector<>();
 	
 	public static final Item SUBSTRATE = new Item(new FabricItemSettings());
+	public static final Item SUBSTRATE_JAR = new Item(new FabricItemSettings());
+	public static final Item LARVA_JAR = new LarvaJarItem(new FabricItemSettings());
 
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
@@ -89,6 +92,8 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_STEP);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate_jar"), SUBSTRATE_JAR);
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "larva_jar"), LARVA_JAR);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
@@ -123,6 +128,7 @@ public class ItemRegistry {
 			content.add(NET);
 			
 			content.add(SUBSTRATE);
+			content.add(SUBSTRATE_JAR);
 
 			content.add(GELATIN);
 			content.add(SUGAR_GELATIN);
