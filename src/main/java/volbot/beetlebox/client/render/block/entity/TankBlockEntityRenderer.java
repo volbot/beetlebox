@@ -27,11 +27,13 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
@@ -75,8 +77,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			if (b != Blocks.AIR) {
 				BlockState state = b.getDefaultState();
 				if (b instanceof AbstractCandleBlock) {
-					state = state.with(CandleBlock.LIT, true)
-							.with(CandleBlock.CANDLES, 3);
+					state = state.with(CandleBlock.LIT, true).with(CandleBlock.CANDLES, 3);
 				}
 				matrices.translate(0.25, 0.122, 1);
 				matrices.scale(0.4f, 0.4f, 0.4f);
@@ -93,8 +94,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			if (b != Blocks.AIR) {
 				BlockState state = b.getDefaultState();
 				if (b instanceof AbstractCandleBlock) {
-					state = state.with(CandleBlock.LIT, true)
-							.with(CandleBlock.CANDLES, 3);
+					state = state.with(CandleBlock.LIT, true).with(CandleBlock.CANDLES, 3);
 				}
 				matrices.translate(0.75, 0.122, 0);
 				matrices.scale(0.4f, 0.4f, 0.4f);
@@ -110,8 +110,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			if (b != Blocks.AIR) {
 				BlockState state = b.getDefaultState();
 				if (b instanceof AbstractCandleBlock) {
-					state = state.with(CandleBlock.LIT, true)
-							.with(CandleBlock.CANDLES, 3);
+					state = state.with(CandleBlock.LIT, true).with(CandleBlock.CANDLES, 3);
 				}
 				matrices.translate(0, 0.122, 0.25);
 				matrices.scale(0.4f, 0.4f, 0.4f);
@@ -132,6 +131,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				entity.readCustomDataFromNbt(e.entity_data);
 				if (entity instanceof BeetleEntity) {
 					((BeetleEntity) entity).setSize(5);
+					((BeetleEntity) entity).setFlying(false);
 				}
 				if (!e.custom_name.isEmpty()) {
 					entity.setCustomName(Text.of(e.custom_name));
@@ -141,11 +141,11 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (h >= 1f) {
 					g /= h;
 				}
-				matrices.translate(0.75, 0.2, 0.75);
+				matrices.translate(0.75, 0.12, 0.75);
 				matrices.scale(g, g, g);
-				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(225));
 
-				this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vcp, i);
+				this.entityRenderDispatcher.render(entity, 0, 0, 0, 0.0f, f, matrices, vcp, i);
 			}
 		}
 		matrices.pop();
@@ -159,8 +159,10 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (!e.custom_name.isEmpty()) {
 					entity.setCustomName(Text.of(e.custom_name));
 				}
+				entity.getPos();
 				if (entity instanceof BeetleEntity) {
 					((BeetleEntity) entity).setSize(5);
+					((BeetleEntity) entity).setFlying(false);
 				}
 				g = 0.4f;
 				h = Math.max(entity.getHeight(), entity.getWidth());
@@ -168,9 +170,9 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					g /= h;
 				}
 
-				matrices.translate(0.25, 0.2, 0.25);
+				matrices.translate(0.25, 0.12, 0.25);
 				matrices.scale(g, g, g);
-				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
 
 				this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vcp, i);
 			}

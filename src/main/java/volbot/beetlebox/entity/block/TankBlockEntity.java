@@ -1,7 +1,5 @@
 package volbot.beetlebox.entity.block;
 
-import java.util.Collections;
-
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.AbstractCandleBlock;
@@ -9,13 +7,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -23,8 +19,8 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
-import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
@@ -34,7 +30,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3 };
-
+	
 	public TankBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
 	}
@@ -145,7 +141,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	public ItemStack getTopStack() {
-		for(int i = inventory.size()-1; i >= 0 ; i--) {
+		for (int i = inventory.size() - 1; i >= 0; i--) {
 			if (getStack(i) != ItemStack.EMPTY) {
 				return getStack(i);
 			}
@@ -154,7 +150,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	public int getTopStackId() {
-		for(int i = inventory.size()-1; i >= 0 ; i--) {
+		for (int i = inventory.size() - 1; i >= 0; i--) {
 			if (getStack(i) != ItemStack.EMPTY) {
 				return i;
 			}
@@ -242,7 +238,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 		}
 		for (int i = 1; i <= 3; i++) {
 			if (slot == i && (getStack(i) == ItemStack.EMPTY
-					|| (Block.getBlockFromItem(stack.getItem()) instanceof AbstractCandleBlock
+					&& (Block.getBlockFromItem(stack.getItem()) instanceof AbstractCandleBlock
 							|| stack.isOf(BlockRegistry.ASH_LOG.asItem())
 							|| Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock))) {
 				return true;
