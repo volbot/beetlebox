@@ -37,7 +37,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	Class<T> clazz;
 	
 	public BeetleJarItem(Settings settings, Class<T> clazz) {
-		super(settings.maxCount(1));
+		super(settings);
 		this.clazz=clazz;
 	}
 

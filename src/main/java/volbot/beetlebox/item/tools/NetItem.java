@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import volbot.beetlebox.registry.ItemRegistry;
 
 public class NetItem extends Item {
 
@@ -19,7 +20,7 @@ public class NetItem extends Item {
 	}
 	
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        ItemStack saved = null;
+        ItemStack jar_stack = null;
         PlayerInventory inv = user.getInventory();
     	for(ItemStack itemStack : inv.main) {
         	if(itemStack.getItem() instanceof BeetleJarItem<?>) {
@@ -29,30 +30,37 @@ public class NetItem extends Item {
         			continue;
         		}
         		if(!nbt.contains("EntityType") && item.canStore(entity)) {
-        			if(saved == null || 
-        					(!PlayerInventory.isValidHotbarIndex(inv.main.indexOf(saved))
+        			if(jar_stack == null || 
+        					(!PlayerInventory.isValidHotbarIndex(inv.main.indexOf(jar_stack))
         					&& PlayerInventory.isValidHotbarIndex(inv.main.indexOf(itemStack)))
         				){
-        				saved = itemStack;
+        				jar_stack = itemStack;
         			}
         			continue;
         		}
-        		saved = itemStack;
+        		jar_stack = itemStack;
         	}
         }
-    	if(saved != null) {
-    		NbtCompound nbt = saved.getNbt();
-    		NbtCompound comp1 = new NbtCompound();
-    		comp1 = entity.writeNbt(comp1);
-    		entity.writeCustomDataToNbt(comp1);
-    		nbt.put("EntityTag",comp1);
+    	if(jar_stack != null) {
+    		NbtCompound nbt = new NbtCompound();
+    		NbtCompound tag = new NbtCompound();
+    		tag = entity.writeNbt(tag);
+    		entity.writeCustomDataToNbt(tag);
+    		nbt.put("EntityTag",tag);
     		Text custom_name = entity.getCustomName();
     		if(custom_name!=null && !custom_name.getString().isEmpty()) {
     			nbt.putString("EntityName", custom_name.getString());
     		}
     		nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
-    		saved.setNbt(nbt);
+			ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
     		entity.remove(RemovalReason.CHANGED_DIMENSION);
+			jar_new.setNbt(nbt);
+			jar_stack.decrement(1);
+			if(user.getInventory().getEmptySlot()==-1) {
+				user.dropStack(jar_new);
+			} else {
+				user.giveItemStack(jar_new);
+			}
     		return ActionResult.SUCCESS;
     	}
     	return ActionResult.FAIL;

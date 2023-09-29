@@ -113,29 +113,37 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 				} else if (handstack.getItem() instanceof BeetleJarItem) {
 					ItemStack jar_stack = handstack;
 					BeetleJarItem<?> jar_item = (BeetleJarItem<?>) jar_stack.getItem();
-					NbtCompound nbt = jar_stack.getOrCreateNbt();
-					if (!nbt.contains("EntityType") && te.getContained(0) != null) {
+					NbtCompound jar_nbt = jar_stack.getOrCreateNbt();
+					if (!jar_nbt.contains("EntityType") && te.getContained(0) != null) {
 						ContainedEntity contained = te.popContained();
 						LivingEntity e = (LivingEntity) ((EntityType.get(contained.contained_id).orElse(null)
 								.create(te.getWorld())));
 						if (!jar_item.canStore(e)) {
 							return ActionResult.FAIL;
 						}
-						nbt.putString("EntityType", contained.contained_id);
+						NbtCompound new_nbt = new NbtCompound();
+						new_nbt.putString("EntityType", contained.contained_id);
 						String custom_name = contained.custom_name;
 						if (!custom_name.isEmpty()) {
-							nbt.putString("EntityName", custom_name);
+							new_nbt.putString("EntityName", custom_name);
 						}
-						nbt.put("EntityTag", contained.entity_data);
-						jar_stack.setNbt(nbt);
+						new_nbt.put("EntityTag", contained.entity_data);
+						ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
+						jar_new.setNbt(new_nbt);
+						jar_stack.decrement(1);
+						if(player.getInventory().getEmptySlot()==-1) {
+							player.dropStack(jar_new);
+						} else {
+							player.giveItemStack(jar_new);
+						}
 						return ActionResult.SUCCESS;
-					} else if (nbt.contains("EntityType") && te.canAcceptEntity()) {
-						Entity e = EntityType.get(nbt.getString("EntityType")).orElse(null).create(te.getWorld());
+					} else if (jar_nbt.contains("EntityType") && te.canAcceptEntity()) {
+						Entity e = EntityType.get(jar_nbt.getString("EntityType")).orElse(null).create(te.getWorld());
 						if (!this.canStore(e)) {
 							return ActionResult.FAIL;
 						}
-						te.pushContained(new ContainedEntity(nbt.getString("EntityType"), nbt.getCompound("EntityTag"),
-								nbt.getString("EntityName")));
+						te.pushContained(new ContainedEntity(jar_nbt.getString("EntityType"), jar_nbt.getCompound("EntityTag"),
+								jar_nbt.getString("EntityName")));
 						jar_stack.removeSubNbt("EntityName");
 						jar_stack.removeSubNbt("EntityTag");
 						jar_stack.removeSubNbt("EntityType");
