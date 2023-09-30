@@ -117,7 +117,7 @@ public class BoilerBlockEntityRenderer implements BlockEntityRenderer<BoilerBloc
 	}
 
 	private Identifier getFluidTexture(int state) {
-		return new Identifier("beetlebox", "textures/block/fluid_still_" + state + ".png");
+		return new Identifier("beetlebox", "textures/block/entity/fluid_still_" + state + ".png");
 
 	}
 
