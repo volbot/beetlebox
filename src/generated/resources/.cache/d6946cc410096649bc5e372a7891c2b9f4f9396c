@@ -1,4 +1,4 @@
-// 1.19.4	2023-09-25T00:34:15.650477115	beetlebox/Model Definitions
+// 1.19.4	2023-09-29T20:23:38.181898324	beetlebox/Model Definitions
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 50a495046f3bb18d7c905605f9b379a41466b47e assets/beetlebox/blockstates/ash_plate.json
@@ -9,6 +9,7 @@ bd85a640b37c0436f32ad6a8cec379963c00386b assets/beetlebox/models/block/ash_fence
 05d5d30828208195de21207892c16d51d27d5807 assets/beetlebox/models/item/tityus_legs.json
 55f49af7f4aad21030ee7951c9a9256defbe32a2 assets/beetlebox/models/item/hercules_helmet.json
 f6ecde6b27997374b3a0f9a962e72e635c74eded assets/beetlebox/models/item/titanus_elytron.json
+4d235def1dd79774937947788819013c6d309c79 assets/beetlebox/models/item/larva_jar.json
 c8f4c51b419ff50fd8a553fc43ad35c177668226 assets/beetlebox/models/item/ash_log.json
 2e5ffd6b3f67ddba88ef5a191d42ac8797c5ae17 assets/beetlebox/blockstates/ash_wood.json
 087f351b5245f9f9a3990d3d8804a16af461500f assets/beetlebox/models/block/ash_wood.json
@@ -87,6 +88,7 @@ e997d1048a61d371a88819b4a320e3355c29e86d assets/beetlebox/models/block/ash_fence
 cbaaf80ba82e47a5871c98c2932a030c9970af4f assets/beetlebox/models/item/ash_fence.json
 f38c869b8ab90b7fca892ef3143201d352431072 assets/beetlebox/models/item/jrb_chestplate.json
 2719eed24109f61ea0d03866cc7633b2763f8d8a assets/beetlebox/models/item/upgrade_h_attack.json
+811492e5e4a9a0831d40b083ab70de6f8aaeff1a assets/beetlebox/models/item/substrate.json
 8f38ffbbfc849523abb6bf2843a30628d958a65f assets/beetlebox/models/item/ash_door.json
 c81eceef3df1879907759ae0c7a8d479c51cbb0c assets/beetlebox/blockstates/ash_wood_stripped.json
 f3ea77a07cf9d01ea137683326847a43947306b5 assets/beetlebox/models/item/atlas_boots.json
@@ -106,6 +108,7 @@ e8526dafe7316b5b3f8850707a4170c1243337f1 assets/beetlebox/models/item/hercules_b
 8b7473562838d30f9e0be53d5c36a9527db2f4ff assets/beetlebox/models/item/upgrade_l_climb.json
 545f7698a738fda5c79d72b6b3e3b91f5339e470 assets/beetlebox/models/block/ash_wood_stripped.json
 de915f4d80a79c840f43cef59626cd5b67114b60 assets/beetlebox/models/block/ash_fence_inventory.json
+cb524bfd3443940446bc91c910290ea318a7dfe2 assets/beetlebox/models/item/substrate_jar.json
 9428276ed20e5886b77940cecdfcebe499c5b213 assets/beetlebox/models/item/tityus_boots.json
 d6047ce7001052698b26a4c2b3404f24ba584dc3 assets/beetlebox/models/item/ash_planks.json
 476c822b9eb276a023918a21a19eff2056fde85c assets/beetlebox/models/item/upgrade_b_step.json
