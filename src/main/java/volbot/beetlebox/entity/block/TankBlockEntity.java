@@ -51,11 +51,37 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 	}
 
 	public static void tick(World world, BlockPos pos, BlockState state, TankBlockEntity te) {
+		NbtCompound nbt1 = null;
+		NbtCompound nbt2 = null;
+		if (te.getContained(0) != null) {
+			nbt1 = te.getContained(0).getEntityData();
+			int age = nbt1.getInt("Age");
+			if (nbt1.contains("Age") && age>0) {
+				nbt1.putInt("Age", age - 1);
+			} else {
+				nbt1.putInt("Age", 0);
+			}
+			te.getContained(0).setEntityData(nbt1);
+		}
+		if (te.getContained(1) != null) {
+			nbt2 = te.getContained(1).getEntityData();
+			int age = nbt2.getInt("Age");
+			if (nbt2.contains("Age") && age>0) {
+				nbt2.putInt("Age", age - 1);
+			} else {
+				nbt2.putInt("Age", 0);
+			}
+			te.getContained(1).setEntityData(nbt2);
+		}
 		if (te.isSetupValid()) {
 			te.production_time++;
 			if (te.production_time >= te.production_time_max) {
 				te.setProductionTime(0);
 				te.setLarva(new Larva(te.getContained(0), te.getContained(1), world));
+				nbt1.putInt("Age", 200);
+				te.getContained(0).setEntityData(nbt1);
+				nbt2.putInt("Age", 200);
+				te.getContained(1).setEntityData(nbt2);
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;
@@ -71,12 +97,28 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 			te.production_time = 0;
 		}
 	}
-	
+
 	public void setProductionTime(int production_time) {
 		this.production_time = production_time;
 		markDirty();
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
+	}
+
+	public boolean canContainedBreed() {
+		NbtCompound nbt1 = this.getContained(0).getEntityData();
+		if (nbt1.contains("Age")) {
+			if (nbt1.getInt("Age") != 0) {
+				return false;
+			}
+		}
+		NbtCompound nbt2 = this.getContained(1).getEntityData();
+		if (nbt2.contains("Age")) {
+			if (nbt2.getInt("Age") != 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	@Override
@@ -86,6 +128,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 
 	public boolean isSetupValid() {
 		if (!isContainedFull()) {
+			return false;
+		}
+		if (!canContainedBreed()) {
 			return false;
 		}
 		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
