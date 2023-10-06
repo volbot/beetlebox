@@ -1,5 +1,8 @@
 package volbot.beetlebox.entity.block;
 
+import java.util.ArrayList;
+
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DispenserBlock;
@@ -11,29 +14,34 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.screen.HopperScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import volbot.beetlebox.block.ImmigratorBlock;
+import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.registry.BlockRegistry;
+import volbot.beetlebox.registry.ItemRegistry;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
-public class ImmigratorBlockEntity extends LootableContainerBlockEntity implements Hopper, IMobContainerTE {
+public class ImmigratorBlockEntity extends LootableContainerBlockEntity
+		implements Hopper, SidedInventory, IMobContainerTE {
 
 	public static final int TRANSFER_COOLDOWN = 8;
 	public static final int INVENTORY_SIZE = 5;
 	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
-	private int transferCooldown = -1;
-	public String contained_id = "";
-	public String custom_name = "";
-	public NbtCompound entity_data;
+	private int transferCooldown = 1;
+
+	public ContainedEntity entity;
 
 	public ImmigratorBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockRegistry.IMMIGRATOR_BLOCK_ENTITY, pos, state);
@@ -43,7 +51,7 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 		ImmigratorBlockEntity te = (ImmigratorBlockEntity) blockEntity;
 		--te.transferCooldown;
 		world.getTime();
-		if (!te.needsCooldown()) {
+		if (!te.needsCooldown() && !state.get(Properties.POWERED)) {
 			te.setTransferCooldown(0);
 			tryFromJar(te);
 			insert(world, pos, state, te);
@@ -52,17 +60,17 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 
 	public static boolean insert(World world, BlockPos pos, BlockState state, IMobContainerTE te) {
 		BlockEntity b = world.getBlockEntity(ImmigratorBlock.getOutputBlock(state, pos));
-		if (b!=null) {
-			if(b instanceof IMobContainerTE) {
-				IMobContainerTE tank = (IMobContainerTE)b;
-				if (te.getContained() != "") {
-					tank.setContained(te.getContained());
-					tank.setEntityCustomName(te.getEntityCustomName());
-					tank.setEntityData(te.getEntityData());
-					te.setContained("");
-					te.setEntityCustomName("");
-					te.setEntityData(null);
-					return true;
+		if (b != null) {
+			if (b instanceof IMobContainerTE) {
+				IMobContainerTE tank = (IMobContainerTE) b;
+				if (tank.canPush()) {
+					ContainedEntity e = te.popContained();
+					if (e != null) {
+						if (tank.canPush()) {
+							tank.pushContained(e);
+							return true;
+						}
+					}
 				}
 			}
 		}
@@ -70,57 +78,22 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 	}
 
 	public static void tryFromJar(ImmigratorBlockEntity te) {
-		if (te.contained_id == "") {
+		if (te.getContained() == null) {
 			for (ItemStack i : te.inventory) {
-				if (i.getItem() instanceof BeetleJarItem) {
-					NbtCompound nbt = i.getOrCreateNbt();
+				if (i.getItem() instanceof BeetleJarItem && i.hasNbt()) {
+					NbtCompound nbt = i.getNbt();
 					if (nbt.contains("EntityType")) {
-						te.contained_id = nbt.getString("EntityType");
-						if (nbt.contains("EntityName")) {
-							te.custom_name = nbt.getString("EntityName");
-							nbt.remove("EntityName");
-
-						}
-						te.entity_data = nbt.getCompound("EntityTag");
+						te.setContained(new ContainedEntity(nbt.getString("EntityType"), nbt.getCompound("EntityTag"),
+								nbt.getString("EntityName")));
 						nbt.remove("EntityTag");
 						nbt.remove("EntityType");
+						nbt.remove("EntityName");
 						i.setNbt(nbt);
 						return;
 					}
 				}
 			}
 		}
-	}
-	
-	public void setContained(String id) {
-		this.contained_id = id;
-		markDirty();
-		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
-				Block.NOTIFY_LISTENERS);
-	}
-
-	public void setEntityData(NbtCompound nbt) {
-		this.entity_data = nbt;
-		markDirty();
-	}
-
-	public void setEntityCustomName(String custom_name) {
-		this.custom_name = custom_name;
-		markDirty();
-		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
-				Block.NOTIFY_LISTENERS);
-	}
-	
-	public String getContained() {
-		return this.contained_id;
-	}
-	
-	public String getEntityCustomName() {
-		return this.custom_name;
-	}
-	
-	public NbtCompound getEntityData() {
-		return this.entity_data;
 	}
 
 	private boolean needsCooldown() {
@@ -182,11 +155,13 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 		if (!this.serializeLootTable(nbt)) {
 			Inventories.writeNbt(nbt, this.inventory);
 		}
-		nbt.putString("EntityType", contained_id);
-		nbt.putString("EntityName", custom_name);
-		nbt.putInt("TransferCooldown", transferCooldown);
-		if (entity_data != null) {
-			nbt.put("EntityTag", entity_data);
+		if (entity != null) {
+			nbt.putString("EntityType", entity.contained_id);
+			nbt.putString("EntityName", entity.custom_name);
+			nbt.putInt("TransferCooldown", transferCooldown);
+			if (entity.entity_data != null) {
+				nbt.put("EntityTag", entity.entity_data);
+			}
 		}
 	}
 
@@ -199,11 +174,71 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity implemen
 		}
 		this.transferCooldown = nbt.getInt("TransferCooldown");
 		if (nbt.contains("EntityType")) {
-			contained_id = nbt.getString("EntityType");
-			if (nbt.contains("EntityName")) {
-				custom_name = nbt.getString("EntityName");
-			}
-			entity_data = nbt.getCompound("EntityTag");
+			entity = new ContainedEntity(nbt.getString("EntityType"), nbt.getCompound("EntityTag"),
+					nbt.getString("EntityName"));
+		} else {
+			entity = null;
 		}
+	}
+
+	public ContainedEntity getContained() {
+		return this.entity;
+	}
+
+	public void setContained(ContainedEntity e) {
+		this.entity = e;
+		this.markDirty();
+	}
+
+	public void clearContained() {
+		this.entity = null;
+		this.markDirty();
+	}
+
+	@Override
+	public ContainedEntity popContained() {
+		if (this.getContained() != null) {
+			ContainedEntity e = this.getContained();
+			this.clearContained();
+			this.markDirty();
+			return e;
+		}
+		return null;
+	}
+
+	@Override
+	public void pushContained(ContainedEntity e) {
+		if (this.getContained() == null) {
+			this.setContained(e);
+			this.markDirty();
+		}
+	}
+
+	@Override
+	public boolean canPush() {
+		return this.entity == null;
+	}
+
+	private static final int[] SLOTS = new int[] { 0, 1, 2, 3, 4 };
+
+	@Override
+	public int[] getAvailableSlots(Direction var1) {
+		return SLOTS;
+
+	}
+
+	@Override
+	public boolean canInsert(int var1, ItemStack var2, Direction var3) {
+		return true;
+	}
+
+	@Override
+	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
+		if(var2.isOf(ItemRegistry.BEETLE_JAR)) {
+			if(var2.getOrCreateNbt().contains("EntityType")) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

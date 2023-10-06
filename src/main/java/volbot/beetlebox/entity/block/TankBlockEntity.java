@@ -8,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -22,14 +21,14 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
 import volbot.beetlebox.item.Larva;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
-public class TankBlockEntity extends BlockEntity implements SidedInventory {
+public class TankBlockEntity extends BlockEntity implements SidedInventory, IMobContainerTE {
 
 	public ContainedEntity[] contained = { null, null };
 	public Larva larva = null;
@@ -156,7 +155,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory {
 		return true;
 	}
 
-	public boolean canAcceptEntity() {
+	public boolean canPush() {
 		if (this.isContainedFull()) { // full entity slots
 			return false;
 		} else if (this.getStack(0) == ItemStack.EMPTY) { // no substrate

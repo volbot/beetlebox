@@ -34,10 +34,12 @@ public class ItemRegistry {
 	public static Vector<Item> chest_upgrades = new Vector<>();
 	public static Vector<Item> legs_upgrades = new Vector<>();
 	public static Vector<Item> boots_upgrades = new Vector<>();
-	
+
 	public static final Item SUBSTRATE = new Item(new FabricItemSettings());
 	public static final Item SUBSTRATE_JAR = new Item(new FabricItemSettings());
 	public static final Item LARVA_JAR = new LarvaJarItem(new FabricItemSettings());
+
+	public static final Item BEETLE_HUSK = new Item(new FabricItemSettings());
 
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
@@ -90,10 +92,12 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_FALLDAM);
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
-		
+
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate_jar"), SUBSTRATE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "larva_jar"), LARVA_JAR);
+
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_husk"), BEETLE_HUSK);
 
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetle_jar"), BEETLE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "leg_beetle_jar"), LEG_BEETLE_JAR);
@@ -126,9 +130,11 @@ public class ItemRegistry {
 			content.add(LEG_BEETLE_JAR);
 
 			content.add(NET);
-			
+
 			content.add(SUBSTRATE);
 			content.add(SUBSTRATE_JAR);
+
+			content.add(BEETLE_HUSK);
 
 			content.add(GELATIN);
 			content.add(SUGAR_GELATIN);
@@ -151,15 +157,12 @@ public class ItemRegistry {
 			for (Item i : boots_upgrades) {
 				content.add(i);
 			}
-
 			for (Item i : beetle_drops) {
 				content.add(i);
 			}
-
 			for (Item i : armor_sets) {
 				content.add(i);
 			}
-
 			for (Item i : spawn_eggs) {
 				content.add(i);
 			}

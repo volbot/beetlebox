@@ -128,7 +128,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 							new_nbt.putString("EntityName", custom_name);
 						}
 						new_nbt.put("EntityTag", contained.entity_data);
-						ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
+						ItemStack jar_new = jar_item.getDefaultStack();
 						jar_new.setNbt(new_nbt);
 						jar_stack.decrement(1);
 						if(player.getInventory().getEmptySlot()==-1) {
@@ -137,7 +137,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 							player.giveItemStack(jar_new);
 						}
 						return ActionResult.SUCCESS;
-					} else if (jar_nbt.contains("EntityType") && te.canAcceptEntity()) {
+					} else if (jar_nbt.contains("EntityType") && te.canPush()) {
 						Entity e = EntityType.get(jar_nbt.getString("EntityType")).orElse(null).create(te.getWorld());
 						if (!this.canStore(e)) {
 							return ActionResult.FAIL;

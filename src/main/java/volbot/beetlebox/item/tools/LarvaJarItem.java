@@ -89,8 +89,12 @@ public class LarvaJarItem extends Item {
 			if (world.spawnEntity(temp) != false) {
 				context.getPlayer().setStackInHand(context.getPlayer().getActiveHand(),
 						ItemRegistry.BEETLE_JAR.getDefaultStack());
+				ItemStack husk_stack = ItemRegistry.BEETLE_HUSK.getDefaultStack();
+				husk_stack.setCount(context.getWorld().getRandom().nextBetween(2, 5));
+				context.getPlayer().giveItemStack(husk_stack);
+				return ActionResult.CONSUME;
 			}
-			return ActionResult.CONSUME;
+			return ActionResult.FAIL;
 		}
 	}
 
@@ -132,9 +136,8 @@ public class LarvaJarItem extends Item {
 		}
 		int growing_time = nbt.getInt("GrowingTime");
 		if (growing_time < MAX_GROWING_TIME) {
-			tooltip.add(Text.literal("Growing... (").formatted(Formatting.GRAY)
-					.append(Text.literal(Math.round(100 * growing_time / MAX_GROWING_TIME) + "%")
-							.formatted(Formatting.WHITE))
+			tooltip.add(Text.literal("Growing... (").formatted(Formatting.GRAY).append(
+					Text.literal(Math.round(100 * growing_time / MAX_GROWING_TIME) + "%").formatted(Formatting.WHITE))
 					.append(Text.literal(")").formatted(Formatting.GRAY)));
 		} else {
 			tooltip.add(Text.literal("Ready to emerge").formatted(Formatting.GRAY));

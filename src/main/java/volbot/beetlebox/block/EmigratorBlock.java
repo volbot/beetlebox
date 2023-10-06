@@ -25,7 +25,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -51,6 +53,7 @@ import volbot.beetlebox.registry.BlockRegistry;
 public class EmigratorBlock extends BlockWithEntity {
 
 	public static final DirectionProperty FACING = FacingBlock.FACING;
+	public static final BooleanProperty POWERED = Properties.POWERED;
 
 	private static final VoxelShape SHAPE = Stream
 			.of(Block.createCuboidShape(2, 2, 12, 14, 14, 16), Block.createCuboidShape(4, 4, 4, 12, 12, 12),
@@ -72,19 +75,31 @@ public class EmigratorBlock extends BlockWithEntity {
 	public BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.rotate(mirror.getRotation(state.get(FACING)));
 	}
-	
-    @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof Inventory) {
-                ItemScatterer.spawn(world, pos, (Inventory)blockEntity);
-                // update comparators
-                world.updateComparators(pos,this);
-            }
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
-    }
+
+	@Override
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos,
+			boolean notify) {
+		this.updateEnabled(world, pos, state, 4);
+	}
+
+	private void updateEnabled(World world, BlockPos pos, BlockState state, int flags) {
+
+		world.setBlockState(pos, (BlockState) state.with(POWERED, world.isReceivingRedstonePower(pos)), flags);
+
+	}
+
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (state.getBlock() != newState.getBlock()) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof Inventory) {
+				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+				// update comparators
+				world.updateComparators(pos, this);
+			}
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
+	}
 
 	@Override
 	public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
@@ -152,11 +167,13 @@ public class EmigratorBlock extends BlockWithEntity {
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
 		builder.add(FACING);
+		builder.add(POWERED);
 	}
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return (BlockState) this.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
+		return (BlockState) this.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite())
+				.with(POWERED, false);
 	}
 
 	@Override
