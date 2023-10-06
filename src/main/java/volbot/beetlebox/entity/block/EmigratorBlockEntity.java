@@ -16,8 +16,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import volbot.beetlebox.block.EmigratorBlock;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.entity.mobstorage.IMobContainerTE;
+import volbot.beetlebox.item.Larva;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -38,6 +40,8 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	private int transferCooldown = 1;
 	private long lastTickTime;
+
+	public Larva larva;
 
 	public ContainedEntity entity;
 
@@ -61,12 +65,26 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 		BlockEntity b = world.getBlockEntity(EmigratorBlock.getInputBlock(state, pos));
 		if (b != null) {
 			if (b instanceof IMobContainerTE) {
-				if (te.getContained() == null) {
-					IMobContainerTE tank = (IMobContainerTE) b;
-					ContainedEntity tanked = tank.popContained();
-					if (tanked != null) {
-						te.setContained(tanked);
-						return true;
+				if (b.getPos().down(1).getY() == te.getPos().getY()) {
+					if (te.getLarva() == null) {
+						if (b instanceof TankBlockEntity) {
+							TankBlockEntity tank = (TankBlockEntity) b;
+							Larva tank_larva = tank.larva;
+							if (tank_larva != null) {
+								te.larva = tank_larva;
+								tank.setLarva(null);
+								return true;
+							}
+						}
+					}
+				} else {
+					if (te.getContained() == null) {
+						IMobContainerTE tank = (IMobContainerTE) b;
+						ContainedEntity tanked = tank.popContained();
+						if (tanked != null) {
+							te.setContained(tanked);
+							return true;
+						}
 					}
 				}
 			}
@@ -74,10 +92,14 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 		return false;
 	}
 
+	public Larva getLarva() {
+		return this.larva;
+	}
+
 	public static void tryIntoJar(EmigratorBlockEntity te) {
-		if (te.getContained() != null && !te.isFull()) {
+		if (!te.isFull()) {
 			for (ItemStack i : te.inventory) {
-				if (i.getItem() instanceof BeetleJarItem) {
+				if (te.getContained() != null && i.getItem() instanceof BeetleJarItem) {
 					LivingEntity e = (LivingEntity) ((EntityType.get(te.getContained().getContainedId()).orElse(null)
 							.create(te.getWorld())));
 					NbtCompound nbt1 = i.getOrCreateNbt();
@@ -96,6 +118,33 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 						te.clearContained();
 						return;
 					}
+				} else if (te.larva != null && i.isOf(ItemRegistry.SUBSTRATE_JAR)) {
+					Larva tank_larva = te.larva;
+					te.larva=null;
+					LivingEntity e = ((LivingEntity) EntityType.get(tank_larva.type).orElse(null)
+							.create(te.getWorld()));
+					if (e instanceof BeetleEntity) {
+						((BeetleEntity) e).setSize(tank_larva.size);
+						((BeetleEntity) e).setMaxHealthMult(tank_larva.maxhealth);
+						((BeetleEntity) e).setDamageMult(tank_larva.damage);
+						((BeetleEntity) e).setSpeedMult(tank_larva.speed);
+					}
+					ItemStack newstack = ItemRegistry.LARVA_JAR.getDefaultStack();
+					NbtCompound tag = new NbtCompound();
+					e.writeNbt(tag);
+					e.writeCustomDataToNbt(tag);
+					NbtCompound nbt = newstack.getOrCreateNbt();
+					nbt.put("EntityTag", tag);
+					Text custom_name = e.getCustomName();
+					if (custom_name != null && !custom_name.getString().isEmpty()) {
+						nbt.putString("EntityName", custom_name.getString());
+					}
+					nbt.putString("EntityType", EntityType.getId(e.getType()).toString());
+					newstack.setCount(1);
+					newstack.setNbt(nbt);
+					te.addStack(newstack);
+					i.decrement(1);
+					return;
 				}
 			}
 		}
