@@ -76,6 +76,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		if (te != null) {
 			if (handstack.isEmpty()) {
 				int id = te.getTopStackId();
+				System.out.println(id);
 				if (id == 0) {
 					if (te.getContained(0) != null) {
 						return ActionResult.CONSUME;
@@ -131,7 +132,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						ItemStack jar_new = jar_item.getDefaultStack();
 						jar_new.setNbt(new_nbt);
 						jar_stack.decrement(1);
-						if(player.getInventory().getEmptySlot()==-1) {
+						if (player.getInventory().getEmptySlot() == -1) {
 							player.dropStack(jar_new);
 						} else {
 							player.giveItemStack(jar_new);
@@ -142,8 +143,8 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						if (!this.canStore(e)) {
 							return ActionResult.FAIL;
 						}
-						te.pushContained(new ContainedEntity(jar_nbt.getString("EntityType"), jar_nbt.getCompound("EntityTag"),
-								jar_nbt.getString("EntityName")));
+						te.pushContained(new ContainedEntity(jar_nbt.getString("EntityType"),
+								jar_nbt.getCompound("EntityTag"), jar_nbt.getString("EntityName")));
 						jar_stack.removeSubNbt("EntityName");
 						jar_stack.removeSubNbt("EntityTag");
 						jar_stack.removeSubNbt("EntityType");
@@ -177,42 +178,13 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					te.setLarva(null);
 					return ActionResult.SUCCESS;
 				} else {
-					if (te.isValid(te.getTopStackId(), handstack)) {
-						if (handstack.isOf(te.getTopStack().getItem())
-								&& handstack.getCount() < handstack.getMaxCount()) {
-							te.setStack(te.getTopStackId(), ItemStack.EMPTY);
-							if (!player.isCreative()) {
-								ItemStack item = handstack;
-								item.increment(1);
-								player.setStackInHand(player.getActiveHand(), item);
-							}
-							return ActionResult.SUCCESS;
-						} else {
-							ItemStack item_new = handstack.getItem().getDefaultStack();
-							item_new.setCount(1);
-							if (te.getTopStackId() == 3) {
-								if (te.isContainedFull()) {
-									return ActionResult.FAIL;
-								} else {
-									player.giveItemStack(te.getTopStack());
-								}
-							}
-							te.putTopStack(item_new);
-							if (!player.isCreative()) {
-								ItemStack item_old = handstack;
-								item_old.decrement(1);
-								player.setStackInHand(player.getActiveHand(), item_old);
-							}
-							return ActionResult.SUCCESS;
-						}
-					} else if (te.getTopStackId() < te.size() - 1 && te.isValid(te.getTopStackId() + 1, handstack)) {
+					if(te.isValid(te.getTopStackId()+1, handstack)) {
 						ItemStack item_new = handstack.getItem().getDefaultStack();
 						item_new.setCount(1);
-						System.out.println(te.getTopStackId());
-						if (te.getTopStackId()+1 == 3) {
+						if (te.getTopStackId() == 3) {
 							if (te.isContainedFull()) {
 								return ActionResult.FAIL;
-							} else if(te.getStack(te.getTopStackId()+1) != ItemStack.EMPTY ) {
+							} else {
 								player.giveItemStack(te.getTopStack());
 							}
 						}

@@ -30,6 +30,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
@@ -82,7 +83,11 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.translate(0.25, 0.122, 1);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(135));
-
+				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
+					matrices.scale(0.5f, 1.0f, 0.75f);
+					matrices.translate(-0.8f, -0.95f, 0.15f);
+				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 
 			}
@@ -95,11 +100,17 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				BlockState state = b.getDefaultState();
 				if (b instanceof AbstractCandleBlock) {
 					state = state.with(CandleBlock.LIT, true).with(CandleBlock.CANDLES, 3);
+				} else {
+					matrices.translate(0, -0.25, 0);
 				}
 				matrices.translate(0.75, 0.122, 0);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(315));
-
+				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
+					matrices.scale(0.5f, 1.0f, 0.75f);
+					matrices.translate(0.4f, -0.95f, 0.15f);
+				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
 		}
@@ -115,7 +126,11 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.translate(0, 0.122, 0.25);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
-
+				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
+					matrices.scale(0.5f, 1.0f, 0.75f);
+					matrices.translate(-0.8f, -0.95f, 0.15f);
+				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
 		}

@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -18,6 +19,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -32,7 +34,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 
 	public ContainedEntity[] contained = { null, null };
 	public Larva larva = null;
-	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
+	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
 	public int production_time = 0;
 	public int production_time_max = 200;
 
@@ -116,6 +118,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			if (nbt2.getInt("Age") != 0) {
 				return false;
 			}
+		}
+		if(this.getContained(0).getContainedId()!=this.getContained(1).getContainedId()) {
+			return false;
 		}
 		return true;
 	}
@@ -324,7 +329,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 
 	@Override
 	public int size() {
-		return 4;
+		return this.inventory.size();
 	}
 
 	@Override
@@ -359,6 +364,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
+		if(slot>=this.size()) {
+			return false;
+		}
 		if (stack.isOf(ItemRegistry.SUBSTRATE)) {
 			if (slot == 0) {
 				return true;
@@ -367,10 +375,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			return false;
 		}
 		for (int i = 1; i <= 3; i++) {
-			if (slot == i && (getStack(i) == ItemStack.EMPTY
-					&& (Block.getBlockFromItem(stack.getItem()) instanceof AbstractCandleBlock
-							|| stack.isOf(BlockRegistry.ASH_LOG.asItem())
-							|| Block.getBlockFromItem(stack.getItem()) instanceof FlowerBlock))) {
+			if (slot == i && getStack(i) == ItemStack.EMPTY
+					&& (stack.isIn(ItemTags.CANDLES)
+							|| stack.isIn(ItemTags.LOGS))
+							|| stack.isIn(ItemTags.FLOWERS)
+							|| stack.isIn(ItemTags.LEAVES)) {
 				return true;
 			}
 		}
