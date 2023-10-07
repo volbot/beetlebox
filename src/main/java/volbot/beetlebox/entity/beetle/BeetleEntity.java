@@ -66,9 +66,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 			TrackedDataHandlerRegistry.FLOAT);
 
 	private Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
-
-	private static final Ingredient BREEDING_INGREDIENT = Ingredient.ofItems(Items.SUGAR_CANE);
-
+	
 	private boolean isLandNavigator;
 	public boolean unSynced = true;
 	public int size_cached = 0;
@@ -89,7 +87,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
 		this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-		this.goalSelector.add(4, new TemptGoal(this, 1.0, BREEDING_INGREDIENT, false));
 		this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(ItemRegistry.BEETLE_JELLY), false));
 		this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
@@ -484,11 +481,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 	// --------------------
 	// BEHAVIOR UTILITIES
 	// --------------------
-
-	@Override
-	public boolean isBreedingItem(ItemStack stack) {
-		return BREEDING_INGREDIENT.test(stack);
-	}
 
 	@Override
 	public abstract PassiveEntity createChild(ServerWorld var1, PassiveEntity var2);
