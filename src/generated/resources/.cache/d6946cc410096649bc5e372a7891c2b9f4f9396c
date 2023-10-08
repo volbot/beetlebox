@@ -1,4 +1,4 @@
-// 1.19.4	2023-10-08T09:58:23.725967041	beetlebox/Model Definitions
+// 1.19.4	2023-10-08T15:48:22.477531188	beetlebox/Model Definitions
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 50a495046f3bb18d7c905605f9b379a41466b47e assets/beetlebox/blockstates/ash_plate.json
@@ -46,8 +46,8 @@ faece8ecad3cccdb081ec260ca8611519d0aa54b assets/beetlebox/models/block/ash_door_
 02ec094f767e1e4eeaede6a5d81515a57d0291f2 assets/beetlebox/models/item/sugar_gelatin.json
 750873d5e6cb4cf091d3dd5bb6fdb13d78502e89 assets/beetlebox/models/item/ash_trapdoor.json
 17dc60b654036d6bc30fcfc7c5f81940b1df37b0 assets/beetlebox/models/item/actaeon_legs.json
-d8b4ced8a436fe4ef8d5d209f16b9e2104dacc6c assets/beetlebox/models/block/ash_fence_post.json
 056b381aa3222f4b6056dd6e8833729a078f291b assets/beetlebox/models/block/ash_fence_gate_wall.json
+d8b4ced8a436fe4ef8d5d209f16b9e2104dacc6c assets/beetlebox/models/block/ash_fence_post.json
 ac55cbfcd5c91eb1814a794966165e4c3c6bfeee assets/beetlebox/models/item/elephant_helmet.json
 543d60a881a99e888cfd089c43bdd3c431c4cc8e assets/beetlebox/models/item/upgrade_h_nv.json
 7d1899ada44258d5b323135ba66972d2dc95b39c assets/beetlebox/models/block/ash_log_horizontal.json

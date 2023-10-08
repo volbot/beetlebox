@@ -46,7 +46,8 @@ import volbot.beetlebox.registry.BlockRegistry;
 public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEntity> {
 
 	private final EntityRenderDispatcher entityRenderDispatcher;
-	private final ModelPart m;
+	private final ModelPart substrate_model;
+	private final ModelPart ball_model;
 
 	public TankBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
 		this.entityRenderDispatcher = ctx.getEntityRenderDispatcher();
@@ -57,7 +58,16 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", 0f, 0f, 0f, 16f, 2f, 16f).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-		m = TexturedModelData.of(modelData, 16, 16).createModel();
+		substrate_model = TexturedModelData.of(modelData, 16, 16).createModel();
+
+		modelData = new ModelData();
+		modelPartData = modelData.getRoot();
+		root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", -2f, -2f, -2f, 4f, 4f, 4f).uv(0, 0),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		ball_model = TexturedModelData.of(modelData, 16, 16).createModel();
+
 	}
 
 	@Override
@@ -96,9 +106,11 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
 			matrices.scale(0.98f, 1f, 0.98f);
 			matrices.translate(0.01, 0, 0.01);
-			m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		}
 		matrices.pop();
+
+		matrices.push();
 		int degrees_new;
 		if (tile_entity.getCachedState().getProperties().contains(BeetleTankBlock.FACING)) {
 			switch (tile_entity.getCachedState().get(BeetleTankBlock.FACING)) {
@@ -124,14 +136,13 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		} else {
 			degrees_new = 0;
 		}
-		matrices.push();
-		VertexConsumer vertexConsumer = vcp.getBuffer(
-				RenderLayer.getEntityAlpha(new Identifier("beetlebox", "textures/block/tank_top.png")));
+		VertexConsumer vertexConsumer = vcp
+				.getBuffer(RenderLayer.getEntityAlpha(new Identifier("beetlebox", "textures/block/tank_top.png")));
 
 		matrices.translate(1.0f, 0.98, 0.0f);
 		matrices.scale(1f, 0.01f, 1f);
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degrees_new));
-		m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+		substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		matrices.pop();
 		matrices.push();
 		ItemStack stack;
@@ -246,6 +257,23 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			blockRenderer.renderBlockAsEntity(
 					Blocks.VINE.getDefaultState().with(Properties.EAST, true).with(Properties.NORTH, true), matrices,
 					vcp, i, j);
+		}
+		matrices.pop();
+		matrices.push();
+		if (tile_entity.decor[0]) {
+			matrices.translate(0.4f, 0.75f, 0.4f);
+			matrices.scale(0.2f, 0.25f, 0.2f);
+			blockRenderer.renderBlockAsEntity(Blocks.CHAIN.getDefaultState(), matrices, vcp, i, j);
+			matrices.pop();
+			matrices.push();
+
+			matrices.translate(0.5f, 0.7f, 0.5f);
+			matrices.scale(0.6f, 0.6f, 0.6f);
+			matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+			vertexConsumer = vcp.getBuffer(
+					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/disco.png")));
+			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+
 		}
 		matrices.pop();
 		matrices.push();
