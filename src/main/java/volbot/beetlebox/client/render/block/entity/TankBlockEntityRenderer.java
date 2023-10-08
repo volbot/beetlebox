@@ -38,6 +38,7 @@ import net.minecraft.util.math.Vec3d;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.registry.BlockRegistry;
 
 @Environment(EnvType.CLIENT)
 public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEntity> {
@@ -65,7 +66,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		if (tile_entity.getStack(0) != ItemStack.EMPTY) {
 			VertexConsumer vertexConsumer = vcp.getBuffer(
 					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
-			matrices.scale(0.99f, 1f, 0.99f);
+			matrices.scale(0.98f, 1f, 0.98f);
 			matrices.translate(0.01, 0, 0.01);
 			m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		}
@@ -100,8 +101,6 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				BlockState state = b.getDefaultState();
 				if (b instanceof AbstractCandleBlock) {
 					state = state.with(CandleBlock.LIT, true).with(CandleBlock.CANDLES, 3);
-				} else {
-					matrices.translate(0, -0.25, 0);
 				}
 				matrices.translate(0.75, 0.122, 0);
 				matrices.scale(0.4f, 0.4f, 0.4f);
@@ -109,7 +108,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
 					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
 					matrices.scale(0.5f, 1.0f, 0.75f);
-					matrices.translate(0.4f, -0.95f, 0.15f);
+					matrices.translate(-0.8f, -0.95f, 0.15f);
 				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
@@ -133,6 +132,14 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
+		}
+		matrices.pop();
+		matrices.push();
+		if (tile_entity.decor[2]) {
+			matrices.translate(0.01f, 0.03f, 0.01f);
+			matrices.scale(0.98f, 0.1f, 0.98f);
+			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
+
 		}
 		matrices.pop();
 		matrices.push();

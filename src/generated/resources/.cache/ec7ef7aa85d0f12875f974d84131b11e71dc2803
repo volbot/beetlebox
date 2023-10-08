@@ -1,4 +1,4 @@
-// 1.19.4	2023-09-29T20:23:38.185795675	beetlebox/Recipes
+// 1.19.4	2023-10-08T09:58:23.73261887	beetlebox/Recipes
 b68776c57450316bfbe1044737b4cccba1c1f9ea data/beetlebox/advancements/recipes/building_blocks/boiler.json
 f5d55dd4230811f1baa0e78026951c7c10b5b903 data/beetlebox/recipes/titanus_helmet.json
 1f4e46a90263d6de48c96026985f98e3ae327b53 data/beetlebox/recipes/immigrator.json
@@ -29,8 +29,8 @@ c48f11d77009ee38f8882edb65b063f2d73bc0d7 data/beetlebox/recipes/tityus_chestplat
 51c5ad324991be755a2199f88fb3ddb73204e0fa data/beetlebox/advancements/recipes/combat/actaeon_chestplate.json
 55b840084b7d2be53cc49cf688f6c13d67d363d8 data/beetlebox/recipes/tityus_legs.json
 a82feeb79f2ccd01b61f1dca1a1ff32de17392d3 data/beetlebox/recipes/beetle_jelly_220.json
-2d912da043797250269208a19c85a12a698d7510 data/beetlebox/advancements/recipes/food/beetle_jelly_021.json
 a47607d9620f62d7666631b9b6441363c89a1f53 data/beetlebox/advancements/recipes/food/beetle_jelly_221.json
+2d912da043797250269208a19c85a12a698d7510 data/beetlebox/advancements/recipes/food/beetle_jelly_021.json
 7eaff797f11ee51d8b39f3876db879903797afca data/beetlebox/recipes/beetle_jelly_020.json
 4b8b751bf97634b2d88cfa3f58e6059fb17fe5a5 data/beetlebox/advancements/recipes/food/beetle_jelly_201.json
 1294219cfff19422eef21a1122f02f4966a864b6 data/beetlebox/recipes/beetle_jelly_001.json

@@ -76,7 +76,6 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		if (te != null) {
 			if (handstack.isEmpty()) {
 				int id = te.getTopStackId();
-				System.out.println(id);
 				if (id == 0) {
 					if (te.getContained(0) != null) {
 						return ActionResult.CONSUME;
@@ -178,14 +177,24 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					te.setLarva(null);
 					return ActionResult.SUCCESS;
 				} else {
-					if(te.isValid(te.getTopStackId()+1, handstack)) {
+					int decor_id = TankBlockEntity.getDecorId(handstack);
+					if (decor_id != -1) {
+						if (te.decor[decor_id]) {
+							player.getMainHandStack().increment(1);
+						} else {
+							player.getMainHandStack().decrement(1);
+						}
+						te.flipDecor(decor_id);
+						return ActionResult.SUCCESS;
+					}
+					if (te.isValid(te.getTopStackId() + 1, handstack)) {
 						ItemStack item_new = handstack.getItem().getDefaultStack();
 						item_new.setCount(1);
-						if (te.getTopStackId() == 3) {
+						if (te.getTopStackId() + 1 == 3) {
 							if (te.isContainedFull()) {
 								return ActionResult.FAIL;
 							} else {
-								player.giveItemStack(te.getTopStack());
+								player.giveItemStack(te.getStack(3));
 							}
 						}
 						te.putTopStack(item_new);

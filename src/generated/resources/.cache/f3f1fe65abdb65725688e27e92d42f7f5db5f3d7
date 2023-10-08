@@ -1,5 +1,17 @@
-// 1.19.4	2023-09-29T20:23:38.185467387	beetlebox/Tags for minecraft:item
+// 1.19.4	2023-10-08T09:58:23.731685252	beetlebox/Tags for minecraft:item
 62d87340a5c22e311ed83d7ff30adf66bf2881f4 data/minecraft/tags/items/planks.json
 c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/c/tags/items/ash_logs.json
+71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/items/wooden_trapdoors.json
+1c2c6cdbade5b5cb6b0c724199608d9ffc26016c data/minecraft/tags/items/fences.json
 03a503aa805490e6ca3eeaa77fd156302c9f53f3 data/c/tags/items/slime_balls.json
+171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/items/buttons.json
+582ec3687f4a82d5ccfca02f4a6124d0fc2497cd data/minecraft/tags/items/wooden_stairs.json
+e6594457c02678568551e3a5d1549fa352f02b98 data/minecraft/tags/items/wooden_slabs.json
 c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/minecraft/tags/items/logs.json
+fcea810a816b820a1a17363db67cea8e02306e91 data/minecraft/tags/items/wooden_doors.json
+582ec3687f4a82d5ccfca02f4a6124d0fc2497cd data/minecraft/tags/items/stairs.json
+be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/items/wooden_pressure_plates.json
+f94c46b01c767373be620ceed090662e6635195d data/minecraft/tags/items/leaves.json
+dbaacec41d8c330644195ab0d2f038d473e264cd data/minecraft/tags/items/fence_gates.json
+171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/items/wooden_buttons.json
+fcea810a816b820a1a17363db67cea8e02306e91 data/minecraft/tags/items/doors.json

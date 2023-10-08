@@ -14,6 +14,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -36,9 +37,13 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	public Larva larva = null;
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
 	public int production_time = 0;
-	public int production_time_max = 200;
+	public int production_time_max;
+	
+	public static int BREEDING_TIME_MAX = 200;
+	public static int TAMING_TIME_MAX = 200;
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3 };
+	public boolean[] decor = new boolean[] {false, false, false};
 
 	public TankBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
@@ -74,7 +79,8 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			}
 			te.getContained(1).setEntityData(nbt2);
 		}
-		if (te.isSetupValid()) {
+		if (te.breedingSetupValid()) {
+			te.production_time_max = BREEDING_TIME_MAX;
 			te.production_time++;
 			if (te.production_time >= te.production_time_max) {
 				te.setProductionTime(0);
@@ -130,7 +136,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		return BlockEntityUpdateS2CPacket.create(this);
 	}
 
-	public boolean isSetupValid() {
+	public boolean breedingSetupValid() {
 		if (!isContainedFull()) {
 			return false;
 		}
@@ -158,6 +164,28 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			return false;
 		}
 		return true;
+	}
+
+	public boolean tamingSetupValid() {
+		if (!(getContained(0)!=null && getContained(1)==null)) {
+			return false;
+		}
+		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
+			return false;
+		}
+		if(getStack(1).getItem()==getStack(2).getItem() && getStack(2).getItem()==getStack(3).getItem()) {
+			return false;
+		}
+		for(int i = 1; i <= 3; i++) {
+			if(!this.isEnrichmentMaterial(getStack(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public boolean isEnrichmentMaterial(ItemStack stack) {
+		return false;
 	}
 
 	public boolean canPush() {
@@ -241,6 +269,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			nbt.putInt("LarvaSize", larva.size);
 			nbt.putFloat("LarvaMaxHealth", larva.maxhealth);
 		}
+		
+		nbt.putBoolean("Decor0", decor[0]);
+		nbt.putBoolean("Decor1", decor[1]);
+		nbt.putBoolean("Decor2", decor[2]);
+		
 		Inventories.writeNbt(nbt, this.inventory);
 		super.writeNbt(nbt);
 	}
@@ -267,6 +300,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		} else {
 			larva = null;
 		}
+		
+		decor[0] = nbt.getBoolean("Decor0");
+		decor[1] = nbt.getBoolean("Decor1");
+		decor[2] = nbt.getBoolean("Decor2");
+		
 		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);
 	}
@@ -379,7 +417,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 					&& (stack.isIn(ItemTags.CANDLES)
 							|| stack.isIn(ItemTags.LOGS))
 							|| stack.isIn(ItemTags.FLOWERS)
-							|| stack.isIn(ItemTags.LEAVES)) {
+							|| stack.isIn(ItemTags.SAPLINGS)
+							|| stack.isOf(Items.BROWN_MUSHROOM)
+							|| stack.isOf(Items.RED_MUSHROOM)) {
 				return true;
 			}
 		}
@@ -394,6 +434,33 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	@Override
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
 		return true;
+	}
+	
+	public static int getDecorId(ItemStack stack) {
+		if(stack.isOf(Items.CHAIN)) {
+			return 0;
+		}
+		if(stack.isOf(Items.MOSS_CARPET)) {
+			return 1;
+		}
+		if(stack.isIn(ItemTags.LEAVES)) {
+			return 2;
+		}
+		return -1;
+	}
+	
+	public void setDecor(int id, boolean value) {
+		decor[id] = value;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
+	}
+	
+	public void flipDecor(int id) {
+		decor[id] = !decor[id];
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
 	}
 
 	/*

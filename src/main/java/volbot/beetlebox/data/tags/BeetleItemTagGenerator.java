@@ -25,15 +25,27 @@ public class BeetleItemTagGenerator extends ItemTagProvider {
 
 	@Override
 	protected void configure(WrapperLookup arg) {
-		getOrCreateTagBuilder(SLIMEBALLS)
-        .add(ItemRegistry.GELATIN_GLUE);
+		getOrCreateTagBuilder(SLIMEBALLS).add(ItemRegistry.GELATIN_GLUE);
 
-		getOrCreateTagBuilder(ItemTags.LOGS).add(BlockRegistry.ASH_LOG.asItem()).add(BlockRegistry.ASH_LOG_STRIPPED.asItem())
-				.add(BlockRegistry.ASH_WOOD.asItem()).add(BlockRegistry.ASH_WOOD_STRIPPED.asItem());		
+		getOrCreateTagBuilder(ItemTags.LOGS).add(BlockRegistry.ASH_LOG.asItem())
+				.add(BlockRegistry.ASH_LOG_STRIPPED.asItem()).add(BlockRegistry.ASH_WOOD.asItem())
+				.add(BlockRegistry.ASH_WOOD_STRIPPED.asItem());
+		getOrCreateTagBuilder(ItemTags.LEAVES).add(BlockRegistry.ASH_LEAVES.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_SLABS).add(BlockRegistry.ASH_SLAB.asItem());
+
+		getOrCreateTagBuilder(ItemTags.PLANKS).add(BlockRegistry.ASH_PLANKS.asItem());
 		getOrCreateTagBuilder(ASH_LOGS).add(BlockRegistry.ASH_LOG.asItem()).add(BlockRegistry.ASH_LOG_STRIPPED.asItem())
 				.add(BlockRegistry.ASH_WOOD.asItem()).add(BlockRegistry.ASH_WOOD_STRIPPED.asItem());
-
 		
-		getOrCreateTagBuilder(ItemTags.PLANKS).add(BlockRegistry.ASH_PLANKS.asItem());
+		getOrCreateTagBuilder(ItemTags.FENCES).add(BlockRegistry.ASH_FENCE.asItem());
+		getOrCreateTagBuilder(ItemTags.FENCE_GATES).add(BlockRegistry.ASH_FENCE_GATE.asItem());
+		getOrCreateTagBuilder(ItemTags.STAIRS).add(BlockRegistry.ASH_STAIRS.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_STAIRS).add(BlockRegistry.ASH_STAIRS.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_PRESSURE_PLATES).add(BlockRegistry.ASH_PLATE.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_BUTTONS).add(BlockRegistry.ASH_BUTTON.asItem());
+		getOrCreateTagBuilder(ItemTags.BUTTONS).add(BlockRegistry.ASH_BUTTON.asItem());
+		getOrCreateTagBuilder(ItemTags.DOORS).add(BlockRegistry.ASH_DOOR.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS).add(BlockRegistry.ASH_TRAPDOOR.asItem());
+		getOrCreateTagBuilder(ItemTags.WOODEN_DOORS).add(BlockRegistry.ASH_DOOR.asItem());
 	}
 }
