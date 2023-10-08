@@ -87,7 +87,6 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				break;
 			}
 		} else {
-			System.out.println("gub");
 			degrees = 0;
 		}
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degrees));
@@ -99,6 +98,40 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			matrices.translate(0.01, 0, 0.01);
 			m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		}
+		matrices.pop();
+		int degrees_new;
+		if (tile_entity.getCachedState().getProperties().contains(BeetleTankBlock.FACING)) {
+			switch (tile_entity.getCachedState().get(BeetleTankBlock.FACING)) {
+			case NORTH:
+				matrices.translate(-1, 0, 1);
+				degrees_new = 90;
+				break;
+			case WEST:
+				degrees_new = 0;
+				matrices.translate(-1, 0, 0);
+				break;
+			case SOUTH:
+				degrees_new = 270;
+				break;
+			case EAST:
+				matrices.translate(0, 0, 1);
+				degrees_new = 180;
+				break;
+			default:
+				degrees_new = 0;
+				break;
+			}
+		} else {
+			degrees_new = 0;
+		}
+		matrices.push();
+		VertexConsumer vertexConsumer = vcp.getBuffer(
+				RenderLayer.getEntityAlpha(new Identifier("beetlebox", "textures/block/tank_top.png")));
+
+		matrices.translate(1.0f, 0.98, 0.0f);
+		matrices.scale(1f, 0.01f, 1f);
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(degrees_new));
+		m.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		matrices.pop();
 		matrices.push();
 		ItemStack stack;
@@ -166,15 +199,43 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		matrices.push();
 		if (tile_entity.decor[2]) {
 			matrices.translate(0.01f, 0.03f, 0.01f);
-			matrices.scale(0.98f, 0.1f, 0.98f);
+			matrices.scale(0.49f, 0.1f, 0.49f);
+			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
+			matrices.translate(1f, 0.00f, 0f);
+			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
+			matrices.translate(0f, 0.00f, 1f);
+			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
+			matrices.translate(-1f, 0.00f, 0f);
 			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
 
 		}
 		matrices.pop();
 		matrices.push();
-		if (tile_entity.decor[2]) {
+		if (tile_entity.decor[1]) {
 			matrices.translate(0.00f, 0.65f, 0.00f);
 			matrices.scale(0.33f, 0.33f, 0.33f);
+			blockRenderer.renderBlockAsEntity(
+					Blocks.VINE.getDefaultState().with(Properties.WEST, true).with(Properties.NORTH, true), matrices,
+					vcp, i, j);
+			matrices.translate(1.0f, 0.0f, 0.0f);
+			blockRenderer.renderBlockAsEntity(Blocks.VINE.getDefaultState().with(Properties.NORTH, true), matrices, vcp,
+					i, j);
+			matrices.translate(1.0f, 0.0f, 0.0f);
+			blockRenderer.renderBlockAsEntity(
+					Blocks.VINE.getDefaultState().with(Properties.EAST, true).with(Properties.NORTH, true), matrices,
+					vcp, i, j);
+			matrices.translate(-2.0f, -1.0f, 0.0f);
+			blockRenderer.renderBlockAsEntity(
+					Blocks.VINE.getDefaultState().with(Properties.WEST, true).with(Properties.NORTH, true), matrices,
+					vcp, i, j);
+			matrices.translate(1.0f, 0.0f, 0.0f);
+			blockRenderer.renderBlockAsEntity(Blocks.VINE.getDefaultState().with(Properties.NORTH, true), matrices, vcp,
+					i, j);
+			matrices.translate(1.0f, 0.0f, 0.0f);
+			blockRenderer.renderBlockAsEntity(
+					Blocks.VINE.getDefaultState().with(Properties.EAST, true).with(Properties.NORTH, true), matrices,
+					vcp, i, j);
+			matrices.translate(-2.0f, -1.0f, 0.0f);
 			blockRenderer.renderBlockAsEntity(
 					Blocks.VINE.getDefaultState().with(Properties.WEST, true).with(Properties.NORTH, true), matrices,
 					vcp, i, j);

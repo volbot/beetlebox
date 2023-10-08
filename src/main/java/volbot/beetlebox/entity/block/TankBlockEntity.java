@@ -440,7 +440,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if(stack.isOf(Items.CHAIN)) {
 			return 0;
 		}
-		if(stack.isOf(Items.MOSS_CARPET)) {
+		if(stack.isOf(Items.VINE)) {
 			return 1;
 		}
 		if(stack.isIn(ItemTags.LEAVES)) {

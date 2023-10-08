@@ -47,5 +47,7 @@ public class BeetleItemTagGenerator extends ItemTagProvider {
 		getOrCreateTagBuilder(ItemTags.DOORS).add(BlockRegistry.ASH_DOOR.asItem());
 		getOrCreateTagBuilder(ItemTags.WOODEN_TRAPDOORS).add(BlockRegistry.ASH_TRAPDOOR.asItem());
 		getOrCreateTagBuilder(ItemTags.WOODEN_DOORS).add(BlockRegistry.ASH_DOOR.asItem());
+		
+		getOrCreateTagBuilder(ItemTags.SAPLINGS).add(BlockRegistry.ASH_SAPLING.asItem());
 	}
 }
