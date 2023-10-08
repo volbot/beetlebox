@@ -1,5 +1,8 @@
 {
-	"variants": {
-		"": { "model": "beetlebox:block/leg_tank" }
-	}
+    "variants": {
+        "facing=north": { "model": "beetlebox:block/leg_tank", "uvlock": true },
+        "facing=east":  { "model": "beetlebox:block/leg_tank", "y":  90, "uvlock": true },
+        "facing=south": { "model": "beetlebox:block/leg_tank", "y": 180, "uvlock": true },
+        "facing=west":  { "model": "beetlebox:block/leg_tank", "y": 270, "uvlock": true }
+    }
 }

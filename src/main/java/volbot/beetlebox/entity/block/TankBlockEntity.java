@@ -125,7 +125,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				return false;
 			}
 		}
-		if(this.getContained(0).getContainedId()!=this.getContained(1).getContainedId()) {
+		if(0!=this.getContained(0).getContainedId().compareTo(this.getContained(1).getContainedId())) {
 			return false;
 		}
 		return true;
