@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
@@ -157,10 +158,10 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.translate(0.25, 0.122, 1);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(135));
-				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
-					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
-					matrices.scale(0.5f, 1.0f, 0.75f);
-					matrices.translate(-0.8f, -0.95f, 0.15f);
+				if (stack.isIn(ItemTags.LOGS)) {
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(95));
+					matrices.scale(0.5f, 1.0f, 0.45f);
+					matrices.translate(-0.6f, -0.85f, 0.65f);
 				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 
@@ -178,10 +179,10 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.translate(0.75, 0.122, 0);
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(315));
-				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
-					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
-					matrices.scale(0.5f, 1.0f, 0.75f);
-					matrices.translate(-0.8f, -0.95f, 0.15f);
+				if (stack.isIn(ItemTags.LOGS)) {
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(103));
+					matrices.scale(0.5f, 1.0f, 0.45f);
+					matrices.translate(-0.8f, -0.85f, 0.65f);
 				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
@@ -199,9 +200,11 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.scale(0.4f, 0.4f, 0.4f);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
 				if (stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.LEAVES)) {
-					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90));
-					matrices.scale(0.5f, 1.0f, 0.75f);
-					matrices.translate(-0.8f, -0.95f, 0.15f);
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-90));
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(160));
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+					matrices.scale(0.5f, 1.0f, 0.45f);
+					matrices.translate(-1.45f, -0.95f, -0.25f);
 				}
 				blockRenderer.renderBlockAsEntity(state, matrices, vcp, i, j);
 			}
@@ -209,16 +212,27 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		matrices.pop();
 		matrices.push();
 		if (tile_entity.decor[2]) {
-			matrices.translate(0.01f, 0.03f, 0.01f);
-			matrices.scale(0.49f, 0.1f, 0.49f);
-			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
-			matrices.translate(1f, 0.00f, 0f);
-			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
-			matrices.translate(0f, 0.00f, 1f);
-			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
-			matrices.translate(-1f, 0.00f, 0f);
-			blockRenderer.renderBlockAsEntity(BlockRegistry.ASH_LEAVES.getDefaultState(), matrices, vcp, i, j);
+			vertexConsumer = vcp
+					.getBuffer(RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/tank_leaves.png")));
+			
+			matrices.translate(0.01f, 0.13f, 0.01f);
+			matrices.scale(0.49f, 0.001f, 0.49f);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 
+			matrices.translate(1.0f, 0.0f, 0.0f);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+			
+			matrices.translate(0.0f, 0.0f, 1.0f);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+			
+			matrices.translate(-1.0f, 0.0f, 0.0f);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+
+			/*
+			matrices.translate(0.01f, 0.13f, 0.01f);
+			matrices.scale(0.98f, 0.001f, 0.98f);
+			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+			*/
 		}
 		matrices.pop();
 		matrices.push();
@@ -271,7 +285,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			matrices.scale(0.6f, 0.6f, 0.6f);
 			matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
 			vertexConsumer = vcp.getBuffer(
-					RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/disco.png")));
+					RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/disco.png")));
 			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 
 		}
