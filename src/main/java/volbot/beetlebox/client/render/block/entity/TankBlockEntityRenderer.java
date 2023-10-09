@@ -1,5 +1,7 @@
 package volbot.beetlebox.client.render.block.entity;
 
+import java.awt.Color;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.AbstractCandleBlock;
@@ -41,6 +43,7 @@ import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.registry.BlockRegistry;
 
 @Environment(EnvType.CLIENT)
@@ -212,27 +215,27 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		matrices.pop();
 		matrices.push();
 		if (tile_entity.decor[2]) {
-			vertexConsumer = vcp
-					.getBuffer(RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/tank_leaves.png")));
-			
+			vertexConsumer = vcp.getBuffer(RenderLayer
+					.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/tank_leaves.png")));
+
 			matrices.translate(0.01f, 0.13f, 0.01f);
 			matrices.scale(0.49f, 0.001f, 0.49f);
 			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 
 			matrices.translate(1.0f, 0.0f, 0.0f);
 			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-			
+
 			matrices.translate(0.0f, 0.0f, 1.0f);
 			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-			
+
 			matrices.translate(-1.0f, 0.0f, 0.0f);
 			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 
 			/*
-			matrices.translate(0.01f, 0.13f, 0.01f);
-			matrices.scale(0.98f, 0.001f, 0.98f);
-			substrate_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-			*/
+			 * matrices.translate(0.01f, 0.13f, 0.01f); matrices.scale(0.98f, 0.001f,
+			 * 0.98f); substrate_model.render(matrices, vertexConsumer, i,
+			 * OverlayTexture.DEFAULT_UV);
+			 */
 		}
 		matrices.pop();
 		matrices.push();
@@ -346,6 +349,34 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 
 				this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vcp, i);
 			}
+		}
+		matrices.pop();
+		matrices.push();
+		if (tile_entity.getStack(4) != ItemStack.EMPTY) {
+			vertexConsumer = vcp.getBuffer(RenderLayer
+					.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
+			matrices.translate(0.5f, 0.1f, 0.5f);
+			matrices.scale(0.26f, 0.65f, 0.26f);
+			Color color = new Color(FruitSyrup.getColor(tile_entity.getStack(4)));
+			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV, color.getRed() / 255f,
+					color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+			matrices.scale(1.1f, 0.99f, 1.1f);
+			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 30, 30, 30,
+					color.getAlpha() / 400f);
+			matrices.translate(0f, 0.13f, 0f);
+			matrices.scale(1.3f, 0.02f, 1.3f);
+			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 30, 30, 30,
+					color.getAlpha() / 400f);
+		}
+		matrices.pop();
+		matrices.push();
+		if(tile_entity.larva != null) {
+			vertexConsumer = vcp.getBuffer(RenderLayer
+					.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
+			matrices.translate(0.5f, 0.125f, 0.5f);
+			matrices.scale(0.13f, 0.05f, 0.13f);
+			
+			ball_model.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 		}
 		matrices.pop();
 	}

@@ -103,9 +103,13 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		if (te != null) {
 			if (handstack.isEmpty()) {
 				int id = te.getTopStackId();
-				if (id == 0) {
-					if (te.getContained(0) != null) {
-						return ActionResult.CONSUME;
+				if (te.getStack(4) != ItemStack.EMPTY) {
+					id = 4;
+				} else {
+					if (id == 0) {
+						if (te.getContained(0) != null) {
+							return ActionResult.CONSUME;
+						}
 					}
 				}
 				player.setStackInHand(player.getActiveHand(), te.getStack(id));
@@ -179,7 +183,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 				} else if (handstack.isOf(ItemRegistry.SUBSTRATE_JAR)
 						&& !handstack.getOrCreateNbt().contains("EntityType")) {
 					Larva larva = te.larva;
-					if(larva==null) {
+					if (larva == null) {
 						return ActionResult.FAIL;
 					}
 					LivingEntity e = ((LivingEntity) EntityType.get(larva.type).orElse(null).create(te.getWorld()));
@@ -205,6 +209,16 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					player.giveItemStack(newstack);
 					handstack.decrement(1);
 					te.setLarva(null);
+					return ActionResult.SUCCESS;
+				} else if (handstack.isOf(ItemRegistry.BEETLE_JELLY) && te.getStack(4)==ItemStack.EMPTY) {
+					ItemStack item_new = handstack.copy();
+					item_new.setCount(1);
+					te.setStack(4, handstack);
+					if (!player.isCreative()) {
+						ItemStack item_old = handstack;
+						item_old.decrement(1);
+						player.setStackInHand(player.getActiveHand(), item_old);
+					}
 					return ActionResult.SUCCESS;
 				} else {
 					int decor_id = TankBlockEntity.getDecorId(handstack);

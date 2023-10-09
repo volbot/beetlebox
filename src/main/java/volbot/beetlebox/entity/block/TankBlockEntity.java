@@ -35,15 +35,15 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 
 	public ContainedEntity[] contained = { null, null };
 	public Larva larva = null;
-	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
+	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	public int production_time = 0;
 	public int production_time_max;
-	
+
 	public static int BREEDING_TIME_MAX = 200;
 	public static int TAMING_TIME_MAX = 200;
 
-	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3 };
-	public boolean[] decor = new boolean[] {false, false, false};
+	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3, 4 };
+	public boolean[] decor = new boolean[] { false, false, false };
 
 	public TankBlockEntity(BlockPos pos, BlockState state) {
 		super(BlockRegistry.TANK_BLOCK_ENTITY, pos, state);
@@ -62,7 +62,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (te.getContained(0) != null) {
 			nbt1 = te.getContained(0).getEntityData();
 			int age = nbt1.getInt("Age");
-			if (nbt1.contains("Age") && age>0) {
+			if (nbt1.contains("Age") && age > 0) {
 				nbt1.putInt("Age", age - 1);
 			} else {
 				nbt1.putInt("Age", 0);
@@ -72,7 +72,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (te.getContained(1) != null) {
 			nbt2 = te.getContained(1).getEntityData();
 			int age = nbt2.getInt("Age");
-			if (nbt2.contains("Age") && age>0) {
+			if (nbt2.contains("Age") && age > 0) {
 				nbt2.putInt("Age", age - 1);
 			} else {
 				nbt2.putInt("Age", 0);
@@ -100,9 +100,27 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 							0.5 + te.getPos().getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
 				}
 			}
-		} else {
-			te.production_time = 0;
+			return;
 		}
+		if (te.tamingSetupValid()) {
+			te.production_time_max = TAMING_TIME_MAX;
+			te.production_time++;
+			if (te.production_time >= te.production_time_max) {
+				te.setProductionTime(0);
+			} else {
+				if (te.production_time % 10 == 0) {
+					double d = world.getRandom().nextGaussian() * 0.02;
+					double e = world.getRandom().nextGaussian() * 0.02;
+					double f = world.getRandom().nextGaussian() * 0.02;
+					world.addParticle(ParticleTypes.HAPPY_VILLAGER,
+							0.5 + te.getPos().getX() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + te.getPos().getY() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + te.getPos().getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
+				}
+			}
+			return;
+		}
+		te.production_time = 0;
 	}
 
 	public void setProductionTime(int production_time) {
@@ -125,7 +143,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				return false;
 			}
 		}
-		if(0!=this.getContained(0).getContainedId().compareTo(this.getContained(1).getContainedId())) {
+		if (0 != this.getContained(0).getContainedId().compareTo(this.getContained(1).getContainedId())) {
 			return false;
 		}
 		return true;
@@ -167,25 +185,28 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	}
 
 	public boolean tamingSetupValid() {
-		if (!(getContained(0)!=null && getContained(1)==null)) {
+		if (!(getContained(0) != null && getContained(1) == null)) {
 			return false;
 		}
 		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
 			return false;
 		}
-		if(getStack(1).getItem()==getStack(2).getItem() && getStack(2).getItem()==getStack(3).getItem()) {
+		if (getStack(1).getItem() == getStack(2).getItem() || getStack(2).getItem() == getStack(3).getItem()) {
 			return false;
 		}
-		for(int i = 1; i <= 3; i++) {
-			if(!this.isEnrichmentMaterial(getStack(i))) {
+		if (getStack(4) == ItemStack.EMPTY) {
+			return false;
+		}
+		for (int i = 1; i <= 3; i++) {
+			if (!this.isEnrichmentMaterial(getStack(i))) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	public boolean isEnrichmentMaterial(ItemStack stack) {
-		return false;
+		return true;
 	}
 
 	public boolean canPush() {
@@ -269,11 +290,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			nbt.putInt("LarvaSize", larva.size);
 			nbt.putFloat("LarvaMaxHealth", larva.maxhealth);
 		}
-		
+
 		nbt.putBoolean("Decor0", decor[0]);
 		nbt.putBoolean("Decor1", decor[1]);
 		nbt.putBoolean("Decor2", decor[2]);
-		
+
 		Inventories.writeNbt(nbt, this.inventory);
 		super.writeNbt(nbt);
 	}
@@ -300,11 +321,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		} else {
 			larva = null;
 		}
-		
+
 		decor[0] = nbt.getBoolean("Decor0");
 		decor[1] = nbt.getBoolean("Decor1");
 		decor[2] = nbt.getBoolean("Decor2");
-		
+
 		inventory = DefaultedList.ofSize(size(), ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);
 	}
@@ -314,7 +335,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	}
 
 	public ItemStack getTopStack() {
-		for (int i = inventory.size() - 1; i >= 0; i--) {
+		for (int i = 3; i >= 0; i--) {
 			if (getStack(i) != ItemStack.EMPTY) {
 				return getStack(i);
 			}
@@ -323,7 +344,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	}
 
 	public int getTopStackId() {
-		for (int i = inventory.size() - 1; i >= 0; i--) {
+		for (int i = 3 - 1; i >= 0; i--) {
 			if (getStack(i) != ItemStack.EMPTY) {
 				return i;
 			}
@@ -402,8 +423,13 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 
 	@Override
 	public boolean isValid(int slot, ItemStack stack) {
-		if(slot>=this.size()) {
+		if (slot >= this.size()) {
 			return false;
+		}
+		if (stack.isOf(ItemRegistry.BEETLE_JAR)) {
+			if (slot == 4) {
+				return true;
+			}
 		}
 		if (stack.isOf(ItemRegistry.SUBSTRATE)) {
 			if (slot == 0) {
@@ -414,12 +440,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		}
 		for (int i = 1; i <= 3; i++) {
 			if (slot == i && getStack(i) == ItemStack.EMPTY
-					&& (stack.isIn(ItemTags.CANDLES)
-							|| stack.isIn(ItemTags.LOGS))
-							|| stack.isIn(ItemTags.FLOWERS)
-							|| stack.isIn(ItemTags.SAPLINGS)
-							|| stack.isOf(Items.BROWN_MUSHROOM)
-							|| stack.isOf(Items.RED_MUSHROOM)) {
+					&& (stack.isIn(ItemTags.CANDLES) || stack.isIn(ItemTags.LOGS)) || stack.isIn(ItemTags.FLOWERS)
+					|| stack.isIn(ItemTags.SAPLINGS) || stack.isOf(Items.BROWN_MUSHROOM)
+					|| stack.isOf(Items.RED_MUSHROOM)) {
 				return true;
 			}
 		}
@@ -435,27 +458,27 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	public boolean canExtract(int slot, ItemStack stack, Direction dir) {
 		return true;
 	}
-	
+
 	public static int getDecorId(ItemStack stack) {
-		if(stack.isOf(Items.CHAIN)) {
+		if (stack.isOf(Items.CHAIN)) {
 			return 0;
 		}
-		if(stack.isOf(Items.VINE)) {
+		if (stack.isOf(Items.VINE)) {
 			return 1;
 		}
-		if(stack.isIn(ItemTags.LEAVES)) {
+		if (stack.isIn(ItemTags.LEAVES)) {
 			return 2;
 		}
 		return -1;
 	}
-	
+
 	public void setDecor(int id, boolean value) {
 		decor[id] = value;
 		markDirty();
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
 	}
-	
+
 	public void flipDecor(int id) {
 		decor[id] = !decor[id];
 		markDirty();
