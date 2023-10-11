@@ -107,6 +107,12 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			te.production_time++;
 			if (te.production_time >= te.production_time_max) {
 				te.setProductionTime(0);
+				int tame_progress = nbt1.getInt("TameProgress");
+				nbt1.putInt("TameProgress", tame_progress++);
+				te.getContained(0).setEntityData(nbt1);
+				if (tame_progress == 5) {
+					System.out.println("TAMED");
+				}
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;
@@ -188,6 +194,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (!(getContained(0) != null && getContained(1) == null)) {
 			return false;
 		}
+		if (getContained(0).getEntityData().getInt("TameProgress") >= 5) {
+			return false;
+		}
 		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
 			return false;
 		}
@@ -259,6 +268,24 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		} else {
 			return null;
 		}
+	}
+
+	public boolean hasDecor() {
+		for (int i = 0; i < decor.length; i++) {
+			if (decor[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void clearDecor() {
+		for (int i = 0; i < decor.length; i++) {
+			decor[i] = false;
+		}
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
 	}
 
 	@Override
@@ -344,7 +371,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	}
 
 	public int getTopStackId() {
-		for (int i = 3 - 1; i >= 0; i--) {
+		for (int i = 3; i >= 0; i--) {
 			if (getStack(i) != ItemStack.EMPTY) {
 				return i;
 			}

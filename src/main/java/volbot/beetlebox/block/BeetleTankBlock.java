@@ -107,6 +107,10 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					id = 4;
 				} else {
 					if (id == 0) {
+						if (te.hasDecor()) {
+							te.clearDecor();
+							return ActionResult.SUCCESS;
+						}
 						if (te.getContained(0) != null) {
 							return ActionResult.CONSUME;
 						}
@@ -210,10 +214,10 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					handstack.decrement(1);
 					te.setLarva(null);
 					return ActionResult.SUCCESS;
-				} else if (handstack.isOf(ItemRegistry.BEETLE_JELLY) && te.getStack(4)==ItemStack.EMPTY) {
+				} else if (handstack.isOf(ItemRegistry.BEETLE_JELLY) && te.getStack(4) == ItemStack.EMPTY) {
 					ItemStack item_new = handstack.copy();
 					item_new.setCount(1);
-					te.setStack(4, handstack);
+					te.setStack(4, item_new);
 					if (!player.isCreative()) {
 						ItemStack item_old = handstack;
 						item_old.decrement(1);

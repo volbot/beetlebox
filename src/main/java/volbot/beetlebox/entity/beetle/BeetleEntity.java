@@ -73,6 +73,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 	public float damage_cached = 1.0f;
 	public float speed_cached = 1.0f;
 	public float maxhealth_cached = 1.0f;
+	public int tame_progress = 0;
 
 	public int timeFlying = 0;
 
@@ -494,6 +495,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		compound.putFloat("Damage", this.getDamageMult());
 		compound.putFloat("MaxHealth", this.getMaxHealthMult());
 		compound.putFloat("Speed", this.getSpeedMult());
+		compound.putInt("TameProgress", tame_progress);
 	}
 
 	public void readCustomDataFromNbt(NbtCompound compound) {
@@ -512,5 +514,6 @@ public abstract class BeetleEntity extends AnimalEntity {
 		if (compound.contains("Speed")) {
 			this.setSpeedMult(compound.getFloat("Speed"));
 		}
+		tame_progress = compound.getInt("TameProgress");
 	}
 }
