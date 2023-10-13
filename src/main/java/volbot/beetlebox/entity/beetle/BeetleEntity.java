@@ -134,14 +134,29 @@ public abstract class BeetleEntity extends AnimalEntity {
 			if(item_nbt.contains("beetle_helmet_attack")) {
 				this.dropItem(ItemRegistry.UPGRADE_H_ATTACK);
 			}
+			if(item_nbt.contains("beetle_helmet_nv")) {
+				this.dropItem(ItemRegistry.UPGRADE_H_NV);
+			}
 			if(item_nbt.contains("beetle_chest_elytra")) {
 				this.dropItem(ItemRegistry.UPGRADE_C_ELYTRA);
+			}
+			if(item_nbt.contains("beetle_chest_boost")) {
+				this.dropItem(ItemRegistry.UPGRADE_C_BOOST);
 			}
 			if(item_nbt.contains("beetle_legs_wallclimb")) {
 				this.dropItem(ItemRegistry.UPGRADE_L_CLIMB);
 			}
+			if(item_nbt.contains("beetle_legs_2jump")) {
+				this.dropItem(ItemRegistry.UPGRADE_L_2JUMP);
+			}
 			if(item_nbt.contains("beetle_boots_falldamage")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_FALLDAM);
+			}
+			if(item_nbt.contains("beetle_boots_speed")) {
+				this.dropItem(ItemRegistry.UPGRADE_B_SPEED);
+			}
+			if(item_nbt.contains("beetle_boots_step")) {
+				this.dropItem(ItemRegistry.UPGRADE_B_STEP);
 			}
 		}
 		super.eat(player, hand, stack);
