@@ -12,13 +12,18 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.control.MoveControl;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.AnimalMateGoal;
+import net.minecraft.entity.ai.goal.AttackWithOwnerGoal;
 import net.minecraft.entity.ai.goal.EscapeDangerGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.TrackOwnerAttackerGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.ai.pathing.SpiderNavigation;
@@ -35,6 +40,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -46,11 +52,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
 import volbot.beetlebox.registry.ItemRegistry;
 
-public abstract class BeetleEntity extends AnimalEntity {
+public abstract class BeetleEntity extends TameableEntity {
 
 	private static final TrackedData<Byte> CLIMBING = DataTracker.registerData(BeetleEntity.class,
 			TrackedDataHandlerRegistry.BYTE);
@@ -66,7 +73,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 			TrackedDataHandlerRegistry.FLOAT);
 
 	private Multimap<EntityAttribute, EntityAttributeModifier> current_modifiers = HashMultimap.create();
-	
+
 	private boolean isLandNavigator;
 	public boolean unSynced = true;
 	public int size_cached = 0;
@@ -77,7 +84,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 
 	public int timeFlying = 0;
 
-	public BeetleEntity(EntityType<? extends AnimalEntity> entityType, World world) {
+	public BeetleEntity(EntityType<? extends TameableEntity> entityType, World world) {
 		super(entityType, world);
 		switchNavigator(false);
 	}
@@ -86,12 +93,14 @@ public abstract class BeetleEntity extends AnimalEntity {
 	protected void initGoals() {
 		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
 		this.goalSelector.add(0, new SwimGoal(this));
-		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
-		this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-		//this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(ItemRegistry.BEETLE_JELLY), false));
-		this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
-		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-		this.goalSelector.add(7, new LookAroundGoal(this));
+		this.goalSelector.add(1, new SitGoal(this));
+		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, true));
+		this.goalSelector.add(3, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
+		this.goalSelector.add(4, new BeetleFlyToTreeGoal(this, 0.75));
+		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+		this.goalSelector.add(6, new LookAroundGoal(this));
+		this.targetSelector.add(0, new TrackOwnerAttackerGoal(this));
+		this.targetSelector.add(1, new AttackWithOwnerGoal(this));
 	}
 
 	@Override
@@ -131,35 +140,40 @@ public abstract class BeetleEntity extends AnimalEntity {
 	protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
 		if (stack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			NbtCompound item_nbt = stack.getOrCreateNbt();
-			if(item_nbt.contains("beetle_helmet_attack")) {
+			if (item_nbt.contains("beetle_helmet_attack")) {
 				this.dropItem(ItemRegistry.UPGRADE_H_ATTACK);
 			}
-			if(item_nbt.contains("beetle_helmet_nv")) {
+			if (item_nbt.contains("beetle_helmet_nv")) {
 				this.dropItem(ItemRegistry.UPGRADE_H_NV);
 			}
-			if(item_nbt.contains("beetle_chest_elytra")) {
+			if (item_nbt.contains("beetle_chest_elytra")) {
 				this.dropItem(ItemRegistry.UPGRADE_C_ELYTRA);
 			}
-			if(item_nbt.contains("beetle_chest_boost")) {
+			if (item_nbt.contains("beetle_chest_boost")) {
 				this.dropItem(ItemRegistry.UPGRADE_C_BOOST);
 			}
-			if(item_nbt.contains("beetle_legs_wallclimb")) {
+			if (item_nbt.contains("beetle_legs_wallclimb")) {
 				this.dropItem(ItemRegistry.UPGRADE_L_CLIMB);
 			}
-			if(item_nbt.contains("beetle_legs_2jump")) {
+			if (item_nbt.contains("beetle_legs_2jump")) {
 				this.dropItem(ItemRegistry.UPGRADE_L_2JUMP);
 			}
-			if(item_nbt.contains("beetle_boots_falldamage")) {
+			if (item_nbt.contains("beetle_boots_falldamage")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_FALLDAM);
 			}
-			if(item_nbt.contains("beetle_boots_speed")) {
+			if (item_nbt.contains("beetle_boots_speed")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_SPEED);
 			}
-			if(item_nbt.contains("beetle_boots_step")) {
+			if (item_nbt.contains("beetle_boots_step")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_STEP);
 			}
 		}
 		super.eat(player, hand, stack);
+	}
+
+	@Override
+	public EntityView method_48926() {
+		return this.getWorld();
 	}
 
 	@Override
@@ -169,23 +183,13 @@ public abstract class BeetleEntity extends AnimalEntity {
 			if (!this.world.isClient && this.canEat()) {
 				this.eat(player, hand, itemStack);
 				/*
-				if (this.isBreedingItem(itemStack)) {
-					if (this.getHealth() < this.getMaxHealthMult()) {
-						this.heal(2.0f);
-						return ActionResult.SUCCESS;
-					}
-					int i = this.getBreedingAge();
-					if (!this.world.isClient && i == 0 && this.canEat()) {
-						this.lovePlayer(player);
-					}
-					if (this.isBaby()) {
-						this.growUp(AnimalEntity.toGrowUpAge(-i), true);
-					}
-				}
-				if (this.isBaby()) {
-					return ActionResult.FAIL;
-				}
-				*/
+				 * if (this.isBreedingItem(itemStack)) { if (this.getHealth() <
+				 * this.getMaxHealthMult()) { this.heal(2.0f); return ActionResult.SUCCESS; }
+				 * int i = this.getBreedingAge(); if (!this.world.isClient && i == 0 &&
+				 * this.canEat()) { this.lovePlayer(player); } if (this.isBaby()) {
+				 * this.growUp(AnimalEntity.toGrowUpAge(-i), true); } } if (this.isBaby()) {
+				 * return ActionResult.FAIL; }
+				 */
 				if (this.world.isClient) {
 					return ActionResult.CONSUME;
 				}
@@ -201,10 +205,10 @@ public abstract class BeetleEntity extends AnimalEntity {
 		return EntityDimensions.fixed(0.4f * size, 0.4f * size);
 	}
 
-    @Override
-    public EntityGroup getGroup() {
-        return EntityGroup.ARTHROPOD;
-    }
+	@Override
+	public EntityGroup getGroup() {
+		return EntityGroup.ARTHROPOD;
+	}
 
 	// --------------------
 	// MOVEMENT UTILITIES

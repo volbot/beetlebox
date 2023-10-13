@@ -1,7 +1,18 @@
+<<<<<<< Updated upstream
 // 1.19.4	2023-10-12T23:50:18.172118467	beetlebox/Tags for minecraft:item
+=======
+// 1.19.4	2023-10-12T23:49:45.585326652	beetlebox/Tags for minecraft:item
+62d87340a5c22e311ed83d7ff30adf66bf2881f4 data/minecraft/tags/items/planks.json
+c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/c/tags/items/ash_logs.json
+>>>>>>> Stashed changes
 71bb3f135775a63a729f79c721ed6cd830848ce1 data/minecraft/tags/items/wooden_trapdoors.json
 582ec3687f4a82d5ccfca02f4a6124d0fc2497cd data/minecraft/tags/items/stairs.json
 be89cd1b274814a7ae25f05fd13ee41a59a0ff9c data/minecraft/tags/items/wooden_pressure_plates.json
+<<<<<<< Updated upstream
+=======
+dbaacec41d8c330644195ab0d2f038d473e264cd data/minecraft/tags/items/fence_gates.json
+f94c46b01c767373be620ceed090662e6635195d data/minecraft/tags/items/leaves.json
+>>>>>>> Stashed changes
 171bd4c283ad03b74538f2c18fb3aee271d0b841 data/minecraft/tags/items/wooden_buttons.json
 c0acf17365ef5dd79caa4ba21ff608dde8b2ad7e data/c/tags/items/ash_logs.json
 fcea810a816b820a1a17363db67cea8e02306e91 data/minecraft/tags/items/doors.json

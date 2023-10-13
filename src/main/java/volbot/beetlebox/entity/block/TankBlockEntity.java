@@ -38,6 +38,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	protected DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	public int production_time = 0;
 	public int production_time_max;
+	public PlayerEntity last_user;
 
 	public static int BREEDING_TIME_MAX = 200;
 	public static int TAMING_TIME_MAX = 200;
@@ -105,16 +106,15 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (te.tamingSetupValid()) {
 			te.production_time_max = TAMING_TIME_MAX;
 			te.production_time++;
-			System.out.println(te.production_time);
 			if (te.production_time >= te.production_time_max) {
-				if(world.isClient) {
+				if (world.isClient) {
 					return;
 				}
 				te.setProductionTime(0);
 				int tame_progress = nbt1.getInt("TameProgress");
-				tame_progress = tame_progress+1;
+				tame_progress = tame_progress + 1;
 				nbt1.putInt("TameProgress", tame_progress);
-				
+
 				NbtCompound item_nbt = te.getStack(4).getOrCreateNbt();
 				switch (item_nbt.getString("FruitType")) {
 				case "melon":
@@ -135,12 +135,10 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 					break;
 				}
 				te.setStack(4, ItemStack.EMPTY);
+
+				nbt1.putUuid("Owner", te.last_user.getUuid());
 				
 				te.getContained(0).setEntityData(nbt1);
-				System.out.println(tame_progress);
-				if (tame_progress == 5) {
-					System.out.println("TAMED");
-				}
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;
@@ -155,6 +153,15 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			return;
 		}
 		te.production_time = 0;
+	}
+
+	public void setLastUser(PlayerEntity player) {
+		if(getContained(0)!=null) {
+			if(getContained(0).getEntityData().getInt("TameProgress")!=0) {
+				return;
+			}
+		}
+		this.last_user = player;
 	}
 
 	public void setProductionTime(int production_time) {
@@ -481,17 +488,17 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (slot >= this.size()) {
 			return false;
 		}
-		if (stack.isOf(ItemRegistry.BEETLE_JAR)) {
-			if (slot == 4) {
-				return true;
-			}
-		}
 		if (stack.isOf(ItemRegistry.SUBSTRATE)) {
-			if (slot == 0) {
+			if (slot == 0 && getStack(4)==ItemStack.EMPTY) {
 				return true;
 			}
 		} else if (getStack(0) == ItemStack.EMPTY) {
 			return false;
+		}
+		if (stack.isOf(ItemRegistry.BEETLE_JELLY)) {
+			if (slot == 4 && getStack(4)==ItemStack.EMPTY) {
+				return true;
+			}
 		}
 		for (int i = 1; i <= 3; i++) {
 			if (slot == i && getStack(i) == ItemStack.EMPTY

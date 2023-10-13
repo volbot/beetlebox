@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 // 1.19.4	2023-10-12T23:50:18.167237514	beetlebox/minecraft:entity Loot Table
+=======
+// 1.19.4	2023-10-12T23:49:45.581651881	beetlebox/minecraft:entity Loot Table
+>>>>>>> Stashed changes
 0edcce24de4b2b3e94d6a96aca7b53e270ae37c6 data/beetlebox/loot_tables/entities/actaeon.json
 491183b310e10bb802ab0867cf20c60aa374f6f3 data/beetlebox/loot_tables/entities/jrb.json
 728bcd7125d54f2012d01cb1cc94e71b41171e7b data/beetlebox/loot_tables/entities/elephant.json

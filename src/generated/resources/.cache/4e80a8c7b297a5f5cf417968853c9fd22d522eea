@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 // 1.19.4	2023-10-12T23:50:18.171248107	beetlebox/Block Loot Tables
+=======
+// 1.19.4	2023-10-12T23:49:45.58420806	beetlebox/Block Loot Tables
+>>>>>>> Stashed changes
 61fbd67ebffd5c7b7baecb8c9512f931c1765651 data/beetlebox/loot_tables/blocks/ash_button.json
 61e7985ad78e51ffce0c6562895f5a95c1a660c6 data/beetlebox/loot_tables/blocks/ash_planks.json
 9ad877eae1b08b30e214728de46ed8941993e88e data/beetlebox/loot_tables/blocks/ash_sapling.json

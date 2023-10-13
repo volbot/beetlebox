@@ -100,6 +100,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 	protected ActionResult tankLogic(World world, BlockPos pos, PlayerEntity player) {
 		TankBlockEntity te = world.getBlockEntity(pos, BlockRegistry.TANK_BLOCK_ENTITY).orElse(null);
 		ItemStack handstack = player.getMainHandStack();
+		te.setLastUser(player);
 		if (te != null) {
 			if (handstack.isEmpty()) {
 				int id = te.getTopStackId();
