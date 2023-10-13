@@ -1,9 +1,9 @@
-// 1.19.4	2023-10-08T15:48:22.483205331	beetlebox/minecraft:entity Loot Table
+// 1.19.4	2023-10-12T23:50:18.167237514	beetlebox/minecraft:entity Loot Table
 0edcce24de4b2b3e94d6a96aca7b53e270ae37c6 data/beetlebox/loot_tables/entities/actaeon.json
+491183b310e10bb802ab0867cf20c60aa374f6f3 data/beetlebox/loot_tables/entities/jrb.json
 728bcd7125d54f2012d01cb1cc94e71b41171e7b data/beetlebox/loot_tables/entities/elephant.json
+abeeb231a14c750b22acc56b11a4c6005e82e12a data/beetlebox/loot_tables/entities/junebug.json
+cd27e446b7fed323b42427b00fcca066ed2b17ef data/beetlebox/loot_tables/entities/titanus.json
+a0232a6260d1e702e75d3c37b408cd7517eef43b data/beetlebox/loot_tables/entities/tityus.json
 dcb514f9a6d7950f44bc22250b48b953796bdc01 data/beetlebox/loot_tables/entities/hercules.json
 82c3bb610e761020a34924980ca4bfed71ed91c2 data/beetlebox/loot_tables/entities/atlas.json
-491183b310e10bb802ab0867cf20c60aa374f6f3 data/beetlebox/loot_tables/entities/jrb.json
-cd27e446b7fed323b42427b00fcca066ed2b17ef data/beetlebox/loot_tables/entities/titanus.json
-abeeb231a14c750b22acc56b11a4c6005e82e12a data/beetlebox/loot_tables/entities/junebug.json
-a0232a6260d1e702e75d3c37b408cd7517eef43b data/beetlebox/loot_tables/entities/tityus.json
