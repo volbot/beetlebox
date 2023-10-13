@@ -105,11 +105,39 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (te.tamingSetupValid()) {
 			te.production_time_max = TAMING_TIME_MAX;
 			te.production_time++;
+			System.out.println(te.production_time);
 			if (te.production_time >= te.production_time_max) {
+				if(world.isClient) {
+					return;
+				}
 				te.setProductionTime(0);
 				int tame_progress = nbt1.getInt("TameProgress");
-				nbt1.putInt("TameProgress", tame_progress++);
+				tame_progress = tame_progress+1;
+				nbt1.putInt("TameProgress", tame_progress);
+				
+				NbtCompound item_nbt = te.getStack(4).getOrCreateNbt();
+				switch (item_nbt.getString("FruitType")) {
+				case "melon":
+					nbt1.putFloat("Size", nbt1.getInt("Size")
+							+ (item_nbt.getBoolean("Increase") ? 0.7f : -0.7f) * item_nbt.getFloat("Magnitude"));
+					break;
+				case "apple":
+					nbt1.putFloat("MaxHealth", nbt1.getInt("MaxHealth")
+							+ (item_nbt.getBoolean("Increase") ? 0.1f : -0.1f) * item_nbt.getFloat("Magnitude"));
+					break;
+				case "sugar":
+					nbt1.putFloat("Speed", nbt1.getInt("Damage")
+							+ (item_nbt.getBoolean("Increase") ? 0.1f : -0.1f) * item_nbt.getFloat("Magnitude"));
+					break;
+				case "berry":
+					nbt1.putFloat("Damage", nbt1.getInt("Damage")
+							+ (item_nbt.getBoolean("Increase") ? 0.1f : -0.1f) * item_nbt.getFloat("Magnitude"));
+					break;
+				}
+				te.setStack(4, ItemStack.EMPTY);
+				
 				te.getContained(0).setEntityData(nbt1);
+				System.out.println(tame_progress);
 				if (tame_progress == 5) {
 					System.out.println("TAMED");
 				}

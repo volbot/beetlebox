@@ -88,7 +88,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
 		this.goalSelector.add(3, new AnimalMateGoal(this, 1.0));
-		this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(ItemRegistry.BEETLE_JELLY), false));
+		//this.goalSelector.add(4, new TemptGoal(this, 1.0, Ingredient.ofItems(ItemRegistry.BEETLE_JELLY), false));
 		this.goalSelector.add(5, new BeetleFlyToTreeGoal(this, 0.75));
 		this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
 		this.goalSelector.add(7, new LookAroundGoal(this));
@@ -129,39 +129,18 @@ public abstract class BeetleEntity extends AnimalEntity {
 
 	@Override
 	protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
-		if (stack.isOf(ItemRegistry.BEETLE_JELLY)) {
-			NbtCompound nbt = stack.getOrCreateNbt();
-			switch (nbt.getString("FruitType")) {
-			case "melon":
-				this.setSize((int) (this.getSize()
-						+ (nbt.getBoolean("Increase") ? 1.0f : -1.0f) * nbt.getFloat("Magnitude")));
-				break;
-			case "apple":
-				this.setMaxHealthMult(this.getMaxHealthMult()
-						+ (nbt.getBoolean("Increase") ? 0.1f : -0.1f) * nbt.getFloat("Magnitude"));
-				break;
-			case "sugar":
-				this.setSpeedMult(
-						this.getSpeedMult() + (nbt.getBoolean("Increase") ? 0.1f : -0.1f) * nbt.getFloat("Magnitude"));
-				break;
-			case "berry":
-				this.setDamageMult(
-						this.getDamageMult() + (nbt.getBoolean("Increase") ? 0.1f : -0.1f) * nbt.getFloat("Magnitude"));
-				break;
-			}
-		}
 		if (stack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
-			NbtCompound nbt = stack.getOrCreateNbt();
-			if(nbt.contains("beetle_helmet_attack")) {
+			NbtCompound item_nbt = stack.getOrCreateNbt();
+			if(item_nbt.contains("beetle_helmet_attack")) {
 				this.dropItem(ItemRegistry.UPGRADE_H_ATTACK);
 			}
-			if(nbt.contains("beetle_chest_elytra")) {
+			if(item_nbt.contains("beetle_chest_elytra")) {
 				this.dropItem(ItemRegistry.UPGRADE_C_ELYTRA);
 			}
-			if(nbt.contains("beetle_legs_wallclimb")) {
+			if(item_nbt.contains("beetle_legs_wallclimb")) {
 				this.dropItem(ItemRegistry.UPGRADE_L_CLIMB);
 			}
-			if(nbt.contains("beetle_boots_falldamage")) {
+			if(item_nbt.contains("beetle_boots_falldamage")) {
 				this.dropItem(ItemRegistry.UPGRADE_B_FALLDAM);
 			}
 		}
@@ -171,10 +150,10 @@ public abstract class BeetleEntity extends AnimalEntity {
 	@Override
 	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		ItemStack itemStack = player.getStackInHand(hand);
-		if (itemStack.isOf(ItemRegistry.BEETLE_JELLY) || this.isBreedingItem(itemStack)
-				|| itemStack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
+		if (itemStack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			if (!this.world.isClient && this.canEat()) {
 				this.eat(player, hand, itemStack);
+				/*
 				if (this.isBreedingItem(itemStack)) {
 					if (this.getHealth() < this.getMaxHealthMult()) {
 						this.heal(2.0f);
@@ -191,6 +170,7 @@ public abstract class BeetleEntity extends AnimalEntity {
 				if (this.isBaby()) {
 					return ActionResult.FAIL;
 				}
+				*/
 				if (this.world.isClient) {
 					return ActionResult.CONSUME;
 				}
