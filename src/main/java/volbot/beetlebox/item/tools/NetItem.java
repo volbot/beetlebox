@@ -22,6 +22,9 @@ public class NetItem extends Item {
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
         ItemStack jar_stack = null;
         PlayerInventory inv = user.getInventory();
+        if(entity.world.isClient) {
+        	return ActionResult.PASS;
+        }
     	for(ItemStack itemStack : inv.main) {
         	if(itemStack.getItem() instanceof BeetleJarItem<?>) {
         		NbtCompound nbt = itemStack.getOrCreateNbt();
@@ -53,7 +56,7 @@ public class NetItem extends Item {
     		}
     		nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
 			ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
-    		entity.remove(RemovalReason.CHANGED_DIMENSION);
+    		entity.remove(RemovalReason.DISCARDED);
 			jar_new.setNbt(nbt);
 			jar_stack.decrement(1);
 			if(user.getInventory().getEmptySlot()==-1) {

@@ -93,12 +93,11 @@ public abstract class BeetleEntity extends TameableEntity {
 	protected void initGoals() {
 		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
 		this.goalSelector.add(0, new SwimGoal(this));
-		this.goalSelector.add(1, new SitGoal(this));
-		this.goalSelector.add(2, new MeleeAttackGoal(this, 1.0, true));
-		this.goalSelector.add(3, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
-		this.goalSelector.add(4, new BeetleFlyToTreeGoal(this, 0.75));
-		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-		this.goalSelector.add(6, new LookAroundGoal(this));
+		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
+		this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
+		this.goalSelector.add(3, new BeetleFlyToTreeGoal(this, 0.75));
+		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+		this.goalSelector.add(5, new LookAroundGoal(this));
 		this.targetSelector.add(0, new TrackOwnerAttackerGoal(this));
 		this.targetSelector.add(1, new AttackWithOwnerGoal(this));
 	}
@@ -179,6 +178,9 @@ public abstract class BeetleEntity extends TameableEntity {
 	@Override
 	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		ItemStack itemStack = player.getStackInHand(hand);
+		if (itemStack.isOf(ItemRegistry.NET) || itemStack.isOf(ItemRegistry.BEETLE_JAR) || itemStack.isOf(ItemRegistry.SUBSTRATE_JAR)) {
+			return ActionResult.PASS;
+		}
 		if (itemStack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			if (!this.world.isClient && this.canEat()) {
 				this.eat(player, hand, itemStack);
@@ -195,6 +197,8 @@ public abstract class BeetleEntity extends TameableEntity {
 				}
 				return ActionResult.SUCCESS;
 			}
+		}
+		if (this.isTamed()) {
 		}
 		return super.interactMob(player, hand);
 	}
@@ -219,6 +223,9 @@ public abstract class BeetleEntity extends TameableEntity {
 		if (source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
 			return false;
 		}
+        if (!this.world.isClient) {
+            this.setSitting(false);
+        }
 		return super.damage(source, amount);
 	}
 

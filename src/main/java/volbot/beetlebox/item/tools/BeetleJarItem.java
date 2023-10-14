@@ -92,6 +92,8 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				itemStack.removeSubNbt("EntityTag");
 				itemStack.removeSubNbt("EntityType");
 				world.emitGameEvent((Entity) context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
+			} else {
+				return ActionResult.FAIL;
 			}
 			return ActionResult.CONSUME;
 		}
