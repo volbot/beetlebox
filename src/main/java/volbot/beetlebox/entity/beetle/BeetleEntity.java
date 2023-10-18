@@ -84,6 +84,8 @@ public abstract class BeetleEntity extends TameableEntity {
 
 	public int timeFlying = 0;
 
+	public Ingredient healing_ingredient = Ingredient.ofItems(Items.SUGAR_CANE);
+	
 	public BeetleEntity(EntityType<? extends TameableEntity> entityType, World world) {
 		super(entityType, world);
 		switchNavigator(false);
@@ -94,10 +96,11 @@ public abstract class BeetleEntity extends TameableEntity {
 		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
-		this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 10.0f, 2.0f, false));
-		this.goalSelector.add(3, new BeetleFlyToTreeGoal(this, 0.75));
-		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-		this.goalSelector.add(5, new LookAroundGoal(this));
+		this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 6.0f, 2.0f, false));
+		this.goalSelector.add(3, new TemptGoal(this, 1.0, healing_ingredient, false));
+		this.goalSelector.add(4, new BeetleFlyToTreeGoal(this, 0.75));
+		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.targetSelector.add(0, new TrackOwnerAttackerGoal(this));
 		this.targetSelector.add(1, new AttackWithOwnerGoal(this));
 	}
@@ -137,6 +140,9 @@ public abstract class BeetleEntity extends TameableEntity {
 
 	@Override
 	protected void eat(PlayerEntity player, Hand hand, ItemStack stack) {
+		if (stack.isOf(Items.SUGAR_CANE)) {
+			this.heal(2.5f);
+		}
 		if (stack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			NbtCompound item_nbt = stack.getOrCreateNbt();
 			if (item_nbt.contains("beetle_helmet_attack")) {
@@ -198,9 +204,22 @@ public abstract class BeetleEntity extends TameableEntity {
 				return ActionResult.SUCCESS;
 			}
 		}
+		if (this.isHealingItem(itemStack)) {
+			if(this.getHealth() < this.getMaxHealth()) {
+				this.eat(player, hand, itemStack);
+				if (this.world.isClient) {
+					return ActionResult.CONSUME;
+				}
+				return ActionResult.SUCCESS;
+			}
+		}
 		if (this.isTamed()) {
 		}
 		return super.interactMob(player, hand);
+	}
+	
+	public boolean isHealingItem(ItemStack stack) {
+		return healing_ingredient.test(stack);
 	}
 
 	@Override

@@ -33,7 +33,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 
 public class LarvaJarItem extends Item {
 
-	public static final int MAX_GROWING_TIME = 20000;
+	public static final int MAX_GROWING_TIME = 5184000;
 
 	public LarvaJarItem(Settings settings) {
 		super(settings.maxCount(1));

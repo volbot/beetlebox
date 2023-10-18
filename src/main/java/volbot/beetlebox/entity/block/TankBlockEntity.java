@@ -41,7 +41,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	public PlayerEntity last_user;
 
 	public static int BREEDING_TIME_MAX = 200;
-	public static int TAMING_TIME_MAX = 1;
+	public static int TAMING_TIME_MAX = 10800;
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3, 4 };
 	public boolean[] decor = new boolean[] { false, false, false };
