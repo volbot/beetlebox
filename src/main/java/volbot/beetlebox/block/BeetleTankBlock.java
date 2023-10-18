@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -22,6 +23,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -258,6 +260,42 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 			}
 		}
 		return ActionResult.CONSUME;
+	}
+
+	@Override
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+		if (state.getBlock() != newState.getBlock()) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if (blockEntity instanceof Inventory) {
+				ItemScatterer.spawn(world, pos, (Inventory) blockEntity);
+				world.updateComparators(pos, this);
+			}
+			if (blockEntity instanceof TankBlockEntity) {
+				ContainedEntity ce;
+				TankBlockEntity te = (TankBlockEntity)blockEntity;
+				if ((ce = te.getContained(0))!=null) {
+					EntityType<?> entityType2 = EntityType.get(ce.contained_id).orElse(null);
+					Entity e = entityType2.create(world);
+					e.readNbt(ce.entity_data);
+					if (!ce.custom_name.isEmpty()) {
+						e.setCustomName(Text.of(ce.custom_name));
+					}
+					e.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+					world.spawnEntity(e);
+				}
+				if ((ce = te.getContained(1))!=null) {
+					EntityType<?> entityType2 = EntityType.get(ce.contained_id).orElse(null);
+					Entity e = entityType2.create(world);
+					e.readNbt(ce.entity_data);
+					if (!ce.custom_name.isEmpty()) {
+						e.setCustomName(Text.of(ce.custom_name));
+					}
+					e.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+					world.spawnEntity(e);
+				}
+			}
+			super.onStateReplaced(state, world, pos, newState, moved);
+		}
 	}
 
 }
