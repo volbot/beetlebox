@@ -5,8 +5,8 @@
     "x": {
       "item": "minecraft:firework_rocket"
     },
-    "g": {
-      "item": "beetlebox:gelatin"
+    "h": {
+      "item": "beetlebox:beetle_husk"
     },
     "o": {
       "item": "minecraft:obsidian"
@@ -16,9 +16,9 @@
     }
   },
   "pattern": [
-    "gog",
-    "wxw",
-    "gog"
+    "owo",
+    "hxh",
+    "owo"
   ],
   "result": {
     "item": "beetlebox:upgrade_dormant"

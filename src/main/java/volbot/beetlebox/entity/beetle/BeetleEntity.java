@@ -97,10 +97,9 @@ public abstract class BeetleEntity extends TameableEntity {
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
 		this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 6.0f, 2.0f, false));
-		this.goalSelector.add(3, new TemptGoal(this, 1.0, healing_ingredient, false));
-		this.goalSelector.add(4, new BeetleFlyToTreeGoal(this, 0.75));
-		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-		this.goalSelector.add(6, new LookAroundGoal(this));
+		this.goalSelector.add(3, new BeetleFlyToTreeGoal(this, 0.75));
+		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+		this.goalSelector.add(5, new LookAroundGoal(this));
 		this.targetSelector.add(0, new TrackOwnerAttackerGoal(this));
 		this.targetSelector.add(1, new AttackWithOwnerGoal(this));
 	}
