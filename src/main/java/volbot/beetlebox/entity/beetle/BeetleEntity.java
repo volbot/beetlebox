@@ -486,21 +486,25 @@ public abstract class BeetleEntity extends TameableEntity {
 	}
 
 	protected void generateGeneticStats(BeetleEntity a, BeetleEntity b) {
-		BeetleEntity current;
-		boolean sw;
-
-		sw = a.getRandom().nextBoolean();
-		current = sw ? a : b;
-		this.size_cached = current.getSize();
-		sw = a.getRandom().nextBoolean();
-		current = sw ? a : b;
-		this.maxhealth_cached = current.getMaxHealthMult();
-		sw = a.getRandom().nextBoolean();
-		current = sw ? a : b;
-		this.speed_cached = current.getSpeedMult();
-		sw = a.getRandom().nextBoolean();
-		current = sw ? a : b;
-		this.damage_cached = current.getDamageMult();
+		double sdev;
+		double mean;
+		sdev = 2;
+		mean = (a.getSize() + b.getSize() / 2.0);
+		int new_size = (int)Math.round(a.getRandom().nextGaussian() * sdev + mean);
+		sdev = 1.5;
+		mean = (a.getDamageMult() + b.getDamageMult() / 2.0);
+		float new_damage = (float) (a.getRandom().nextGaussian() * sdev + mean);
+		sdev = 1.5;
+		mean = (a.getMaxHealthMult() + b.getMaxHealthMult() / 2.0);
+		float new_maxhealth = (float) (a.getRandom().nextGaussian() * sdev + mean);
+		sdev = 1.5;
+		mean = (a.getSpeedMult() + b.getSpeedMult() / 2.0);
+		float new_speed = (float) (a.getRandom().nextGaussian() * sdev + mean);
+		
+		this.size_cached = new_size;
+		this.damage_cached = new_damage;
+		this.maxhealth_cached = new_maxhealth;
+		this.speed_cached = new_speed;
 	}
 
 	// --------------------

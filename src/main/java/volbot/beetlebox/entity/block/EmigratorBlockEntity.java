@@ -309,6 +309,9 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 				return true;
 			}
 		}
+		if(var2.isOf(ItemRegistry.LARVA_JAR)) {
+			return true;
+		}
 		return false;
 	}
 }
