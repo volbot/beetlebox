@@ -41,7 +41,8 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	public PlayerEntity last_user;
 
 	public static int BREEDING_TIME_MAX = 200;
-	public static int TAMING_TIME_MAX = 10800;
+	//public static int TAMING_TIME_MAX = 10800;
+	public static int TAMING_TIME_MAX = 2;
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3, 4 };
 	public boolean[] decor = new boolean[] { false, false, false };
@@ -136,10 +137,10 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				}
 				te.setStack(4, ItemStack.EMPTY);
 
-				if(te.last_user!=null) {
+				if (te.last_user != null) {
 					nbt1.putUuid("Owner", te.last_user.getUuid());
 				}
-				
+
 				te.getContained(0).setEntityData(nbt1);
 			} else {
 				if (te.production_time % 10 == 0) {
@@ -158,8 +159,8 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	}
 
 	public void setLastUser(PlayerEntity player) {
-		if(getContained(0)!=null) {
-			if(getContained(0).getEntityData().getInt("TameProgress")!=0) {
+		if (getContained(0) != null) {
+			if (getContained(0).getEntityData().getInt("TameProgress") != 0) {
 				return;
 			}
 		}
@@ -491,14 +492,14 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			return false;
 		}
 		if (stack.isOf(ItemRegistry.SUBSTRATE)) {
-			if (slot == 0 && getStack(4)==ItemStack.EMPTY) {
+			if (slot == 0 && getStack(4) == ItemStack.EMPTY) {
 				return true;
 			}
 		} else if (getStack(0) == ItemStack.EMPTY) {
 			return false;
 		}
 		if (stack.isOf(ItemRegistry.BEETLE_JELLY)) {
-			if (slot == 4 && getStack(4)==ItemStack.EMPTY) {
+			if (slot == 4 && getStack(4) == ItemStack.EMPTY) {
 				return true;
 			}
 		}
@@ -549,17 +550,4 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
 				Block.NOTIFY_LISTENERS);
 	}
-
-	/*
-	 * Makes a beetle escape the tank when the tank is broken, but also causes world
-	 * saves to fail. Requires further analysis.
-	 */
-	/*
-	 * @Override public void markRemoved() { if(!this.contained_id.isEmpty()) {
-	 * EntityType<?> entityType2 = EntityType.get(this.contained_id).orElse(null);
-	 * Entity e = entityType2.create(this.getWorld()); e.readNbt(this.entity_data);
-	 * if(!this.custom_name.isEmpty()) { e.setCustomName(Text.of(this.custom_name));
-	 * } e.teleport(pos.getX()+0.5, pos.getY(), pos.getZ()+0.5);
-	 * world.spawnEntity(e); } super.markRemoved(); }
-	 */
 }

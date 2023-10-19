@@ -55,6 +55,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.ai.BeetleFlyToTreeGoal;
+import volbot.beetlebox.entity.ai.BeetleFlyWithPlayerGoal;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public abstract class BeetleEntity extends TameableEntity {
@@ -96,10 +97,11 @@ public abstract class BeetleEntity extends TameableEntity {
 		this.goalSelector.add(0, new EscapeDangerGoal(this, 1.0));
 		this.goalSelector.add(0, new SwimGoal(this));
 		this.goalSelector.add(1, new MeleeAttackGoal(this, 1.0, true));
-		this.goalSelector.add(2, new FollowOwnerGoal(this, 1.0, 6.0f, 2.0f, false));
-		this.goalSelector.add(3, new BeetleFlyToTreeGoal(this, 0.75));
-		this.goalSelector.add(4, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
-		this.goalSelector.add(5, new LookAroundGoal(this));
+		this.goalSelector.add(2, new BeetleFlyWithPlayerGoal(this, 1.0));
+		this.goalSelector.add(3, new FollowOwnerGoal(this, 1.0, 6.0f, 2.0f, false));
+		this.goalSelector.add(4, new BeetleFlyToTreeGoal(this, 0.75));
+		this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+		this.goalSelector.add(6, new LookAroundGoal(this));
 		this.targetSelector.add(0, new TrackOwnerAttackerGoal(this));
 		this.targetSelector.add(1, new AttackWithOwnerGoal(this));
 	}
@@ -482,7 +484,6 @@ public abstract class BeetleEntity extends TameableEntity {
 			this.setHealth(maxhealthNew);
 		}
 		this.current_modifiers = multimap;
-
 	}
 
 	protected void generateGeneticStats(BeetleEntity a, BeetleEntity b) {
