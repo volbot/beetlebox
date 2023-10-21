@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "x": {
-      "item": "minecraft:minecart"
+      "item": "minecraft:furnace_minecart"
     },
     "h": {
       "item": "beetlebox:beetle_husk"
