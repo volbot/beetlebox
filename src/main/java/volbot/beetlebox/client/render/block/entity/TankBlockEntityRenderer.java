@@ -29,6 +29,7 @@ import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LimbAnimator;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
@@ -311,6 +312,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (h >= 1f) {
 					g /= h;
 				}
+				entity.setHeadYaw(0);
 				matrices.translate(0.75, 0.12, 0.75);
 				matrices.scale(g, g, g);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(225));
@@ -324,6 +326,14 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-120f));
 					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
 				}
+				
+				if(tile_entity.tamingSetupValid()) {
+					matrices.translate(0.0, 0, 0.5);
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-10f));
+					float headpitch = (float)Math.sin((double)(tile_entity.getWorld().getTime() + f)/1.5)*12;
+					entity.prevPitch = headpitch;
+					entity.setPitch(headpitch);
+				}
 
 				this.entityRenderDispatcher.render(entity, 0, 0, 0, 0.0f, f, matrices, vcp, i);
 			}
@@ -335,6 +345,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			EntityType<?> entityType2 = EntityType.get(e.contained_id).orElse(null);
 			if (entityType2 != null) {
 				LivingEntity entity = (LivingEntity) entityType2.create(tile_entity.getWorld());
+				e.entity_data.remove("Flying");
 				entity.readCustomDataFromNbt(e.entity_data);
 				if (!e.custom_name.isEmpty()) {
 					entity.setCustomName(Text.of(e.custom_name));
@@ -349,6 +360,7 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				if (h >= 1f) {
 					g /= h;
 				}
+				entity.setHeadYaw(0);
 
 				matrices.translate(0.25, 0.12, 0.25);
 				matrices.scale(g, g, g);
@@ -398,4 +410,6 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 		matrices.pop();
 	}
 
+	LimbAnimator limbs;
+	
 }

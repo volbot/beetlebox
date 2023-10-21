@@ -5,4 +5,5 @@ accessible method net/minecraft/entity/ItemEntity tryMerge (Lnet/minecraft/entit
 accessible method net/minecraft/block/BlockSetType register (Lnet/minecraft/block/BlockSetType;)Lnet/minecraft/block/BlockSetType;
 accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
 accessible method net/minecraft/client/world/ClientWorld getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
-accessible method net/minecraft/entity/Entity getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
+accessible method net/minecraft/world/World getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
+mutable field net/minecraft/entity/LivingEntity limbAnimator Lnet/minecraft/entity/LimbAnimator;
