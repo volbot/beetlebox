@@ -298,10 +298,10 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 			EntityType<?> entityType2 = EntityType.get(e.contained_id).orElse(null);
 			if (entityType2 != null) {
 				LivingEntity entity = (LivingEntity) entityType2.create(tile_entity.getWorld());
+				e.entity_data.remove("Flying");
 				entity.readCustomDataFromNbt(e.entity_data);
 				if (entity instanceof BeetleEntity) {
 					((BeetleEntity) entity).setSize(5);
-					((BeetleEntity) entity).setFlying(false);
 				}
 				if (!e.custom_name.isEmpty()) {
 					entity.setCustomName(Text.of(e.custom_name));
@@ -314,6 +314,16 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.translate(0.75, 0.12, 0.75);
 				matrices.scale(g, g, g);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(225));
+				
+				if(tile_entity.breedingSetupValid()) {
+					matrices.translate(0.0, 0, 0.8);
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+					matrices.translate(0.0, 0, 0.3);
+					matrices.translate(0, 0.25, 0);
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)Math.sin((double)(tile_entity.getWorld().getTime() + f)/2) * 16));
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-120f));
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
+				}
 
 				this.entityRenderDispatcher.render(entity, 0, 0, 0, 0.0f, f, matrices, vcp, i);
 			}
@@ -344,6 +354,16 @@ public class TankBlockEntityRenderer implements BlockEntityRenderer<TankBlockEnt
 				matrices.scale(g, g, g);
 				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45));
 
+				if(tile_entity.breedingSetupValid()) {
+					matrices.translate(0.0, 0, 0.8);
+					matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees((tile_entity.getWorld().getTime() + f) * 4));
+					matrices.translate(0.0, 0, 0.3);
+					matrices.translate(0, 0.25, 0);
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees((float)Math.sin((double)(tile_entity.getWorld().getTime() + f)/2) * 16));
+					matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-120f));
+					matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(180));
+				}
+				
 				this.entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, f, matrices, vcp, i);
 			}
 		}
