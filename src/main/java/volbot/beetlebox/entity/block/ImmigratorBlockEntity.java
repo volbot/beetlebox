@@ -1,13 +1,7 @@
 package volbot.beetlebox.entity.block;
 
-import java.util.ArrayList;
-
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.block.entity.Hopper;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;

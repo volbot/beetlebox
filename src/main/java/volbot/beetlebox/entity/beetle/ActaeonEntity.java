@@ -3,7 +3,6 @@ package volbot.beetlebox.entity.beetle;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.EntityView;
 import net.minecraft.world.World;
 import volbot.beetlebox.registry.BeetleRegistry;
 

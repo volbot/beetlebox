@@ -2,13 +2,11 @@ package volbot.beetlebox.entity.block;
 
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.AbstractCandleBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CandleBlock;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -41,8 +39,8 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 	public PlayerEntity last_user;
 
 	public static int BREEDING_TIME_MAX = 200;
-	public static int TAMING_TIME_MAX = 10800;
-	//public static int TAMING_TIME_MAX = 2;
+	// public static int TAMING_TIME_MAX = 10800;
+	public static int TAMING_TIME_MAX = 2;
 
 	private static final int[] TOP_SLOTS = new int[] { 0, 1, 2, 3, 4 };
 	public boolean[] decor = new boolean[] { false, false, false };
@@ -127,7 +125,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 							+ (item_nbt.getBoolean("Increase") ? 0.1f : -0.1f) * item_nbt.getFloat("Magnitude"));
 					break;
 				case "sugar":
-					nbt1.putFloat("Speed", nbt1.getInt("Damage")
+					nbt1.putFloat("Speed", nbt1.getInt("Speed")
 							+ (item_nbt.getBoolean("Increase") ? 0.1f : -0.1f) * item_nbt.getFloat("Magnitude"));
 					break;
 				case "berry":
@@ -137,11 +135,16 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				}
 				te.setStack(4, ItemStack.EMPTY);
 
-				if (te.last_user != null) {
-					nbt1.putUuid("Owner", te.last_user.getUuid());
+				if (tame_progress == 5) {
+					if (te.last_user != null) {
+						nbt1.putUuid("Owner", te.last_user.getUuid());
+					}
+					int class_id = te.getBeetleClass();
+					if(class_id != -1) {
+						nbt1.putInt("Class", class_id);
+					}
+					te.getContained(0).setEntityData(nbt1);
 				}
-
-				te.getContained(0).setEntityData(nbt1);
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;
@@ -156,6 +159,21 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			return;
 		}
 		te.production_time = 0;
+	}
+	
+	public int getBeetleClass() {
+		ItemStack stack;
+		for(int i = 1; i <= 3; i ++) {
+			stack = getStack(i);
+			if(stack.isOf(Items.RED_MUSHROOM)) {
+				return 0;
+			}
+			stack = getStack(i);
+			if(stack.isOf(Items.BROWN_MUSHROOM)) {
+				return 1;
+			}
+		}
+		return -1;
 	}
 
 	public void setLastUser(PlayerEntity player) {
@@ -238,22 +256,35 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		if (getStack(0).getItem() != ItemRegistry.SUBSTRATE) {
 			return false;
 		}
-		if (getStack(1).getItem() == getStack(2).getItem() || getStack(2).getItem() == getStack(3).getItem()) {
+		if (getStack(1).getItem() == getStack(2).getItem() || getStack(2).getItem() == getStack(3).getItem()
+				|| getStack(1).getItem() == getStack(3).getItem()) {
 			return false;
 		}
 		if (getStack(4) == ItemStack.EMPTY) {
 			return false;
 		}
+		boolean hasRedMushroom = false;
+		boolean hasBrownMushroom = false;
 		for (int i = 1; i <= 3; i++) {
 			if (!this.isEnrichmentMaterial(getStack(i))) {
 				return false;
 			}
+			if (getStack(i).isOf(Items.RED_MUSHROOM)) {
+				hasRedMushroom = true;
+			}
+			if (getStack(i).isOf(Items.BROWN_MUSHROOM)) {
+				hasRedMushroom = true;
+			}
+		}
+		if (!(hasRedMushroom && hasBrownMushroom)) {
+			return false;
 		}
 		return true;
 	}
 
 	public boolean isEnrichmentMaterial(ItemStack stack) {
-		return true;
+		return stack.isIn(ItemTags.LOGS) || stack.isIn(ItemTags.SAPLINGS) || stack.isIn(ItemTags.FLOWERS)
+				|| stack.isOf(Items.RED_MUSHROOM) || stack.isOf(Items.BROWN_MUSHROOM) || stack.isIn(ItemTags.SAPLINGS);
 	}
 
 	public boolean canPush() {
@@ -505,9 +536,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		}
 		for (int i = 1; i <= 3; i++) {
 			if (slot == i && getStack(i) == ItemStack.EMPTY
-					&& (stack.isIn(ItemTags.CANDLES) || stack.isIn(ItemTags.LOGS)) || stack.isIn(ItemTags.FLOWERS)
-					|| stack.isIn(ItemTags.SAPLINGS) || stack.isOf(Items.BROWN_MUSHROOM)
-					|| stack.isOf(Items.RED_MUSHROOM)) {
+					&& (stack.isIn(ItemTags.CANDLES) || this.isEnrichmentMaterial(stack))) {
 				return true;
 			}
 		}

@@ -1,6 +1,5 @@
 package volbot.beetlebox.registry;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;

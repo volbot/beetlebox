@@ -28,9 +28,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
-import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
-import volbot.beetlebox.registry.BlockRegistry;
 
 public class BeetleJarItem<T extends LivingEntity> extends Item {
 

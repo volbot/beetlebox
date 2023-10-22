@@ -2,11 +2,9 @@ package volbot.beetlebox.item;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
-import volbot.beetlebox.registry.BeetleRegistry;
 
 public class Larva {
 	

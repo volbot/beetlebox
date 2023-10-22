@@ -27,7 +27,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.registry.ItemRegistry;
 
