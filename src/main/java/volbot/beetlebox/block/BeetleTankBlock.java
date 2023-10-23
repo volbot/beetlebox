@@ -262,6 +262,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		return ActionResult.CONSUME;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.getBlock() != newState.getBlock()) {

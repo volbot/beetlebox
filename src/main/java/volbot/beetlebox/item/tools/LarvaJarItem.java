@@ -46,11 +46,12 @@ public class LarvaJarItem extends Item {
 				nbt.putInt("GrowingTime", 0);
 			}
 			int growing_time = nbt.getInt("GrowingTime");
-			if (growing_time == MAX_GROWING_TIME) {
+			if (growing_time >= MAX_GROWING_TIME) {
 				return;
 			}
-			nbt.putInt("GrowingTime", growing_time + 1);
 			growing_time += 1;
+			nbt.putInt("GrowingTime", growing_time);
+			stack.setNbt(nbt);
 		}
 	}
 

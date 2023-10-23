@@ -79,6 +79,7 @@ public class EmigratorBlock extends BlockWithEntity {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (state.getBlock() != newState.getBlock()) {

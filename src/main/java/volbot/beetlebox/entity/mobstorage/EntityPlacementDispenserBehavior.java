@@ -1,6 +1,5 @@
 package volbot.beetlebox.entity.mobstorage;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
 import net.minecraft.entity.EntityType;
@@ -13,18 +12,15 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import volbot.beetlebox.item.tools.BeetleJarItem;
-
-import org.slf4j.Logger;
+import volbot.beetlebox.item.tools.LarvaJarItem;
 
 public class EntityPlacementDispenserBehavior
 extends FallibleItemDispenserBehavior {
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     @Override
     protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         this.setSuccess(false);
         Item item = stack.getItem();
-        if (item instanceof BeetleJarItem) {
+        if (item instanceof BeetleJarItem || item instanceof LarvaJarItem) {
             Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
             BlockPos blockPos = pointer.getPos().offset(direction);
             

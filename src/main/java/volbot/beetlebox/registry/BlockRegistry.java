@@ -39,12 +39,14 @@ import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.block.BoilerBlock;
 import volbot.beetlebox.block.EmigratorBlock;
 import volbot.beetlebox.block.ImmigratorBlock;
+import volbot.beetlebox.block.IncubatorBlock;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.block.BoilerBlockEntity;
 import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.entity.mobstorage.EntityPlacementDispenserBehavior;
 import volbot.beetlebox.entity.block.EmigratorBlockEntity;
 import volbot.beetlebox.entity.block.ImmigratorBlockEntity;
+import volbot.beetlebox.entity.block.IncubatorBlockEntity;
 import volbot.beetlebox.worldgen.AshSaplingGenerator;
 
 public class BlockRegistry {
@@ -58,6 +60,9 @@ public class BlockRegistry {
 	public static final Block BOILER = registerBlock("boiler",
 			new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 
+	public static final Block INCUBATOR = registerBlock("incubator",
+			new IncubatorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+	
 	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
 
@@ -119,6 +124,10 @@ public class BlockRegistry {
 	public static final BlockEntityType<ImmigratorBlockEntity> IMMIGRATOR_BLOCK_ENTITY = Registry.register(
 			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "immigrator_block_entity"),
 			FabricBlockEntityTypeBuilder.create(ImmigratorBlockEntity::new, IMMIGRATOR).build());
+	
+	public static final BlockEntityType<IncubatorBlockEntity> INCUBATOR_BLOCK_ENTITY = Registry.register(
+			Registries.BLOCK_ENTITY_TYPE, new Identifier("beetlebox", "incubator_block_entity"),
+			FabricBlockEntityTypeBuilder.create(IncubatorBlockEntity::new, INCUBATOR).build());
 
 	
 	public static void register() {
