@@ -237,6 +237,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_DOOR, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.IMMIGRATOR, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.EMIGRATOR, RenderLayer.getCutout());
+		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.INCUBATOR, RenderLayer.getCutout());
 		
 		
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);

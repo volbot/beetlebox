@@ -7,6 +7,7 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.FacingBlock;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -33,7 +34,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 
 public class IncubatorBlock extends BlockWithEntity {
 
-	public static final DirectionProperty FACING = FacingBlock.FACING;
+	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
 	
 	public IncubatorBlock(Settings settings) {
 		super(settings);
@@ -88,7 +89,7 @@ public class IncubatorBlock extends BlockWithEntity {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return (BlockState) this.getDefaultState().with(FACING, ctx.getPlayerLookDirection().getOpposite());
+		return (BlockState) this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
 	}
 
 	@Override
