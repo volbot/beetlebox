@@ -40,23 +40,11 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 
 	public static void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-		if (world.isClient) {
-			if (state.get(IncubatorBlock.ACTIVE) && world.getTime() % 25 == 0) {
-				double d = world.getRandom().nextGaussian() * 0.02;
-				double e = world.getRandom().nextGaussian() * 0.02;
-				double f = world.getRandom().nextGaussian() * 0.02;
-				world.addParticle(ParticleTypes.HAPPY_VILLAGER,
-						0.5 + pos.getX() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
-						0.5 + pos.getY() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
-						0.5 + pos.getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
-
-			}
-			return;
-		}
 
 		IncubatorBlockEntity te = (IncubatorBlockEntity) blockEntity;
 		boolean active = false;
-		for (ItemStack stack : te.inventory) {
+		for (int slot = 0; slot < te.size(); slot++) {
+			ItemStack stack = te.getStack(slot);
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
 				active = true;
 				NbtCompound nbt = stack.getOrCreateNbt();
@@ -67,6 +55,17 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 				growing_time += 5;
 				nbt.putInt("GrowingTime", growing_time);
 				stack.setNbt(nbt);
+
+				if (world.getTime() % (20) == slot*2) {
+					double d = world.getRandom().nextGaussian() * 0.02;
+					double e = world.getRandom().nextGaussian() * 0.02;
+					double f = world.getRandom().nextGaussian() * 0.02;
+					world.addParticle(ParticleTypes.HAPPY_VILLAGER,
+							0.5 + pos.getX() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + pos.getY() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+							0.5 + pos.getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
+
+				}
 			}
 		}
 		if (active) {

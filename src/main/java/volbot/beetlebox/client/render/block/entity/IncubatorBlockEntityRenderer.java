@@ -39,15 +39,17 @@ public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<Incubat
 
 	private final ModelPart jar_base;
 	private final ModelPart cork;
+	private ModelPart substrate;
 
 	public IncubatorBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
+
 		ModelData modelData = new ModelData();
 		ModelPartData modelPartData = modelData.getRoot();
 		ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		root.addChild("cube",
-				ModelPartBuilder.create().cuboid("cube", -6.25F, -10.0F, 0.75F, 4.5F, 6.0F, 4.5F).uv(0, 0)
-						.cuboid("cube", -5.75F, -10.5F, 1.25F, 3.5F, 0.5F, 3.5F).uv(0, 0)
+				ModelPartBuilder.create().cuboid("cube", -6.25F, -10.001F, 0.75F, 4.5F, 6.0F, 4.5F).uv(0, 0)
+						.cuboid("cube", -5.75F, -10.5001F, 1.25F, 3.5F, 0.5F, 3.5F).uv(0, 0)
 						.cuboid("cube", -6.0F, -11.0F, 1.0F, 4.0F, 0.5F, 4.0F).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		jar_base = TexturedModelData.of(modelData, 16, 16).createModel();
@@ -56,8 +58,7 @@ public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<Incubat
 		modelPartData = modelData.getRoot();
 		root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-		root.addChild("cube",
-				ModelPartBuilder.create().cuboid("cube", -5.5F, -11.75F, 1.5F, 3.0F, 0.75F, 3.0F).uv(0, 0),
+		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", -5.5F, -11.75F, 1.5F, 3.0F, 1.8F, 3.0F).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		cork = TexturedModelData.of(modelData, 16, 16).createModel();
 	}
@@ -65,18 +66,38 @@ public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<Incubat
 	@Override
 	public void render(IncubatorBlockEntity te, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i,
 			int j) {
+		ModelData modelData = new ModelData();
+		ModelPartData modelPartData = modelData.getRoot();
+		ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		root.addChild("cube",
+				ModelPartBuilder.create().cuboid("cube", -6.25F, -10.001F, 0.75F, 4.5F, 6.0F, 4.5F).uv(0, 0),
+				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
+		substrate = TexturedModelData.of(modelData, 16, 16).createModel();
+		
 		ItemStack stack;
 		NbtCompound nbt;
+
 		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
 		for (int slot = 0; slot < te.size(); slot++) {
 			stack = te.getStack(slot);
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
 				matrices = translateForNextJar(matrices, slot);
 				matrices.push();
-				VertexConsumer vertexConsumer = vcp.getBuffer(
-						RenderLayer.getEntitySolid(new Identifier("beetlebox", "textures/block/entity/disco.png")));
-				jar_base.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
-				cork.render(matrices, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
+				matrices.scale(0.9f, 0.7f, 0.9f);
+				float x = -0.025f;
+				float y = -0.125f;
+				float z = 0.02f;
+				matrices.translate(x,y,z);
+				VertexConsumer substrate_vc = vcp.getBuffer(
+						RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
+				substrate.render(matrices, substrate_vc, i, OverlayTexture.DEFAULT_UV);
+				matrices.translate(-x,-y,-z);
+				matrices.scale(1/0.9f, 1/0.7f, 1/0.9f);
+				VertexConsumer jar_vc = vcp.getBuffer(RenderLayer
+						.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
+				jar_base.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV, 30f, 30f, 30f, 100f);
+				cork.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV);
 				matrices.pop();
 			}
 		}
