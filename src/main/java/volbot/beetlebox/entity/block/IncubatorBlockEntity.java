@@ -11,10 +11,12 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import volbot.beetlebox.block.IncubatorBlock;
 import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -27,10 +29,26 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 		super(BlockRegistry.INCUBATOR_BLOCK_ENTITY, blockPos, blockState);
 	}
 
-	public static void serverTick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+	public static void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
+		if (world.isClient) {
+			if (state.get(IncubatorBlock.ACTIVE) && world.getTime() % 25 == 0) {
+				double d = world.getRandom().nextGaussian() * 0.02;
+				double e = world.getRandom().nextGaussian() * 0.02;
+				double f = world.getRandom().nextGaussian() * 0.02;
+				world.addParticle(ParticleTypes.HAPPY_VILLAGER,
+						0.5 + pos.getX() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+						0.5 + pos.getY() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5),
+						0.5 + pos.getZ() + ((2.0 * world.getRandom().nextDouble() - 1.0) / 1.5), d, e, f);
+
+			}
+			return;
+		}
+
 		IncubatorBlockEntity te = (IncubatorBlockEntity) blockEntity;
+		boolean active = false;
 		for (ItemStack stack : te.inventory) {
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
+				active = true;
 				NbtCompound nbt = stack.getOrCreateNbt();
 				int growing_time = nbt.getInt("GrowingTime");
 				if (growing_time >= LarvaJarItem.MAX_GROWING_TIME) {
@@ -39,6 +57,15 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 				growing_time += 5;
 				nbt.putInt("GrowingTime", growing_time);
 				stack.setNbt(nbt);
+			}
+		}
+		if (active) {
+			if (!state.get(IncubatorBlock.ACTIVE)) {
+				world.setBlockState(pos, te.getCachedState().with(IncubatorBlock.ACTIVE, true));
+			}
+		} else {
+			if (state.get(IncubatorBlock.ACTIVE)) {
+				world.setBlockState(pos, te.getCachedState().with(IncubatorBlock.ACTIVE, false));
 			}
 		}
 	}
@@ -118,7 +145,6 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 		for (int i = 0; i < this.size(); i++) {
 			ItemStack stack = getStack(i);
 			if (!stack.isEmpty()) {
-				System.out.println(i);
 				NbtCompound nbt = stack.getOrCreateNbt();
 				if (nbt.getInt("GrowingTime") >= LarvaJarItem.MAX_GROWING_TIME) {
 					this.removeStack(i);

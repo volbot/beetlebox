@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.FacingBlock;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
@@ -22,6 +21,7 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
@@ -37,15 +37,18 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.block.IncubatorBlockEntity;
+import volbot.beetlebox.entity.block.TankBlockEntity;
 import volbot.beetlebox.item.tools.LarvaJarItem;
+import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class IncubatorBlock extends BlockWithEntity {
 
 	public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
+	public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
 	public IncubatorBlock(Settings settings) {
-		super(settings.nonOpaque());
+		super(settings.nonOpaque().luminance(state -> state.get(ACTIVE) ? 10 : 0 ));
 	}
 
 	@Override
@@ -86,17 +89,17 @@ public class IncubatorBlock extends BlockWithEntity {
 	@Nullable
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
 			BlockEntityType<T> type) {
-		return world.isClient ? null : IncubatorBlockEntity::serverTick;
-	}
+		return checkType(type, BlockRegistry.INCUBATOR_BLOCK_ENTITY,
+				(world1, pos, state1, te) -> IncubatorBlockEntity.tick(world1, pos, state1, te));	}
 
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
+		builder.add(FACING).add(ACTIVE);
 	}
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return (BlockState) this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+		return (BlockState) this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(ACTIVE, false);
 	}
 
 	@Override

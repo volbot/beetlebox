@@ -52,19 +52,19 @@ import volbot.beetlebox.worldgen.AshSaplingGenerator;
 public class BlockRegistry {
 
 	public static final Block TANK = registerBlock("tank", new BeetleTankBlock<BeetleEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), BeetleEntity.class));
+			FabricBlockSettings.copy(Blocks.IRON_ORE).nonOpaque(), BeetleEntity.class));
 	public static final Block LEG_TANK = new BeetleTankBlock<LivingEntity>(
-			FabricBlockSettings.of(Material.GLASS).strength(4.0f).nonOpaque(), LivingEntity.class);
+			FabricBlockSettings.copy(Blocks.IRON_ORE).nonOpaque(), LivingEntity.class);
 	public static final Item LEG_TANK_ITEM = new BlockItem(LEG_TANK, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 
 	public static final Block BOILER = registerBlock("boiler",
-			new BoilerBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+			new BoilerBlock(FabricBlockSettings.copy(Blocks.STONE)));
 
 	public static final Block INCUBATOR = registerBlock("incubator",
-			new IncubatorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+			new IncubatorBlock(FabricBlockSettings.copy(Blocks.STONE)));
 	
-	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
-	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.of(Material.STONE).strength(4.0F)));
+	public static final Block EMIGRATOR = registerBlock("emigrator",new EmigratorBlock(FabricBlockSettings.copy(Blocks.OAK_PLANKS)));
+	public static final Block IMMIGRATOR = registerBlock("immigrator",new ImmigratorBlock(FabricBlockSettings.copy(Blocks.OAK_PLANKS)));
 
 	public static final BlockSetType ASH_BLOCKSET = BlockSetType.register(new BlockSetType("ash"));
 	public static final WoodType ASH_WOOD_TYPE = WoodType

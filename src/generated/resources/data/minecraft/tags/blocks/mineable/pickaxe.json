@@ -3,6 +3,7 @@
   "values": [
     "beetlebox:boiler",
     "beetlebox:tank",
-    "beetlebox:leg_tank"
+    "beetlebox:leg_tank",
+    "beetlebox:incubator"
   ]
 }
