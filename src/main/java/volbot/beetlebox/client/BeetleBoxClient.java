@@ -31,6 +31,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.client.render.block.entity.BoilerBlockEntityRenderer;
+import volbot.beetlebox.client.render.block.entity.IncubatorBlockEntityRenderer;
 import volbot.beetlebox.client.render.block.entity.TankBlockEntityRenderer;
 import volbot.beetlebox.client.render.entity.ActaeonEntityModel;
 import volbot.beetlebox.client.render.entity.ActaeonEntityRenderer;
@@ -242,5 +243,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 		
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
+		BlockEntityRendererRegistry.register(BlockRegistry.INCUBATOR_BLOCK_ENTITY, IncubatorBlockEntityRenderer::new);
 	}
 }

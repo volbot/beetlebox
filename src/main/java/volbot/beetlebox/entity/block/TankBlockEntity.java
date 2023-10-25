@@ -183,6 +183,9 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 			}
 		}
 		this.last_user = player;
+		markDirty();
+		this.getWorld().updateListeners(this.getPos(), this.getCachedState(), this.getCachedState(),
+				Block.NOTIFY_LISTENERS);
 	}
 
 	public void setProductionTime(int production_time) {

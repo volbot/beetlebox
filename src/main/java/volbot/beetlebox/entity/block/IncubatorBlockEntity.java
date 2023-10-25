@@ -11,6 +11,9 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -28,6 +31,13 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 	public IncubatorBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(BlockRegistry.INCUBATOR_BLOCK_ENTITY, blockPos, blockState);
 	}
+
+
+	@Override
+	public Packet<ClientPlayPacketListener> toUpdatePacket() {
+		return BlockEntityUpdateS2CPacket.create(this);
+	}
+
 
 	public static void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
 		if (world.isClient) {
@@ -76,7 +86,7 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 	}
 
 	@Override
-	protected void writeNbt(NbtCompound nbt) {
+	public void writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
 		Inventories.writeNbt(nbt, this.inventory);
 	}
@@ -87,6 +97,12 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 		this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
 		Inventories.readNbt(nbt, this.inventory);
 
+	}
+
+
+	@Override
+	public NbtCompound toInitialChunkDataNbt() {
+		return createNbt();
 	}
 
 	@Override
@@ -113,7 +129,7 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return getStack(slot).equals(ItemStack.EMPTY) || stack.isOf(ItemRegistry.LARVA_JAR);
+		return getStack(slot).equals(ItemStack.EMPTY) && stack.isOf(ItemRegistry.LARVA_JAR);
 	}
 
 	@Override

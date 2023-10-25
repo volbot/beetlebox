@@ -119,17 +119,18 @@ public class IncubatorBlock extends BlockWithEntity {
 
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof IncubatorBlockEntity) {
-
 			ItemStack handstack = player.getStackInHand(hand);
 			if (handstack.isOf(ItemRegistry.LARVA_JAR)) {
 				NbtCompound nbt = handstack.getOrCreateNbt();
 				if (nbt.getInt("GrowingTime") < LarvaJarItem.MAX_GROWING_TIME) {
 					if (((IncubatorBlockEntity) blockEntity).pushStack(handstack)) {
 						player.setStackInHand(hand, ItemStack.EMPTY);
+						return ActionResult.SUCCESS;
 					}
 				}
 			} else if (handstack.isEmpty()) {
 				player.setStackInHand(hand, ((IncubatorBlockEntity) blockEntity).popStack());
+				return ActionResult.SUCCESS;
 			}
 		}
 		return ActionResult.CONSUME;
