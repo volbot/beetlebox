@@ -38,7 +38,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<IncubatorBlockEntity> {
 
 	private final ModelPart jar_base;
-	private final ModelPart cork;
+	private ModelPart cork;
 	private ModelPart substrate;
 
 	public IncubatorBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
@@ -60,44 +60,45 @@ public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<Incubat
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		root.addChild("cube", ModelPartBuilder.create().cuboid("cube", -5.5F, -11.75F, 1.5F, 3.0F, 1.8F, 3.0F).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
-		cork = TexturedModelData.of(modelData, 16, 16).createModel();
-	}
+		cork = TexturedModelData.of(modelData, 10, 10).createModel();
 
-	@Override
-	public void render(IncubatorBlockEntity te, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i,
-			int j) {
-		ModelData modelData = new ModelData();
-		ModelPartData modelPartData = modelData.getRoot();
-		ModelPartData root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
+		modelData = new ModelData();
+		modelPartData = modelData.getRoot();
+		root = modelPartData.addChild(EntityModelPartNames.ROOT, ModelPartBuilder.create(),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		root.addChild("cube",
 				ModelPartBuilder.create().cuboid("cube", -6.25F, -10.001F, 0.75F, 4.5F, 6.0F, 4.5F).uv(0, 0),
 				ModelTransform.of(0F, 0F, 0F, 0F, 0F, 0F));
 		substrate = TexturedModelData.of(modelData, 16, 16).createModel();
-		
-		ItemStack stack;
-		NbtCompound nbt;
 
+	}
+
+	@Override
+	public void render(IncubatorBlockEntity te, float f, MatrixStack matrices, VertexConsumerProvider vcp, int i,
+			int j) {
+		ItemStack stack;
 		matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));
 		for (int slot = 0; slot < te.size(); slot++) {
 			stack = te.getStack(slot);
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
 				matrices = translateForNextJar(matrices, slot);
 				matrices.push();
+				VertexConsumer cork_vc = vcp.getBuffer(RenderLayer
+						.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/cork.png")));
+				cork.render(matrices, cork_vc, i, OverlayTexture.DEFAULT_UV);
 				matrices.scale(0.9f, 0.7f, 0.9f);
 				float x = -0.025f;
 				float y = -0.125f;
 				float z = 0.02f;
-				matrices.translate(x,y,z);
-				VertexConsumer substrate_vc = vcp.getBuffer(
-						RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
+				matrices.translate(x, y, z);
+				VertexConsumer substrate_vc = vcp.getBuffer(RenderLayer
+						.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/substrate.png")));
 				substrate.render(matrices, substrate_vc, i, OverlayTexture.DEFAULT_UV);
-				matrices.translate(-x,-y,-z);
-				matrices.scale(1/0.9f, 1/0.7f, 1/0.9f);
+				matrices.translate(-x, -y, -z);
+				matrices.scale(1 / 0.9f, 1 / 0.7f, 1 / 0.9f);
 				VertexConsumer jar_vc = vcp.getBuffer(RenderLayer
 						.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
 				jar_base.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV, 30f, 30f, 30f, 100f);
-				cork.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV);
 				matrices.pop();
 			}
 		}
