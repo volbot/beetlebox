@@ -69,7 +69,7 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 			ShapelessRecipeJsonBuilder recipe = shapeless_recipes.get(s);
 			recipe.offerTo(exporter, s);
 		}
-		
+
 		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, Blocks.STICKY_PISTON).pattern("s").pattern("p")
 				.input('s', BeetleItemTagGenerator.SLIMEBALLS).input('p', Items.PISTON)
 				.criterion("has_any_slimeball", RecipeProvider.conditionsFromTag(BeetleItemTagGenerator.SLIMEBALLS))
@@ -101,69 +101,52 @@ public class BeetleRecipeGenerator extends FabricRecipeProvider {
 		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.BEETLE_JAR).pattern(" l ").pattern("gjg")
 				.pattern(" g ")
 				.input('l', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "logs"))))
-				.input('g', Items.GLASS_PANE).input('j', Items.LEAD)
-				.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+				.input('g', Items.GLASS_PANE).input('j', Items.LEAD).criterion(RecipeProvider.hasItem(ItemRegistry.NET),
 						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
 				.offerTo(exporter);
-		
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.LEG_TANK)
-		.pattern("idi")
-		.pattern("gjg")
-		.pattern("idi")
-		.input('i', Items.GOLD_INGOT)
-		.input('d', Items.DIAMOND)
-		.input('g', Items.GLASS_PANE)
-		.input('j', ItemRegistry.LEG_BEETLE_JAR)
-		.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
-				RecipeProvider.conditionsFromItem(ItemRegistry.NET))
-		.offerTo(exporter);
 
-		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.LEG_BEETLE_JAR)
-		.pattern("dod")
-		.pattern("eje")
-		.pattern("ded")
-		.input('o', Items.OBSIDIAN)
-		.input('e', Items.ENDER_EYE)
-		.input('d', Items.DIAMOND)
-		.input('j', ItemRegistry.BEETLE_JAR)
-		.criterion(RecipeProvider.hasItem(ItemRegistry.NET),
-				RecipeProvider.conditionsFromItem(ItemRegistry.NET))
-		.offerTo(exporter);
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, BlockRegistry.LEG_TANK).pattern("idi").pattern("gjg")
+				.pattern("idi").input('i', Items.GOLD_INGOT).input('d', Items.DIAMOND).input('g', Items.GLASS_PANE)
+				.input('j', ItemRegistry.LEG_BEETLE_JAR).criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
+				.offerTo(exporter);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.LEG_BEETLE_JAR).pattern("dod").pattern("eje")
+				.pattern("ded").input('o', Items.OBSIDIAN).input('e', Items.ENDER_EYE).input('d', Items.DIAMOND)
+				.input('j', ItemRegistry.BEETLE_JAR).criterion(RecipeProvider.hasItem(ItemRegistry.NET),
+						RecipeProvider.conditionsFromItem(ItemRegistry.NET))
+				.offerTo(exporter);
 
 		ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.NET).pattern(" sw").pattern(" ss")
 				.pattern("s  ").input('s', Items.STICK)
 				.input('w', Ingredient.fromTag(TagKey.of(RegistryKeys.ITEM, new Identifier("minecraft", "wool"))))
 				.criterion(RecipeProvider.hasItem(Items.STICK), RecipeProvider.conditionsFromItem(Items.STICK))
 				.offerTo(exporter);
-		
+
 		RecipeProvider.generateFamily(exporter, BlockRegistry.ASH_FAMILY);
 
-        RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
-        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
-        RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
-        
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.EMIGRATOR)
-		.pattern("ia ")
-		.pattern("ipg")
-		.pattern("ia ")
-		.input('i', Items.IRON_INGOT)
-		.input('a', BlockRegistry.ASH_PLANKS)
-		.input('g', Blocks.GLASS)
-		.input('p', Items.PISTON)
-		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
-				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
-		.offerTo(exporter);
-        
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.IMMIGRATOR)
-		.pattern("ia ")
-		.pattern("ipg")
-		.pattern("ia ")
-		.input('i', Items.IRON_INGOT)
-		.input('a', BlockRegistry.ASH_PLANKS)
-		.input('g', Blocks.GLASS)
-		.input('p', Items.STICKY_PISTON)
-		.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
-				RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
-		.offerTo(exporter);
+		RecipeProvider.offerPlanksRecipe2(exporter, BlockRegistry.ASH_PLANKS, BeetleItemTagGenerator.ASH_LOGS, 4);
+		RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD, BlockRegistry.ASH_LOG);
+		RecipeProvider.offerBarkBlockRecipe(exporter, BlockRegistry.ASH_WOOD_STRIPPED, BlockRegistry.ASH_LOG_STRIPPED);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.EMIGRATOR).pattern("ia ")
+				.pattern("ipg").pattern("ia ").input('i', Items.IRON_INGOT).input('a', BlockRegistry.ASH_PLANKS)
+				.input('g', Items.GLASS).input('p', Items.PISTON).criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+						RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+				.offerTo(exporter);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.IMMIGRATOR).pattern("ia ")
+				.pattern("ipg").pattern("ia ").input('i', Items.IRON_INGOT).input('a', BlockRegistry.ASH_PLANKS)
+				.input('g', Items.GLASS).input('p', Items.STICKY_PISTON)
+				.criterion(RecipeProvider.hasItem(BlockRegistry.TANK),
+						RecipeProvider.conditionsFromItem(BlockRegistry.TANK))
+				.offerTo(exporter);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.INCUBATOR).pattern("lbl")
+				.pattern("hbh").pattern("iti").input('l', Items.REDSTONE_LAMP).input('b', Items.IRON_BARS)
+				.input('h', ItemRegistry.BEETLE_HUSK).input('t', Items.REDSTONE_TORCH).input('i', Items.IRON_INGOT)
+				.criterion(RecipeProvider.hasItem(ItemRegistry.LARVA_JAR),
+						RecipeProvider.conditionsFromItem(ItemRegistry.LARVA_JAR))
+				.offerTo(exporter);
 	}
 }

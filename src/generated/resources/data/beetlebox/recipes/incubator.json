@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "h": {
+      "item": "beetlebox:beetle_husk"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "l": {
+      "item": "minecraft:redstone_lamp"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "lbl",
+    "hbh",
+    "iti"
+  ],
+  "result": {
+    "item": "beetlebox:incubator"
+  },
+  "show_notification": true
+}
