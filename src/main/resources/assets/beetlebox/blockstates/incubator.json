@@ -1,19 +1,52 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,state=inactive": {
       "model": "beetlebox:block/incubator",
       "y": 90
     },
-    "facing=north": {
-      "model": "beetlebox:block/incubator"
-    },
-    "facing=south": {
+    "facing=north,state=inactive": {
       "model": "beetlebox:block/incubator",
-      "y": 180
+      "y": 90
     },
-    "facing=west": {
+    "facing=south,state=inactive": {
       "model": "beetlebox:block/incubator",
-      "y": 270
+      "y": 90
+    },
+    "facing=west,state=inactive": {
+      "model": "beetlebox:block/incubator",
+      "y": 90
+    },
+    "facing=east,state=active": {
+      "model": "beetlebox:block/incubator_active",
+      "y": 90
+    },
+    "facing=north,state=active": {
+      "model": "beetlebox:block/incubator_active",
+      "y": 90
+    },
+    "facing=south,state=active": {
+      "model": "beetlebox:block/incubator_active",
+      "y": 90
+    },
+    "facing=west,state=active": {
+      "model": "beetlebox:block/incubator_active",
+      "y": 90
+    },
+    "facing=east,state=complete": {
+      "model": "beetlebox:block/incubator_complete",
+      "y": 90
+    },
+    "facing=north,state=complete": {
+      "model": "beetlebox:block/incubator_complete",
+      "y": 90
+    },
+    "facing=south,state=complete": {
+      "model": "beetlebox:block/incubator_complete",
+      "y": 90
+    },
+    "facing=west,state=complete": {
+      "model": "beetlebox:block/incubator_complete",
+      "y": 90
     }
   }
 }

@@ -100,6 +100,8 @@ public class IncubatorBlockEntityRenderer implements BlockEntityRenderer<Incubat
 						.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
 				jar_base.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV, 30f, 30f, 30f, 100f);
 				matrices.pop();
+			} else {
+				matrices = translateForNextJar(matrices, slot);
 			}
 		}
 	}

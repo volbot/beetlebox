@@ -32,17 +32,16 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 		super(BlockRegistry.INCUBATOR_BLOCK_ENTITY, blockPos, blockState);
 	}
 
-
 	@Override
 	public Packet<ClientPlayPacketListener> toUpdatePacket() {
 		return BlockEntityUpdateS2CPacket.create(this);
 	}
 
-
 	public static void tick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
 
 		IncubatorBlockEntity te = (IncubatorBlockEntity) blockEntity;
 		boolean active = false;
+		boolean complete = false;
 		for (int slot = 0; slot < te.size(); slot++) {
 			ItemStack stack = te.getStack(slot);
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
@@ -50,13 +49,14 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 				NbtCompound nbt = stack.getOrCreateNbt();
 				int growing_time = nbt.getInt("GrowingTime");
 				if (growing_time >= LarvaJarItem.MAX_GROWING_TIME) {
-					return;
+					complete = true;
+					continue;
 				}
 				growing_time += 5;
 				nbt.putInt("GrowingTime", growing_time);
 				stack.setNbt(nbt);
 
-				if (world.getTime() % (20) == slot*2) {
+				if (world.getTime() % (20) == slot * 2) {
 					double d = world.getRandom().nextGaussian() * 0.02;
 					double e = world.getRandom().nextGaussian() * 0.02;
 					double f = world.getRandom().nextGaussian() * 0.02;
@@ -68,15 +68,9 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 				}
 			}
 		}
-		if (active) {
-			if (!state.get(IncubatorBlock.ACTIVE)) {
-				world.setBlockState(pos, te.getCachedState().with(IncubatorBlock.ACTIVE, true));
-			}
-		} else {
-			if (state.get(IncubatorBlock.ACTIVE)) {
-				world.setBlockState(pos, te.getCachedState().with(IncubatorBlock.ACTIVE, false));
-			}
-		}
+		world.setBlockState(pos,
+				te.getCachedState().with(IncubatorBlock.STATE, complete ? IncubatorBlock.IncubatorState.COMPLETE
+						: active ? IncubatorBlock.IncubatorState.ACTIVE : IncubatorBlock.IncubatorState.INACTIVE));
 	}
 
 	@Override
@@ -98,7 +92,6 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 	}
 
-
 	@Override
 	public NbtCompound toInitialChunkDataNbt() {
 		return createNbt();
@@ -108,7 +101,7 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 	public int[] getAvailableSlots(Direction dir) {
 		ArrayList<Integer> done = new ArrayList<Integer>();
 		ArrayList<Integer> not = new ArrayList<Integer>();
-		for (int i = 0; i <= this.size(); i++) {
+		for (int i = 0; i < this.size(); i++) {
 			ItemStack stack = getStack(i);
 			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
 				NbtCompound nbt = stack.getOrCreateNbt();
@@ -128,7 +121,7 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 	@Override
 	public boolean canInsert(int slot, ItemStack stack, Direction dir) {
-		return getStack(slot).equals(ItemStack.EMPTY) && stack.isOf(ItemRegistry.LARVA_JAR);
+		return getStack(slot).isEmpty() && stack.isOf(ItemRegistry.LARVA_JAR);
 	}
 
 	@Override
@@ -180,6 +173,7 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 	@Override
 	public ItemStack getStack(int slot) {
+		System.out.println(slot+" "+this.inventory.get(slot));
 		return this.inventory.get(slot);
 	}
 
