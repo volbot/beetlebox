@@ -367,6 +367,7 @@ public abstract class BeetleEntity extends TameableEntity {
 
 	@Override
 	protected void initDataTracker() {
+		
 		super.initDataTracker();
 		this.dataTracker.startTracking(CLIMBING, (byte) 0);
 		this.dataTracker.startTracking(FLYING, (byte) 0);
@@ -374,8 +375,10 @@ public abstract class BeetleEntity extends TameableEntity {
 			if (size_cached != 0) {
 				this.dataTracker.startTracking(SIZE, size_cached);
 			} else {
-				int size = this.random.nextInt(20) + 10;
-
+				double sdev = 2;
+				double mean = 10;
+				int size = (int)Math.round(getRandom().nextGaussian() * sdev + mean);
+				
 				this.size_cached = size;
 				this.dataTracker.startTracking(SIZE, size_cached);
 			}
@@ -383,7 +386,9 @@ public abstract class BeetleEntity extends TameableEntity {
 			if (damage_cached != 0) {
 				this.dataTracker.startTracking(DAMAGE, damage_cached);
 			} else {
-				float damage = (this.random.nextInt(15) - 5) * 0.1f + 1.0f; // between 0.5x and 2.0x default
+				double sdev = 1.5;
+				double mean = 1;
+				float damage = (float) (getRandom().nextGaussian() * sdev + mean);
 
 				this.damage_cached = damage;
 				this.dataTracker.startTracking(DAMAGE, damage_cached);
@@ -392,7 +397,9 @@ public abstract class BeetleEntity extends TameableEntity {
 			if (speed_cached != 0) {
 				this.dataTracker.startTracking(SPEED, speed_cached);
 			} else {
-				float speed = (this.random.nextInt(4) - 2) * 0.1f + 1.0f; // between 0.8x and 1.4x default
+				double sdev = 1.5;
+				double mean = 1;
+				float speed = (float) (getRandom().nextGaussian() * sdev + mean);
 
 				this.speed_cached = speed;
 				this.dataTracker.startTracking(SPEED, speed_cached);
@@ -401,7 +408,9 @@ public abstract class BeetleEntity extends TameableEntity {
 			if (maxhealth_cached != 0) {
 				this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);
 			} else {
-				float maxhealth = (this.random.nextInt(10) - 5) * 0.1f + 1.0f; // between 0.5x and 1.5x default
+				double sdev = 1.5;
+				double mean = 1;
+				float maxhealth = (float) (getRandom().nextGaussian() * sdev + mean);
 
 				this.maxhealth_cached = maxhealth;
 				this.dataTracker.startTracking(MAXHEALTH, maxhealth_cached);

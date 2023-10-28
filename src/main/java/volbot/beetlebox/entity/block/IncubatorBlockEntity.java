@@ -173,7 +173,6 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 
 	@Override
 	public ItemStack getStack(int slot) {
-		System.out.println(slot+" "+this.inventory.get(slot));
 		return this.inventory.get(slot);
 	}
 
