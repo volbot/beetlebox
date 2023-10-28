@@ -30,10 +30,13 @@
 		"beetlebox.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.14.21",
+		"fabricloader": ">=0.14.24",
 		"minecraft": "~1.19.4",
 		"java": ">=17",
 		"fabric-api": "*"
 	},
+    "suggests": {
+        "trinkets": ">=3"
+    },
 	"accessWidener": "beetlebox.accesswidener"
 }
