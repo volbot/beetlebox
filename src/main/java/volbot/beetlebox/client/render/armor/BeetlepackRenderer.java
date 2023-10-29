@@ -12,12 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
-public class BeetleArmorRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
+public class BeetlepackRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
 implements ArmorRenderer {
 	
 	private T armorModel;
 	
-	public BeetleArmorRenderer(T model) {
+	public BeetlepackRenderer(T model) {
 		super();
 		armorModel = model;
 	}
@@ -27,8 +27,9 @@ implements ArmorRenderer {
 		LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
 		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
+		armorModel.body.visible = true;
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
-				new Identifier("minecraft","textures/models/armor/"+armorModel.getName()+"_helmet.png"));
+				new Identifier("minecraft","textures/models/armor/beetlepack.png"));
 			
 	}
 }

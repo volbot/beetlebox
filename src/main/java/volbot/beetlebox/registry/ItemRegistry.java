@@ -7,6 +7,9 @@ import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.ArmorItem.Type;
+import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -44,6 +47,8 @@ public class ItemRegistry {
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
 	public static final Item GELATIN_GLUE = new Item(new FabricItemSettings());
+	
+	public static final ArmorItem BEETLEPACK = new ArmorItem(ArmorMaterials.LEATHER, Type.CHESTPLATE, new FabricItemSettings());
 
 	public static final Item APPLE_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item MELON_SYRUP = new FruitSyrup(new FabricItemSettings());
@@ -93,6 +98,8 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
 
+		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetlepack"), BEETLEPACK);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate_jar"), SUBSTRATE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "larva_jar"), LARVA_JAR);
@@ -126,6 +133,7 @@ public class ItemRegistry {
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "upgrade_b_speed"), UPGRADE_B_SPEED);
 
 		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP).register(content -> {
+			content.add(BEETLEPACK);
 			content.add(BEETLE_JAR);
 			content.add(LEG_BEETLE_JAR);
 
