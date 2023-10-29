@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
 
+import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -19,6 +20,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
@@ -49,6 +51,7 @@ import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
+import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
@@ -185,6 +188,10 @@ public class BeetleBoxClient implements ClientModInitializer {
 		ArmorRenderer.register(
 				new BeetlepackRenderer(new BeetlepackModel<>()),
 				ItemRegistry.BEETLEPACK);
+		if(FabricLoader.getInstance().isModLoaded("trinkets")) {
+			System.out.println("PLEASE GOD NO");
+			BeetlepackTrinketRenderer.register();
+		}
 
 		EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
 		EntityModelLayerRegistry.registerModelLayer(MODEL_JRB_LAYER, JRBEntityModel::getTexturedModelData);

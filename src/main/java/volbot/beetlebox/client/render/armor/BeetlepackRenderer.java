@@ -15,7 +15,7 @@ import net.minecraft.util.Identifier;
 public class BeetlepackRenderer <T extends BeetleArmorEntityModel<LivingEntity>>
 implements ArmorRenderer {
 	
-	private T armorModel;
+	protected T armorModel;
 	
 	public BeetlepackRenderer(T model) {
 		super();
