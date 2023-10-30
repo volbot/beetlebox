@@ -15,7 +15,7 @@ import volbot.beetlebox.client.render.armor.BeetlepackModel;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
 import volbot.beetlebox.registry.ItemRegistry;
 
-public class BeetlepackTrinketRenderer<T extends BeetleArmorEntityModel<LivingEntity>> extends BeetlepackRenderer<T>
+public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> extends BeetlepackRenderer<T>
 		implements TrinketRenderer {
 
 	public BeetlepackTrinketRenderer(T model) {
