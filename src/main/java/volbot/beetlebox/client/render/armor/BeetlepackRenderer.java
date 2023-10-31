@@ -42,11 +42,13 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 		matrices.push();
 		scale_factor = 0.52f;
 		matrices.scale(scale_factor, scale_factor, scale_factor);
-		matrices.translate(0.0f, 0.0f, 0.0f); //for standing
-		matrices.translate(0.0f, 0.45f, -0.02f); //for crouching
+		matrices.translate(0.0f, 0.0f, 0.0f); // for standing
+		if (entity.isInSneakingPose()) {
+			matrices.translate(0.0f, 0.45f, -0.02f); // for crouching
+		}
 		matrices.multiply(RotationAxis.POSITIVE_X.rotation(armorModel.body.pitch));
-		System.out.println(armorModel.body.pivotX+" | "+armorModel.body.pivotY+" | "+armorModel.body.pivotZ);
-	 	for (int curr_slot = 0; curr_slot < 6; curr_slot++) {
+
+		for (int curr_slot = 0; curr_slot < 6; curr_slot++) {
 			matrices = translateForNextJar(matrices, curr_slot);
 			JarRenderer.renderJar(matrices, vertexConsumers, light);
 		}

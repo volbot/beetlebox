@@ -27,17 +27,19 @@ public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> 
 			MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, LivingEntity entity,
 			float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw,
 			float headPitch) {
-		if(!(contextModel instanceof BipedEntityModel<? extends LivingEntity>)) {
+		if (!(contextModel instanceof BipedEntityModel<? extends LivingEntity>)) {
 			return;
 		}
 		matrices.push();
-		super.render(matrices, vertexConsumers, stack, entity, EquipmentSlot.CHEST, light, (BipedEntityModel<LivingEntity>)contextModel);
+		super.render(matrices, vertexConsumers, stack, entity, EquipmentSlot.CHEST, light,
+				(BipedEntityModel<LivingEntity>) contextModel);
 		matrices.pop();
 
 	}
-	
+
 	public static void register() {
-		TrinketRendererRegistry.registerRenderer(ItemRegistry.BEETLEPACK, new BeetlepackTrinketRenderer(new BeetlepackModel<>()));
+		TrinketRendererRegistry.registerRenderer(ItemRegistry.BEETLEPACK,
+				new BeetlepackTrinketRenderer(new BeetlepackModel<>()));
 	}
 
 }

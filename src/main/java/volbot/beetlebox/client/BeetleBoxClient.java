@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.lwjgl.glfw.GLFW;
 
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

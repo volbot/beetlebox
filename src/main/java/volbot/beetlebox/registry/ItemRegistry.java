@@ -20,6 +20,7 @@ import net.minecraft.util.Rarity;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
+import volbot.beetlebox.item.equipment.BeetlepackItem;
 import volbot.beetlebox.item.equipment.materials.BeetleItemUpgrade;
 import volbot.beetlebox.item.equipment.materials.DormantUpgrade;
 import volbot.beetlebox.item.tools.BeetleJarItem;
@@ -48,7 +49,7 @@ public class ItemRegistry {
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
 	public static final Item GELATIN_GLUE = new Item(new FabricItemSettings());
 	
-	public static final ArmorItem BEETLEPACK = new ArmorItem(ArmorMaterials.LEATHER, Type.CHESTPLATE, new FabricItemSettings());
+	public static final ArmorItem BEETLEPACK = new BeetlepackItem(new FabricItemSettings());
 
 	public static final Item APPLE_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item MELON_SYRUP = new FruitSyrup(new FabricItemSettings());
