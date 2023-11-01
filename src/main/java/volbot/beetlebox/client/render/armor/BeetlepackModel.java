@@ -11,6 +11,7 @@ import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
 import net.minecraft.entity.LivingEntity;
+import volbot.beetlebox.client.render.armor.beetle.BeetleArmorEntityModel;
 
 @Environment(EnvType.CLIENT)
 public class BeetlepackModel<T extends LivingEntity> extends BeetleArmorEntityModel<T> {

@@ -1,4 +1,4 @@
-package volbot.beetlebox.client.render.armor;
+package volbot.beetlebox.client.render.armor.beetle;
 
 import net.minecraft.client.model.ModelData;
 import net.fabricmc.api.EnvType;

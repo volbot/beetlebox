@@ -59,19 +59,19 @@ import volbot.beetlebox.registry.ItemRegistry;
 import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
-import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
-import volbot.beetlebox.client.render.armor.BeetleArmorRenderer;
-import volbot.beetlebox.client.render.armor.BeetleElytraFeatureRenderer;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
+import volbot.beetlebox.client.render.armor.beetle.ActaeonHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.AtlasHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.BeetleArmorEntityModel;
+import volbot.beetlebox.client.render.armor.beetle.BeetleArmorRenderer;
+import volbot.beetlebox.client.render.armor.beetle.BeetleElytraFeatureRenderer;
+import volbot.beetlebox.client.render.armor.beetle.ElephantHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.HercHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.JRBHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.StandardHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.TitanHelmetModel;
+import volbot.beetlebox.client.render.armor.beetle.TityusHelmetModel;
 import volbot.beetlebox.client.render.armor.BeetlepackModel;
-import volbot.beetlebox.client.render.armor.JRBHelmetModel;
-import volbot.beetlebox.client.render.armor.HercHelmetModel;
-import volbot.beetlebox.client.render.armor.TitanHelmetModel;
-import volbot.beetlebox.client.render.armor.AtlasHelmetModel;
-import volbot.beetlebox.client.render.armor.ElephantHelmetModel;
-import volbot.beetlebox.client.render.armor.TityusHelmetModel;
-import volbot.beetlebox.client.render.armor.StandardHelmetModel;
-import volbot.beetlebox.client.render.armor.ActaeonHelmetModel;
 
 @SuppressWarnings("deprecation")
 @Environment(EnvType.CLIENT)

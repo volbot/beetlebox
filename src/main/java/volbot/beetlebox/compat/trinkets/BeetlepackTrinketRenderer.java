@@ -38,7 +38,7 @@ public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> 
 
 	public static void register() {
 		TrinketRendererRegistry.registerRenderer(ItemRegistry.BEETLEPACK,
-				new BeetlepackTrinketRenderer(new BeetlepackModel<>()));
+				new BeetlepackTrinketRenderer<>(new BeetlepackModel<>()));
 	}
 
 }
