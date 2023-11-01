@@ -10,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import volbot.beetlebox.client.render.armor.BeetleArmorEntityModel;
 import volbot.beetlebox.client.render.armor.BeetlepackModel;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
 import volbot.beetlebox.registry.ItemRegistry;

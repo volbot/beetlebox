@@ -5,11 +5,10 @@ import java.util.Vector;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorItem.Type;
-import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -17,6 +16,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
+import volbot.beetlebox.client.render.gui.BeetlepackScreen;
+import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
@@ -99,6 +100,10 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
 
+        HandledScreens.register(BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE, BeetlepackScreen::new);
+
+		Registry.register(Registries.SCREEN_HANDLER, new Identifier("beetlebox","beetlepack"), BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE);
+		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetlepack"), BEETLEPACK);
 		
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
