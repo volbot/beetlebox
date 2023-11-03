@@ -81,15 +81,18 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
 			if (nbt.contains("EntityName")) {
 				temp.setCustomName(Text.of(nbt.getString("EntityName")));
-				itemStack.removeSubNbt("EntityName");
 			} else {
 				temp.setCustomName(null);
 			}
-			temp.teleport(blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5);
-			if (world.spawnEntity(temp) != false) {
+			temp.refreshPositionAfterTeleport(blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5);
+			if (!world.isClient) {
+				((ServerWorld) world).onDimensionChanged(temp);
 				itemStack.removeSubNbt("EntityTag");
 				itemStack.removeSubNbt("EntityType");
-				world.emitGameEvent((Entity) context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
+				itemStack.removeSubNbt("EntityName");
+				world.emitGameEvent(temp, GameEvent.ENTITY_PLACE,
+						blockPos2);
+			
 			} else {
 				return ActionResult.FAIL;
 			}
