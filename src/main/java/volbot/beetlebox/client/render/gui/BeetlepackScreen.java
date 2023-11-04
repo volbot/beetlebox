@@ -41,7 +41,7 @@ public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 				Text name = Text.of("ERROR");
 				boolean bl = nbt.contains("EntityType");
 				if (!bl)
-					return;
+					continue;
 				if (nbt.contains("EntityName")) {
 					name = Text.of(nbt.getString("EntityName"));
 				} else {

@@ -11,6 +11,7 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.world.World;
@@ -31,6 +32,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -73,18 +75,7 @@ public abstract class PlayerMixin extends LivingEntity {
 	}
 
 	private static void deployBeetles(PlayerEntity user) {
-		ItemStack beetlepack = ItemStack.EMPTY;
-		if (user.getInventory().containsAny(Set.of(ItemRegistry.BEETLEPACK))) {
-			beetlepack = (user.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId()));
-		}
-		if (!(beetlepack.getItem() instanceof BeetlepackItem)) {
-			if (FabricLoader.getInstance().isModLoaded("trinkets")) {
-				ItemStack back_stack = BeetlepackTrinketRenderer.getBackStack(user);
-				if (back_stack.getItem() instanceof BeetlepackItem) {
-					beetlepack = back_stack;
-				}
-			}
-		}
+		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
 			if (!beetlepack_nbt.contains("FlightSpawn")) {
@@ -137,18 +128,7 @@ public abstract class PlayerMixin extends LivingEntity {
 	}
 
 	private static void recallBeetles(PlayerEntity user) {
-		ItemStack beetlepack = ItemStack.EMPTY;
-		if (user.getInventory().containsAny(Set.of(ItemRegistry.BEETLEPACK))) {
-			beetlepack = user.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId());
-		}
-		if (!(beetlepack.getItem() instanceof BeetlepackItem)) {
-			if (FabricLoader.getInstance().isModLoaded("trinkets")) {
-				ItemStack back_stack = BeetlepackTrinketRenderer.getBackStack(user);
-				if (back_stack.getItem() instanceof BeetlepackItem) {
-					beetlepack = back_stack;
-				}
-			}
-		}
+		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
 			if (beetlepack_nbt.contains("FlightSpawn")) {
@@ -222,11 +202,24 @@ public abstract class PlayerMixin extends LivingEntity {
 	@Override
 	protected void setFlag(int index, boolean value) {
 		super.setFlag(index, value);
-		if (index == Entity.FALL_FLYING_FLAG_INDEX) {
-			if (value) {
-				deployBeetles(((PlayerEntity) (Object) this));
-			} else {
-				recallBeetles(((PlayerEntity) (Object) this));
+		if (this.getAttacker() == null) {
+			if (index == Entity.FALL_FLYING_FLAG_INDEX) {
+				if (value) {
+					deployBeetles(((PlayerEntity) (Object) this));
+				} else {
+					recallBeetles(((PlayerEntity) (Object) this));
+				}
+			}
+		}
+	}
+
+	@Override
+	public void setAttacker(@Nullable LivingEntity attacker) {
+		super.setAttacker(attacker);
+		if (this.isFallFlying() && attacker != null) {
+			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity)(Object)this);
+			if (!beetlepack.isEmpty() && beetlepack.getOrCreateNbt().contains("FlightSpawn")) {
+				recallBeetles(((PlayerEntity)(Object) this));
 			}
 		}
 	}
