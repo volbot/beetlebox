@@ -57,7 +57,7 @@ public class NetItem extends Item {
 			}
 			nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
 			ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
-			entity.discard();
+    		entity.remove(RemovalReason.CHANGED_DIMENSION);
 			jar_new.setNbt(nbt);
 			jar_stack.decrement(1);
 			if (user.getInventory().getEmptySlot() == -1) {
