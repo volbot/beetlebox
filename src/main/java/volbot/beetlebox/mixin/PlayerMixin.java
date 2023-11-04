@@ -1,33 +1,22 @@
 package volbot.beetlebox.mixin;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.server.world.ServerEntityManager;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.world.World;
-import net.minecraft.world.entity.EntityTrackingSection;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.item.ElytraItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
@@ -103,6 +92,7 @@ public abstract class PlayerMixin extends LivingEntity {
 				NbtCompound beetlepack_inv_nbt = beetlepack_nbt.getCompound("Inventory");
 				Inventories.readNbt(beetlepack_inv_nbt, beetlepack_inv);
 				ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
+				World world = user.getWorld();
 				for (ItemStack jar : beetlepack_inv) {
 					NbtCompound jar_nbt = jar.getOrCreateNbt();
 					if (jar_nbt.contains("EntityTag") && jar_nbt.getCompound("EntityTag").containsUuid("Owner")) {
@@ -110,7 +100,7 @@ public abstract class PlayerMixin extends LivingEntity {
 						if (entityType2 == null) {
 							continue;
 						}
-						LivingEntity temp = (LivingEntity) entityType2.create(user.getWorld());
+						LivingEntity temp = (LivingEntity) entityType2.create(world);
 						temp.readNbt(jar_nbt.getCompound("EntityTag"));
 						temp.readCustomDataFromNbt(jar_nbt.getCompound("EntityTag"));
 						if (jar_nbt.contains("EntityName")) {
@@ -121,7 +111,7 @@ public abstract class PlayerMixin extends LivingEntity {
 						BlockPos blockPos2 = user.getBlockPos();
 						temp.refreshPositionAfterTeleport(blockPos2.getX() + 0.5, blockPos2.getY(),
 								blockPos2.getZ() + 0.5);
-						if (user.getWorld().spawnEntity(temp)) {
+						if (world.spawnEntity(temp)) {
 							jar.removeSubNbt("EntityTag");
 							jar.removeSubNbt("EntityType");
 							jar.removeSubNbt("EntityName");
@@ -134,6 +124,7 @@ public abstract class PlayerMixin extends LivingEntity {
 					int i = 0;
 					for (UUID uuid : spawned_uuids) {
 						uuid_nbt.putUuid("FlightSpawn" + i, uuid);
+						i++;
 					}
 					beetlepack_nbt.put("FlightSpawn", uuid_nbt);
 				}
@@ -212,6 +203,8 @@ public abstract class PlayerMixin extends LivingEntity {
 						jar_new.setNbt(nbt);
 						beetlepack_inv.set(i, jar_new);
 						entity.remove(RemovalReason.CHANGED_DIMENSION);
+					} else {
+						break;
 					}
 					if (j == beetlepack_inv.size()) {
 						break;
@@ -221,7 +214,6 @@ public abstract class PlayerMixin extends LivingEntity {
 				NbtCompound inv_nbt = new NbtCompound();
 				Inventories.writeNbt(inv_nbt, beetlepack_inv);
 				beetlepack_nbt.put("Inventory", inv_nbt);
-				System.out.println("Setting nbt");
 				beetlepack.setNbt(beetlepack_nbt);
 			}
 		}
