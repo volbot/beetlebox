@@ -1,6 +1,5 @@
 package volbot.beetlebox.item.tools;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,14 +9,11 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.world.World;
 import volbot.beetlebox.item.equipment.BeetlepackItem;
-import volbot.beetlebox.registry.ItemRegistry;
 
 public class NetItem extends Item {
 
@@ -96,7 +92,7 @@ public class NetItem extends Item {
 				nbt.putString("EntityName", custom_name.getString());
 			}
 			nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
-			ItemStack jar_new = ItemRegistry.BEETLE_JAR.getDefaultStack();
+			ItemStack jar_new = jar_stack.getItem().getDefaultStack();
 			entity.remove(RemovalReason.CHANGED_DIMENSION);
 			jar_new.setNbt(nbt);
 			jar_stack.decrement(1);

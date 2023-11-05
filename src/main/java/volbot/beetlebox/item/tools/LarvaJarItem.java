@@ -89,7 +89,7 @@ public class LarvaJarItem extends Item {
 			temp.teleport(blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5);
 			if (world.spawnEntity(temp) != false) {
 				context.getPlayer().setStackInHand(context.getPlayer().getActiveHand(),
-						ItemRegistry.BEETLE_JAR.getDefaultStack());
+						((BeetleJarItem<?>)ItemRegistry.BEETLE_JAR).canStore(temp) ? ItemRegistry.BEETLE_JAR.getDefaultStack() : ItemRegistry.LEG_BEETLE_JAR.getDefaultStack());
 				ItemStack husk_stack = ItemRegistry.BEETLE_HUSK.getDefaultStack();
 				husk_stack.setCount(context.getWorld().getRandom().nextBetween(2, 5));
 				context.getPlayer().giveItemStack(husk_stack);

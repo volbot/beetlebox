@@ -1,7 +1,5 @@
 package volbot.beetlebox.client.render.gui;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -12,7 +10,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler.BeetlepackSlot;
 import volbot.beetlebox.item.tools.BeetleJarItem;

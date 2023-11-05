@@ -14,7 +14,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.RotationAxis;
-import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler.BeetlepackSlot;
 import volbot.beetlebox.client.render.item.JarRenderer;
 
 @Environment(EnvType.CLIENT)

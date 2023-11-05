@@ -1,6 +1,8 @@
 package volbot.beetlebox.item.tools;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
@@ -33,10 +35,10 @@ import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 public class BeetleJarItem<T extends LivingEntity> extends Item {
 
 	Class<T> clazz;
-	
+
 	public BeetleJarItem(Settings settings, Class<T> clazz) {
 		super(settings);
-		this.clazz=clazz;
+		this.clazz = clazz;
 	}
 
 	@Override
@@ -53,7 +55,12 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			tooltip.add(Text.literal("Contained: ").append(e.getName()).formatted(Formatting.GRAY));
 		}
 	}
-	
+
+	@Override
+	public ItemStack getDefaultStack() {
+		return new ItemStack(this);
+	}
+
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
 		if (!(world instanceof ServerWorld)) {
@@ -65,38 +72,10 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		BlockState blockState = world.getBlockState(blockPos);
 		BlockPos blockPos2 = blockState.getCollisionShape(world, blockPos).isEmpty() ? blockPos
 				: blockPos.offset(direction);
-		NbtCompound nbt = itemStack.getOrCreateNbt();
 		if (blockState.getBlock() instanceof BeetleTankBlock) {
 			return ActionResult.CONSUME;
 		} else {
-			if (nbt == null || !nbt.contains("EntityType")) {
-				return ActionResult.FAIL;
-			}
-			EntityType<?> entityType2 = EntityType.get(nbt.getString("EntityType")).orElse(null);
-			if (entityType2 == null) {
-				return ActionResult.FAIL;
-			}
-			LivingEntity temp = (LivingEntity) entityType2.create(world);
-			temp.readNbt(nbt.getCompound("EntityTag"));
-			temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
-			if (nbt.contains("EntityName")) {
-				temp.setCustomName(Text.of(nbt.getString("EntityName")));
-			} else {
-				temp.setCustomName(null);
-			}
-			temp.refreshPositionAfterTeleport(blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5);
-			if (!world.isClient) {
-				((ServerWorld) world).onDimensionChanged(temp);
-				itemStack.removeSubNbt("EntityTag");
-				itemStack.removeSubNbt("EntityType");
-				itemStack.removeSubNbt("EntityName");
-				world.emitGameEvent(temp, GameEvent.ENTITY_PLACE,
-						blockPos2);
-			
-			} else {
-				return ActionResult.FAIL;
-			}
-			return ActionResult.CONSUME;
+			return trySpawnFromJar(itemStack, blockPos2, world).isPresent() ? ActionResult.CONSUME : ActionResult.FAIL;
 		}
 	}
 
@@ -126,20 +105,44 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	public boolean canStore(Entity entity) {
 		return clazz.isAssignableFrom(entity.getClass());
 	}
-	
+
 	public static ContainedEntity getContained(ItemStack stack) {
 		NbtCompound nbt = stack.getNbt();
-		if(!nbt.contains("EntityType")) {
+		if (!nbt.contains("EntityType")) {
 			return null;
 		}
 		String contained_id = nbt.getString("EntityType");
 		NbtCompound entity_data = nbt.getCompound("EntityData");
 		String custom_name = "";
-		if(nbt.contains("EntityName")) {
-				custom_name = nbt.getString("EntityName");
-		}	
-		return new ContainedEntity(contained_id,entity_data,custom_name);
+		if (nbt.contains("EntityName")) {
+			custom_name = nbt.getString("EntityName");
+		}
+		return new ContainedEntity(contained_id, entity_data, custom_name);
 	}
 
-
+	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world) {
+		NbtCompound nbt = jar_stack.getOrCreateNbt();
+		if (nbt == null || !nbt.contains("EntityType")) {
+			return Optional.empty();
+		}
+		EntityType<?> entityType2 = EntityType.get(nbt.getString("EntityType")).orElse(null);
+		if (entityType2 == null) {
+			return Optional.empty();
+		}
+		LivingEntity temp = (LivingEntity) entityType2.create(world);
+		temp.readNbt(nbt.getCompound("EntityTag"));
+		temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
+		if (nbt.contains("EntityName")) {
+			temp.setCustomName(Text.of(nbt.getString("EntityName")));
+		} else {
+			temp.setCustomName(null);
+		}
+		temp.refreshPositionAfterTeleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		if (world.spawnEntity(temp)) {
+			jar_stack.setNbt(jar_stack.getItem().getDefaultStack().getNbt());
+			world.emitGameEvent(temp, GameEvent.ENTITY_PLACE, pos);
+			return Optional.of(temp);
+		}
+		return Optional.empty();
+	}
 }
