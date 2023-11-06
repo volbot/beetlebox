@@ -33,6 +33,7 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 		armorModel.setVisible(false);
 		armorModel.body.visible = true;
 		float scale_factor = 1.185f;
+		matrices.push();
 		matrices.scale(scale_factor, scale_factor, scale_factor);
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft", "textures/models/armor/beetlepack.png"));
@@ -59,6 +60,7 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 				}
 			}
 		}
+		matrices.pop();
 		matrices.pop();
 	}
 

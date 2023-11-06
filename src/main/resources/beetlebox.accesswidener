@@ -8,4 +8,5 @@ accessible method net/minecraft/block/BlockSetType register (Lnet/minecraft/bloc
 accessible method net/minecraft/block/WoodType register (Lnet/minecraft/block/WoodType;)Lnet/minecraft/block/WoodType;
 accessible method net/minecraft/client/world/ClientWorld getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
 accessible method net/minecraft/world/World getEntityLookup ()Lnet/minecraft/world/entity/EntityLookup;
+accessible field net/minecraft/screen/PlayerScreenHandler owner Lnet/minecraft/entity/player/PlayerEntity;
 mutable field net/minecraft/entity/LivingEntity limbAnimator Lnet/minecraft/entity/LimbAnimator;

@@ -11,11 +11,14 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -29,7 +32,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import volbot.beetlebox.block.BeetleTankBlock;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 
 public class BeetleJarItem<T extends LivingEntity> extends Item {
@@ -72,17 +74,16 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		BlockState blockState = world.getBlockState(blockPos);
 		BlockPos blockPos2 = blockState.getCollisionShape(world, blockPos).isEmpty() ? blockPos
 				: blockPos.offset(direction);
-		if (blockState.getBlock() instanceof BeetleTankBlock) {
-			return ActionResult.CONSUME;
-		} else {
-			return trySpawnFromJar(itemStack, blockPos2, world).isPresent() ? ActionResult.CONSUME : ActionResult.FAIL;
+		if (trySpawnFromJar(itemStack, blockPos2, world, context.getPlayer()).isPresent()) {
+			world.emitGameEvent((Entity) context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
 		}
+		return ActionResult.CONSUME;
 	}
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
 		ItemStack itemStack = user.getStackInHand(hand);
-		BlockHitResult hitResult = BeetleJarItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
+		BlockHitResult hitResult = SpawnEggItem.raycast(world, user, RaycastContext.FluidHandling.SOURCE_ONLY);
 		if (((HitResult) hitResult).getType() != HitResult.Type.BLOCK) {
 			return TypedActionResult.pass(itemStack);
 		}
@@ -91,15 +92,18 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		}
 		BlockHitResult blockHitResult = hitResult;
 		BlockPos blockPos = blockHitResult.getBlockPos();
-		BlockState blockState = world.getBlockState(blockPos);
-		if (!(blockState.getBlock() instanceof FluidBlock)) {
+		if (!(world.getBlockState(blockPos).getBlock() instanceof FluidBlock)) {
 			return TypedActionResult.pass(itemStack);
 		}
 		if (!world.canPlayerModifyAt(user, blockPos)
 				|| !user.canPlaceOn(blockPos, blockHitResult.getSide(), itemStack)) {
 			return TypedActionResult.fail(itemStack);
 		}
-		return TypedActionResult.pass(itemStack);
+		Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(itemStack, blockPos, world, user);
+		if (opt.isEmpty()) {
+			return TypedActionResult.pass(itemStack);
+		}
+		return TypedActionResult.consume(itemStack);
 	}
 
 	public boolean canStore(Entity entity) {
@@ -121,6 +125,12 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	}
 
 	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world) {
+		return trySpawnFromJar(jar_stack, pos, world, null);
+	}
+	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world, @Nullable PlayerEntity user) {
+		if (world.isClient) {
+			return Optional.empty();
+		}
 		NbtCompound nbt = jar_stack.getOrCreateNbt();
 		if (nbt == null || !nbt.contains("EntityType")) {
 			return Optional.empty();
@@ -129,7 +139,8 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		if (entityType2 == null) {
 			return Optional.empty();
 		}
-		LivingEntity temp = (LivingEntity) entityType2.create(world);
+		LivingEntity temp = (LivingEntity) entityType2.create((ServerWorld) world, null, null, pos,
+				SpawnReason.SPAWN_EGG, false, false);
 		temp.readNbt(nbt.getCompound("EntityTag"));
 		temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
 		if (nbt.contains("EntityName")) {
@@ -137,7 +148,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		} else {
 			temp.setCustomName(null);
 		}
-		temp.refreshPositionAfterTeleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
+		temp.refreshPositionAndAngles(pos, 0, 0);
 		if (world.spawnEntity(temp)) {
 			jar_stack.setNbt(jar_stack.getItem().getDefaultStack().getNbt());
 			world.emitGameEvent(temp, GameEvent.ENTITY_PLACE, pos);

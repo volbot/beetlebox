@@ -1,5 +1,6 @@
 package volbot.beetlebox.mixin;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -11,9 +12,13 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.World;
+import net.minecraft.item.Equipment;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
+import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
 import volbot.beetlebox.item.equipment.BeetlepackItem;
@@ -32,6 +37,34 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	protected PlayerMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
+	}
+
+	@Override
+	public void onEquipStack(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack) {
+		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+			if (newStack.getItem() instanceof BeetlepackItem) {
+				if (BeetlepackTrinketRenderer.getBackStack((PlayerEntity) (Object) this)
+						.getItem() instanceof BeetlepackItem) {
+					PlayerEntity user = ((PlayerEntity) (Object) this);
+					if(user.getWorld().isClient()) {
+						super.onEquipStack(slot, newStack, oldStack);
+						return;
+					}
+					System.out.println(user.getInventory().getEmptySlot());
+					
+					if (user.getInventory().getEmptySlot() == -1) {
+						ItemStack newNewStack = newStack.copy();
+						newStack.setCount(0);
+						user.dropStack(newNewStack);
+					} else {
+						user.giveItemStack(newStack);
+					}
+					super.onEquipStack(slot, newStack, oldStack);
+					return;
+				}
+			}
+		}
+		super.onEquipStack(slot, newStack, oldStack);
 	}
 
 	@Inject(method = "attack", at = @At(value = "RETURN"))
@@ -60,7 +93,6 @@ public abstract class PlayerMixin extends LivingEntity {
 		}
 	}
 
-	
 	@Override
 	protected void setFlag(int index, boolean value) {
 		super.setFlag(index, value);
@@ -79,9 +111,9 @@ public abstract class PlayerMixin extends LivingEntity {
 	public void setAttacker(@Nullable LivingEntity attacker) {
 		super.setAttacker(attacker);
 		if (this.isFallFlying() && attacker != null) {
-			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity)(Object)this);
+			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity) (Object) this);
 			if (!beetlepack.isEmpty() && beetlepack.getOrCreateNbt().contains("FlightSpawn")) {
-				BeetlepackItem.recallBeetles(((PlayerEntity)(Object) this));
+				BeetlepackItem.recallBeetles(((PlayerEntity) (Object) this));
 			}
 		}
 	}

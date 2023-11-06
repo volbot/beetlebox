@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+import dev.emi.trinkets.api.Trinket;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
@@ -25,7 +28,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
@@ -62,7 +64,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				World world = user.getWorld();
 				for (ItemStack jar : beetlepack_inv) {
 					if(jar.getItem() instanceof BeetleJarItem) {
-						Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world);
+						Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world, user);
 						if(opt.isPresent()) {
 							spawned_uuids.add(opt.get().getUuid());
 						}

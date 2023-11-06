@@ -2,6 +2,8 @@ package volbot.beetlebox.compat.trinkets;
 
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
+
+import net.minecraft.util.Pair;
 import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
@@ -12,6 +14,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import volbot.beetlebox.client.render.armor.BeetlepackModel;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
@@ -47,7 +50,7 @@ public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> 
 	public static ItemStack getBackStack(PlayerEntity playerEntity) {
 		TrinketComponent tc = TrinketsApi.getTrinketComponent(playerEntity).get();
 		if (tc.isEquipped(ItemRegistry.BEETLEPACK)) {
-			return tc.getEquipped(ItemRegistry.BEETLEPACK).get(0).getRight();
+			return tc.getInventory().get("chest").get("back").getStack(0);
 		} else {
 			return ItemStack.EMPTY;
 		}

@@ -29,6 +29,11 @@ import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 
 public class ItemRegistry {
+	
+	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
+	
+	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
+			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
 
 	public static Vector<Item> beetle_helmets = new Vector<>();
 	public static Vector<Item> spawn_eggs = new Vector<>();
@@ -57,7 +62,6 @@ public class ItemRegistry {
 	public static final Item BERRY_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item SUGAR_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item CACTUS_SYRUP = new FruitSyrup(new FabricItemSettings());
-	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
 
 	public static final Item UPGRADE_DORMANT = new DormantUpgrade(new FabricItemSettings());
 	public static final Item UPGRADE_H_ATTACK = new BeetleItemUpgrade("beetle_helmet_attack", EquipmentSlot.HEAD,
@@ -84,9 +88,6 @@ public class ItemRegistry {
 	public static final Item BEETLE_JAR = new BeetleJarItem<BeetleEntity>(new FabricItemSettings(), BeetleEntity.class);
 	public static final Item LEG_BEETLE_JAR = new BeetleJarItem<LivingEntity>(
 			new FabricItemSettings().rarity(Rarity.UNCOMMON), LivingEntity.class);
-
-	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
-			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
 
 	public static void register() {
 

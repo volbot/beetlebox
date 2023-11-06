@@ -2,17 +2,11 @@ package volbot.beetlebox.entity.mobstorage;
 
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.FallibleItemDispenserBehavior;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import volbot.beetlebox.item.equipment.BeetlepackItem;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.LarvaJarItem;
 
@@ -24,7 +18,6 @@ public class EntityPlacementDispenserBehavior extends FallibleItemDispenserBehav
 		if (item instanceof BeetleJarItem || item instanceof LarvaJarItem) {
 			Direction direction = pointer.getBlockState().get(DispenserBlock.FACING);
 			BlockPos blockPos = pointer.getPos().offset(direction);
-
 			this.setSuccess(BeetleJarItem.trySpawnFromJar(stack, blockPos, pointer.getWorld()).isPresent());
 		}
 		return stack;
