@@ -229,7 +229,7 @@ public class ImmigratorBlockEntity extends LootableContainerBlockEntity
 	@Override
 	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
 		if(var2.isOf(ItemRegistry.BEETLE_JAR)) {
-			if(var2.getOrCreateNbt().contains("EntityType")) {
+			if(var2.hasNbt() && var2.getNbt().contains("EntityType")) {
 				return false;
 			}
 		}

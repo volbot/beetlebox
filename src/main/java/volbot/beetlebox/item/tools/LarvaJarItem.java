@@ -33,7 +33,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class LarvaJarItem extends Item {
 
 	public static final int MAX_GROWING_TIME = 5184000;
-	//public static final int MAX_GROWING_TIME = 2;
+	// public static final int MAX_GROWING_TIME = 2;
 
 	public LarvaJarItem(Settings settings) {
 		super(settings.maxCount(1));
@@ -82,14 +82,15 @@ public class LarvaJarItem extends Item {
 			temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
 			if (nbt.contains("EntityName")) {
 				temp.setCustomName(Text.of(nbt.getString("EntityName")));
-				itemStack.removeSubNbt("EntityName");
 			} else {
 				temp.setCustomName(null);
 			}
 			temp.teleport(blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5);
-			if (world.spawnEntity(temp) != false) {
+			if (world.spawnEntity(temp)) {
 				context.getPlayer().setStackInHand(context.getPlayer().getActiveHand(),
-						((BeetleJarItem<?>)ItemRegistry.BEETLE_JAR).canStore(temp) ? ItemRegistry.BEETLE_JAR.getDefaultStack() : ItemRegistry.LEG_BEETLE_JAR.getDefaultStack());
+						((BeetleJarItem<?>) ItemRegistry.BEETLE_JAR).canStore(temp)
+								? ItemRegistry.BEETLE_JAR.getDefaultStack()
+								: ItemRegistry.LEG_BEETLE_JAR.getDefaultStack());
 				ItemStack husk_stack = ItemRegistry.BEETLE_HUSK.getDefaultStack();
 				husk_stack.setCount(context.getWorld().getRandom().nextBetween(2, 5));
 				context.getPlayer().giveItemStack(husk_stack);

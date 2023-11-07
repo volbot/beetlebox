@@ -37,25 +37,26 @@ public class NetItem extends Item {
 				ItemStack itemStack = beetlepack_inv.get(i);
 				if (itemStack.isEmpty() && beetlepack_slot != -1) {
 					beetlepack_slot = i;
-					System.out.println("plox");
 					if (jar_stack != null) {
 						break;
 					}
 				}
 				if (jar_stack == null && itemStack.getItem() instanceof BeetleJarItem<?>) {
 					BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-					NbtCompound nbt = itemStack.getOrCreateNbt();
-					if (nbt.contains("EntityType") || !item.canStore(entity)) {
-						continue;
-					}
-					jar_stack = itemStack;
-					beetlepack_accessed = true;
-					if (beetlepack_slot != -1) {
-						break;
-					}
-					if (itemStack.getCount() == 1) {
-						beetlepack_slot = i;
-						break;
+					if (itemStack.hasNbt()) {
+						NbtCompound nbt = itemStack.getNbt();
+						if (nbt.contains("EntityType") || !item.canStore(entity)) {
+							continue;
+						}
+						jar_stack = itemStack;
+						beetlepack_accessed = true;
+						if (beetlepack_slot != -1) {
+							break;
+						}
+						if (itemStack.getCount() == 1) {
+							beetlepack_slot = i;
+							break;
+						}
 					}
 				}
 			}

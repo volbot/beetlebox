@@ -34,7 +34,7 @@ public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 				continue;
 			}
 			if (slot.getStack().getItem() instanceof BeetleJarItem) {
-				NbtCompound nbt = slot.getStack().getOrCreateNbt();
+				NbtCompound nbt = slot.getStack().hasNbt() ? slot.getStack().getNbt() : new NbtCompound();
 				Text name = Text.of("ERROR");
 				boolean bl = nbt.contains("EntityType");
 				if (!bl)

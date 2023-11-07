@@ -74,9 +74,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 		BlockState blockState = world.getBlockState(blockPos);
 		BlockPos blockPos2 = blockState.getCollisionShape(world, blockPos).isEmpty() ? blockPos
 				: blockPos.offset(direction);
-		if (trySpawnFromJar(itemStack, blockPos2, world, context.getPlayer()).isPresent()) {
-			world.emitGameEvent((Entity) context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
-		}
+		trySpawnFromJar(itemStack, blockPos2, world, context.getPlayer()).isPresent();
 		return ActionResult.CONSUME;
 	}
 
@@ -127,11 +125,13 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world) {
 		return trySpawnFromJar(jar_stack, pos, world, null);
 	}
-	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world, @Nullable PlayerEntity user) {
-		if (world.isClient) {
+
+	public static Optional<LivingEntity> trySpawnFromJar(ItemStack jar_stack, BlockPos pos, World world,
+			@Nullable PlayerEntity user) {
+		if (world.isClient || !jar_stack.hasNbt()) {
 			return Optional.empty();
 		}
-		NbtCompound nbt = jar_stack.getOrCreateNbt();
+		NbtCompound nbt = jar_stack.getNbt();
 		if (nbt == null || !nbt.contains("EntityType")) {
 			return Optional.empty();
 		}
@@ -143,14 +143,20 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				SpawnReason.SPAWN_EGG, false, false);
 		temp.readNbt(nbt.getCompound("EntityTag"));
 		temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
+		boolean name_changed = false;
 		if (nbt.contains("EntityName")) {
 			temp.setCustomName(Text.of(nbt.getString("EntityName")));
 		} else {
 			temp.setCustomName(null);
+			name_changed = true;
 		}
 		temp.refreshPositionAndAngles(pos, 0, 0);
 		if (world.spawnEntity(temp)) {
-			jar_stack.setNbt(jar_stack.getItem().getDefaultStack().getNbt());
+			nbt.remove("EntityType");
+			nbt.remove("EntityTag");
+			if (name_changed) {
+				nbt.remove("EntityName");
+			}
 			world.emitGameEvent(temp, GameEvent.ENTITY_PLACE, pos);
 			return Optional.of(temp);
 		}

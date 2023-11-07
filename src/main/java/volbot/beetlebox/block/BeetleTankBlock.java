@@ -182,9 +182,9 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						}
 						te.pushContained(new ContainedEntity(jar_nbt.getString("EntityType"),
 								jar_nbt.getCompound("EntityTag"), jar_nbt.getString("EntityName")));
-						jar_stack.removeSubNbt("EntityName");
-						jar_stack.removeSubNbt("EntityTag");
-						jar_stack.removeSubNbt("EntityType");
+						jar_nbt.remove("EntityName");
+						jar_nbt.remove("EntityTag");
+						jar_nbt.remove("EntityType");
 						return ActionResult.SUCCESS;
 					}
 				} else if (handstack.isOf(ItemRegistry.SUBSTRATE_JAR)

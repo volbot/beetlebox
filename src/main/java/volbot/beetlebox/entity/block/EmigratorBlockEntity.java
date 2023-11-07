@@ -101,8 +101,8 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 				if (te.getContained() != null && i.getItem() instanceof BeetleJarItem) {
 					LivingEntity e = (LivingEntity) ((EntityType.get(te.getContained().getContainedId()).orElse(null)
 							.create(te.getWorld())));
-					NbtCompound nbt1 = i.getOrCreateNbt();
-					if (((BeetleJarItem<?>) i.getItem()).canStore(e) && !nbt1.contains("EntityType")) {
+					if (((BeetleJarItem<?>) i.getItem()).canStore(e)
+							&& (!i.hasNbt() || !(i.getNbt().contains("EntityType")))) {
 						ItemStack i2 = i.getItem().getDefaultStack();
 						NbtCompound nbt = i2.getOrCreateNbt();
 						nbt.putString("EntityType", te.getContained().getContainedId());
@@ -119,7 +119,7 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 					}
 				} else if (te.larva != null && i.isOf(ItemRegistry.SUBSTRATE_JAR)) {
 					Larva tank_larva = te.larva;
-					te.larva=null;
+					te.larva = null;
 					LivingEntity e = ((LivingEntity) EntityType.get(tank_larva.type).orElse(null)
 							.create(te.getWorld()));
 					if (e instanceof BeetleEntity) {
@@ -305,11 +305,11 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 	@Override
 	public boolean canExtract(int var1, ItemStack var2, Direction var3) {
 		if (var2.isOf(ItemRegistry.BEETLE_JAR)) {
-			if (var2.getOrCreateNbt().contains("EntityType")) {
+			if (var2.hasNbt() && var2.getNbt().contains("EntityType")) {
 				return true;
 			}
 		}
-		if(var2.isOf(ItemRegistry.LARVA_JAR)) {
+		if (var2.isOf(ItemRegistry.LARVA_JAR)) {
 			return true;
 		}
 		return false;
