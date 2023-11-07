@@ -50,7 +50,6 @@ public abstract class PlayerMixin extends LivingEntity {
 						super.onEquipStack(slot, newStack, oldStack);
 						return;
 					}
-					System.out.println(user.getInventory().getEmptySlot());
 					
 					if (user.getInventory().getEmptySlot() == -1) {
 						ItemStack newNewStack = newStack.copy();

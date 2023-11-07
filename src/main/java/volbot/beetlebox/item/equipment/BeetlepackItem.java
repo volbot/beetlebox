@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
+import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.Trinket;
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketsApi;
@@ -30,6 +31,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
+import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -38,6 +40,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 
 	public BeetlepackItem(Settings settings) {
 		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings);
+		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+			TrinketsApi.registerTrinket(this, (BeetlepackTrinket)this);
+		}
+			
 	}
 
 	@Override
@@ -181,10 +187,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		ItemStack chest_stack = inv.getArmorStack(EquipmentSlot.CHEST.getEntitySlotId());
 		if (chest_stack.isOf(ItemRegistry.BEETLEPACK)) {
 			beetlepack = chest_stack;
-		} else if (!(beetlepack.getItem() instanceof BeetlepackItem)) {
+		} else if (!(beetlepack.isOf(ItemRegistry.BEETLEPACK))) {
 			if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 				ItemStack back_stack = BeetlepackTrinketRenderer.getBackStack(player);
-				if (back_stack.getItem() instanceof BeetlepackItem) {
+				if (back_stack.isOf(ItemRegistry.BEETLEPACK)) {
 					beetlepack = back_stack;
 				}
 			}

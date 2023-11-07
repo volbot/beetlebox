@@ -5,6 +5,7 @@ import java.util.Vector;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -18,6 +19,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import volbot.beetlebox.client.render.gui.BeetlepackScreen;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
+import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.item.BeetleJelly;
 import volbot.beetlebox.item.FruitSyrup;
@@ -29,9 +31,9 @@ import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.item.tools.NetItem;
 
 public class ItemRegistry {
-	
+
 	public static final Item BEETLE_JELLY = new BeetleJelly(new FabricItemSettings());
-	
+
 	public static final ItemGroup ITEM_GROUP = FabricItemGroup.builder(new Identifier("beetlebox", "beetlebox"))
 			.icon(() -> new ItemStack(BEETLE_JELLY)).build();
 
@@ -54,8 +56,10 @@ public class ItemRegistry {
 	public static final Item GELATIN = new Item(new FabricItemSettings());
 	public static final Item SUGAR_GELATIN = new Item(new FabricItemSettings());
 	public static final Item GELATIN_GLUE = new Item(new FabricItemSettings());
-	
-	public static final ArmorItem BEETLEPACK = new BeetlepackItem(new FabricItemSettings());
+
+	public static final ArmorItem BEETLEPACK = FabricLoader.getInstance().isModLoaded("trinkets")
+			? new BeetlepackTrinket(new FabricItemSettings())
+			: new BeetlepackItem(new FabricItemSettings());
 
 	public static final Item APPLE_SYRUP = new FruitSyrup(new FabricItemSettings());
 	public static final Item MELON_SYRUP = new FruitSyrup(new FabricItemSettings());
@@ -101,12 +105,13 @@ public class ItemRegistry {
 		boots_upgrades.add(UPGRADE_B_SPEED);
 		boots_upgrades.add(UPGRADE_B_STEP);
 
-        HandledScreens.register(BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE, BeetlepackScreen::new);
+		HandledScreens.register(BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE, BeetlepackScreen::new);
 
-		Registry.register(Registries.SCREEN_HANDLER, new Identifier("beetlebox","beetlepack"), BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE);
-		
+		Registry.register(Registries.SCREEN_HANDLER, new Identifier("beetlebox", "beetlepack"),
+				BeetlepackScreenHandler.BEETLEPACK_SCREEN_HANDLER_TYPE);
+
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "beetlepack"), BEETLEPACK);
-		
+
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate"), SUBSTRATE);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "substrate_jar"), SUBSTRATE_JAR);
 		Registry.register(Registries.ITEM, new Identifier("beetlebox", "larva_jar"), LARVA_JAR);

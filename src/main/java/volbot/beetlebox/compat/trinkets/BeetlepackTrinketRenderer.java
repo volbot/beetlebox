@@ -42,7 +42,12 @@ public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> 
 
 	}
 
-	public static void register() {
+	public static void registerRenderer() {
+		TrinketRendererRegistry.registerRenderer(ItemRegistry.BEETLEPACK,
+				new BeetlepackTrinketRenderer<>(new BeetlepackModel<>()));
+	}
+	
+	public static void registerItem() {
 		TrinketRendererRegistry.registerRenderer(ItemRegistry.BEETLEPACK,
 				new BeetlepackTrinketRenderer<>(new BeetlepackModel<>()));
 	}

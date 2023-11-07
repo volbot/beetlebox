@@ -188,7 +188,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 				new BeetlepackRenderer(new BeetlepackModel<>()),
 				ItemRegistry.BEETLEPACK);
 		if(FabricLoader.getInstance().isModLoaded("trinkets")) {
-			BeetlepackTrinketRenderer.register();
+			BeetlepackTrinketRenderer.registerRenderer();
 		}
 
 		EntityRendererRegistry.register(BeetleRegistry.JRB, JRBEntityRenderer::new);
