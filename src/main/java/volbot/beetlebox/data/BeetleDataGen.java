@@ -13,6 +13,7 @@ import volbot.beetlebox.data.models.BeetleModelGenerator;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.data.tags.BeetleItemTagGenerator;
 import volbot.beetlebox.data.tags.BeetleBlockTagGenerator;
+import volbot.beetlebox.data.tags.BeetleEntityTagGenerator;
 import volbot.beetlebox.data.worldgen.WorldgenDataGenerator;
 import volbot.beetlebox.registry.ConfiguredFeatureRegistry;
 import volbot.beetlebox.registry.PlacedFeatureRegistry;
@@ -25,6 +26,7 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(BeetleModelGenerator::new);
 		pack.addProvider(BeetleItemTagGenerator::new);
 		pack.addProvider(BeetleBlockTagGenerator::new);
+		pack.addProvider(BeetleEntityTagGenerator::new);
 		pack.addProvider(BeetleRecipeGenerator::new);
 		pack.addProvider(BeetleLootGenerator::new);
 		pack.addProvider(BeetleBlockLootGenerator::new);
@@ -32,7 +34,6 @@ public class BeetleDataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(WorldgenDataGenerator::new);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void buildRegistry(RegistryBuilder registryBuilder) {
 		registryBuilder.addRegistry(RegistryKeys.CONFIGURED_FEATURE, ConfiguredFeatureRegistry::bootstrap);

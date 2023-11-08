@@ -3,7 +3,6 @@ package volbot.beetlebox.compat.trinkets;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketComponent;
 
-import net.minecraft.util.Pair;
 import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
@@ -14,7 +13,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import volbot.beetlebox.client.render.armor.BeetlepackModel;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
@@ -27,6 +25,7 @@ public class BeetlepackTrinketRenderer<T extends BeetlepackModel<LivingEntity>> 
 		super(model);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel,
 			MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, LivingEntity entity,

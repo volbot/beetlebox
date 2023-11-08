@@ -38,7 +38,6 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 	public static final int INVENTORY_SIZE = 5;
 	private DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 	private int transferCooldown = 1;
-	private long lastTickTime;
 
 	public Larva larva;
 
@@ -51,7 +50,6 @@ public class EmigratorBlockEntity extends LootableContainerBlockEntity
 	public static void serverTick(World world, BlockPos pos, BlockState state, BlockEntity blockEntity) {
 		EmigratorBlockEntity te = (EmigratorBlockEntity) blockEntity;
 		--te.transferCooldown;
-		te.lastTickTime = world.getTime();
 		if (!te.needsCooldown() && !state.get(Properties.POWERED)) {
 			te.setTransferCooldown(0);
 			extract(world, pos, state, te);

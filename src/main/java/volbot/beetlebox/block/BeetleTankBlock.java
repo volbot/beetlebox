@@ -71,6 +71,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 		return this.tankLogic(world, pos, player);
 	}
 
+	@SuppressWarnings("hiding")
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
 			BlockEntityType<T> type) {
@@ -273,8 +274,8 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 			}
 			if (blockEntity instanceof TankBlockEntity) {
 				ContainedEntity ce;
-				TankBlockEntity te = (TankBlockEntity)blockEntity;
-				if ((ce = te.getContained(0))!=null) {
+				TankBlockEntity te = (TankBlockEntity) blockEntity;
+				if ((ce = te.getContained(0)) != null) {
 					EntityType<?> entityType2 = EntityType.get(ce.contained_id).orElse(null);
 					Entity e = entityType2.create(world);
 					e.readNbt(ce.entity_data);
@@ -284,7 +285,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 					e.teleport(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
 					world.spawnEntity(e);
 				}
-				if ((ce = te.getContained(1))!=null) {
+				if ((ce = te.getContained(1)) != null) {
 					EntityType<?> entityType2 = EntityType.get(ce.contained_id).orElse(null);
 					Entity e = entityType2.create(world);
 					e.readNbt(ce.entity_data);

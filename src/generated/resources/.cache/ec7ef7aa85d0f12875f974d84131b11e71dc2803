@@ -1,4 +1,4 @@
-// 1.19.4	2023-11-01T23:34:08.16149149	beetlebox/Recipes
+// 1.19.4	2023-11-08T03:26:15.8826459	beetlebox/Recipes
 b68776c57450316bfbe1044737b4cccba1c1f9ea data/beetlebox/advancements/recipes/building_blocks/boiler.json
 f5d55dd4230811f1baa0e78026951c7c10b5b903 data/beetlebox/recipes/titanus_helmet.json
 1f4e46a90263d6de48c96026985f98e3ae327b53 data/beetlebox/recipes/immigrator.json
@@ -19,8 +19,8 @@ ec1dcd112e15751692be0dc5f6f9c89fcc67e8fc data/beetlebox/advancements/recipes/too
 2deec2ed0368b1913e1065d7b9d5c36e2c3531fa data/beetlebox/advancements/recipes/building_blocks/ash_wood.json
 62c7a5ccf5aebe088dcd813c16917626f48399f8 data/beetlebox/recipes/beetle_jelly_301.json
 6793ab603270e27120c618c8fa4267ab08dfe990 data/beetlebox/advancements/recipes/combat/atlas_chestplate.json
-57420ef2d38372b977a4adbe72d893e1f02110fb data/beetlebox/recipes/jrb_helmet.json
 f8b67d3712a146edb6120dc5068dbaae05f376a7 data/beetlebox/recipes/hercules_chestplate.json
+57420ef2d38372b977a4adbe72d893e1f02110fb data/beetlebox/recipes/jrb_helmet.json
 07c3069919db33c4d9ee136104a167d522138316 data/beetlebox/recipes/ash_planks.json
 3e85b6faa9c77c7005fd45828f8cad04ca9279b5 data/beetlebox/advancements/recipes/combat/hercules_legs.json
 4e62f0f87fa88ed3b656dcc5bb67d969adf76425 data/beetlebox/recipes/atlas_chestplate.json

@@ -6,10 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
@@ -17,13 +14,14 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler.BeetlepackSlot;
+import volbot.beetlebox.data.tags.BeetleEntityTagGenerator;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 
 public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 	private static final Identifier TEXTURE = new Identifier("beetlebox", "textures/gui/container/beetlepack.png");
 
 	private UUID player_uuid;
-	
+
 	public BeetlepackScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
 		super(handler, inventory, Text.of("Beetlepack"));
 		player_uuid = inventory.player.getUuid();
@@ -57,14 +55,16 @@ public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 						}
 						textRenderer.draw(matrices, name, slot.x + i + 19, slot.y + j - 1, 0x404040);
 						NbtCompound entity_nbt = nbt.getCompound("EntityTag");
-						if (entity_nbt.containsUuid("Owner") && entity_nbt.getUuid("Owner").compareTo(player_uuid)==0) {
-					        this.client.getProfiler().push("health");
-				            RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
-							BeetlepackScreen.drawTexture(matrices, slot.x + i + 18, slot.y + j + 6, 52, 0, 9, 9);
+						this.client.getProfiler().push("health");
+						RenderSystem.setShaderTexture(0, GUI_ICONS_TEXTURE);
+						if (e.isIn(BeetleEntityTagGenerator.BEETLES)) {
+							BeetlepackScreen.drawTexture(matrices, slot.x + i + 18, slot.y + j + 6,
+									(entity_nbt.containsUuid("Owner")
+											&& entity_nbt.getUuid("Owner").compareTo(player_uuid) == 0) ? 52 : 124,
+									0, 9, 9);
 						}
 					}
 				}
-
 			}
 		}
 		this.drawMouseoverTooltip(matrices, mouseX, mouseY);

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "beetlebox:jrb",
+    "beetlebox:hercules",
+    "beetlebox:titanus",
+    "beetlebox:atlas",
+    "beetlebox:elephant",
+    "beetlebox:tityus",
+    "beetlebox:junebug",
+    "beetlebox:actaeon"
+  ]
+}
