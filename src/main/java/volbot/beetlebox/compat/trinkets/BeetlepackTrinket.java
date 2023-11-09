@@ -16,9 +16,8 @@ public class BeetlepackTrinket extends BeetlepackItem implements Trinket {
 
 	@Override
 	public void onEquip(ItemStack newStack, SlotReference slot, LivingEntity entity) {
-		System.out.println("yeep");
 		if (newStack.getItem() instanceof BeetlepackItem && entity instanceof PlayerEntity) {
-			PlayerEntity user = (PlayerEntity)entity;
+			PlayerEntity user = (PlayerEntity) entity;
 			if (entity.getEquippedStack(EquipmentSlot.CHEST).getItem() instanceof BeetlepackItem) {
 				if (user.getWorld().isClient()) {
 					return;
@@ -32,5 +31,10 @@ public class BeetlepackTrinket extends BeetlepackItem implements Trinket {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void tick(ItemStack stack, SlotReference slot, LivingEntity entity) {
+		this.inventoryTick(stack, entity.getWorld(), entity, slot.index(), false);
 	}
 }

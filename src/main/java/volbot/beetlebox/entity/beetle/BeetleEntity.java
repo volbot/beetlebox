@@ -81,7 +81,7 @@ public abstract class BeetleEntity extends TameableEntity {
 	public int timeFlying = 0;
 
 	public Ingredient healing_ingredient = Ingredient.ofItems(Items.SUGAR_CANE);
-	
+
 	public BeetleEntity(EntityType<? extends TameableEntity> entityType, World world) {
 		super(entityType, world);
 		switchNavigator(false);
@@ -180,7 +180,8 @@ public abstract class BeetleEntity extends TameableEntity {
 	@Override
 	public ActionResult interactMob(PlayerEntity player, Hand hand) {
 		ItemStack itemStack = player.getStackInHand(hand);
-		if (itemStack.isOf(ItemRegistry.NET) || itemStack.isOf(ItemRegistry.BEETLE_JAR) || itemStack.isOf(ItemRegistry.SUBSTRATE_JAR)) {
+		if (itemStack.isOf(ItemRegistry.NET) || itemStack.isOf(ItemRegistry.BEETLE_JAR)
+				|| itemStack.isOf(ItemRegistry.SUBSTRATE_JAR)) {
 			return ActionResult.PASS;
 		}
 		if (itemStack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
@@ -201,7 +202,7 @@ public abstract class BeetleEntity extends TameableEntity {
 			}
 		}
 		if (this.isHealingItem(itemStack)) {
-			if(this.getHealth() < this.getMaxHealth()) {
+			if (this.getHealth() < this.getMaxHealth()) {
 				this.eat(player, hand, itemStack);
 				if (this.world.isClient) {
 					return ActionResult.CONSUME;
@@ -213,7 +214,7 @@ public abstract class BeetleEntity extends TameableEntity {
 		}
 		return super.interactMob(player, hand);
 	}
-	
+
 	public boolean isHealingItem(ItemStack stack) {
 		return healing_ingredient.test(stack);
 	}
@@ -238,9 +239,9 @@ public abstract class BeetleEntity extends TameableEntity {
 		if (source.isOf(DamageTypes.CACTUS) || source.isOf(DamageTypes.FALL)) {
 			return false;
 		}
-        if (!this.world.isClient) {
-            this.setSitting(false);
-        }
+		if (!this.world.isClient) {
+			this.setSitting(false);
+		}
 		return super.damage(source, amount);
 	}
 
@@ -367,7 +368,7 @@ public abstract class BeetleEntity extends TameableEntity {
 
 	@Override
 	protected void initDataTracker() {
-		
+
 		super.initDataTracker();
 		this.dataTracker.startTracking(CLIMBING, (byte) 0);
 		this.dataTracker.startTracking(FLYING, (byte) 0);
@@ -377,8 +378,8 @@ public abstract class BeetleEntity extends TameableEntity {
 			} else {
 				double sdev = 2;
 				double mean = 10;
-				int size = (int)Math.round(getRandom().nextGaussian() * sdev + mean);
-				
+				int size = (int) Math.round(getRandom().nextGaussian() * sdev + mean);
+
 				this.size_cached = size;
 				this.dataTracker.startTracking(SIZE, size_cached);
 			}
@@ -495,7 +496,7 @@ public abstract class BeetleEntity extends TameableEntity {
 		double mean;
 		sdev = 2;
 		mean = (a.getSize() + b.getSize() / 2.0);
-		int new_size = (int)Math.round(a.getRandom().nextGaussian() * sdev + mean);
+		int new_size = (int) Math.round(a.getRandom().nextGaussian() * sdev + mean);
 		sdev = 1.5;
 		mean = (a.getDamageMult() + b.getDamageMult() / 2.0);
 		float new_damage = (float) (a.getRandom().nextGaussian() * sdev + mean);
@@ -505,11 +506,23 @@ public abstract class BeetleEntity extends TameableEntity {
 		sdev = 1.5;
 		mean = (a.getSpeedMult() + b.getSpeedMult() / 2.0);
 		float new_speed = (float) (a.getRandom().nextGaussian() * sdev + mean);
-		
+
 		this.size_cached = new_size;
 		this.damage_cached = new_damage;
 		this.maxhealth_cached = new_maxhealth;
 		this.speed_cached = new_speed;
+	}
+
+	public BeetleStat getHighestStat() {
+		float highest = Math.max(Math.max(this.getSpeedMult(), this.getDamageMult()), this.getMaxHealthMult());
+		if (highest == this.getSpeedMult()) {
+			return BeetleStat.SPEED;
+		} else if (highest == this.getDamageMult()) {
+			return BeetleStat.DAMAGE;
+		} else if (highest == this.getMaxHealthMult()) {
+			return BeetleStat.MAXHEALTH;
+		}
+		return null;
 	}
 
 	// --------------------
@@ -548,5 +561,9 @@ public abstract class BeetleEntity extends TameableEntity {
 			this.setSpeedMult(compound.getFloat("Speed"));
 		}
 		tame_progress = compound.getInt("TameProgress");
+	}
+
+	public static enum BeetleStat {
+		MAXHEALTH, SPEED, DAMAGE, SIZE
 	}
 }

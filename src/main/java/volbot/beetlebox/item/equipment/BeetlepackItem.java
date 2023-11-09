@@ -31,6 +31,7 @@ import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.item.tools.BeetleJarItem;
+import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.registry.ItemRegistry;
 
 public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFactory {
@@ -38,9 +39,21 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 	public BeetlepackItem(Settings settings) {
 		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings);
 		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
-			TrinketsApi.registerTrinket(this, (BeetlepackTrinket)this);
+			TrinketsApi.registerTrinket(this, (BeetlepackTrinket) this);
 		}
-			
+
+	}
+
+	public void inventoryTick(ItemStack beetlepack, World world, Entity entity, int slot, boolean selected) {
+		NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
+		DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+		Inventories.readNbt(beetlepack_nbt.getCompound("Inventory"), beetlepack_inv);
+		for (ItemStack stack : beetlepack_inv) {
+			if (!stack.isEmpty())
+				if (stack.getItem() instanceof LarvaJarItem) {
+					LarvaJarItem.incrementJarTime(stack, 2);
+				}
+		}
 	}
 
 	@Override
@@ -54,7 +67,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 			return this.equipAndSwap(this, world, user, hand);
 		}
 	}
-	
+
 	public static void deployBeetles(PlayerEntity user) {
 		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
@@ -66,9 +79,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
 				World world = user.getWorld();
 				for (ItemStack jar : beetlepack_inv) {
-					if(jar.getItem() instanceof BeetleJarItem) {
-						Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world, user);
-						if(opt.isPresent()) {
+					if (jar.getItem() instanceof BeetleJarItem) {
+						Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world,
+								user);
+						if (opt.isPresent()) {
 							spawned_uuids.add(opt.get().getUuid());
 						}
 					}
@@ -161,7 +175,6 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 			}
 		}
 	}
-
 
 	@Override
 	public Text getDisplayName() {

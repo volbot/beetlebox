@@ -32,8 +32,8 @@ import volbot.beetlebox.registry.ItemRegistry;
 
 public class LarvaJarItem extends Item {
 
-	public static final int MAX_GROWING_TIME = 5184000;
-	// public static final int MAX_GROWING_TIME = 2;
+	//public static final int MAX_GROWING_TIME = 5184000;
+	public static final int MAX_GROWING_TIME = 1000;
 
 	public LarvaJarItem(Settings settings) {
 		super(settings.maxCount(1));
@@ -41,18 +41,26 @@ public class LarvaJarItem extends Item {
 
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
 		if (entity instanceof LivingEntity) {
-			NbtCompound nbt = stack.getOrCreateNbt();
-			if (!nbt.contains("GrowingTime")) {
-				nbt.putInt("GrowingTime", 0);
-			}
-			int growing_time = nbt.getInt("GrowingTime");
-			if (growing_time >= MAX_GROWING_TIME) {
-				return;
-			}
-			growing_time += 1;
-			nbt.putInt("GrowingTime", growing_time);
-			stack.setNbt(nbt);
+			incrementJarTime(stack);
 		}
+	}
+	
+	public static void incrementJarTime(ItemStack stack) {
+		incrementJarTime(stack, 1);
+	}
+	
+	public static void incrementJarTime(ItemStack stack, int amount) {
+		NbtCompound nbt = stack.getOrCreateNbt();
+		if (!nbt.contains("GrowingTime")) {
+			nbt.putInt("GrowingTime", 0);
+		}
+		int growing_time = nbt.getInt("GrowingTime");
+		if (growing_time >= MAX_GROWING_TIME) {
+			return;
+		}
+		growing_time += amount;
+		nbt.putInt("GrowingTime", growing_time);
+		stack.setNbt(nbt);
 	}
 
 	public ActionResult useOnBlock(ItemUsageContext context) {

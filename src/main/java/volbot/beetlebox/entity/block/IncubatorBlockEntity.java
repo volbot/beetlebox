@@ -44,17 +44,9 @@ public class IncubatorBlockEntity extends BlockEntity implements SidedInventory 
 		boolean complete = false;
 		for (int slot = 0; slot < te.size(); slot++) {
 			ItemStack stack = te.getStack(slot);
-			if (stack.isOf(ItemRegistry.LARVA_JAR)) {
+			if (stack.getItem() instanceof LarvaJarItem) {
 				active = true;
-				NbtCompound nbt = stack.getOrCreateNbt();
-				int growing_time = nbt.getInt("GrowingTime");
-				if (growing_time >= LarvaJarItem.MAX_GROWING_TIME) {
-					complete = true;
-					continue;
-				}
-				growing_time += 5;
-				nbt.putInt("GrowingTime", growing_time);
-				stack.setNbt(nbt);
+				LarvaJarItem.incrementJarTime(stack, 5);
 
 				if (world.getTime() % (20) == slot * 2) {
 					double d = world.getRandom().nextGaussian() * 0.02;

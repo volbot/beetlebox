@@ -24,6 +24,7 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 
 	private static final int INVENTORY_SIZE = 6;
 	private final Inventory inventory;
+	private final PlayerEntity player;
 	private ItemStack stack = null;
 
 	public BeetlepackScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
@@ -46,12 +47,13 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		NbtCompound stack_nbt = stack.getOrCreateNbt();
 
 		this.inventory = inventory;
+		this.player = playerInventory.player;
 
 		inventory.onOpen(playerInventory.player);
 
 		for (k = 0; k < 3; k++) {
 			for (l = 0; l < 2; l++) {
-				this.addSlot(new BeetlepackSlot(inventory, l + k * 2, 8 + l * 81, 18 + k * 18));
+				this.addSlot(new BeetlepackSlot(this.stack, inventory, l + k * 2, 8 + l * 81, 18 + k * 18));
 			}
 		}
 		for (k = 0; k < 3; ++k) {
@@ -61,7 +63,7 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		}
 		for (k = 0; k < 9; ++k) {
 			this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 142) {
-				
+
 				@Override
 				public boolean canInsert(ItemStack stack) {
 					if (this.getStack().equals(stack)) {
@@ -79,7 +81,7 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 						return true;
 					}
 				}
-				
+
 			});
 		}
 
@@ -123,14 +125,21 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		super.onClosed(player);
 		this.inventory.onClose(player);
 
+		this.writeInv();
+
+		this.stack.getOrCreateNbt().putBoolean("Open", false);
+	}
+
+	public void writeInv() {
 		NbtCompound inv_nbt = new NbtCompound();
 		DefaultedList<ItemStack> stored = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
 		for (int i = 0; i < INVENTORY_SIZE; i++) {
 			stored.set(i, getSlot(i).getStack());
 		}
 		Inventories.writeNbt(inv_nbt, stored);
-		this.stack.getOrCreateNbt().put("Inventory", inv_nbt);
-		this.stack.getOrCreateNbt().putBoolean("Open", false);
+		NbtCompound nbt = this.stack.getOrCreateNbt();
+		nbt.put("Inventory", inv_nbt);
+		this.stack.setNbt(nbt);
 	}
 
 	public static ItemStack locateStack(Inventory inventory) {
@@ -146,16 +155,53 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		return ItemStack.EMPTY;
 	}
 
+	@Override
+	protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
+		boolean bl = stack.isOf(ItemRegistry.LARVA_JAR);
+		boolean r = super.insertItem(stack, startIndex, endIndex, fromLast);
+		if (bl) {
+			this.writeInv();
+		}
+		return r;
+	}
+
 	public class BeetlepackSlot extends Slot {
 
-		public BeetlepackSlot(Inventory inventory, int index, int x, int y) {
+		public ItemStack beetlepack;
+
+		public BeetlepackSlot(ItemStack beetlepack, Inventory inventory, int index, int x, int y) {
 			super(inventory, index, x, y);
+			this.beetlepack = beetlepack;
 		}
 
 		@Override
 		public boolean canInsert(ItemStack stack) {
 			return stack.isOf(ItemRegistry.SUBSTRATE_JAR) || stack.getItem() instanceof BeetleJarItem
 					|| stack.getItem() instanceof LarvaJarItem;
+		}
+
+		@Override
+		public ItemStack insertStack(ItemStack stack, int count) {
+			boolean bl = stack.isOf(ItemRegistry.LARVA_JAR);
+			ItemStack r = super.insertStack(stack, count);
+			if (bl) {
+				this.writeInv();
+
+			}
+			return r;
+		}
+
+		public void writeInv() {
+			NbtCompound inv_nbt = new NbtCompound();
+			DefaultedList<ItemStack> stored = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
+			for (int i = 0; i < INVENTORY_SIZE; i++) {
+				stored.set(i, getSlot(i).getStack());
+			}
+			Inventories.writeNbt(inv_nbt, stored);
+
+			NbtCompound nbt = this.beetlepack.getOrCreateNbt();
+			nbt.put("Inventory", inv_nbt);
+			this.beetlepack.setNbt(nbt);
 		}
 
 	}
