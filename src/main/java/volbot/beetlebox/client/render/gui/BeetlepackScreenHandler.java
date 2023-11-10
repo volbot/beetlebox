@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerListener;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.collection.DefaultedList;
@@ -22,9 +23,11 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 	public static final ScreenHandlerType<BeetlepackScreenHandler> BEETLEPACK_SCREEN_HANDLER_TYPE = new ExtendedScreenHandlerType<>(
 			BeetlepackScreenHandler::new);
 
+	private BeetlepackScreenHandlerListener listener;
+
 	private static final int INVENTORY_SIZE = 6;
 	private final Inventory inventory;
-	private final PlayerEntity player;
+	private final PlayerInventory playerInventory;
 	private ItemStack stack = null;
 
 	public BeetlepackScreenHandler(int syncId, PlayerInventory playerInventory, PacketByteBuf buf) {
@@ -40,16 +43,25 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 
 		this.stack = locateStack(playerInventory);
 
+		this.inventory = inventory;
+		this.playerInventory = playerInventory;
+
+		genSlots();
+
+		inventory.onOpen(playerInventory.player);
+
+		this.listener = new BeetlepackScreenHandlerListener();
+		this.addListener(this.listener);
+	}
+
+	public void genSlots() {
+
+		this.disableSyncing();
 		int l;
 		int k;
 		BeetlepackScreenHandler.checkSize(inventory, INVENTORY_SIZE);
 
-		NbtCompound stack_nbt = stack.getOrCreateNbt();
-
-		this.inventory = inventory;
-		this.player = playerInventory.player;
-
-		inventory.onOpen(playerInventory.player);
+		this.slots.clear();
 
 		for (k = 0; k < 3; k++) {
 			for (l = 0; l < 2; l++) {
@@ -85,6 +97,13 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 			});
 		}
 
+		this.readSlots();
+		
+		this.enableSyncing();
+	}
+
+	public void readSlots() {
+		NbtCompound stack_nbt = stack.getOrCreateNbt();
 		if (stack_nbt.contains("Inventory")) {
 			DefaultedList<ItemStack> inv_read = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
 			Inventories.readNbt(stack_nbt.getCompound("Inventory"), inv_read);
@@ -92,6 +111,7 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 				getSlot(i).setStack(inv_read.get(i));
 			}
 		}
+
 	}
 
 	@Override
@@ -122,10 +142,12 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 
 	@Override
 	public void onClosed(PlayerEntity player) {
-		super.onClosed(player);
-		this.inventory.onClose(player);
 
-		this.writeInv();
+		this.removeListener(this.listener);
+
+		super.onClosed(player);
+
+		this.inventory.onClose(player);
 
 		this.stack.getOrCreateNbt().putBoolean("Open", false);
 	}
@@ -155,16 +177,6 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		return ItemStack.EMPTY;
 	}
 
-	@Override
-	protected boolean insertItem(ItemStack stack, int startIndex, int endIndex, boolean fromLast) {
-		boolean bl = stack.isOf(ItemRegistry.LARVA_JAR);
-		boolean r = super.insertItem(stack, startIndex, endIndex, fromLast);
-		if (bl) {
-			this.writeInv();
-		}
-		return r;
-	}
-
 	public class BeetlepackSlot extends Slot {
 
 		public ItemStack beetlepack;
@@ -179,29 +191,20 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 			return stack.isOf(ItemRegistry.SUBSTRATE_JAR) || stack.getItem() instanceof BeetleJarItem
 					|| stack.getItem() instanceof LarvaJarItem;
 		}
+	}
+
+	protected class BeetlepackScreenHandlerListener implements ScreenHandlerListener {
 
 		@Override
-		public ItemStack insertStack(ItemStack stack, int count) {
-			boolean bl = stack.isOf(ItemRegistry.LARVA_JAR);
-			ItemStack r = super.insertStack(stack, count);
-			if (bl) {
-				this.writeInv();
-
+		public void onSlotUpdate(ScreenHandler screenHandler, int slotId, ItemStack stack) {
+			if (screenHandler instanceof BeetlepackScreenHandler && stack.getItem() instanceof LarvaJarItem) {
+				((BeetlepackScreenHandler) screenHandler).writeInv();
+				((BeetlepackScreenHandler) screenHandler).readSlots();
 			}
-			return r;
 		}
 
-		public void writeInv() {
-			NbtCompound inv_nbt = new NbtCompound();
-			DefaultedList<ItemStack> stored = DefaultedList.ofSize(INVENTORY_SIZE, ItemStack.EMPTY);
-			for (int i = 0; i < INVENTORY_SIZE; i++) {
-				stored.set(i, getSlot(i).getStack());
-			}
-			Inventories.writeNbt(inv_nbt, stored);
-
-			NbtCompound nbt = this.beetlepack.getOrCreateNbt();
-			nbt.put("Inventory", inv_nbt);
-			this.beetlepack.setNbt(nbt);
+		@Override
+		public void onPropertyUpdate(ScreenHandler screenHandler, int property, int value) {
 		}
 
 	}
