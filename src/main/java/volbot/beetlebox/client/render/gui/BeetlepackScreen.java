@@ -71,7 +71,9 @@ public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 							BeetlepackScreen.drawTexture(matrices, slot.x + i + 18, slot.y + j + 7, 0, 36, 9, 8);
 							BeetlepackScreen.drawTexture(matrices, slot.x + i + 60, slot.y + j + 5, 10, 36, 11, 11);
 							BeetlepackScreen.drawTexture(matrices, slot.x + i + 28, slot.y + j + 8, 0, 53, 31, 6);
-							BeetlepackScreen.drawTexture(matrices, slot.x + i + 28, slot.y + j + 8, 0, 47, (int)Math.round(31*nbt.getInt("GrowingTime")/LarvaJarItem.MAX_GROWING_TIME), 6);
+							BeetlepackScreen.drawTexture(matrices, slot.x + i + 28, slot.y + j + 8, 0, 47,
+									(int) Math.round(31 * nbt.getInt("GrowingTime") / LarvaJarItem.MAX_GROWING_TIME),
+									6);
 						} else if (e.isIn(BeetleEntityTagGenerator.BEETLES)) {
 							NbtCompound entity_nbt = nbt.getCompound("EntityTag");
 							boolean owned = (entity_nbt.containsUuid("Owner")
@@ -87,6 +89,10 @@ public class BeetlepackScreen extends HandledScreen<ScreenHandler> {
 										health >= 0.5 ? 0 : health >= 0.25 ? 9 : 18, 9, 9, 9);
 								BeetlepackScreen.drawTexture(matrices, slot.x + i + 38, slot.y + j + 7,
 										beetle.getHighestStat().ordinal() * 9, 18, 9, 9);
+								if (beetle.beetle_class != BeetleEntity.BeetleClass.NONE) {
+									BeetlepackScreen.drawTexture(matrices, slot.x + i + 48, slot.y + j + 7,
+											(beetle.beetle_class.ordinal() - 1) * 9, 27, 9, 9);
+								}
 
 							}
 

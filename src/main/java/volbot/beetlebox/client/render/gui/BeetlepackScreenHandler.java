@@ -55,8 +55,6 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 	}
 
 	public void genSlots() {
-
-		this.disableSyncing();
 		int l;
 		int k;
 		BeetlepackScreenHandler.checkSize(inventory, INVENTORY_SIZE);
@@ -98,8 +96,6 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		}
 
 		this.readSlots();
-		
-		this.enableSyncing();
 	}
 
 	public void readSlots() {
@@ -148,6 +144,8 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 		super.onClosed(player);
 
 		this.inventory.onClose(player);
+		
+		this.writeInv();
 
 		this.stack.getOrCreateNbt().putBoolean("Open", false);
 	}

@@ -77,6 +77,7 @@ public abstract class BeetleEntity extends TameableEntity {
 	public float speed_cached = 1.0f;
 	public float maxhealth_cached = 1.0f;
 	public int tame_progress = 0;
+	public BeetleClass beetle_class = BeetleClass.NONE;
 
 	public int timeFlying = 0;
 
@@ -542,6 +543,7 @@ public abstract class BeetleEntity extends TameableEntity {
 		compound.putFloat("MaxHealth", this.getMaxHealthMult());
 		compound.putFloat("Speed", this.getSpeedMult());
 		compound.putInt("TameProgress", tame_progress);
+		compound.putInt("Class", this.beetle_class.ordinal());
 	}
 
 	public void readCustomDataFromNbt(NbtCompound compound) {
@@ -561,9 +563,14 @@ public abstract class BeetleEntity extends TameableEntity {
 			this.setSpeedMult(compound.getFloat("Speed"));
 		}
 		tame_progress = compound.getInt("TameProgress");
+		beetle_class = BeetleClass.values()[compound.getInt("Class")];
 	}
 
 	public static enum BeetleStat {
 		MAXHEALTH, SPEED, DAMAGE, SIZE
+	}
+	
+	public static enum BeetleClass {
+		NONE, INFANTRY, PROJECTILE
 	}
 }

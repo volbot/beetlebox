@@ -166,11 +166,11 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 		for(int i = 1; i <= 3; i ++) {
 			stack = getStack(i);
 			if(stack.isOf(Items.RED_MUSHROOM)) {
-				return 0;
+				return 1;
 			}
 			stack = getStack(i);
 			if(stack.isOf(Items.BROWN_MUSHROOM)) {
-				return 1;
+				return 2;
 			}
 		}
 		return -1;
