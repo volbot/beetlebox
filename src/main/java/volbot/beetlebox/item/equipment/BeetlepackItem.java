@@ -41,7 +41,6 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 			TrinketsApi.registerTrinket(this, (BeetlepackTrinket) this);
 		}
-
 	}
 
 	public void inventoryTick(ItemStack beetlepack, World world, Entity entity, int slot, boolean selected) {
@@ -68,11 +67,13 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		}
 	}
 
-	public static void deployBeetles(PlayerEntity user) {
+	public static void deployBeetles(PlayerEntity user, BeetleDeployReason reason) {
 		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-			if (!beetlepack_nbt.contains("FlightSpawn")) {
+
+			if (!beetlepack_nbt.contains(reason.toString() + "Spawn")) {
+
 				DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
 				NbtCompound beetlepack_inv_nbt = beetlepack_nbt.getCompound("Inventory");
 				Inventories.readNbt(beetlepack_inv_nbt, beetlepack_inv);
@@ -91,10 +92,11 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					NbtCompound uuid_nbt = new NbtCompound();
 					int i = 0;
 					for (UUID uuid : spawned_uuids) {
-						uuid_nbt.putUuid("FlightSpawn" + i, uuid);
+
+						uuid_nbt.putUuid(reason.toString() + "Spawn" + i, uuid);
 						i++;
 					}
-					beetlepack_nbt.put("FlightSpawn", uuid_nbt);
+					beetlepack_nbt.put(reason.toString() + "Spawn", uuid_nbt);
 				}
 				NbtCompound inv_nbt = new NbtCompound();
 				Inventories.writeNbt(inv_nbt, beetlepack_inv);
@@ -108,71 +110,77 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-			if (beetlepack_nbt.contains("FlightSpawn")) {
-				NbtCompound flight_spawn = beetlepack_nbt.getCompound("FlightSpawn");
-				ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
-				int i = 0;
-				while (flight_spawn.contains("FlightSpawn" + i)) {
-					spawned_uuids.add(flight_spawn.getUuid("FlightSpawn" + i));
-					i++;
-				}
-				DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-				Inventories.readNbt(beetlepack_nbt.getCompound("Inventory"), beetlepack_inv);
-				i = -1;
-				ItemStack jar_stack = null;
-				for (UUID uuid : spawned_uuids) {
-					Entity entity = user.getWorld().getEntityLookup().get(uuid);
-					if (entity == null) {
-						continue;
+			DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+			Inventories.readNbt(beetlepack_nbt.getCompound("Inventory"), beetlepack_inv);
+			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
+				if (beetlepack_nbt.contains(reason.toString() + "Spawn")) {
+					NbtCompound flight_spawn = beetlepack_nbt.getCompound(reason.toString() + "Spawn");
+					ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
+					int i = 0;
+					while (flight_spawn.contains(reason.toString() + "Spawn" + i)) {
+						spawned_uuids.add(flight_spawn.getUuid(reason.toString() + "Spawn" + i));
+						i++;
 					}
-					int j;
-					for (j = i + 1; i < beetlepack_inv.size(); j++) {
-						ItemStack itemStack = beetlepack_inv.get(j);
-						if (itemStack.getItem() instanceof BeetleJarItem<?>) {
-							NbtCompound nbt = itemStack.getOrCreateNbt();
-							BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-							if (nbt.contains("EntityType") || !item.canStore(entity)) {
-								jar_stack = null;
-								continue;
+					i = -1;
+					ItemStack jar_stack = null;
+					for (UUID uuid : spawned_uuids) {
+						Entity entity = user.getWorld().getEntityLookup().get(uuid);
+						if (entity == null) {
+							continue;
+						}
+						int j;
+						for (j = i + 1; i < beetlepack_inv.size(); j++) {
+							ItemStack itemStack = beetlepack_inv.get(j);
+							if (itemStack.getItem() instanceof BeetleJarItem<?>) {
+								NbtCompound nbt = itemStack.getOrCreateNbt();
+								BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
+								if (nbt.contains("EntityType") || !item.canStore(entity)) {
+									jar_stack = null;
+									continue;
+								}
+								if (!nbt.contains("EntityType") && item.canStore(entity)) {
+									jar_stack = itemStack;
+									i = j;
+									break;
+								}
 							}
-							if (!nbt.contains("EntityType") && item.canStore(entity)) {
-								jar_stack = itemStack;
-								i = j;
-								break;
+							jar_stack = null;
+						}
+						if (jar_stack != null) {
+							NbtCompound nbt = new NbtCompound();
+							NbtCompound tag = new NbtCompound();
+							tag = entity.writeNbt(tag);
+							if (entity instanceof LivingEntity) {
+								((LivingEntity) (entity)).writeCustomDataToNbt(tag);
 							}
+							nbt.put("EntityTag", tag);
+							Text custom_name = entity.getCustomName();
+							if (custom_name != null && !custom_name.getString().isEmpty()) {
+								nbt.putString("EntityName", custom_name.getString());
+							}
+							nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
+							ItemStack jar_new = jar_stack.getItem().getDefaultStack();
+							jar_new.setNbt(nbt);
+							beetlepack_inv.set(i, jar_new);
+							entity.remove(RemovalReason.CHANGED_DIMENSION);
+						} else {
+							break;
 						}
-						jar_stack = null;
-					}
-					if (jar_stack != null) {
-						NbtCompound nbt = new NbtCompound();
-						NbtCompound tag = new NbtCompound();
-						tag = entity.writeNbt(tag);
-						if (entity instanceof LivingEntity) {
-							((LivingEntity) (entity)).writeCustomDataToNbt(tag);
+						if (j == beetlepack_inv.size()) {
+							break;
 						}
-						nbt.put("EntityTag", tag);
-						Text custom_name = entity.getCustomName();
-						if (custom_name != null && !custom_name.getString().isEmpty()) {
-							nbt.putString("EntityName", custom_name.getString());
-						}
-						nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
-						ItemStack jar_new = jar_stack.getItem().getDefaultStack();
-						jar_new.setNbt(nbt);
-						beetlepack_inv.set(i, jar_new);
-						entity.remove(RemovalReason.CHANGED_DIMENSION);
-					} else {
-						break;
-					}
-					if (j == beetlepack_inv.size()) {
-						break;
 					}
 				}
-				beetlepack_nbt.remove("FlightSpawn");
+			}
+			System.out.println("yop2");
+			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
+				beetlepack_nbt.remove(reason.toString() + "Spawn");
 				NbtCompound inv_nbt = new NbtCompound();
 				Inventories.writeNbt(inv_nbt, beetlepack_inv);
 				beetlepack_nbt.put("Inventory", inv_nbt);
 				beetlepack.setNbt(beetlepack_nbt);
 			}
+
 		}
 	}
 
@@ -206,6 +214,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 			}
 		}
 		return beetlepack;
+	}
+
+	public enum BeetleDeployReason {
+		FLIGHT, COMBAT
 	}
 
 }

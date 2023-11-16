@@ -32,7 +32,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 
 public class LarvaJarItem extends Item {
 
-	public static final int MAX_GROWING_TIME = 1000;
+	public static final int MAX_GROWING_TIME = 84000;
 	//public static final int MAX_GROWING_TIME = 1000;
 
 	public LarvaJarItem(Settings settings) {
@@ -60,7 +60,7 @@ public class LarvaJarItem extends Item {
 		}
 		growing_time += amount;
 		nbt.putInt("GrowingTime", growing_time);
-		//stack.setNbt(nbt);
+		stack.setNbt(nbt);
 	}
 
 	public ActionResult useOnBlock(ItemUsageContext context) {

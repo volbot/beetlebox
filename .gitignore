@@ -39,3 +39,4 @@ replay_*.log
 *.hprof
 *.jfr
 src/main/resources/assets/beetlebox/textures/item/junebug_elytron.png
+/.apt_generated/

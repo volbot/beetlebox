@@ -43,11 +43,11 @@ public abstract class PlayerMixin extends LivingEntity {
 				if (BeetlepackTrinketRenderer.getBackStack((PlayerEntity) (Object) this)
 						.getItem() instanceof BeetlepackItem) {
 					PlayerEntity user = ((PlayerEntity) (Object) this);
-					if(user.getWorld().isClient()) {
+					if (user.getWorld().isClient()) {
 						super.onEquipStack(slot, newStack, oldStack);
 						return;
 					}
-					
+
 					if (user.getInventory().getEmptySlot() == -1) {
 						ItemStack newNewStack = newStack.copy();
 						newStack.setCount(0);
@@ -91,25 +91,51 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	@Override
 	protected void setFlag(int index, boolean value) {
+		boolean before = this.getFlag(index);
 		super.setFlag(index, value);
 		if (this.getAttacker() == null) {
 			if (index == Entity.FALL_FLYING_FLAG_INDEX) {
 				if (value) {
-					BeetlepackItem.deployBeetles(((PlayerEntity) (Object) this));
-				} else {
-					BeetlepackItem.recallBeetles(((PlayerEntity) (Object) this));
+					BeetlepackItem.deployBeetles(((PlayerEntity) (Object) this),
+							BeetlepackItem.BeetleDeployReason.FLIGHT);
+				} else if(before) {
+					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void setAttacker(@Nullable LivingEntity attacker) {
+		super.setAttacker(attacker);
+		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity) (Object) this);
+		if (!beetlepack.isEmpty()) {
+			if (attacker != null) {
+				if (beetlepack.getOrCreateNbt()
+						.contains(BeetlepackItem.BeetleDeployReason.FLIGHT.toString() + "Spawn")) {
+					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
+				}
+				BeetlepackItem.deployBeetles((PlayerEntity) (Object) this, BeetlepackItem.BeetleDeployReason.COMBAT);
+			} else {
+				if (beetlepack.getOrCreateNbt()
+						.contains(BeetlepackItem.BeetleDeployReason.COMBAT.toString() + "Spawn")) {
+					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
 				}
 			}
 		}
 	}
 
 	@Override
-	public void setAttacker(@Nullable LivingEntity attacker) {
-		super.setAttacker(attacker);
-		if (this.isFallFlying() && attacker != null) {
+	public void onAttacking(Entity target) {
+		if (target instanceof LivingEntity) {
 			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity) (Object) this);
-			if (!beetlepack.isEmpty() && beetlepack.getOrCreateNbt().contains("FlightSpawn")) {
-				BeetlepackItem.recallBeetles(((PlayerEntity) (Object) this));
+			if (!beetlepack.isEmpty()) {
+				if (beetlepack.getOrCreateNbt()
+						.contains(BeetlepackItem.BeetleDeployReason.FLIGHT.toString() + "Spawn")) {
+					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
+				}
+				BeetlepackItem.deployBeetles((PlayerEntity) (Object) this, BeetlepackItem.BeetleDeployReason.COMBAT);
+				this.setAttacker((LivingEntity) target);
 			}
 		}
 	}
