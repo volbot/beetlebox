@@ -284,14 +284,6 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				return false;
 			}
 		}
-		if (hasBrownMushroom) {
-			if(hasRedMushroom) {
-				return false;
-			}
-		}
-		if(!hasRedMushroom && !hasBrownMushroom) {
-			return false;
-		}
 		return true;
 	}
 

@@ -30,6 +30,8 @@ import net.minecraft.world.World;
 import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
+import volbot.beetlebox.entity.beetle.BeetleEntity;
+import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -71,9 +73,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-
 			if (!beetlepack_nbt.contains(reason.toString() + "Spawn")) {
-
 				DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
 				NbtCompound beetlepack_inv_nbt = beetlepack_nbt.getCompound("Inventory");
 				Inventories.readNbt(beetlepack_inv_nbt, beetlepack_inv);
@@ -81,10 +81,31 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				World world = user.getWorld();
 				for (ItemStack jar : beetlepack_inv) {
 					if (jar.getItem() instanceof BeetleJarItem) {
-						Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world,
-								user);
-						if (opt.isPresent()) {
-							spawned_uuids.add(opt.get().getUuid());
+						switch (reason) {
+						case COMBAT:
+							NbtCompound entity_data = jar.getOrCreateNbt().getCompound("EntityTag");
+							switch (BeetleEntity.BeetleClass.values()[entity_data.getInt("Class")]) {
+							case INFANTRY:
+								Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(),
+										world, user);
+								if (opt.isPresent()) {
+									spawned_uuids.add(opt.get().getUuid());
+								}
+								break;
+							case PROJECTILE:
+								// fire beetle as projectile
+								break;
+							default:
+								break;
+							}
+							break;
+						default:
+							Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world,
+									user);
+							if (opt.isPresent()) {
+								spawned_uuids.add(opt.get().getUuid());
+							}
+							break;
 						}
 					}
 				}
@@ -92,7 +113,6 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					NbtCompound uuid_nbt = new NbtCompound();
 					int i = 0;
 					for (UUID uuid : spawned_uuids) {
-
 						uuid_nbt.putUuid(reason.toString() + "Spawn" + i, uuid);
 						i++;
 					}
@@ -172,7 +192,6 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					}
 				}
 			}
-			System.out.println("yop2");
 			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
 				beetlepack_nbt.remove(reason.toString() + "Spawn");
 				NbtCompound inv_nbt = new NbtCompound();

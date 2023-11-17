@@ -565,6 +565,10 @@ public abstract class BeetleEntity extends TameableEntity {
 		tame_progress = compound.getInt("TameProgress");
 		beetle_class = BeetleClass.values()[compound.getInt("Class")];
 	}
+	
+	public BeetleClass getBeetleClass() {
+		return this.beetle_class;
+	}
 
 	public static enum BeetleStat {
 		MAXHEALTH, SPEED, DAMAGE, SIZE
