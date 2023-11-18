@@ -188,14 +188,6 @@ public abstract class BeetleEntity extends TameableEntity {
 		if (itemStack.isOf(ItemRegistry.UPGRADE_DORMANT)) {
 			if (!this.world.isClient && this.canEat()) {
 				this.eat(player, hand, itemStack);
-				/*
-				 * if (this.isBreedingItem(itemStack)) { if (this.getHealth() <
-				 * this.getMaxHealthMult()) { this.heal(2.0f); return ActionResult.SUCCESS; }
-				 * int i = this.getBreedingAge(); if (!this.world.isClient && i == 0 &&
-				 * this.canEat()) { this.lovePlayer(player); } if (this.isBaby()) {
-				 * this.growUp(AnimalEntity.toGrowUpAge(-i), true); } } if (this.isBaby()) {
-				 * return ActionResult.FAIL; }
-				 */
 				if (this.world.isClient) {
 					return ActionResult.CONSUME;
 				}
@@ -210,8 +202,6 @@ public abstract class BeetleEntity extends TameableEntity {
 				}
 				return ActionResult.SUCCESS;
 			}
-		}
-		if (this.isTamed()) {
 		}
 		return super.interactMob(player, hand);
 	}
@@ -565,7 +555,7 @@ public abstract class BeetleEntity extends TameableEntity {
 		tame_progress = compound.getInt("TameProgress");
 		beetle_class = BeetleClass.values()[compound.getInt("Class")];
 	}
-	
+
 	public BeetleClass getBeetleClass() {
 		return this.beetle_class;
 	}
@@ -573,7 +563,7 @@ public abstract class BeetleEntity extends TameableEntity {
 	public static enum BeetleStat {
 		MAXHEALTH, SPEED, DAMAGE, SIZE
 	}
-	
+
 	public static enum BeetleClass {
 		NONE, INFANTRY, PROJECTILE
 	}

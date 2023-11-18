@@ -14,6 +14,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
@@ -32,6 +33,7 @@ import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.LarvaJarItem;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -39,7 +41,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFactory {
 
 	public BeetlepackItem(Settings settings) {
-		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings);
+		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings.maxDamage(0));
 		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 			TrinketsApi.registerTrinket(this, (BeetlepackTrinket) this);
 		}
@@ -94,7 +96,11 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								break;
 							case PROJECTILE:
 								// fire beetle as projectile
-								break;
+								System.out.println("yeep");
+					            BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world, user);
+					            persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10.0f, 1.0f);
+					            world.spawnEntity(persistentProjectileEntity);
+					            break;
 							default:
 								break;
 							}

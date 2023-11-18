@@ -24,6 +24,7 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
@@ -169,7 +170,6 @@ public class BeetleBoxClient implements ClientModInitializer {
 					});
 				});
 
-
 		LivingEntityFeatureRendererRegistrationCallback.EVENT
 				.register((entityType, entityRenderer, registrationHelper, context) -> {
 					if (entityRenderer.getModel() instanceof BipedEntityModel) {
@@ -184,10 +184,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 					new BeetleArmorRenderer(BeetleBoxClient.beetle_helmets.get(armorItem.getMaterial().getName())),
 					armorItem);
 		}
-		ArmorRenderer.register(
-				new BeetlepackRenderer(new BeetlepackModel<>()),
-				ItemRegistry.BEETLEPACK);
-		if(FabricLoader.getInstance().isModLoaded("trinkets")) {
+		ArmorRenderer.register(new BeetlepackRenderer(new BeetlepackModel<>()), ItemRegistry.BEETLEPACK);
+		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 			BeetlepackTrinketRenderer.registerRenderer();
 		}
 
@@ -233,13 +231,13 @@ public class BeetleBoxClient implements ClientModInitializer {
 		}, ItemRegistry.BEETLE_JELLY);
 
 		ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-	        return FoliageColors.getBirchColor();
+			return FoliageColors.getBirchColor();
 		}, BlockRegistry.ASH_LEAVES);
 
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> {
-	        return FoliageColors.getBirchColor();
+			return FoliageColors.getBirchColor();
 		}, BlockRegistry.ASH_LEAVES);
-		
+
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TANK, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LEG_TANK, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.ASH_LEAVES, RenderLayer.getCutout());
@@ -249,8 +247,10 @@ public class BeetleBoxClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.IMMIGRATOR, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.EMIGRATOR, RenderLayer.getCutout());
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.INCUBATOR, RenderLayer.getCutout());
-		
-		
+
+		EntityRendererRegistry.register(BeetleRegistry.BEETLE_PROJECTILE,
+				(context) -> new FlyingItemEntityRenderer(context));
+
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.INCUBATOR_BLOCK_ENTITY, IncubatorBlockEntityRenderer::new);

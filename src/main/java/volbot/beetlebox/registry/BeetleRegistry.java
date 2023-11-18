@@ -10,10 +10,16 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBiomeTags;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.EntityType.Builder;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.beetle.HercEntity;
 import volbot.beetlebox.entity.beetle.TitanEntity;
 import volbot.beetlebox.entity.beetle.TityusEntity;
+import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 import volbot.beetlebox.entity.beetle.ActaeonEntity;
 import volbot.beetlebox.entity.beetle.AtlasEntity;
 import volbot.beetlebox.entity.beetle.ElephantEntity;
@@ -21,6 +27,10 @@ import volbot.beetlebox.entity.beetle.JRBEntity;
 import volbot.beetlebox.entity.beetle.JunebugEntity;
 
 public class BeetleRegistry {
+
+	public static final EntityType<BeetleProjectileEntity> BEETLE_PROJECTILE = FabricEntityTypeBuilder
+			.<BeetleProjectileEntity>create(SpawnGroup.MISC, BeetleProjectileEntity::new).trackedUpdateRate(20)
+			.trackRangeBlocks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)).build();
 
 	public static final EntityType<JRBEntity> JRB = FabricEntityTypeBuilder.createMob().entityFactory(JRBEntity::new)
 			.spawnGroup(SpawnGroup.CREATURE).dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
@@ -43,12 +53,12 @@ public class BeetleRegistry {
 			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 	public static final EntityType<ActaeonEntity> ACTAEON = FabricEntityTypeBuilder.createMob()
 			.entityFactory(ActaeonEntity::new).spawnGroup(SpawnGroup.CREATURE)
-			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();	
+			.dimensions(EntityDimensions.fixed(0.4f, 0.4f)).build();
 
 	public static Vector<EntityType<? extends BeetleEntity>> beetles = new Vector<EntityType<? extends BeetleEntity>>();
 
 	public static void register() {
-		
+		Registry.register(Registries.ENTITY_TYPE, new Identifier("beetlebox", "beetle_projectile"), BEETLE_PROJECTILE);
 		// ENTITIES
 		BeetleUtils.registerBeetle(JRB, "jrb", "Kabutomushi", "flip", 0x110b0b, 0x180f0f);
 		BeetleUtils.registerBeetle(HERC, "hercules", "Hercules Beetle", "pinch", 0xa99859, 0x150f10);
