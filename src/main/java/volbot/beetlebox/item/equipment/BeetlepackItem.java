@@ -19,6 +19,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -96,10 +97,13 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								break;
 							case PROJECTILE:
 								// fire beetle as projectile
-					            BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world, user, jar);
-					            persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 3.0f, 1.0f);
-					            world.spawnEntity(persistentProjectileEntity);
-					            break;
+								BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world,
+										user, jar);
+								persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 3.0f,
+										1.5f);
+					            persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.DISALLOWED;
+								world.spawnEntity(persistentProjectileEntity);
+								break;
 							default:
 								break;
 							}
@@ -204,7 +208,6 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				beetlepack_nbt.put("Inventory", inv_nbt);
 				beetlepack.setNbt(beetlepack_nbt);
 			}
-
 		}
 	}
 

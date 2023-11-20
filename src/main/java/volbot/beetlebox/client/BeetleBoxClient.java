@@ -151,6 +151,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 
 		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox", "beetle_proj_packet"),
 				(client, handler, buf, responseSender) -> {
+					boolean landed = buf.readBoolean();
 					String entity_type = buf.readString();
 					NbtCompound entity_data = buf.readNbt();
 					String entity_name = buf.readString();
@@ -160,6 +161,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 						BeetleProjectileEntity e = ((BeetleProjectileEntity) entity);
 						if (e != null) {
 							try {
+								e.landed = landed;
 								e.entity = new ContainedEntity(entity_type, entity_data, entity_name);
 							} catch (NullPointerException ex) {
 								System.out.println("BEETLE PROJECTILE ERROR #1218");

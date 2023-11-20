@@ -1,6 +1,6 @@
 package volbot.beetlebox.client.render.entity.projectile;
 
-import java.util.Optional;
+import org.joml.Quaternionf;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,19 +10,15 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3i;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 
 public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> extends EntityRenderer<T> {
 
+	Quaternionf rot = new Quaternionf();
+	
 	public BeetleProjectileEntityRenderer(EntityRendererFactory.Context ctx, float scale, boolean lit) {
 		super(ctx);
 	}
@@ -39,9 +35,12 @@ public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> ex
 			return;
 		}
 		matrices.push();
-		matrices.multiply(this.dispatcher.getRotation());
-		//matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
-		// System.out.println("looking for entity");
+		if(rot.equals(new Quaternionf())) {
+			rot.set(this.dispatcher.getRotation());
+		}
+		if(rot!=null) {
+			matrices.multiply(this.dispatcher.getRotation());
+		}
 		if (entity.entity != null) {
 			EntityType<?> entityType2 = EntityType.get(entity.entity.contained_id).orElse(null);
 			if (entityType2 == null) {
@@ -49,7 +48,6 @@ public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> ex
 				super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
 				return;
 			}
-			//System.out.println("entity found");
 
 			LivingEntity temp = (LivingEntity) entityType2.create(entity.getWorld());
 			temp.readCustomDataFromNbt(entity.entity.entity_data);

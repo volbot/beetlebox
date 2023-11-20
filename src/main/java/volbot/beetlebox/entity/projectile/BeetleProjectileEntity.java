@@ -16,7 +16,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
@@ -27,6 +30,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class BeetleProjectileEntity extends PersistentProjectileEntity implements FlyingItemEntity {
 
 	public ContainedEntity entity;
+	public boolean landed = false;
 	public boolean unSynced = true;
 
 	public BeetleProjectileEntity(EntityType<? extends PersistentProjectileEntity> entityType, World world) {
@@ -70,6 +74,12 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			}
 		}
 	}
+	
+	@Override
+    protected void onBlockHit(BlockHitResult blockHitResult) {
+        super.onBlockHit(blockHitResult);
+        this.landed = true;
+    }
 
 	public void sendPacket() {
 		World world = getEntityWorld();
@@ -80,6 +90,7 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 		if (!world.isClient && entity != null && this.getOwner() instanceof PlayerEntity) {
 			ServerPlayerEntity p = (ServerPlayerEntity) this.getOwner();
 			PacketByteBuf buf = PacketByteBufs.create();
+			buf.writeBoolean(landed);
 			buf.writeString(entity.getContainedId());
 			buf.writeNbt(entity.getEntityData());
 			buf.writeString(entity.CustomName());
@@ -92,6 +103,8 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 	@Override
 	public NbtCompound writeNbt(NbtCompound nbt) {
 		super.writeNbt(nbt);
+		nbt.putBoolean("Landed", this.landed);
+		nbt.putBoolean("UnSynced", this.unSynced);
 		if (entity != null) {
 			nbt.putString("EntityType", entity.contained_id);
 			nbt.putString("EntityName", entity.custom_name);
@@ -105,6 +118,8 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 	@Override
 	public void readNbt(NbtCompound nbt) {
 		super.readNbt(nbt);
+		this.landed = nbt.getBoolean("Landed");
+		this.unSynced = nbt.getBoolean("UnSynced");
 		if (nbt.contains("EntityType")) {
 			entity = new ContainedEntity(nbt.getString("EntityType"), nbt.getCompound("EntityTag"),
 					nbt.getString("EntityName"));
