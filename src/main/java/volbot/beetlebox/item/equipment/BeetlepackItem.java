@@ -96,9 +96,8 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								break;
 							case PROJECTILE:
 								// fire beetle as projectile
-								System.out.println("yeep");
-					            BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world, user);
-					            persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 10.0f, 1.0f);
+					            BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world, user, jar);
+					            persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 3.0f, 1.0f);
 					            world.spawnEntity(persistentProjectileEntity);
 					            break;
 							default:

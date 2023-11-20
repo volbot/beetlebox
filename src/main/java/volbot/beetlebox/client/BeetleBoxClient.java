@@ -28,8 +28,10 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.client.render.block.entity.BoilerBlockEntityRenderer;
@@ -51,9 +53,12 @@ import volbot.beetlebox.client.render.entity.TitanEntityModel;
 import volbot.beetlebox.client.render.entity.TitanEntityRenderer;
 import volbot.beetlebox.client.render.entity.TityusEntityModel;
 import volbot.beetlebox.client.render.entity.TityusEntityRenderer;
+import volbot.beetlebox.client.render.entity.projectile.BeetleProjectileEntityRenderer;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.data.recipe.BeetleRecipeGenerator;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
+import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.registry.BlockRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -141,6 +146,26 @@ public class BeetleBoxClient implements ClientModInitializer {
 								.orElse(null).fluidStorage.variant = variant;
 						handler.getWorld().getBlockEntity(pos, BlockRegistry.BOILER_BLOCK_ENTITY)
 								.orElse(null).fluidStorage.amount = fluid_amt;
+					});
+				});
+
+		ClientPlayNetworking.registerGlobalReceiver(new Identifier("beetlebox", "beetle_proj_packet"),
+				(client, handler, buf, responseSender) -> {
+					String entity_type = buf.readString();
+					NbtCompound entity_data = buf.readNbt();
+					String entity_name = buf.readString();
+					UUID entity_id = buf.readUuid();
+					client.execute(() -> {
+						Entity entity = handler.getWorld().getEntityLookup().get(entity_id);
+						BeetleProjectileEntity e = ((BeetleProjectileEntity) entity);
+						if (e != null) {
+							try {
+								e.entity = new ContainedEntity(entity_type, entity_data, entity_name);
+							} catch (NullPointerException ex) {
+								System.out.println("BEETLE PROJECTILE ERROR #1218");
+							}
+							;
+						}
 					});
 				});
 
@@ -249,7 +274,7 @@ public class BeetleBoxClient implements ClientModInitializer {
 		BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.INCUBATOR, RenderLayer.getCutout());
 
 		EntityRendererRegistry.register(BeetleRegistry.BEETLE_PROJECTILE,
-				(context) -> new FlyingItemEntityRenderer(context));
+				(context) -> new BeetleProjectileEntityRenderer(context));
 
 		BlockEntityRendererRegistry.register(BlockRegistry.TANK_BLOCK_ENTITY, TankBlockEntityRenderer::new);
 		BlockEntityRendererRegistry.register(BlockRegistry.BOILER_BLOCK_ENTITY, BoilerBlockEntityRenderer::new);
