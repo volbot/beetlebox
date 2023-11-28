@@ -1,4 +1,4 @@
-// 1.19.4	2023-11-08T03:26:15.878788143	beetlebox/Model Definitions
+// 1.19.4	2023-11-28T00:58:10.397738747	beetlebox/Model Definitions
 5658f142c2145c597b66738d1184e9c3102b5faa assets/beetlebox/models/item/junebug_legs.json
 86cc12e0c1d9d2421a29b6afbfc7ea1228e73154 assets/beetlebox/models/item/junebug_elytron.json
 50a495046f3bb18d7c905605f9b379a41466b47e assets/beetlebox/blockstates/ash_plate.json
@@ -16,8 +16,8 @@ c8f4c51b419ff50fd8a553fc43ad35c177668226 assets/beetlebox/models/item/ash_log.js
 5482792e5ff2c916ec41bfb091bc075ad9b31ccc assets/beetlebox/models/item/jrb_elytron.json
 4df542e46a3d1698391f264cb80aab73425d488d assets/beetlebox/models/item/upgrade_c_elytra.json
 61b5c8bc62e58f5b824d14a457665d643e1b1888 assets/beetlebox/models/item/ash_plate.json
-ae2f5f0fbbe74ab8a68410242bb379a7f261d6ba assets/beetlebox/models/item/junebug_helmet.json
 5b82cc45bc08d2bc55db0a25b0ee1a5efc60a614 assets/beetlebox/models/item/upgrade_dormant.json
+ae2f5f0fbbe74ab8a68410242bb379a7f261d6ba assets/beetlebox/models/item/junebug_helmet.json
 57abac5320c22d5f1de735c93207f2ac84628309 assets/beetlebox/models/item/ash_wood.json
 10a6c0d6fa041fcfdbae0193c258944b1e6fa11d assets/beetlebox/blockstates/ash_sapling.json
 0cf3984a4fb4c119908bc06e7696ccf634868349 assets/beetlebox/models/item/ash_slab.json
@@ -78,8 +78,8 @@ b75f1b85fdade1a0d68c4e4e9dce2b665d1782ca assets/beetlebox/models/block/ash_door_
 501567c93ece154b7b2171005f1c96f813bf8a2b assets/beetlebox/models/item/beetle_jelly.json
 964c8ed6e5b3817a60b64e2c290fe30aad7ea41d assets/beetlebox/blockstates/ash_fence.json
 de15aed3fc88185ec7d27c6dd43b82970ffaff05 assets/beetlebox/models/item/tityus_chestplate.json
-ce5e4bda9d653ac23f47c149ccd7a2f81410e469 assets/beetlebox/models/block/ash_log_stripped.json
 66c94f233ccd746e56448066ccf2c9c86b718564 assets/beetlebox/models/item/titanus_boots.json
+ce5e4bda9d653ac23f47c149ccd7a2f81410e469 assets/beetlebox/models/block/ash_log_stripped.json
 384efb9d1eabd75a9965cd43d139abcb0ea7cad9 assets/beetlebox/models/block/ash_door_top_left_open.json
 0a66724e1214fd51ac38888158abc01ebabb8605 assets/beetlebox/models/item/actaeon_helmet.json
 0f6abe867985e8601b757e80f2830df64b450b65 assets/beetlebox/models/item/atlas_elytron.json
@@ -116,8 +116,8 @@ d398edc506214639efee285a0e59076ce78087c6 assets/beetlebox/models/item/beetle_hus
 6f6d933425137b6b2effd829c4bae0231836ce53 assets/beetlebox/models/block/ash_sapling.json
 4e8eedb390cc3db8e6b83791d849c894be6da663 assets/beetlebox/models/item/atlas_helmet.json
 5d2395fefb4ecbfbf5ffa06d340c80432554d594 assets/beetlebox/models/item/ash_sapling.json
-1eb753d410d1dbcaa5234ec88557de4f2c2589d4 assets/beetlebox/models/item/atlas_chestplate.json
 a02ac6731e85506ea579b869b8e80195a9d53a21 assets/beetlebox/models/item/upgrade_c_boost.json
+1eb753d410d1dbcaa5234ec88557de4f2c2589d4 assets/beetlebox/models/item/atlas_chestplate.json
 3ca68af4098f102dbff9bbebf429742214b92aff assets/beetlebox/models/item/atlas_legs.json
 20272e85ab8c4ae07dad0270bc44af3c55f1859e assets/beetlebox/models/item/elephant_elytron.json
 f8a8cdbda6b266d988602038e83ef10a756aeaf0 assets/beetlebox/models/block/ash_button_inventory.json

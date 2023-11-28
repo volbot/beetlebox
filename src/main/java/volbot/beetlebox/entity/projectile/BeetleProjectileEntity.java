@@ -4,25 +4,34 @@ import java.util.UUID;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.Entity.RemovalReason;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import volbot.beetlebox.entity.beetle.BeetleEntity;
+import volbot.beetlebox.data.damage.BeetleDamageTypes;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
+import volbot.beetlebox.item.equipment.BeetlepackItem;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.registry.BeetleRegistry;
 import volbot.beetlebox.registry.ItemRegistry;
@@ -48,7 +57,34 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 	public BeetleProjectileEntity(World world, LivingEntity owner, ItemStack jar_stack) {
 		super(BeetleRegistry.BEETLE_PROJECTILE, owner, world);
 		entity = BeetleJarItem.getContained(jar_stack);
+		this.setNoGravity(true);
 		this.sendPacket();
+	}
+
+	@Override
+	public void onPlayerCollision(PlayerEntity player) {
+		if (this.world.isClient || this.shake > 0) {
+			return;
+		}
+		if (this.tryPickup(player)) {
+			System.out.println("yeep");
+			this.discard();
+		}
+	}
+
+	protected boolean tryPickup(PlayerEntity player) {
+		if(!this.landed) {
+		 return false;
+		}
+		switch (this.pickupType) {
+		case ALLOWED: {
+			return true;
+		}
+		case CREATIVE_ONLY: {
+			return player.getAbilities().creativeMode;
+		}
+		}
+		return false;
 	}
 
 	@Override
@@ -73,13 +109,86 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 				}
 			}
 		}
+		if (landed) {
+			if (this.getOwner() != null) {
+				Entity owner = this.getOwner();
+				this.setVelocity(this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0)).multiply(0.1));
+			}
+		}
+
 	}
-	
+
 	@Override
-    protected void onBlockHit(BlockHitResult blockHitResult) {
-        super.onBlockHit(blockHitResult);
-        this.landed = true;
-    }
+	protected void onHit(LivingEntity target) {
+		super.onHit(target);
+		this.onHitSetup();
+	}
+
+	@Override
+	protected void onBlockHit(BlockHitResult blockHitResult) {
+		//super.onBlockHit(blockHitResult);
+		this.onHitSetup();
+	}
+
+	@Override
+	protected void onEntityHit(EntityHitResult entityHitResult) {
+		if(this.landed) {
+			return;
+		}
+		DamageSource damageSource;
+		Entity entity2;
+		Entity entity = entityHitResult.getEntity();
+		float f = (float) this.getVelocity().length();
+		int i = MathHelper.ceil(MathHelper.clamp((double) f * this.getDamage(), 0.0, 2.147483647E9));
+		if (this.isCritical()) {
+			long l = this.random.nextInt(i / 2 + 2);
+			i = (int) Math.min(l + (long) i, Integer.MAX_VALUE);
+		}
+		if ((entity2 = this.getOwner()) == null) {
+			damageSource = BeetleDamageTypes.of(world, BeetleDamageTypes.BEETLE_PROJ);
+		} else {
+			damageSource = BeetleDamageTypes.of(world, BeetleDamageTypes.BEETLE_PROJ);
+		}
+		boolean bl = entity.getType() == EntityType.ENDERMAN;
+		if (this.isOnFire() && !bl) {
+			entity.setOnFireFor(5);
+		}
+		if (entity.damage(damageSource, i)) {
+			if (bl) {
+				return;
+			}
+			if (entity instanceof LivingEntity) {
+				LivingEntity livingEntity = (LivingEntity) entity;
+				if (!this.world.isClient && entity2 instanceof LivingEntity) {
+					EnchantmentHelper.onUserDamaged(livingEntity, entity2);
+					EnchantmentHelper.onTargetDamaged((LivingEntity) entity2, livingEntity);
+				}
+				this.onHit(livingEntity);
+				if (entity2 != null && livingEntity != entity2 && livingEntity instanceof PlayerEntity
+						&& entity2 instanceof ServerPlayerEntity && !this.isSilent()) {
+					((ServerPlayerEntity) entity2).networkHandler.sendPacket(new GameStateChangeS2CPacket(
+							GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, GameStateChangeS2CPacket.DEMO_OPEN_SCREEN));
+				}
+			}
+			this.playSound(this.getSound(), 1.0f, 1.2f / (this.random.nextFloat() * 0.2f + 0.9f));
+			if (this.getPierceLevel() <= 0) {
+				// this.discard();
+			}
+		} else {
+			this.onHitSetup();
+		}
+	}
+
+	private void onHitSetup() {
+		Entity entity2 = this.getOwner();
+		this.setVelocity(this.getVelocity().multiply(-0.1));
+		this.setYaw(this.getYaw() + 180.0f);
+		this.prevYaw += 180.0f;
+		if (!this.getWorld().isClient) {
+			this.landed = true;
+			this.sendPacket();
+		}
+	}
 
 	public void sendPacket() {
 		World world = getEntityWorld();

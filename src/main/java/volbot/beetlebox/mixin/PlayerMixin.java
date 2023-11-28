@@ -127,6 +127,11 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	@Override
 	public void onAttacking(Entity target) {
+		super.onAttacking(target);
+		World world = this.getWorld();
+		if(world.isClient) {
+			return;
+		}
 		if (target instanceof LivingEntity) {
 			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer((PlayerEntity) (Object) this);
 			if (!beetlepack.isEmpty()) {
@@ -134,8 +139,9 @@ public abstract class PlayerMixin extends LivingEntity {
 						.contains(BeetlepackItem.BeetleDeployReason.FLIGHT.toString() + "Spawn")) {
 					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
 				}
-				BeetlepackItem.deployBeetles((PlayerEntity) (Object) this, BeetlepackItem.BeetleDeployReason.COMBAT);
-				this.setAttacker((LivingEntity) target);
+				if(target.isAlive()) {
+					this.setAttacker((LivingEntity) target);
+				}
 			}
 		}
 	}

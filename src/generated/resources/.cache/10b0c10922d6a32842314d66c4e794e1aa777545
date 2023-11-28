@@ -1,3 +1,4 @@
-// 1.19.4	2023-11-08T03:26:15.88185915	beetlebox/beetlebox
+// 1.19.4	2023-11-28T00:58:10.400983076	beetlebox/beetlebox
 0c38d4335162df34d9e8f228a311432ece1f79c4 data/beetlebox/worldgen/placed_feature/ash_placed.json
 6d17f584af8315493728a6a1c0d16e160faca315 data/beetlebox/worldgen/configured_feature/ash_tree.json
+ddd159dd8abf9c38a57154b3f234f01e873d6898 data/beetlebox/damage_type/beetle_proj.json
