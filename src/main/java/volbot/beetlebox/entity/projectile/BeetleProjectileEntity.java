@@ -8,6 +8,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.damage.DamageSource;
@@ -56,7 +57,23 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 
 	public BeetleProjectileEntity(World world, LivingEntity owner, ItemStack jar_stack) {
 		super(BeetleRegistry.BEETLE_PROJECTILE, owner, world);
-		entity = BeetleJarItem.getContained(jar_stack);
+		this.entity = BeetleJarItem.getContained(jar_stack);
+		this.entity.getEntityData().putBoolean("Flying", true);
+		this.setNoGravity(true);
+		this.sendPacket();
+	}
+
+	public BeetleProjectileEntity(World world, LivingEntity owner, LivingEntity entity) {
+		super(BeetleRegistry.BEETLE_PROJECTILE, owner, world);
+		NbtCompound nbt = new NbtCompound();
+		entity.writeCustomDataToNbt(nbt);
+		entity.writeNbt(nbt);
+		String custom_name = "";
+		if (entity.hasCustomName()) {
+			nbt.putString("EntityName", entity.getCustomName().getString());
+		}
+		this.setPosition(entity.getPos());
+		this.entity = new ContainedEntity(EntityType.getId(entity.getType()).toString(), nbt, custom_name);
 		this.setNoGravity(true);
 		this.sendPacket();
 	}
@@ -67,7 +84,15 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			return;
 		}
 		if (this.tryPickup(player)) {
+			ItemEntity dropped = new ItemEntity(this.world, this.getX(), this.getY() + (double) 0.1f, this.getZ(),
+					this.asItemStack());
+			dropped.setPickupDelay(0);
+			dropped.setOwner(player.getUuid());
+			dropped.setNoGravity(true);
+			dropped.setVelocity(player.getPos().subtract(dropped.getPos()).normalize().multiply(0.5));
+			this.world.spawnEntity(dropped);
 			this.discard();
+
 		}
 	}
 
@@ -82,12 +107,37 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 		case CREATIVE_ONLY: {
 			return player.getAbilities().creativeMode;
 		}
+		default: {
+			return false;
 		}
-		return false;
+		}
 	}
 
 	@Override
 	protected ItemStack asItemStack() {
+		ItemStack jar_stack = ItemRegistry.BEETLE_JAR.getDefaultStack();
+		if (entity == null) {
+			return jar_stack;
+		}
+		if (entity != null) {
+			LivingEntity e = (LivingEntity) ((EntityType.get(entity.contained_id).orElse(null)
+					.create(this.getWorld())));
+			BeetleJarItem<?> jar_item = (BeetleJarItem<?>) jar_stack.getItem();
+			NbtCompound jar_nbt = jar_stack.getOrCreateNbt();
+			if (!jar_item.canStore(e)) {
+				return jar_stack;
+			}
+			NbtCompound new_nbt = jar_nbt.copy();
+			new_nbt.putString("EntityType", entity.contained_id);
+			String custom_name = entity.custom_name;
+			if (!custom_name.isEmpty()) {
+				new_nbt.putString("EntityName", custom_name);
+			}
+			new_nbt.put("EntityTag", entity.entity_data);
+			ItemStack jar_new = jar_stack.getItem().getDefaultStack();
+			jar_new.setNbt(new_nbt);
+			return jar_new;
+		}
 		return ItemRegistry.BEETLE_JAR.getDefaultStack();
 	}
 
@@ -100,20 +150,22 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 	public void tick() {
 		super.tick();
 		if (!this.world.isClient) {
+			this.random.skip(1);
+			this.setVelocity(this.getVelocity().addRandom(this.random, 0.025f));
+			if (landed) {
+				if (this.getOwner() != null) {
+					Entity owner = this.getOwner();
+					this.random.skip(1);
+					this.setVelocity(this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0))
+							.normalize().multiply(0.5).addRandom(this.random, 0.075f));
+				}
+			}
 			if (unSynced) {
 				if (this.entity == null) {
 					this.unSynced = false;
 				} else {
 					this.sendPacket();
 				}
-			}
-		}
-		this.setVelocity(this.getVelocity().addRandom(this.random, 0.025f));
-		if (landed) {
-			if (this.getOwner() != null) {
-				Entity owner = this.getOwner();
-				this.setVelocity(
-						this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0)).multiply(0.1).addRandom(this.random, 0.075f));
 			}
 		}
 
@@ -148,7 +200,7 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 		if ((entity2 = this.getOwner()) == null) {
 			damageSource = BeetleDamageTypes.of(world, BeetleDamageTypes.BEETLE_PROJ);
 		} else {
-			damageSource = BeetleDamageTypes.of(world, BeetleDamageTypes.BEETLE_PROJ);
+			damageSource = BeetleDamageTypes.of(world, BeetleDamageTypes.BEETLE_PROJ, entity2);
 		}
 		boolean bl = entity.getType() == EntityType.ENDERMAN;
 		if (this.isOnFire() && !bl) {
@@ -172,9 +224,6 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 				}
 			}
 			this.playSound(this.getSound(), 1.0f, 1.2f / (this.random.nextFloat() * 0.2f + 0.9f));
-			if (this.getPierceLevel() <= 0) {
-				// this.discard();
-			}
 		} else {
 			this.onHitSetup();
 		}

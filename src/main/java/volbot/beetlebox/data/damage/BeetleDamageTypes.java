@@ -1,5 +1,6 @@
 package volbot.beetlebox.data.damage;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageEffects;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.DamageType;
@@ -19,6 +20,11 @@ public class BeetleDamageTypes {
     
     public static DamageSource of(World world, RegistryKey<DamageType> key) {
     	DamageSource source = new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key));
+    	return source;
+    }
+    
+    public static DamageSource of(World world, RegistryKey<DamageType> key, Entity shooter) {
+    	DamageSource source = new DamageSource(world.getRegistryManager().get(RegistryKeys.DAMAGE_TYPE).entryOf(key),shooter);
     	return source;
     }
 }

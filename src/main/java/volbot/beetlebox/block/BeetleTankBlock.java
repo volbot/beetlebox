@@ -160,7 +160,7 @@ public class BeetleTankBlock<T extends LivingEntity> extends BlockWithEntity {
 						if (!jar_item.canStore(e)) {
 							return ActionResult.FAIL;
 						}
-						NbtCompound new_nbt = new NbtCompound();
+						NbtCompound new_nbt = jar_nbt.copy();
 						new_nbt.putString("EntityType", contained.contained_id);
 						String custom_name = contained.custom_name;
 						if (!custom_name.isEmpty()) {

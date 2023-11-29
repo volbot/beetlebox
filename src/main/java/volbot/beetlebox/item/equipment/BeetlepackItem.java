@@ -98,16 +98,16 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								break;
 							case PROJECTILE:
 								// fire beetle as projectile
-								BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world,
-										user, jar);
-								persistentProjectileEntity.setVelocity(user, 
-										user.getPitch(),
-										user.getYaw(),
-										0.0f, 1.0f,
-										1.5f);
-								persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-								world.spawnEntity(persistentProjectileEntity);
-								
+								BeetleProjectileEntity proj = new BeetleProjectileEntity(world, user, jar);
+								Entity target = user.getAttacker();
+								proj.setVelocity(target.getBoundingBox().getCenter().subtract(user.getEyePos())
+										.normalize().multiply(0.5f));
+								proj.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+								if(world.spawnEntity(proj)) {
+									jar.removeSubNbt("EntityType");
+									jar.removeSubNbt("EntityTag");
+									jar.removeSubNbt("EntityName");
+								}
 								break;
 							default:
 								break;
@@ -158,7 +158,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					i = -1;
 					ItemStack jar_stack = null;
 					for (UUID uuid : spawned_uuids) {
-						Entity entity = user.getWorld().getEntityLookup().get(uuid);
+						LivingEntity entity = (LivingEntity) user.getWorld().getEntityLookup().get(uuid);
 						if (entity == null) {
 							continue;
 						}
@@ -181,21 +181,14 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 							jar_stack = null;
 						}
 						if (jar_stack != null) {
-							NbtCompound nbt = new NbtCompound();
-							NbtCompound tag = new NbtCompound();
-							tag = entity.writeNbt(tag);
-							if (entity instanceof LivingEntity) {
-								((LivingEntity) (entity)).writeCustomDataToNbt(tag);
-							}
-							nbt.put("EntityTag", tag);
-							Text custom_name = entity.getCustomName();
-							if (custom_name != null && !custom_name.getString().isEmpty()) {
-								nbt.putString("EntityName", custom_name.getString());
-							}
-							nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
-							ItemStack jar_new = jar_stack.getItem().getDefaultStack();
-							jar_new.setNbt(nbt);
-							beetlepack_inv.set(i, jar_new);
+							jar_stack.decrement(1);
+							beetlepack_inv.set(i, jar_stack);
+							World world = user.getWorld();
+							BeetleProjectileEntity proj = new BeetleProjectileEntity(world, user, entity);
+							proj.setVelocity(user.getBoundingBox().getCenter().subtract(proj.getPos()).normalize().multiply(0.5));
+							proj.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+							proj.landed = true;
+							world.spawnEntity(proj);
 							entity.remove(RemovalReason.CHANGED_DIMENSION);
 						} else {
 							break;
