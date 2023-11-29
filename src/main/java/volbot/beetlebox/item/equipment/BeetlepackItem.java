@@ -100,7 +100,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								// fire beetle as projectile
 								BeetleProjectileEntity persistentProjectileEntity = new BeetleProjectileEntity(world,
 										user, jar);
-								persistentProjectileEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0f, 1.0f,
+								persistentProjectileEntity.setVelocity(user, 
+										user.getPitch(),
+										user.getYaw(),
+										0.0f, 1.0f,
 										1.5f);
 								persistentProjectileEntity.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
 								world.spawnEntity(persistentProjectileEntity);

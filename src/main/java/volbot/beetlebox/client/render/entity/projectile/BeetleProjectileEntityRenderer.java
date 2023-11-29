@@ -6,19 +6,23 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.ProjectileEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
 import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 
 public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> extends EntityRenderer<T> {
 
 	Quaternionf rot = new Quaternionf();
-	
+
 	public BeetleProjectileEntityRenderer(EntityRendererFactory.Context ctx, float scale, boolean lit) {
 		super(ctx);
 	}
@@ -35,12 +39,11 @@ public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> ex
 			return;
 		}
 		matrices.push();
-		if(rot.equals(new Quaternionf())) {
-			rot.set(this.dispatcher.getRotation());
-		}
-		if(rot!=null) {
-			matrices.multiply(this.dispatcher.getRotation());
-		}
+		matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(
+				MathHelper.lerp(tickDelta, ((PersistentProjectileEntity) entity).prevYaw, ((Entity) entity).getYaw())
+						));//- 90.0f));
+		matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(
+				MathHelper.lerp(tickDelta, ((PersistentProjectileEntity) entity).prevPitch, ((Entity) entity).getPitch())));
 		if (entity.entity != null) {
 			EntityType<?> entityType2 = EntityType.get(entity.entity.contained_id).orElse(null);
 			if (entityType2 == null) {
@@ -58,7 +61,7 @@ public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> ex
 				entity.setCustomName(Text.of(entity.entity.custom_name));
 			}
 
-			MinecraftClient.getInstance().getEntityRenderDispatcher().render(temp, 0,0,0, yaw, tickDelta, matrices,
+			MinecraftClient.getInstance().getEntityRenderDispatcher().render(temp, 0, 0, 0, yaw, tickDelta, matrices,
 					vertexConsumers, light);
 		}
 		matrices.pop();
@@ -67,6 +70,6 @@ public class BeetleProjectileEntityRenderer<T extends BeetleProjectileEntity> ex
 
 	@Override
 	public Identifier getTexture(T e) {
-		return null;
+		return new Identifier("beetlebox", "textures/entity/beetle/actaeon.png");
 	}
 }

@@ -67,14 +67,13 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			return;
 		}
 		if (this.tryPickup(player)) {
-			System.out.println("yeep");
 			this.discard();
 		}
 	}
 
 	protected boolean tryPickup(PlayerEntity player) {
-		if(!this.landed) {
-		 return false;
+		if (!this.landed) {
+			return false;
 		}
 		switch (this.pickupType) {
 		case ALLOWED: {
@@ -109,10 +108,12 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 				}
 			}
 		}
+		this.setVelocity(this.getVelocity().addRandom(this.random, 0.025f));
 		if (landed) {
 			if (this.getOwner() != null) {
 				Entity owner = this.getOwner();
-				this.setVelocity(this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0)).multiply(0.1));
+				this.setVelocity(
+						this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0)).multiply(0.1).addRandom(this.random, 0.075f));
 			}
 		}
 
@@ -126,13 +127,13 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
-		//super.onBlockHit(blockHitResult);
+		// super.onBlockHit(blockHitResult);
 		this.onHitSetup();
 	}
 
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		if(this.landed) {
+		if (this.landed) {
 			return;
 		}
 		DamageSource damageSource;
