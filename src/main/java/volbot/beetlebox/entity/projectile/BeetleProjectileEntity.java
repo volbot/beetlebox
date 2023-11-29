@@ -84,14 +84,48 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			return;
 		}
 		if (this.tryPickup(player)) {
+			boolean jar_found = false;
+			ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+			if (!bp.isEmpty()) {
+				DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+				Inventories.readNbt(bp.getOrCreateNbt().getCompound("Inventory"), bp_inv);
+				for (ItemStack stack : bp_inv) {
+					if (stack.getItem() instanceof BeetleJarItem) {
+						if (!stack.hasNbt() || !stack.getNbt().contains("EntityType")) {
+							stack.decrement(1);
+							jar_found = true;
+							NbtCompound inv_nbt = new NbtCompound();
+							Inventories.writeNbt(inv_nbt, bp_inv);
+							bp.getOrCreateNbt().put("Inventory", inv_nbt);
+							break;
+						}
+					}
+				}
+			}
+			if (!jar_found) {
+				for (ItemStack stack : player.getInventory().main) {
+					if (stack.getItem() instanceof BeetleJarItem) {
+						if (!stack.hasNbt() || !stack.getNbt().contains("EntityType")) {
+							stack.decrement(1);
+							jar_found = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!jar_found) {
+				return;
+			}
+
 			ItemEntity dropped = new ItemEntity(this.world, this.getX(), this.getY() + (double) 0.1f, this.getZ(),
 					this.asItemStack());
 			dropped.setPickupDelay(0);
 			dropped.setOwner(player.getUuid());
 			dropped.setNoGravity(true);
 			dropped.setVelocity(player.getPos().subtract(dropped.getPos()).normalize().multiply(0.5));
-			this.world.spawnEntity(dropped);
-			this.discard();
+			if (this.world.spawnEntity(dropped)) {
+				this.discard();
+			}
 
 		}
 	}

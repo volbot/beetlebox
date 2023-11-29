@@ -83,6 +83,9 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				Inventories.readNbt(beetlepack_inv_nbt, beetlepack_inv);
 				ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
 				World world = user.getWorld();
+				if (world.isClient) {
+					return;
+				}
 				for (ItemStack jar : beetlepack_inv) {
 					if (jar.getItem() instanceof BeetleJarItem) {
 						switch (reason) {
@@ -103,7 +106,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								proj.setVelocity(target.getBoundingBox().getCenter().subtract(user.getEyePos())
 										.normalize().multiply(0.5f));
 								proj.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-								if(world.spawnEntity(proj)) {
+								if (world.spawnEntity(proj)) {
 									jar.removeSubNbt("EntityType");
 									jar.removeSubNbt("EntityTag");
 									jar.removeSubNbt("EntityName");
@@ -141,14 +144,15 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 	}
 
 	public static void recallBeetles(PlayerEntity user) {
-		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
-		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
-			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-			DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-			Inventories.readNbt(beetlepack_nbt.getCompound("Inventory"), beetlepack_inv);
+		ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(user);
+		if (bp.isOf(ItemRegistry.BEETLEPACK)) {
+			NbtCompound bp_nbt = bp.getOrCreateNbt();
+			DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+			Inventories.readNbt(bp_nbt.getCompound("Inventory"), bp_inv);
+			World world = user.getWorld();
 			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
-				if (beetlepack_nbt.contains(reason.toString() + "Spawn")) {
-					NbtCompound flight_spawn = beetlepack_nbt.getCompound(reason.toString() + "Spawn");
+				if (bp_nbt.contains(reason.toString() + "Spawn")) {
+					NbtCompound flight_spawn = bp_nbt.getCompound(reason.toString() + "Spawn");
 					ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
 					int i = 0;
 					while (flight_spawn.contains(reason.toString() + "Spawn" + i)) {
@@ -156,55 +160,27 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 						i++;
 					}
 					i = -1;
-					ItemStack jar_stack = null;
 					for (UUID uuid : spawned_uuids) {
 						LivingEntity entity = (LivingEntity) user.getWorld().getEntityLookup().get(uuid);
 						if (entity == null) {
 							continue;
 						}
-						int j;
-						for (j = i + 1; i < beetlepack_inv.size(); j++) {
-							ItemStack itemStack = beetlepack_inv.get(j);
-							if (itemStack.getItem() instanceof BeetleJarItem<?>) {
-								NbtCompound nbt = itemStack.getOrCreateNbt();
-								BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-								if (nbt.contains("EntityType") || !item.canStore(entity)) {
-									jar_stack = null;
-									continue;
-								}
-								if (!nbt.contains("EntityType") && item.canStore(entity)) {
-									jar_stack = itemStack;
-									i = j;
-									break;
-								}
-							}
-							jar_stack = null;
-						}
-						if (jar_stack != null) {
-							jar_stack.decrement(1);
-							beetlepack_inv.set(i, jar_stack);
-							World world = user.getWorld();
-							BeetleProjectileEntity proj = new BeetleProjectileEntity(world, user, entity);
-							proj.setVelocity(user.getBoundingBox().getCenter().subtract(proj.getPos()).normalize().multiply(0.5));
-							proj.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
-							proj.landed = true;
-							world.spawnEntity(proj);
-							entity.remove(RemovalReason.CHANGED_DIMENSION);
-						} else {
-							break;
-						}
-						if (j == beetlepack_inv.size()) {
-							break;
-						}
+						BeetleProjectileEntity proj = new BeetleProjectileEntity(world, user, entity);
+						proj.setVelocity(
+								user.getBoundingBox().getCenter().subtract(proj.getPos()).normalize().multiply(0.5));
+						proj.pickupType = PersistentProjectileEntity.PickupPermission.ALLOWED;
+						proj.landed = true;
+						world.spawnEntity(proj);
+						entity.discard();
 					}
 				}
 			}
 			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
-				beetlepack_nbt.remove(reason.toString() + "Spawn");
+				bp_nbt.remove(reason.toString() + "Spawn");
 				NbtCompound inv_nbt = new NbtCompound();
-				Inventories.writeNbt(inv_nbt, beetlepack_inv);
-				beetlepack_nbt.put("Inventory", inv_nbt);
-				beetlepack.setNbt(beetlepack_nbt);
+				Inventories.writeNbt(inv_nbt, bp_inv);
+				bp_nbt.put("Inventory", inv_nbt);
+				bp.setNbt(bp_nbt);
 			}
 		}
 	}

@@ -22,45 +22,18 @@ public class NetItem extends Item {
 	}
 
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+		
 		ItemStack jar_stack = null;
 		PlayerInventory inv = user.getInventory();
-		if (entity.world.isClient) {
-			return ActionResult.PASS;
-		}
 		int beetlepack_slot = -1;
 		boolean beetlepack_accessed = false;
 		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
 		DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-		if (!beetlepack.isEmpty()) {
-			Inventories.readNbt(beetlepack.getOrCreateNbt().getCompound("Inventory"), beetlepack_inv);
-			for (int i = 0; i < 6; i++) {
-				ItemStack itemStack = beetlepack_inv.get(i);
-				if (itemStack.isEmpty() && beetlepack_slot != -1) {
-					beetlepack_slot = i;
-					if (jar_stack != null) {
-						break;
-					}
-				}
-				if (jar_stack == null && itemStack.getItem() instanceof BeetleJarItem<?>) {
-					BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-					if (itemStack.hasNbt()) {
-						NbtCompound nbt = itemStack.getNbt();
-						if (nbt.contains("EntityType") || !item.canStore(entity)) {
-							continue;
-						}
-						jar_stack = itemStack;
-						beetlepack_accessed = true;
-						if (beetlepack_slot != -1) {
-							break;
-						}
-						if (itemStack.getCount() == 1) {
-							beetlepack_slot = i;
-							break;
-						}
-					}
-				}
-			}
+		
+		if (entity.world.isClient) {
+			return ActionResult.PASS;
 		}
+
 		for (ItemStack itemStack : inv.main) {
 			if (itemStack.getItem() instanceof BeetleJarItem<?>) {
 				NbtCompound nbt = itemStack.getOrCreateNbt();
@@ -77,15 +50,45 @@ public class NetItem extends Item {
 						jar_stack = itemStack;
 					}
 				}
-				jar_stack = itemStack;
-				break;
+			}
+		}
+		if (jar_stack == null) {
+			if (!beetlepack.isEmpty()) {
+				Inventories.readNbt(beetlepack.getOrCreateNbt().getCompound("Inventory"), beetlepack_inv);
+				for (int i = 0; i < 6; i++) {
+					ItemStack itemStack = beetlepack_inv.get(i);
+					if (itemStack.isEmpty() && beetlepack_slot != -1) {
+						beetlepack_slot = i;
+						if (jar_stack != null) {
+							break;
+						}
+					}
+					if (jar_stack == null && itemStack.getItem() instanceof BeetleJarItem<?>) {
+						BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
+						if (itemStack.hasNbt()) {
+							NbtCompound nbt = itemStack.getNbt();
+							if (nbt.contains("EntityType") || !item.canStore(entity)) {
+								continue;
+							}
+							jar_stack = itemStack;
+							beetlepack_accessed = true;
+							if (beetlepack_slot != -1) {
+								break;
+							}
+							if (itemStack.getCount() == 1) {
+								beetlepack_slot = i;
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 
 		if (jar_stack != null) {
-			NbtCompound nbt = new NbtCompound();
+			NbtCompound nbt = jar_stack.getOrCreateNbt().copy();
 			NbtCompound tag = new NbtCompound();
-			tag = entity.writeNbt(tag);
+			entity.writeNbt(tag);
 			entity.writeCustomDataToNbt(tag);
 			nbt.put("EntityTag", tag);
 			Text custom_name = entity.getCustomName();

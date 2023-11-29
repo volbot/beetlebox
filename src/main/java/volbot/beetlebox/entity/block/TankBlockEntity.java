@@ -89,6 +89,7 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 				te.getContained(0).setEntityData(nbt1);
 				nbt2.putInt("Age", 200);
 				te.getContained(1).setEntityData(nbt2);
+				te.markDirty();
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;
@@ -145,6 +146,8 @@ public class TankBlockEntity extends BlockEntity implements SidedInventory, IMob
 					}
 					te.getContained(0).setEntityData(nbt1);
 				}
+				te.markDirty();
+
 			} else {
 				if (te.production_time % 10 == 0) {
 					double d = world.getRandom().nextGaussian() * 0.02;

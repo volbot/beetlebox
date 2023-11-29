@@ -113,7 +113,7 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 			return null;
 		}
 		String contained_id = nbt.getString("EntityType");
-		NbtCompound entity_data = nbt.getCompound("EntityData");
+		NbtCompound entity_data = nbt.getCompound("EntityTag");
 		String custom_name = "";
 		if (nbt.contains("EntityName")) {
 			custom_name = nbt.getString("EntityName");
@@ -142,20 +142,14 @@ public class BeetleJarItem<T extends LivingEntity> extends Item {
 				SpawnReason.SPAWN_EGG, false, false);
 		temp.readNbt(nbt.getCompound("EntityTag"));
 		temp.readCustomDataFromNbt(nbt.getCompound("EntityTag"));
-		boolean name_changed = false;
 		if (nbt.contains("EntityName")) {
 			temp.setCustomName(Text.of(nbt.getString("EntityName")));
-		} else {
-			temp.setCustomName(null);
-			name_changed = true;
 		}
 		temp.refreshPositionAndAngles(pos, 0, 0);
 		if (world.spawnEntity(temp)) {
 			nbt.remove("EntityType");
 			nbt.remove("EntityTag");
-			if (name_changed) {
-				nbt.remove("EntityName");
-			}
+			nbt.remove("EntityName");
 			world.emitGameEvent(temp, GameEvent.ENTITY_PLACE, pos);
 			return Optional.of(temp);
 		}

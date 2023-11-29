@@ -19,7 +19,7 @@ import volbot.beetlebox.item.tools.BeetleJarItem;
 @Mixin(PlayerInventory.class)
 public abstract class PlayerInventoryMixin implements Inventory, Nameable {
 
-	@Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;)Z", at = @At(value = "INVOKE"), cancellable = true)
+	@Inject(method = "insertStack(Lnet/minecraft/item/ItemStack;)Z", at = @At(value = "HEAD"), cancellable = true)
 	public void insertStack(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
 		if (stack.getItem() instanceof BeetleJarItem) {
 			PlayerEntity player = ((PlayerInventory) (Object) this).player;
@@ -35,16 +35,12 @@ public abstract class PlayerInventoryMixin implements Inventory, Nameable {
 					}
 				}
 				if (op != -1) {
-					System.out.println("yeah");
-					ItemStack itemStack = beetlepack_inv.get(op);
-					if (itemStack.isEmpty()) {
-						beetlepack_inv.set(op, stack);
-						NbtCompound inv_nbt = new NbtCompound();
-						Inventories.writeNbt(inv_nbt, beetlepack_inv);
-						beetlepack.getOrCreateNbt().put("Inventory", inv_nbt);
-						info.setReturnValue(true);
-						info.cancel();
-					}
+					beetlepack_inv.set(op, stack.copy());
+					stack.setCount(0);
+					NbtCompound inv_nbt = new NbtCompound();
+					Inventories.writeNbt(inv_nbt, beetlepack_inv);
+					beetlepack.getOrCreateNbt().put("Inventory", inv_nbt);
+					info.setReturnValue(true);
 				}
 			}
 		}
