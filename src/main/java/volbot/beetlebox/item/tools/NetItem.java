@@ -22,64 +22,52 @@ public class NetItem extends Item {
 	}
 
 	public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-		
+
 		ItemStack jar_stack = null;
 		PlayerInventory inv = user.getInventory();
-		int beetlepack_slot = -1;
-		boolean beetlepack_accessed = false;
-		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
-		DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-		
+		ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(user);
+		DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+
 		if (entity.world.isClient) {
 			return ActionResult.PASS;
 		}
 
-		for (ItemStack itemStack : inv.main) {
-			if (itemStack.getItem() instanceof BeetleJarItem<?>) {
-				NbtCompound nbt = itemStack.getOrCreateNbt();
-				BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
-				if (nbt.contains("EntityType") || !item.canStore(entity)) {
-					continue;
-				}
-				if (!nbt.contains("EntityType") && item.canStore(entity)) {
-					if ((!PlayerInventory.isValidHotbarIndex(inv.main.indexOf(jar_stack))
-							&& PlayerInventory.isValidHotbarIndex(inv.main.indexOf(itemStack)))) {
-						jar_stack = itemStack;
-						break;
-					} else if (jar_stack == null) {
-						jar_stack = itemStack;
+		if (jar_stack == null) {
+			for (ItemStack itemStack : inv.main) {
+				if (itemStack.getItem() instanceof BeetleJarItem<?>) {
+					NbtCompound nbt = itemStack.getOrCreateNbt();
+					BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
+					if (nbt.contains("EntityType") || !item.canStore(entity)) {
+						continue;
+					}
+					if (!nbt.contains("EntityType") && item.canStore(entity)) {
+						if ((!PlayerInventory.isValidHotbarIndex(inv.main.indexOf(jar_stack))
+								&& PlayerInventory.isValidHotbarIndex(inv.main.indexOf(itemStack)))) {
+							jar_stack = itemStack;
+							break;
+						} else if (jar_stack == null) {
+							jar_stack = itemStack;
+						}
 					}
 				}
 			}
 		}
+
 		if (jar_stack == null) {
-			if (!beetlepack.isEmpty()) {
-				Inventories.readNbt(beetlepack.getOrCreateNbt().getCompound("Inventory"), beetlepack_inv);
+			if (!bp.isEmpty()) {
+				Inventories.readNbt(bp.getOrCreateNbt().getCompound("Inventory"), bp_inv);
 				for (int i = 0; i < 6; i++) {
-					ItemStack itemStack = beetlepack_inv.get(i);
-					if (itemStack.isEmpty() && beetlepack_slot != -1) {
-						beetlepack_slot = i;
-						if (jar_stack != null) {
-							break;
-						}
-					}
-					if (jar_stack == null && itemStack.getItem() instanceof BeetleJarItem<?>) {
+					ItemStack itemStack = bp_inv.get(i);
+					if (itemStack.getItem() instanceof BeetleJarItem<?>) {
 						BeetleJarItem<?> item = (BeetleJarItem<?>) itemStack.getItem();
 						if (itemStack.hasNbt()) {
 							NbtCompound nbt = itemStack.getNbt();
 							if (nbt.contains("EntityType") || !item.canStore(entity)) {
 								continue;
 							}
-							jar_stack = itemStack;
-							beetlepack_accessed = true;
-							if (beetlepack_slot != -1) {
-								break;
-							}
-							if (itemStack.getCount() == 1) {
-								beetlepack_slot = i;
-								break;
-							}
 						}
+						jar_stack = itemStack;
+						break;
 					}
 				}
 			}
@@ -96,24 +84,15 @@ public class NetItem extends Item {
 				nbt.putString("EntityName", custom_name.getString());
 			}
 			nbt.putString("EntityType", EntityType.getId(entity.getType()).toString());
+			entity.discard();
+			
 			ItemStack jar_new = jar_stack.getItem().getDefaultStack();
-			entity.remove(RemovalReason.CHANGED_DIMENSION);
 			jar_new.setNbt(nbt);
 			jar_stack.decrement(1);
-			if (beetlepack_slot == -1) {
-				if (user.getInventory().getEmptySlot() == -1) {
-					user.dropStack(jar_new);
-				} else {
-					user.giveItemStack(jar_new);
-				}
+			if (user.getInventory().getEmptySlot() == -1) {
+				user.dropStack(jar_new);
 			} else {
-				beetlepack_inv.set(beetlepack_slot, jar_new);
-				beetlepack_accessed = true;
-			}
-			if (beetlepack_accessed) {
-				NbtCompound inv_nbt = new NbtCompound();
-				Inventories.writeNbt(inv_nbt, beetlepack_inv);
-				beetlepack.getOrCreateNbt().put("Inventory", inv_nbt);
+				user.giveItemStack(jar_new);
 			}
 			return ActionResult.SUCCESS;
 		}

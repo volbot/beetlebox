@@ -43,7 +43,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFactory {
 
 	public BeetlepackItem(Settings settings) {
-		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings.maxDamage(0));
+		super(ArmorMaterials.LEATHER, Type.CHESTPLATE, settings.maxDamage(-1));
 		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
 			TrinketsApi.registerTrinket(this, (BeetlepackTrinket) this);
 		}
@@ -127,7 +127,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					}
 				}
 				if (!spawned_uuids.isEmpty()) {
-					NbtCompound uuid_nbt = new NbtCompound();
+					NbtCompound uuid_nbt = new NbtCompound(); 
 					int i = 0;
 					for (UUID uuid : spawned_uuids) {
 						uuid_nbt.putUuid(reason.toString() + "Spawn" + i, uuid);

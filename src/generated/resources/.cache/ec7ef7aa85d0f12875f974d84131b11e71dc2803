@@ -1,4 +1,4 @@
-// 1.19.4	2023-11-28T00:58:10.402249749	beetlebox/Recipes
+// 1.19.4	2023-11-29T13:50:16.525436439	beetlebox/Recipes
 b68776c57450316bfbe1044737b4cccba1c1f9ea data/beetlebox/advancements/recipes/building_blocks/boiler.json
 f5d55dd4230811f1baa0e78026951c7c10b5b903 data/beetlebox/recipes/titanus_helmet.json
 1f4e46a90263d6de48c96026985f98e3ae327b53 data/beetlebox/recipes/immigrator.json
@@ -56,8 +56,8 @@ c82ea7009493cc9b627521f6770c656a2df9366c data/beetlebox/recipes/titanus_legs.jso
 750a5326d1c3594db2981c3e5c2ab9f101b8d824 data/beetlebox/advancements/recipes/redstone/ash_fence_gate.json
 1906902ba17f2a73a685b5aa76e9d12fdd31b685 data/beetlebox/recipes/beetle_jelly_330.json
 dd86f49c8ba018c067bd31784e29fcad37c226af data/beetlebox/recipes/junebug_helmet.json
-6b79737d27d1cd13aaae4576eeb8bc37e8238ef6 data/beetlebox/advancements/recipes/food/beetle_jelly_231.json
 66eecec4fdea60fbfe8f198de514ec68a6f08524 data/beetlebox/advancements/recipes/food/beetle_jelly_131.json
+6b79737d27d1cd13aaae4576eeb8bc37e8238ef6 data/beetlebox/advancements/recipes/food/beetle_jelly_231.json
 10b4411ce9e79c5de07b4a00b943828f4270dcce data/beetlebox/recipes/ash_wood_stripped.json
 bba3c73aec750959f8d7a91d1efd2d23e7810b58 data/beetlebox/recipes/ash_door.json
 037068c24cb263dfe48489fbbe32430bffa478de data/beetlebox/advancements/recipes/redstone/ash_button.json

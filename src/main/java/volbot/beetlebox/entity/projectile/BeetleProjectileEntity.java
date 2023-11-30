@@ -1,5 +1,6 @@
 package volbot.beetlebox.entity.projectile;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -10,6 +11,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +23,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
@@ -30,6 +33,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.data.damage.BeetleDamageTypes;
 import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.item.equipment.BeetlepackItem;
@@ -73,6 +77,7 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			nbt.putString("EntityName", entity.getCustomName().getString());
 		}
 		this.setPosition(entity.getPos());
+		this.entity.getEntityData().putBoolean("Flying", true);
 		this.entity = new ContainedEntity(EntityType.getId(entity.getType()).toString(), nbt, custom_name);
 		this.setNoGravity(true);
 		this.sendPacket();
@@ -114,17 +119,32 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 				}
 			}
 			if (!jar_found) {
-				return;
-			}
-
-			ItemEntity dropped = new ItemEntity(this.world, this.getX(), this.getY() + (double) 0.1f, this.getZ(),
-					this.asItemStack());
-			dropped.setPickupDelay(0);
-			dropped.setOwner(player.getUuid());
-			dropped.setNoGravity(true);
-			dropped.setVelocity(player.getPos().subtract(dropped.getPos()).normalize().multiply(0.5));
-			if (this.world.spawnEntity(dropped)) {
-				this.discard();
+				NbtCompound nbt = entity.getEntityData();
+				EntityType<?> entityType = EntityType.get(entity.getContainedId()).orElse(null);
+				LivingEntity temp = (LivingEntity) entityType.create((ServerWorld) world, null, null,
+						this.getBlockPos(), SpawnReason.SPAWN_EGG, false, false);
+				temp.readNbt(nbt);
+				temp.readCustomDataFromNbt(nbt);
+				if (!entity.CustomName().isEmpty()) {
+					temp.setCustomName(Text.of(entity.CustomName()));
+				}
+				temp.refreshPositionAndAngles(this.getBlockPos(), this.getBodyYaw(), this.getPitch());
+				this.setPosition(this.getPos());
+				temp.setVelocity(this.getVelocity());
+				if (world.spawnEntity(temp)) {
+					this.discard();
+					world.emitGameEvent(temp, GameEvent.ENTITY_PLACE, this.getBlockPos());
+				}
+			} else {
+				ItemEntity dropped = new ItemEntity(this.world, this.getX(), this.getY() + (double) 0.1f, this.getZ(),
+						this.asItemStack());
+				dropped.setPickupDelay(0);
+				dropped.setOwner(player.getUuid());
+				dropped.setNoGravity(true);
+				dropped.setVelocity(player.getPos().subtract(dropped.getPos()).normalize().multiply(0.5));
+				if (this.world.spawnEntity(dropped)) {
+					this.discard();
+				}
 			}
 
 		}
