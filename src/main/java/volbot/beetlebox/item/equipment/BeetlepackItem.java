@@ -3,16 +3,12 @@ package volbot.beetlebox.item.equipment;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -20,7 +16,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
@@ -34,7 +29,6 @@ import volbot.beetlebox.client.render.gui.BeetlepackScreenHandler;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinket;
 import volbot.beetlebox.compat.trinkets.BeetlepackTrinketRenderer;
 import volbot.beetlebox.entity.beetle.BeetleEntity;
-import volbot.beetlebox.entity.mobstorage.ContainedEntity;
 import volbot.beetlebox.entity.projectile.BeetleProjectileEntity;
 import volbot.beetlebox.item.tools.BeetleJarItem;
 import volbot.beetlebox.item.tools.LarvaJarItem;
@@ -49,11 +43,9 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		}
 	}
 
-	public void inventoryTick(ItemStack beetlepack, World world, Entity entity, int slot, boolean selected) {
-		NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-		DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-		Inventories.readNbt(beetlepack_nbt.getCompound("Inventory"), beetlepack_inv);
-		for (ItemStack stack : beetlepack_inv) {
+	public void inventoryTick(ItemStack bp, World world, Entity entity, int slot, boolean selected) {
+		DefaultedList<ItemStack> bp_inv = readInventory(bp);
+		for (ItemStack stack : bp_inv) {
 			if (!stack.isEmpty())
 				if (stack.getItem() instanceof LarvaJarItem) {
 					LarvaJarItem.incrementJarTime(stack, 2);
@@ -74,22 +66,23 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 	}
 
 	public static void deployBeetles(PlayerEntity user, BeetleDeployReason reason) {
-		ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(user);
-		if (beetlepack.isOf(ItemRegistry.BEETLEPACK)) {
-			NbtCompound beetlepack_nbt = beetlepack.getOrCreateNbt();
-			if (!beetlepack_nbt.contains(reason.toString() + "Spawn")) {
-				DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-				NbtCompound beetlepack_inv_nbt = beetlepack_nbt.getCompound("Inventory");
-				Inventories.readNbt(beetlepack_inv_nbt, beetlepack_inv);
+		World world = user.getWorld();
+		if (world.isClient) {
+			return;
+		}
+		ItemStack bp = getBeetlepackOnPlayer(user);
+		if (bp.isOf(ItemRegistry.BEETLEPACK)) {
+			NbtCompound bp_nbt = bp.getOrCreateNbt();
+			if (!bp_nbt.contains(reason.toString() + "Spawn")) {
+				DefaultedList<ItemStack> bp_inv = BeetlepackItem.readInventory(bp);
 				ArrayList<UUID> spawned_uuids = new ArrayList<UUID>();
-				World world = user.getWorld();
-				if (world.isClient) {
-					return;
-				}
-				for (ItemStack jar : beetlepack_inv) {
+				for (ItemStack jar : bp_inv) {
 					if (jar.getItem() instanceof BeetleJarItem) {
 						switch (reason) {
 						case COMBAT:
+							if(bp_nbt.getBoolean("ToggleAttack")) {
+								return;
+							}
 							NbtCompound entity_data = jar.getOrCreateNbt().getCompound("EntityTag");
 							switch (BeetleEntity.BeetleClass.values()[entity_data.getInt("Class")]) {
 							case INFANTRY:
@@ -117,6 +110,9 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 							}
 							break;
 						default:
+							if(bp_nbt.getBoolean("ToggleFlight")) {
+								return;
+							}
 							Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world,
 									user);
 							if (opt.isPresent()) {
@@ -133,12 +129,9 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 						uuid_nbt.putUuid(reason.toString() + "Spawn" + i, uuid);
 						i++;
 					}
-					beetlepack_nbt.put(reason.toString() + "Spawn", uuid_nbt);
+					bp_nbt.put(reason.toString() + "Spawn", uuid_nbt);
 				}
-				NbtCompound inv_nbt = new NbtCompound();
-				Inventories.writeNbt(inv_nbt, beetlepack_inv);
-				beetlepack_nbt.put("Inventory", inv_nbt);
-				beetlepack.setNbt(beetlepack_nbt);
+				writeInventory(bp, bp_inv);
 			}
 		}
 	}
@@ -147,8 +140,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(user);
 		if (bp.isOf(ItemRegistry.BEETLEPACK)) {
 			NbtCompound bp_nbt = bp.getOrCreateNbt();
-			DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-			Inventories.readNbt(bp_nbt.getCompound("Inventory"), bp_inv);
+			DefaultedList<ItemStack> bp_inv = readInventory(bp);
 			World world = user.getWorld();
 			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
 				if (bp_nbt.contains(reason.toString() + "Spawn")) {
@@ -174,17 +166,24 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 						entity.discard();
 					}
 				}
-			}
-			for (BeetleDeployReason reason : BeetleDeployReason.values()) {
 				bp_nbt.remove(reason.toString() + "Spawn");
-				NbtCompound inv_nbt = new NbtCompound();
-				Inventories.writeNbt(inv_nbt, bp_inv);
-				bp_nbt.put("Inventory", inv_nbt);
-				bp.setNbt(bp_nbt);
 			}
+			writeInventory(bp,bp_inv);
 		}
 	}
 
+	public static DefaultedList<ItemStack> readInventory(ItemStack stack) {
+		DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
+		Inventories.readNbt(stack.getOrCreateNbt().getCompound("Inventory"), bp_inv);
+		return bp_inv;
+	}
+	
+	public static void writeInventory(ItemStack stack, DefaultedList<ItemStack> bp_inv) {
+		NbtCompound inv_nbt = new NbtCompound();
+		Inventories.writeNbt(inv_nbt, bp_inv);
+		stack.getOrCreateNbt().put("Inventory", inv_nbt);
+	}
+	
 	@Override
 	public Text getDisplayName() {
 		return Text.of("Beetlepack");

@@ -1,6 +1,5 @@
 package volbot.beetlebox.entity.projectile;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -12,10 +11,8 @@ import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.Entity.RemovalReason;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -25,13 +22,11 @@ import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import volbot.beetlebox.data.damage.BeetleDamageTypes;
@@ -77,8 +72,8 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			nbt.putString("EntityName", entity.getCustomName().getString());
 		}
 		this.setPosition(entity.getPos());
-		this.entity.getEntityData().putBoolean("Flying", true);
 		this.entity = new ContainedEntity(EntityType.getId(entity.getType()).toString(), nbt, custom_name);
+		this.entity.getEntityData().putBoolean("Flying", true);
 		this.setNoGravity(true);
 		this.sendPacket();
 	}
@@ -92,16 +87,13 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			boolean jar_found = false;
 			ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
 			if (!bp.isEmpty()) {
-				DefaultedList<ItemStack> bp_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-				Inventories.readNbt(bp.getOrCreateNbt().getCompound("Inventory"), bp_inv);
+				DefaultedList<ItemStack> bp_inv = BeetlepackItem.readInventory(bp);
 				for (ItemStack stack : bp_inv) {
 					if (stack.getItem() instanceof BeetleJarItem) {
 						if (!stack.hasNbt() || !stack.getNbt().contains("EntityType")) {
 							stack.decrement(1);
 							jar_found = true;
-							NbtCompound inv_nbt = new NbtCompound();
-							Inventories.writeNbt(inv_nbt, bp_inv);
-							bp.getOrCreateNbt().put("Inventory", inv_nbt);
+							BeetlepackItem.writeInventory(bp, bp_inv);
 							break;
 						}
 					}

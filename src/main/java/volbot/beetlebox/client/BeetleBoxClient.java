@@ -24,14 +24,15 @@ import net.minecraft.client.color.world.FoliageColors;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import volbot.beetlebox.client.render.block.entity.BoilerBlockEntityRenderer;
@@ -65,6 +66,7 @@ import volbot.beetlebox.registry.ItemRegistry;
 import volbot.beetlebox.item.FruitSyrup;
 import volbot.beetlebox.item.equipment.BeetleArmorAbilities;
 import volbot.beetlebox.item.equipment.BeetleArmorItem;
+import volbot.beetlebox.item.equipment.BeetlepackItem;
 import volbot.beetlebox.client.render.armor.BeetlepackRenderer;
 import volbot.beetlebox.client.render.armor.beetle.ActaeonHelmetModel;
 import volbot.beetlebox.client.render.armor.beetle.AtlasHelmetModel;
@@ -85,6 +87,9 @@ public class BeetleBoxClient implements ClientModInitializer {
 
 	public static KeyBinding elytra_boost_keybind;
 	public static KeyBinding wallclimb_keybind;
+	public static KeyBinding bp_t_attack_keybind;
+	public static KeyBinding bp_t_flight_keybind;
+	public static KeyBinding bp_t_intake_keybind;
 
 	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
@@ -114,16 +119,67 @@ public class BeetleBoxClient implements ClientModInitializer {
 		wallclimb_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.wall_climb",
 				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_J, "category.beetlebox.beetlebox"));
 
+		bp_t_attack_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.bp_t_attack",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Y, "category.beetlebox.beetlebox"));
+		bp_t_flight_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.bp_t_flight",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U, "category.beetlebox.beetlebox"));
+		bp_t_intake_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.bp_t_intake",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, "category.beetlebox.beetlebox"));
+		
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (elytra_boost_keybind.wasPressed()) {
-				BeetleArmorAbilities
-						.elytra_boost(client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+
+				BeetleArmorAbilities.elytra_boost(player);
 			}
-		});
-		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (wallclimb_keybind.wasPressed()) {
-				BeetleArmorAbilities.toggle_wallclimb(
-						(PlayerEntity) client.getServer().getPlayerManager().getPlayer(client.player.getUuid()));
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+
+				BeetleArmorAbilities.toggle_wallclimb(player);
+			}
+			while (bp_t_attack_keybind.wasPressed()) {
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+				
+				ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+				if(bp.isEmpty()) {
+					return;
+				}
+				NbtCompound bp_nbt = bp.getOrCreateNbt();
+				boolean current = bp_nbt.getBoolean("ToggleAttack");
+				player.sendMessage(Text.literal("Beetlepack: Combat Deployment "+(current?"Enabled":"Disabled")), true);
+				bp_nbt.putBoolean("ToggleAttack", !current);
+				
+			}
+			while (bp_t_flight_keybind.wasPressed()) {
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+				
+				ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+				if(bp.isEmpty()) {
+					return;
+				}
+				NbtCompound bp_nbt = bp.getOrCreateNbt();
+				boolean current = bp_nbt.getBoolean("ToggleFlight");
+				player.sendMessage(Text.literal("Beetlepack: Flight Deployment "+(current?"Enabled":"Disabled")), true);
+				bp_nbt.putBoolean("ToggleFlight", !current);
+
+			}
+			while (bp_t_intake_keybind.wasPressed()) {
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+				
+				ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+				if(bp.isEmpty()) {
+					return;
+				}
+				NbtCompound bp_nbt = bp.getOrCreateNbt();
+				boolean current = bp_nbt.getBoolean("ToggleIntake");
+				player.sendMessage(Text.literal("Beetlepack: Inventory Handling "+(current?"Enabled":"Disabled")), true);
+				bp_nbt.putBoolean("ToggleIntake", !current);
+
 			}
 		});
 
@@ -160,13 +216,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 						Entity entity = handler.getWorld().getEntityLookup().get(entity_id);
 						BeetleProjectileEntity e = ((BeetleProjectileEntity) entity);
 						if (e != null) {
-							try {
-								e.landed = landed;
-								e.entity = new ContainedEntity(entity_type, entity_data, entity_name);
-							} catch (NullPointerException ex) {
-								System.out.println("BEETLE PROJECTILE ERROR #1218");
-							}
-							;
+							e.landed = landed;
+							e.entity = new ContainedEntity(entity_type, entity_data, entity_name);
 						}
 					});
 				});

@@ -7,10 +7,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Nameable;
 import net.minecraft.util.collection.DefaultedList;
 import volbot.beetlebox.item.equipment.BeetlepackItem;
@@ -23,23 +21,24 @@ public abstract class PlayerInventoryMixin implements Inventory, Nameable {
 	public void insertStack(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
 		if (stack.getItem() instanceof BeetleJarItem) {
 			PlayerEntity player = ((PlayerInventory) (Object) this).player;
-			ItemStack beetlepack = BeetlepackItem.getBeetlepackOnPlayer(player);
-			if (!beetlepack.isEmpty()) {
-				DefaultedList<ItemStack> beetlepack_inv = DefaultedList.ofSize(6, ItemStack.EMPTY);
-				Inventories.readNbt(beetlepack.getOrCreateNbt().getCompound("Inventory"), beetlepack_inv);
+			ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+			if (!bp.isEmpty()) {
+				if(bp.getOrCreateNbt().getBoolean("ToggleIntake")) {
+					
+					return;
+				}
+				DefaultedList<ItemStack> bp_inv = BeetlepackItem.readInventory(bp);
 				int op = -1;
 				for (int i = 0; i < 6; i++) {
-					if (beetlepack_inv.get(i).isEmpty()) {
+					if (bp_inv.get(i).isEmpty()) {
 						op = i;
 						break;
 					}
 				}
 				if (op != -1) {
-					beetlepack_inv.set(op, stack.copy());
+					bp_inv.set(op, stack.copy());
 					stack.setCount(0);
-					NbtCompound inv_nbt = new NbtCompound();
-					Inventories.writeNbt(inv_nbt, beetlepack_inv);
-					beetlepack.getOrCreateNbt().put("Inventory", inv_nbt);
+					BeetlepackItem.writeInventory(bp, bp_inv);
 					info.setReturnValue(true);
 				}
 			}
