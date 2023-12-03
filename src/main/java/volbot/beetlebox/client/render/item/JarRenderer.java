@@ -9,11 +9,13 @@ import net.minecraft.util.Identifier;
 
 public class JarRenderer {
 
-	public static void renderJar(MatrixStack matrices, VertexConsumerProvider vcp, int i) {
+	public static void renderJar(MatrixStack matrices, VertexConsumerProvider vcp, int i, boolean cork) {
 		matrices.push();
-		VertexConsumer cork_vc = vcp.getBuffer(
-				RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/cork.png")));
-		JarModels.cork.render(matrices, cork_vc, i, OverlayTexture.DEFAULT_UV);
+		if (cork) {
+			VertexConsumer cork_vc = vcp.getBuffer(
+					RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/cork.png")));
+			JarModels.cork.render(matrices, cork_vc, i, OverlayTexture.DEFAULT_UV);
+		}
 		matrices.scale(0.9f, 0.7f, 0.9f);
 		float x = -0.025f;
 		float y = -0.125f;
@@ -28,6 +30,10 @@ public class JarRenderer {
 				RenderLayer.getEntityTranslucent(new Identifier("beetlebox", "textures/block/entity/jelly_cup.png")));
 		JarModels.jar_base.render(matrices, jar_vc, i, OverlayTexture.DEFAULT_UV, 30f, 30f, 30f, 100f);
 		matrices.pop();
+	}
+
+	public static void renderJar(MatrixStack matrices, VertexConsumerProvider vcp, int i) {
+		renderJar(matrices, vcp, i, true);
 	}
 
 }

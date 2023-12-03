@@ -199,11 +199,12 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 			this.random.skip(1);
 			this.setVelocity(this.getVelocity().addRandom(this.random, 0.025f));
 			if (landed) {
-				if (this.getOwner() != null) {
-					Entity owner = this.getOwner();
+				Entity owner = this.getOwner();
+				if (owner != null && owner.getUuid().equals(this.entity.getEntityData().getUuid("Owner"))) {
 					this.random.skip(1);
-					this.setVelocity(this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0))
-							.normalize().multiply(0.5).addRandom(this.random, 0.075f));
+					this.setVelocity(
+							this.getVelocity().add(owner.getPos().subtract(this.getPos()).add(0, 1, 0))
+									.normalize().multiply(0.5).addRandom(this.random, 0.075f));
 				}
 			}
 			if (unSynced) {

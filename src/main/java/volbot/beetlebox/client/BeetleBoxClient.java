@@ -90,7 +90,8 @@ public class BeetleBoxClient implements ClientModInitializer {
 	public static KeyBinding bp_t_attack_keybind;
 	public static KeyBinding bp_t_flight_keybind;
 	public static KeyBinding bp_t_intake_keybind;
-
+	public static KeyBinding bp_open_keybind;
+	
 	public static HashMap<String, BeetleArmorEntityModel<?>> beetle_helmets = new HashMap<>();
 
 	public static final EntityModelLayer MODEL_JRB_LAYER = new EntityModelLayer(new Identifier("beetlebox", "jrb"),
@@ -125,6 +126,9 @@ public class BeetleBoxClient implements ClientModInitializer {
 				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_U, "category.beetlebox.beetlebox"));
 		bp_t_intake_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.bp_t_intake",
 				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_I, "category.beetlebox.beetlebox"));
+		
+		bp_open_keybind = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.beetlebox.bp_open",
+				InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "category.beetlebox.beetlebox"));
 		
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (elytra_boost_keybind.wasPressed()) {
@@ -179,6 +183,18 @@ public class BeetleBoxClient implements ClientModInitializer {
 				boolean current = bp_nbt.getBoolean("ToggleIntake");
 				player.sendMessage(Text.literal("Beetlepack: Inventory Handling "+(current?"Enabled":"Disabled")), true);
 				bp_nbt.putBoolean("ToggleIntake", !current);
+
+			}
+			
+			while (bp_open_keybind.wasPressed()) {
+				PlayerEntity player = (PlayerEntity) client.getServer().getPlayerManager()
+						.getPlayer(client.player.getUuid());
+				
+				ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
+				if(bp.isEmpty()) {
+					return;
+				}
+				player.openHandledScreen((BeetlepackItem)bp.getItem());
 
 			}
 		});

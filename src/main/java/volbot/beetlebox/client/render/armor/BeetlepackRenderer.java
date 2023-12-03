@@ -32,21 +32,24 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 		contextModel.copyBipedStateTo(armorModel);
 		armorModel.setVisible(false);
 		armorModel.body.visible = true;
+
 		float scale_factor = 1.185f;
 		matrices.push();
 		matrices.scale(scale_factor, scale_factor, scale_factor);
+
 		ArmorRenderer.renderPart(matrices, vertexConsumers, light, stack, armorModel,
 				new Identifier("minecraft", "textures/models/armor/beetlepack.png"));
-		matrices.push();
 		scale_factor = 0.52f;
 		matrices.scale(scale_factor, scale_factor, scale_factor);
 		matrices.translate(0.0f, 0.0f, 0.0f); // for standing
+
 		if (entity.isInSneakingPose()) {
-			matrices.translate(0.0f, 0.45f, -0.02f); // for crouching
+			matrices.translate(0.0f,0.4f,-0.15f); // for crouching
 		}
 		matrices.multiply(RotationAxis.POSITIVE_X.rotation(armorModel.body.pitch));
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotation(armorModel.body.yaw));
 		matrices.multiply(RotationAxis.POSITIVE_Z.rotation(armorModel.body.roll));
+
 		DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
 		NbtCompound stack_nbt = stack.getOrCreateNbt();
 		if(!stack_nbt.getCompound("Inventory").isEmpty()) {
@@ -54,13 +57,13 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 			for (int k = 0; k < 3; k++) {
 				for (int l = 0; l < 2; l++) {
 					matrices = translateForNextJar(matrices, l + k * 2);
-					if(!inventory.get(l + k * 2).isEmpty()) {
-						JarRenderer.renderJar(matrices, vertexConsumers, light);
+					ItemStack jar_stack = inventory.get(l + k * 2);
+					if(!jar_stack.isEmpty()) {
+						JarRenderer.renderJar(matrices, vertexConsumers, light, jar_stack.getOrCreateNbt().contains("EntityType"));
 					}
 				}
 			}
 		}
-		matrices.pop();
 		matrices.pop();
 	}
 

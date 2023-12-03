@@ -9,6 +9,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -89,7 +90,10 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 								Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(),
 										world, user);
 								if (opt.isPresent()) {
-									spawned_uuids.add(opt.get().getUuid());
+									LivingEntity e = opt.get();
+									if(e instanceof TameableEntity && ((TameableEntity)e).isOwner(user)) {
+										spawned_uuids.add(e.getUuid());
+									}
 								}
 								break;
 							case PROJECTILE:

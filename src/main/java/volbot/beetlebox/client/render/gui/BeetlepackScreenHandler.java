@@ -172,6 +172,12 @@ public class BeetlepackScreenHandler extends ScreenHandler {
 				}
 			}
 		}
+		if(inventory instanceof PlayerInventory) {
+			stack = BeetlepackItem.getBeetlepackOnPlayer(((PlayerInventory)inventory).player);
+			if(!stack.isEmpty()) {
+				return stack;
+			}
+		}
 		return ItemStack.EMPTY;
 	}
 
