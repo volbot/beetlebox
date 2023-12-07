@@ -24,7 +24,6 @@ public abstract class PlayerInventoryMixin implements Inventory, Nameable {
 			ItemStack bp = BeetlepackItem.getBeetlepackOnPlayer(player);
 			if (!bp.isEmpty()) {
 				if(bp.getOrCreateNbt().getBoolean("ToggleIntake")) {
-					
 					return;
 				}
 				DefaultedList<ItemStack> bp_inv = BeetlepackItem.readInventory(bp);

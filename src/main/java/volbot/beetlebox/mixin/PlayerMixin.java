@@ -38,28 +38,8 @@ public abstract class PlayerMixin extends LivingEntity {
 
 	@Override
 	public void onEquipStack(EquipmentSlot slot, ItemStack oldStack, ItemStack newStack) {
-		if (FabricLoader.getInstance().isModLoaded("trinkets")) {
-			if (newStack.getItem() instanceof BeetlepackItem) {
-				if (BeetlepackTrinketRenderer.getBackStack((PlayerEntity) (Object) this)
-						.getItem() instanceof BeetlepackItem) {
-					PlayerEntity user = ((PlayerEntity) (Object) this);
-					if (user.getWorld().isClient()) {
-						super.onEquipStack(slot, newStack, oldStack);
-						return;
-					}
-
-					if (user.getInventory().getEmptySlot() == -1) {
-						ItemStack newNewStack = newStack.copy();
-						newStack.setCount(0);
-						user.dropStack(newNewStack);
-					} else {
-						user.giveItemStack(newStack);
-					}
-					super.onEquipStack(slot, newStack, oldStack);
-					return;
-				}
-			}
-		}
+		//VANILLA STACK EQUIP METHOD!
+		//THIS SHOULD CANCEL EQUIP IF TRINKET IS EQUIPPED
 		super.onEquipStack(slot, newStack, oldStack);
 	}
 
@@ -98,13 +78,13 @@ public abstract class PlayerMixin extends LivingEntity {
 				if (value) {
 					BeetlepackItem.deployBeetles(((PlayerEntity) (Object) this),
 							BeetlepackItem.BeetleDeployReason.FLIGHT);
-				} else if(before) {
+				} else if (before) {
 					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
 				}
 			}
 		}
 	}
-	
+
 	@Override
 	public void setAttacker(@Nullable LivingEntity attacker) {
 		super.setAttacker(attacker);
@@ -129,7 +109,7 @@ public abstract class PlayerMixin extends LivingEntity {
 	public void onAttacking(Entity target) {
 		super.onAttacking(target);
 		World world = this.getWorld();
-		if(world.isClient) {
+		if (world.isClient) {
 			return;
 		}
 		if (target instanceof LivingEntity) {
@@ -139,7 +119,7 @@ public abstract class PlayerMixin extends LivingEntity {
 						.contains(BeetlepackItem.BeetleDeployReason.FLIGHT.toString() + "Spawn")) {
 					BeetlepackItem.recallBeetles((PlayerEntity) (Object) this);
 				}
-				if(target.isAlive()) {
+				if (target.isAlive()) {
 					this.setAttacker((LivingEntity) target);
 				}
 			}

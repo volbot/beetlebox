@@ -44,7 +44,7 @@ public class BeetlepackRenderer<T extends BeetlepackModel<LivingEntity>> impleme
 		matrices.translate(0.0f, 0.0f, 0.0f); // for standing
 
 		if (entity.isInSneakingPose()) {
-			matrices.translate(0.0f,0.4f,-0.15f); // for crouching
+			matrices.translate(0.0f,0.395f,0f); // for crouching
 		}
 		matrices.multiply(RotationAxis.POSITIVE_X.rotation(armorModel.body.pitch));
 		matrices.multiply(RotationAxis.POSITIVE_Y.rotation(armorModel.body.yaw));

@@ -3,6 +3,9 @@ package volbot.beetlebox.item.equipment;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
+
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketInventory;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,6 +19,7 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterials;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -56,13 +60,14 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 
 	@Override
 	public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+		ItemStack stack = user.getStackInHand(hand);
 		if (user.isSneaking()) {
-			ItemStack stack = user.getStackInHand(hand);
 			stack.getOrCreateNbt().putBoolean("Open", true);
 			user.openHandledScreen(this);
 			return TypedActionResult.consume(stack);
 		} else {
-			return this.equipAndSwap(this, world, user, hand);
+			//THIS SHOULD EQUIP TRINKET IF APPLICABLE
+			return super.use(world, user, hand);
 		}
 	}
 
@@ -81,7 +86,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					if (jar.getItem() instanceof BeetleJarItem) {
 						switch (reason) {
 						case COMBAT:
-							if(bp_nbt.getBoolean("ToggleAttack")) {
+							if (bp_nbt.getBoolean("ToggleAttack")) {
 								return;
 							}
 							NbtCompound entity_data = jar.getOrCreateNbt().getCompound("EntityTag");
@@ -91,7 +96,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 										world, user);
 								if (opt.isPresent()) {
 									LivingEntity e = opt.get();
-									if(e instanceof TameableEntity && ((TameableEntity)e).isOwner(user)) {
+									if (e instanceof TameableEntity && ((TameableEntity) e).isOwner(user)) {
 										spawned_uuids.add(e.getUuid());
 									}
 								}
@@ -114,7 +119,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 							}
 							break;
 						default:
-							if(bp_nbt.getBoolean("ToggleFlight")) {
+							if (bp_nbt.getBoolean("ToggleFlight")) {
 								return;
 							}
 							Optional<LivingEntity> opt = BeetleJarItem.trySpawnFromJar(jar, user.getBlockPos(), world,
@@ -127,7 +132,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 					}
 				}
 				if (!spawned_uuids.isEmpty()) {
-					NbtCompound uuid_nbt = new NbtCompound(); 
+					NbtCompound uuid_nbt = new NbtCompound();
 					int i = 0;
 					for (UUID uuid : spawned_uuids) {
 						uuid_nbt.putUuid(reason.toString() + "Spawn" + i, uuid);
@@ -172,7 +177,7 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 				}
 				bp_nbt.remove(reason.toString() + "Spawn");
 			}
-			writeInventory(bp,bp_inv);
+			writeInventory(bp, bp_inv);
 		}
 	}
 
@@ -181,13 +186,13 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 		Inventories.readNbt(stack.getOrCreateNbt().getCompound("Inventory"), bp_inv);
 		return bp_inv;
 	}
-	
+
 	public static void writeInventory(ItemStack stack, DefaultedList<ItemStack> bp_inv) {
 		NbtCompound inv_nbt = new NbtCompound();
 		Inventories.writeNbt(inv_nbt, bp_inv);
 		stack.getOrCreateNbt().put("Inventory", inv_nbt);
 	}
-	
+
 	@Override
 	public Text getDisplayName() {
 		return Text.of("Beetlepack");
