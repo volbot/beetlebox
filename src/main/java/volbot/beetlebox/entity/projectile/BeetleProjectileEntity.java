@@ -226,7 +226,6 @@ public class BeetleProjectileEntity extends PersistentProjectileEntity implement
 
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
-		// super.onBlockHit(blockHitResult);
 		this.onHitSetup();
 	}
 

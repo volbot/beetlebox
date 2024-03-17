@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import dev.emi.trinkets.api.TrinketComponent;
 import dev.emi.trinkets.api.TrinketInventory;
+import dev.emi.trinkets.api.TrinketItem;
 import dev.emi.trinkets.api.TrinketsApi;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.loader.api.FabricLoader;
@@ -66,7 +67,11 @@ public class BeetlepackItem extends ArmorItem implements ExtendedScreenHandlerFa
 			user.openHandledScreen(this);
 			return TypedActionResult.consume(stack);
 		} else {
-			//THIS SHOULD EQUIP TRINKET IF APPLICABLE
+			if (FabricLoader.getInstance().isModLoaded("trinkets")) {
+				if(TrinketItem.equipItem(user, stack)) {
+					return TypedActionResult.success(stack);
+				};
+			}
 			return super.use(world, user, hand);
 		}
 	}
